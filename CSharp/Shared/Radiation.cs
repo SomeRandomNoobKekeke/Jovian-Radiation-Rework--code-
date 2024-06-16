@@ -11,8 +11,6 @@ using Microsoft.Xna.Framework;
 
 using Barotrauma.Extensions;
 
-
-
 namespace BetterRadiation
 {
   public partial class Mod : IAssemblyPlugin
@@ -91,12 +89,27 @@ namespace BetterRadiation
 
       foreach (Character character in Character.CharacterList)
       {
-        if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
+        if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-        if (_.IsEntityRadiated(character))
+        float radiationAmount = EntityRadiationAmount(character) * RadiationDamage;
+
+        if (character.IsHuskInfected)
+        {
+          info("it's a husk");
+          radiationAmount = Math.Max(0, radiationAmount - HuskRadiationResistance * GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+        }
+        info(radiationAmount / GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+
+        if (radiationAmount > 0)
         {
           var limb = character.AnimController.MainLimb;
-          AttackResult attackResult = limb.AddDamage(limb.SimPosition, _.radiationAffliction.ToEnumerable(), playSound: false);
+          AttackResult attackResult = limb.AddDamage(
+            limb.SimPosition,
+            AfflictionPrefab.RadiationSickness.Instantiate(radiationAmount).ToEnumerable(),
+            playSound: false
+          );
+
+          // CharacterHealth.ApplyAffliction is simpler but it ignores gear
           character.CharacterHealth.ApplyDamage(limb, attackResult);
         }
       }

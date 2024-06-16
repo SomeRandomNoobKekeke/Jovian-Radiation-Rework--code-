@@ -32,6 +32,13 @@ namespace BetterRadiation
 
       _.monsters.Clear();
 
+      info($"spawning monsters in {CurrentLocationRadiationAmount()}");
+      if (CurrentLocationRadiationAmount() > TooMuchEvenForMonsters)
+      {
+        info($"too radiated {CurrentLocationRadiationAmount()}");
+        return false;
+      }
+
       //+1 because Range returns an integer less than the max value
       int amount = Rand.Range(_.MinAmount, _.MaxAmount + 1);
       for (int i = 0; i < amount; i++)
