@@ -55,5 +55,30 @@ namespace BetterRadiation
 
       return Math.Max(0, -delta);
     }
+
+    public static float CameraIrradiation(Camera cam)
+    {
+      if (GameMain.GameSession?.Map?.Radiation == null) return 0;
+
+      if (!GameMain.GameSession.Map.Radiation.Enabled) { return 0; }
+      if (Level.Loaded is { Type: LevelData.LevelType.LocationConnection, StartLocation: { } startLocation, EndLocation: { } endLocation } level)
+      {
+        float distance = MathHelper.Clamp((cam.Position.X - level.StartPosition.X) / (level.EndPosition.X - level.StartPosition.X), 0.0f, 1.0f);
+
+        float RelativeDepth = -(cam.Position.Y - Math.Max(level.StartPosition.Y, level.EndPosition.Y)) * Physics.DisplayToRealWorldRatio;
+
+        float camMapX = startLocation.MapPosition.X + (endLocation.MapPosition.X - startLocation.MapPosition.X) * distance;
+
+        float amount = Math.Max(0,
+          GameMain.GameSession.Map.Radiation.Amount
+          - camMapX
+          - RelativeDepth * WaterRadiationBlockPerMeter
+        );
+
+        return amount;
+      }
+
+      return 0;
+    }
   }
 }

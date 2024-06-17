@@ -8,7 +8,9 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
+using Barotrauma.Extensions;
 namespace BetterRadiation
 {
   public partial class Mod : IAssemblyPlugin
@@ -19,6 +21,7 @@ namespace BetterRadiation
     public static float RadiationDamage = 0.037f;
     public static float TooMuchEvenForMonsters = 300;
     public static float HuskRadiationResistance = 0.5f;
+    public static float RadiationToColor = 0.001f;
 
     public static bool debug = false;
 
@@ -51,6 +54,14 @@ namespace BetterRadiation
       init();
     }
 
+    public static void Level_DrawBack_Postfix(GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam, Level __instance)
+    {
+      float time = (float)(Timing.TotalTime / 100.0f);
+
+      float rad = Math.Clamp(CameraIrradiation(cam) * RadiationToColor - PerlinNoise.GetPerlin(time, time * 0.5f) * 0.3f, 0, 0.4f);
+      GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(new Color(0, rad, rad));
+    }
+
     public void patchAll()
     {
       harmony.Patch(
@@ -72,6 +83,13 @@ namespace BetterRadiation
         }),
         postfix: new HarmonyMethod(typeof(Mod).GetMethod("GameSession_StartRound_Postfix"))
       );
+
+#if CLIENT
+      harmony.Patch(
+        original: typeof(Level).GetMethod("DrawBack", AccessTools.all),
+        postfix: new HarmonyMethod(typeof(Mod).GetMethod("Level_DrawBack_Postfix"))
+      );
+#endif
     }
 
     public static void log(object msg, Color? cl = null)
