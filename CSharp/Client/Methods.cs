@@ -15,9 +15,9 @@ namespace JovianRadiationRework
   {
     public static float CameraIrradiation(Camera cam)
     {
-      if (GameMain.GameSession?.Map?.Radiation == null) return 0;
+      if (GameMain.GameSession?.Map?.Radiation == null || !GameMain.GameSession.Map.Radiation.Enabled) return 0;
 
-      if (!GameMain.GameSession.Map.Radiation.Enabled) { return 0; }
+
       if (Level.Loaded is { Type: LevelData.LevelType.LocationConnection, StartLocation: { } startLocation, EndLocation: { } endLocation } level)
       {
         float distance = MathHelper.Clamp((cam.Position.X - level.StartPosition.X) / (level.EndPosition.X - level.StartPosition.X), 0.0f, 1.0f);

@@ -20,27 +20,19 @@ namespace JovianRadiationRework
 
     public void Initialize()
     {
-      info($"{meta.ModName} - Compiled");
-
       harmony = new Harmony("radiation.rework");
 
       patchAll();
+      addCommands();
       figureOutModVersionAndDirPath();
       init();
+
+      info($"{meta.ModName} | {meta.ModVersion} - Compiled");
     }
 
     public static void init()
     {
-      if (GameMain.GameSession?.Map?.Radiation != null)
-      {
-        GameMain.GameSession.Map.Radiation.Params.RadiationAreaColor = new Color(0, 16, 32, 180);
-        GameMain.GameSession.Map.Radiation.Params.RadiationBorderTint = new Color(0, 127, 255, 255);
-        //GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay = 5;
-        GameMain.GameSession.Map.Radiation.Params.CriticalRadiationThreshold = 0;
-        //GameMain.GameSession.Map.Radiation.Params.MinimumOutpostAmount = 0;
-
-        //GameMain.GameSession.Map.Radiation.Params.BorderAnimationSpeed = 16.66f;
-      }
+      settings.vanilla.apply();
     }
 
     public void patchAll()
@@ -79,6 +71,8 @@ namespace JovianRadiationRework
     {
       harmony.UnpatchAll(harmony.Id);
       harmony = null;
+
+      removeCommands();
     }
   }
 

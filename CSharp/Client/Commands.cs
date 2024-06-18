@@ -17,12 +17,26 @@ namespace JovianRadiationRework
   {
     public static void addCommands()
     {
+      DebugConsole.Commands.Add(new DebugConsole.Command("radinfo", "", (string[] args) =>
+      {
+        log("Radiation Settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(Settings).GetProperties())
+        {
+          if (prop.Name == "vanilla") continue;
+          log($"{prop} = {prop.GetValue(settings)}");
+        }
 
+        log("Vanilla Radiation Settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(MyRadiationParams).GetProperties())
+        {
+          log($"{prop} = {prop.GetValue(settings.vanilla)}");
+        }
+      }));
     }
 
     public static void removeCommands()
     {
-
+      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("radinfo"));
     }
   }
 }
