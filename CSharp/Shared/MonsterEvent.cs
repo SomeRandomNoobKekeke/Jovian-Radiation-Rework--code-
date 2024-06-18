@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 
 
-namespace BetterRadiation
+namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
@@ -33,7 +33,7 @@ namespace BetterRadiation
       _.monsters.Clear();
 
       info($"spawning monsters in {CurrentLocationRadiationAmount()}");
-      if (CurrentLocationRadiationAmount() > TooMuchEvenForMonsters)
+      if (CurrentLocationRadiationAmount() > settings.TooMuchEvenForMonsters)
       {
         info($"too radiated {CurrentLocationRadiationAmount()}");
         return false;
