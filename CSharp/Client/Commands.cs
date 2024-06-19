@@ -55,7 +55,11 @@ namespace JovianRadiationRework
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
       {
-        if (args.Length < 2) { log("rad setting value"); return; }
+
+        if (args.Length == 0) { log("rad setting value"); return; }
+
+
+
 
         PropertyInfo prop = null;
         object target = null;
@@ -74,11 +78,18 @@ namespace JovianRadiationRework
 
         if (prop != null)
         {
+          if (args.Length == 1)
+          {
+            log($"{prop} {prop.GetValue(target)}");
+            return;
+          }
+
           try
           {
             if (prop.PropertyType == typeof(float)) prop.SetValue(target, float.Parse(args[1]));
             if (prop.PropertyType == typeof(int)) prop.SetValue(target, int.Parse(args[1]));
             if (prop.PropertyType == typeof(string)) prop.SetValue(target, args[1]);
+            if (prop.PropertyType == typeof(bool)) prop.SetValue(target, bool.Parse(args[1]));
 
             settings.apply();
             Settings.save(settings);
