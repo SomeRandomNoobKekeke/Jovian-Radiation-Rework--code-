@@ -16,12 +16,13 @@ namespace JovianRadiationRework
 {
   public partial class Mod
   {
-    public struct MyRadiationParams
+    //[NetworkSerialize]
+    public class MyRadiationParams //: INetSerializableStruct
     {
-      [XmlAttribute] public float StartingRadiation { get; set; } = -100f;
-      [XmlAttribute] public float RadiationStep { get; set; } = 100f;
       [XmlAttribute] public int CriticalRadiationThreshold { get; set; } = 0;
       [XmlAttribute] public int MinimumOutpostAmount { get; set; } = 3;
+      [XmlAttribute] public float StartingRadiation { get; set; } = -100f;
+      [XmlAttribute] public float RadiationStep { get; set; } = 100f;
       [XmlAttribute] public float AnimationSpeed { get; set; } = 3f;
       [XmlAttribute] public float RadiationDamageDelay { get; set; } = 10f;
       [XmlAttribute] public float RadiationDamageAmount { get; set; } = 1f;

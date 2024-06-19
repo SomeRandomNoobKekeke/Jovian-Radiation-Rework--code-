@@ -12,6 +12,7 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Barotrauma.Extensions;
+using Barotrauma.Networking;
 namespace JovianRadiationRework
 {
   public partial class Mod
@@ -37,8 +38,8 @@ namespace JovianRadiationRework
       public ModMetadata() { }
     }
 
-
-    public struct ModSettings
+    //[NetworkSerialize]
+    public class ModSettings //: INetSerializableStruct
     {
       [XmlAttribute] public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
       [XmlAttribute] public float RadiationDamage { get; set; } = 0.037f;
@@ -93,6 +94,89 @@ namespace JovianRadiationRework
           }
         }
         catch (Exception e) { err(e); }
+      }
+
+      public void apply()
+      {
+        vanilla.apply();
+      }
+
+      public void print()
+      {
+        log("Mod Radiation Settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(ModSettings).GetProperties())
+        {
+          log($"{prop} = {prop.GetValue(modSettings)}");
+        }
+
+        log("Vanilla Radiation Settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(MyRadiationParams).GetProperties())
+        {
+          log($"{prop} = {prop.GetValue(vanilla)}");
+        }
+      }
+
+      // doesn't work >:(
+      // public static void encode(Settings s, IWriteMessage msg)
+      // {
+      //   msg.WriteNetSerializableStruct(s.modSettings);
+      //   msg.WriteNetSerializableStruct(s.vanilla);
+      // }
+
+      // public static void decode(Settings s, IReadMessage msg)
+      // {
+      //   s.modSettings = INetSerializableStruct.Read<ModSettings>(msg);
+      //   s.vanilla = INetSerializableStruct.Read<MyRadiationParams>(msg);
+      // }
+
+      public static void encode(Settings s, IWriteMessage msg)
+      {
+        // mod settings 
+        msg.WriteSingle(s.modSettings.HuskRadiationResistance);
+        msg.WriteSingle(s.modSettings.RadiationDamage);
+        msg.WriteSingle(s.modSettings.RadiationToColor);
+        msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
+        msg.WriteSingle(s.modSettings.WaterRadiationBlockPerMeter);
+
+        // vanilla
+        msg.WriteInt32(s.vanilla.MinimumOutpostAmount);
+        msg.WriteInt32(s.vanilla.CriticalRadiationThreshold);
+
+        msg.WriteSingle(s.vanilla.StartingRadiation);
+        msg.WriteSingle(s.vanilla.RadiationStep);
+        msg.WriteSingle(s.vanilla.AnimationSpeed);
+        msg.WriteSingle(s.vanilla.RadiationDamageDelay);
+        msg.WriteSingle(s.vanilla.RadiationDamageAmount);
+        msg.WriteSingle(s.vanilla.MaxRadiation);
+        msg.WriteSingle(s.vanilla.BorderAnimationSpeed);
+
+        msg.WriteString(s.vanilla.RadiationAreaColor);
+        msg.WriteString(s.vanilla.RadiationBorderTint);
+      }
+
+      public static void decode(Settings s, IReadMessage msg)
+      {
+        // mod settings 
+        s.modSettings.HuskRadiationResistance = msg.ReadSingle();
+        s.modSettings.RadiationDamage = msg.ReadSingle();
+        s.modSettings.RadiationToColor = msg.ReadSingle();
+        s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
+        s.modSettings.WaterRadiationBlockPerMeter = msg.ReadSingle();
+
+        // vanilla
+        s.vanilla.MinimumOutpostAmount = msg.ReadInt32();
+        s.vanilla.CriticalRadiationThreshold = msg.ReadInt32();
+
+        s.vanilla.StartingRadiation = msg.ReadSingle();
+        s.vanilla.RadiationStep = msg.ReadSingle();
+        s.vanilla.AnimationSpeed = msg.ReadSingle();
+        s.vanilla.RadiationDamageDelay = msg.ReadSingle();
+        s.vanilla.RadiationDamageAmount = msg.ReadSingle();
+        s.vanilla.MaxRadiation = msg.ReadSingle();
+        s.vanilla.BorderAnimationSpeed = msg.ReadSingle();
+
+        s.vanilla.RadiationAreaColor = msg.ReadString();
+        s.vanilla.RadiationBorderTint = msg.ReadString();
       }
     }
 
