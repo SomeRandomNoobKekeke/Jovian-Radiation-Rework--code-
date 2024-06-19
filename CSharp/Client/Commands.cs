@@ -46,54 +46,51 @@ namespace JovianRadiationRework
         }
       }));
 
-      // here was 
+      DebugConsole.Commands.Add(new DebugConsole.Command("rad_reset", "resets settings to default", (string[] args) =>
+      {
+        settings = new Settings();
+        settings.apply();
+        Settings.save(settings);
+        if (GameMain.IsMultiplayer) Settings.sync(settings);
+      }));
+
+
       DebugConsole.Commands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
       {
         if (args.Length < 2) { log("rad setting value"); return; }
 
-        if (GameMain.IsSingleplayer)
+        PropertyInfo prop = null;
+        object target = null;
+
+        if (typeof(MyRadiationParams).GetProperty(args[0]) != null)
         {
-          switch (args[0].Trim())
-          {
-            case "WaterRadiationBlockPerMeter":
-              if (float.TryParse(args[1], out float f)) settings.modSettings.WaterRadiationBlockPerMeter = f;
-              break;
-            case "RadiationDamage":
-              if (float.TryParse(args[1], out f)) settings.modSettings.RadiationDamage = f;
-              log(settings.modSettings.RadiationDamage);
-              break;
-            case "TooMuchEvenForMonsters":
-              if (float.TryParse(args[1], out f)) settings.modSettings.TooMuchEvenForMonsters = f;
-              break;
-            case "HuskRadiationResistance":
-              if (float.TryParse(args[1], out f)) settings.modSettings.HuskRadiationResistance = f;
-              break;
-            case "RadiationToColor":
-              if (float.TryParse(args[1], out f)) settings.modSettings.RadiationToColor = f;
-              break;
-
-            case "CriticalRadiationThreshold":
-              if (float.TryParse(args[1], out float f)) settings.modSettings.WaterRadiationBlockPerMeter = f;
-              break;
-            case "MinimumOutpostAmount":
-              if (float.TryParse(args[1], out f)) settings.modSettings.RadiationDamage = f;
-              log(settings.modSettings.RadiationDamage);
-              break;
-
-            case "TooMuchEvenForMonsters":
-              if (float.TryParse(args[1], out f)) settings.modSettings.TooMuchEvenForMonsters = f;
-              break;
-            case "HuskRadiationResistance":
-              if (float.TryParse(args[1], out f)) settings.modSettings.HuskRadiationResistance = f;
-              break;
-            case "RadiationToColor":
-              if (float.TryParse(args[1], out f)) settings.modSettings.RadiationToColor = f;
-              break;
-          }
+          prop = typeof(MyRadiationParams).GetProperty(args[0]);
+          target = settings.vanilla;
         }
+
+        if (typeof(ModSettings).GetProperty(args[0]) != null)
+        {
+          prop = typeof(ModSettings).GetProperty(args[0]);
+          target = settings.modSettings;
+        }
+
+        if (prop != null)
+        {
+          try
+          {
+            if (prop.PropertyType == typeof(float)) prop.SetValue(target, float.Parse(args[1]));
+            if (prop.PropertyType == typeof(int)) prop.SetValue(target, int.Parse(args[1]));
+            if (prop.PropertyType == typeof(string)) prop.SetValue(target, args[1]);
+
+            settings.apply();
+            Settings.save(settings);
+            if (GameMain.IsMultiplayer) Settings.sync(settings);
+          }
+          catch (Exception e) { err(e); log("wat???"); }
+        }
+        else log("no such setting");
       }, () => new string[][] {
-        typeof(MyRadiationParams).GetProperties().Select(p => p.Name).ToArray(),
-        typeof(ModSettings).GetProperties().Select(p => p.Name).ToArray()
+        typeof(MyRadiationParams).GetProperties().Select(p => p.Name).Concat(typeof(ModSettings).GetProperties().Select(p => p.Name)).OrderBy(s=>s).ToArray()
       }));
     }
 
@@ -102,6 +99,7 @@ namespace JovianRadiationRework
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_info"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_step"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_set"));
+      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_reset"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad"));
     }
 
@@ -110,11 +108,11 @@ namespace JovianRadiationRework
       if (command.Value == "rad_info") __result = true;
       if (command.Value == "rad_step" && HasPermissions) __result = true;
       if (command.Value == "rad_set" && HasPermissions) __result = true;
+      if (command.Value == "rad_reset" && HasPermissions) __result = true;
       if (command.Value == "rad" && HasPermissions) __result = true;
 
       if (command.Value == "rad_serv_step" && HasPermissions) __result = true;
       if (command.Value == "rad_serv_set" && HasPermissions) __result = true;
-
     }
   }
 }

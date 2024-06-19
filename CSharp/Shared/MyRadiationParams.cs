@@ -49,6 +49,8 @@ namespace JovianRadiationRework
           }
           target.SetValue(GameMain.GameSession.Map.Radiation.Params, value);
         }
+
+        info("settings applyed");
       }
     }
   }

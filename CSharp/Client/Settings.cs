@@ -50,7 +50,6 @@ namespace JovianRadiationRework
         try
         {
           Settings.decode(settings, netMessage);
-          settings.print();
           settings.apply();
           log("Radiation settings initialised");
         }
@@ -65,7 +64,8 @@ namespace JovianRadiationRework
         Client client = args[1] as Client;
 
         Settings.decode(settings, netMessage);
-        log("Sonar markers settings changed");
+        settings.apply();
+        log("Radiation settings changed");
       }
     }
 
