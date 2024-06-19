@@ -17,6 +17,8 @@ namespace JovianRadiationRework
   {
     public static bool Radiation_OnStep_Replace(float steps, Radiation __instance)
     {
+      if (settings.modSettings.UseVanillaRadiation) return true;
+
       Radiation _ = __instance;
 
       if (!_.Enabled) { return false; }
@@ -64,6 +66,8 @@ namespace JovianRadiationRework
 
     public static bool Radiation_UpdateRadiation_Replace(float deltaTime, Radiation __instance)
     {
+      if (settings.modSettings.UseVanillaRadiation) return true;
+
       Radiation _ = __instance;
 
       if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }

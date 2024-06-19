@@ -46,6 +46,9 @@ namespace JovianRadiationRework
       [XmlAttribute] public float TooMuchEvenForMonsters { get; set; } = 300;
       [XmlAttribute] public float HuskRadiationResistance { get; set; } = 0.5f;
       [XmlAttribute] public float RadiationToColor { get; set; } = 0.001f;
+      [XmlAttribute] public float WorldProgressStepDuration { get; set; } = 10.0f;
+      [XmlAttribute] public int WorldProgressMaxStepsPerRound { get; set; } = 5;
+      [XmlAttribute] public bool UseVanillaRadiation { get; set; } = false;
 
       public ModSettings() { }
     }

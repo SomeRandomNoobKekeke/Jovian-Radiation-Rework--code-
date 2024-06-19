@@ -9,8 +9,6 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 
-
-
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin

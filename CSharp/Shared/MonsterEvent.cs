@@ -18,6 +18,8 @@ namespace JovianRadiationRework
 
     public static bool MonsterEvent_InitEventSpecific_Replace(EventSet parentSet, MonsterEvent __instance)
     {
+      if (settings.modSettings.UseVanillaRadiation) return true;
+
       MonsterEvent _ = __instance;
 
       if (parentSet != null && _.resetTime == 0)

@@ -23,10 +23,10 @@ namespace JovianRadiationRework
     {
       harmony = new Harmony("radiation.rework");
 
-      patchAll();
-      addCommands();
       figureOutModVersionAndDirPath();
       createFolders();
+      patchAll();
+      addCommands();
 
       if (GameMain.IsSingleplayer)
       {
@@ -66,6 +66,15 @@ namespace JovianRadiationRework
       harmony.Patch(
         original: typeof(Radiation).GetMethod("OnStep", AccessTools.all),
         prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_OnStep_Replace"))
+      );
+
+      harmony.Patch(
+        original: typeof(Map).GetMethod("ProgressWorld", AccessTools.all, new Type[]{
+          typeof(CampaignMode),
+          typeof(CampaignMode.TransitionType),
+          typeof(float),
+        }),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Map_ProgressWorld_Replace"))
       );
 
       harmony.Patch(

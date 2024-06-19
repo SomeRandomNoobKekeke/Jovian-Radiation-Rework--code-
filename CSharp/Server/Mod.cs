@@ -21,11 +21,12 @@ namespace JovianRadiationRework
     public void Initialize()
     {
       harmony = new Harmony("radiation.rework");
+
       figureOutModVersionAndDirPath();
+      createFolders();
       patchAll();
       addCommands();
 
-      createFolders();
       settings = Settings.load();
       settings.apply();
 
@@ -33,6 +34,11 @@ namespace JovianRadiationRework
       GameMain.LuaCs.Networking.Receive("jrr_sync", Settings.net_recieve_sync);
 
       info($"{meta.ModName} | {meta.ModVersion} - Compiled");
+    }
+
+    public static void init()
+    {
+      settings.apply();
     }
 
     public void patchAll()
@@ -53,6 +59,15 @@ namespace JovianRadiationRework
       );
 
       harmony.Patch(
+        original: typeof(Map).GetMethod("ProgressWorld", AccessTools.all, new Type[]{
+          typeof(CampaignMode),
+          typeof(CampaignMode.TransitionType),
+          typeof(float),
+        }),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Map_ProgressWorld_Replace"))
+      );
+
+      harmony.Patch(
         original: typeof(GameSession).GetMethod("StartRound", AccessTools.all, new Type[]{
           typeof(LevelData),
           typeof(bool),
@@ -61,17 +76,6 @@ namespace JovianRadiationRework
         }),
         postfix: new HarmonyMethod(typeof(Mod).GetMethod("init"))
       );
-
-
-      harmony.Patch(
-        original: typeof(Level).GetMethod("DrawBack", AccessTools.all),
-        postfix: new HarmonyMethod(typeof(Mod).GetMethod("Level_DrawBack_Postfix"))
-      );
-
-      harmony.Patch(
-        original: typeof(LuaGame).GetMethod("IsCustomCommandPermitted"),
-        postfix: new HarmonyMethod(typeof(Mod).GetMethod("permitCommands"))
-      );
     }
 
     public void OnLoadCompleted() { }
@@ -79,6 +83,8 @@ namespace JovianRadiationRework
 
     public void Dispose()
     {
+      harmony.UnpatchAll(harmony.Id);
+      harmony = null;
       serializer = null;
       removeCommands();
     }
