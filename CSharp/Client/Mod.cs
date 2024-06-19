@@ -25,6 +25,12 @@ namespace JovianRadiationRework
       patchAll();
       addCommands();
       figureOutModVersionAndDirPath();
+
+      createFolders();
+      settings = Settings.load();
+      Settings.save(settings);
+
+
       init();
 
       info($"{meta.ModName} | {meta.ModVersion} - Compiled");
@@ -73,6 +79,7 @@ namespace JovianRadiationRework
       harmony = null;
 
       removeCommands();
+      serializer = null;
     }
   }
 

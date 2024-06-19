@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 
 using Barotrauma;
 using HarmonyLib;
@@ -16,17 +18,17 @@ namespace JovianRadiationRework
   {
     public struct MyRadiationParams
     {
-      public float StartingRadiation { get; set; } = -100f;
-      public float RadiationStep { get; set; } = 100f;
-      public int CriticalRadiationThreshold { get; set; } = 0; // 10;
-      public int MinimumOutpostAmount { get; set; } = 3;
-      public float AnimationSpeed { get; set; } = 3f;
-      public float RadiationDamageDelay { get; set; } = 10f;
-      public float RadiationDamageAmount { get; set; } = 1f;
-      public float MaxRadiation { get; set; } = -1.0f;
-      public Color RadiationAreaColor { get; set; } = new Color(0, 16, 32, 180); // new Color(139, 0, 0, 85);
-      public Color RadiationBorderTint { get; set; } = new Color(0, 127, 255, 255); // new Color(255, 0, 0, 255);
-      public float BorderAnimationSpeed { get; set; } = 16.66f;
+      [XmlAttribute] public float StartingRadiation { get; set; } = -100f;
+      [XmlAttribute] public float RadiationStep { get; set; } = 100f;
+      [XmlAttribute] public int CriticalRadiationThreshold { get; set; } = 0;
+      [XmlAttribute] public int MinimumOutpostAmount { get; set; } = 3;
+      [XmlAttribute] public float AnimationSpeed { get; set; } = 3f;
+      [XmlAttribute] public float RadiationDamageDelay { get; set; } = 10f;
+      [XmlAttribute] public float RadiationDamageAmount { get; set; } = 1f;
+      [XmlAttribute] public float MaxRadiation { get; set; } = -1.0f;
+      [XmlAttribute] public float BorderAnimationSpeed { get; set; } = 16.66f;
+      [XmlAttribute] public string RadiationAreaColor { get; set; } = "255,16,32,180";
+      [XmlAttribute] public string RadiationBorderTint { get; set; } = "0,127,255,255";
 
       public MyRadiationParams() { }
 
@@ -36,7 +38,15 @@ namespace JovianRadiationRework
 
         foreach (PropertyInfo prop in typeof(MyRadiationParams).GetProperties())
         {
-          typeof(RadiationParams).GetProperty(prop.Name).SetValue(GameMain.GameSession.Map.Radiation.Params, prop.GetValue(settings.vanilla));
+          PropertyInfo target = typeof(RadiationParams).GetProperty(prop.Name);
+          Object value = prop.GetValue(settings.vanilla);
+          if (target.PropertyType == typeof(Color))
+          {
+            //:AwareDev:
+            // https://github.com/FakeFishGames/Barotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Serialization/XMLExtensions.cs#L853
+            value = XMLExtensions.ParseColor((string)value);
+          }
+          target.SetValue(GameMain.GameSession.Map.Radiation.Params, value);
         }
       }
     }

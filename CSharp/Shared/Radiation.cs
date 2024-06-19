@@ -91,12 +91,12 @@ namespace JovianRadiationRework
       {
         if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-        float radiationAmount = EntityRadiationAmount(character) * settings.RadiationDamage;
+        float radiationAmount = EntityRadiationAmount(character) * settings.modSettings.RadiationDamage;
 
         if (character.IsHuskInfected)
         {
           info("it's a husk");
-          radiationAmount = Math.Max(0, radiationAmount - settings.HuskRadiationResistance * GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+          radiationAmount = Math.Max(0, radiationAmount - settings.modSettings.HuskRadiationResistance * GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
         }
         info(radiationAmount / GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
 

@@ -29,7 +29,7 @@ namespace JovianRadiationRework
         float amount = Math.Max(0,
           GameMain.GameSession.Map.Radiation.Amount
           - entityMapX
-          - RelativeDepth * settings.WaterRadiationBlockPerMeter
+          - RelativeDepth * settings.modSettings.WaterRadiationBlockPerMeter
         );
 
         return amount;

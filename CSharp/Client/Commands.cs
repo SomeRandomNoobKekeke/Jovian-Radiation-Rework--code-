@@ -19,11 +19,10 @@ namespace JovianRadiationRework
     {
       DebugConsole.Commands.Add(new DebugConsole.Command("radinfo", "", (string[] args) =>
       {
-        log("Radiation Settings:", Color.DeepPink);
-        foreach (PropertyInfo prop in typeof(Settings).GetProperties())
+        log("Mod Radiation Settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(ModSettings).GetProperties())
         {
-          if (prop.Name == "vanilla") continue;
-          log($"{prop} = {prop.GetValue(settings)}");
+          log($"{prop} = {prop.GetValue(settings.modSettings)}");
         }
 
         log("Vanilla Radiation Settings:", Color.DeepPink);
