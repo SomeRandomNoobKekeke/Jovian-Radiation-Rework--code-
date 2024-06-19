@@ -38,7 +38,6 @@ namespace JovianRadiationRework
         if (location.IsGateBetweenBiomes)
         {
           location.Connections.ForEach(c => c.Locked = false);
-          continue;
         }
 
         if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }

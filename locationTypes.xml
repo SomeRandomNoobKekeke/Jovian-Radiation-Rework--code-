@@ -1,0 +1,56 @@
+﻿<locationtypes>
+  <Override>
+    <Outpost
+      identifier="Outpost"
+      replaceinradiation="Abandoned"
+      nameidentifiers="generic,city"
+      commonnessperzone="1: 1.5, 2: 2.5, 3: 1.0, 4: 0.75"
+      AllowAsBiomeGate="true">
+
+      <Symbol texture="Content/Map/MapAtlas.png" sourcerect="256,512,128,128" color="128,206,175,255" />
+      <Portrait texture="Content/Map/LocationPortraits/HabitationOutpost.png" sourcerect="0,0,2160,1080" premultiplyalpha="false" />
+      <Portrait texture="Content/Map/LocationPortraits/HabitationOutpost2.png" sourcerect="0,0,2160,1080" premultiplyalpha="false" />
+      <Portrait texture="Content/Map/LocationPortraits/HabitationOutpost3.png" sourcerect="0,0,2160,1080" premultiplyalpha="false" />
+      <Portrait texture="Content/Map/LocationPortraits/HabitationOutpost4.png" sourcerect="0,0,2160,1080" premultiplyalpha="false" />
+      <RadiationSymbol texture="Content/Map/MapAtlas.png" sourcerect="896,512,128,128" color="245,105,105" />
+
+      <Hireable identifier="assistant" commonness="10" AlwaysAvailableIfMissingFromCrew="true" />
+      <Hireable identifier="engineer" commonness="3" AlwaysAvailableIfMissingFromCrew="true" />
+      <Hireable identifier="mechanic" commonness="3" AlwaysAvailableIfMissingFromCrew="true" />
+      <Hireable identifier="medicaldoctor" commonness="1" AlwaysAvailableIfMissingFromCrew="true" />
+      <Hireable identifier="securityofficer" commonness="1" AlwaysAvailableIfMissingFromCrew="true" />
+      <Hireable identifier="captain" commonness="1" AlwaysAvailableIfMissingFromCrew="true" />
+
+      <!-- can become a specialized outpost if there are no adjacent lairs -->
+      <ChangeTo type="Military" probability="0.2"
+        requireddurationrange="2,5"
+        disallowedadjacentlocations="Lair"
+        disallowedproximity="2"
+        messagetag="locationchange.outpost.changeto.military" />
+
+      <ChangeTo type="Research" probability="0.2"
+        requireddurationrange="2,5"
+        disallowedadjacentlocations="Lair"
+        disallowedproximity="2"
+        messagetag="locationchange.outpost.changeto.research" />
+
+      <ChangeTo type="Mine" probability="0.2"
+        requireddurationrange="2,5"
+        disallowedadjacentlocations="Lair"
+        disallowedproximity="2"
+        messagetag="locationchange.outpost.changeto.mine" />
+
+      <ChangeTo type="Abandoned" requireddurationrange="1,1" messagetag="locationchange.outpost.changeto.abandoned">
+        <Requirement requirehuntinggrounds="true" probability="0.5" requiredproximity="0" />
+      </ChangeTo>
+
+      <Store
+        maxreputationmodifier="0.1"
+        sellpricemodifier="0.3"
+        dailyspecialpricemodifier="0.5"
+        requestgoodpricemodifier="2"
+        initialbalance="5000"
+        pricemodifierrange="5" />
+    </Outpost>
+  </Override>
+</locationtypes>

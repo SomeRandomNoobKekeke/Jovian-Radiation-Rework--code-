@@ -54,6 +54,11 @@ namespace JovianRadiationRework
       );
 
       harmony.Patch(
+        original: typeof(Radiation).GetMethod("OnStep", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_OnStep_Replace"))
+      );
+
+      harmony.Patch(
         original: typeof(GameSession).GetMethod("StartRound", AccessTools.all, new Type[]{
           typeof(LevelData),
           typeof(bool),

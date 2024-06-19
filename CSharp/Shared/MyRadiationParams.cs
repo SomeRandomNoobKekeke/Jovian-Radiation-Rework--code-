@@ -27,7 +27,7 @@ namespace JovianRadiationRework
       [XmlAttribute] public float RadiationDamageAmount { get; set; } = 1f;
       [XmlAttribute] public float MaxRadiation { get; set; } = -1.0f;
       [XmlAttribute] public float BorderAnimationSpeed { get; set; } = 16.66f;
-      [XmlAttribute] public string RadiationAreaColor { get; set; } = "255,16,32,180";
+      [XmlAttribute] public string RadiationAreaColor { get; set; } = "0,16,32,180";
       [XmlAttribute] public string RadiationBorderTint { get; set; } = "0,127,255,255";
 
       public MyRadiationParams() { }
