@@ -4,8 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
 
 using Barotrauma;
 using HarmonyLib;
@@ -19,17 +17,17 @@ namespace JovianRadiationRework
     //[NetworkSerialize]
     public class MyRadiationParams //: INetSerializableStruct
     {
-      [XmlAttribute] public int CriticalRadiationThreshold { get; set; } = 0;
-      [XmlAttribute] public int MinimumOutpostAmount { get; set; } = 3;
-      [XmlAttribute] public float StartingRadiation { get; set; } = -100f;
-      [XmlAttribute] public float RadiationStep { get; set; } = 100f;
-      [XmlAttribute] public float AnimationSpeed { get; set; } = 3f;
-      [XmlAttribute] public float RadiationDamageDelay { get; set; } = 10f;
-      [XmlAttribute] public float RadiationDamageAmount { get; set; } = 1f;
-      [XmlAttribute] public float MaxRadiation { get; set; } = -1.0f;
-      [XmlAttribute] public float BorderAnimationSpeed { get; set; } = 16.66f;
-      [XmlAttribute] public string RadiationAreaColor { get; set; } = "0,16,32,160";
-      [XmlAttribute] public string RadiationBorderTint { get; set; } = "0,127,255,200";
+      public int CriticalRadiationThreshold { get; set; } = 0;
+      public int MinimumOutpostAmount { get; set; } = 3;
+      public float StartingRadiation { get; set; } = -100f;
+      public float RadiationStep { get; set; } = 100f;
+      public float AnimationSpeed { get; set; } = 3f;
+      public float RadiationDamageDelay { get; set; } = 10f;
+      public float RadiationDamageAmount { get; set; } = 1f;
+      public float MaxRadiation { get; set; } = -1.0f;
+      public float BorderAnimationSpeed { get; set; } = 16.66f;
+      public string RadiationAreaColor { get; set; } = "0,16,32,160";
+      public string RadiationBorderTint { get; set; } = "0,127,255,200";
 
       public MyRadiationParams() { }
 

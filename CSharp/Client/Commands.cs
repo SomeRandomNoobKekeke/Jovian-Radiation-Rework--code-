@@ -52,6 +52,14 @@ namespace JovianRadiationRework
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 
+      DebugConsole.Commands.Add(new DebugConsole.Command("rad_load", "load settings", (string[] args) =>
+      {
+        settings = Settings.load();
+        settings.apply();
+        Settings.save(settings);
+        if (GameMain.IsMultiplayer) Settings.sync(settings);
+      }));
+
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
       {
@@ -109,6 +117,7 @@ namespace JovianRadiationRework
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_step"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_set"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_reset"));
+      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_load"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad"));
     }
 
@@ -118,6 +127,7 @@ namespace JovianRadiationRework
       if (command.Value == "rad_step" && HasPermissions) __result = true;
       if (command.Value == "rad_set" && HasPermissions) __result = true;
       if (command.Value == "rad_reset" && HasPermissions) __result = true;
+      if (command.Value == "rad_load" && HasPermissions) __result = true;
       if (command.Value == "rad" && HasPermissions) __result = true;
 
       if (command.Value == "rad_serv_step" && HasPermissions) __result = true;

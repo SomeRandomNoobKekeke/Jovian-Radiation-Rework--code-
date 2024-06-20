@@ -12,6 +12,12 @@ using Microsoft.Xna.Framework;
 using Barotrauma.Extensions;
 using System.IO;
 using Barotrauma.Networking;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+[assembly: IgnoresAccessChecksTo("Barotrauma")]
+[assembly: IgnoresAccessChecksTo("DedicatedServer")]
+[assembly: IgnoresAccessChecksTo("BarotraumaCore")]
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
@@ -30,6 +36,12 @@ namespace JovianRadiationRework
     }
     public static void info(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Cyan, $"{lineNumber}| "); }
     public static void err(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Orange, $"{lineNumber}| "); }
+
+    public static string json(Object o, bool indent = false)
+    {
+      try { return JsonSerializer.Serialize(o, new JsonSerializerOptions { WriteIndented = indent }); }
+      catch (Exception e) { err(e); return ""; }
+    }
 
     public void figureOutModVersionAndDirPath()
     {

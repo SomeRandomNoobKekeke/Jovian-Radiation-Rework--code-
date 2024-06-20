@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Barotrauma.Networking;
 using Barotrauma.Extensions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace JovianRadiationRework
 {
@@ -108,7 +110,6 @@ namespace JovianRadiationRework
       harmony = null;
 
       removeCommands();
-      serializer = null;
     }
   }
 

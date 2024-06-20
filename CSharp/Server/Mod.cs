@@ -9,9 +9,10 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 
-
 using Barotrauma.Extensions;
 using Barotrauma.Networking;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
@@ -85,7 +86,6 @@ namespace JovianRadiationRework
     {
       harmony.UnpatchAll(harmony.Id);
       harmony = null;
-      serializer = null;
       removeCommands();
     }
   }
