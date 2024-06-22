@@ -49,6 +49,7 @@ namespace JovianRadiationRework
         settings = new Settings();
         settings.apply();
         Settings.save(settings);
+        log("Radiation settings reset");
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 
@@ -57,17 +58,14 @@ namespace JovianRadiationRework
         settings = Settings.load();
         settings.apply();
         Settings.save(settings);
+        log("Radiation settings loaded");
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
       {
-
         if (args.Length == 0) { log("rad setting value"); return; }
-
-
-
 
         PropertyInfo prop = null;
         object target = null;
