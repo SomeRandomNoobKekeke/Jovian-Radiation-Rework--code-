@@ -25,7 +25,7 @@ namespace JovianRadiationRework
       if (!_.Enabled) { return false; }
       if (steps <= 0) { return false; }
 
-      float increaseAmount = Math.Max(0, _.Params.RadiationStep * steps - _.Amount * settings.modSettings.RadiationSlowDown);
+      float increaseAmount = Math.Max(0, (_.Params.RadiationStep - _.Amount * settings.modSettings.RadiationSlowDown) * steps);
 
       if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
       {
