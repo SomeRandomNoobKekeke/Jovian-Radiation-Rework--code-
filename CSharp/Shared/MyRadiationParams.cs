@@ -19,7 +19,7 @@ namespace JovianRadiationRework
     {
       public int CriticalRadiationThreshold { get; set; } = 0;
       public int MinimumOutpostAmount { get; set; } = 3;
-      public float StartingRadiation { get; set; } = -100f;
+      public float StartingRadiation { get; set; } = -200f;
       public float RadiationStep { get; set; } = 100f;
       public float AnimationSpeed { get; set; } = 3f;
       public float RadiationDamageDelay { get; set; } = 10f;
@@ -48,7 +48,7 @@ namespace JovianRadiationRework
           target.SetValue(GameMain.GameSession.Map.Radiation.Params, value);
         }
 
-        info("settings applyed");
+        info("settings applied");
       }
     }
   }

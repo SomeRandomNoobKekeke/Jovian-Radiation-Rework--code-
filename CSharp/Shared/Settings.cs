@@ -42,8 +42,12 @@ namespace JovianRadiationRework
       public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
       public float RadiationDamage { get; set; } = 0.037f;
       public float TooMuchEvenForMonsters { get; set; } = 300;
+      public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
       public float HuskRadiationResistance { get; set; } = 0.5f;
-      public float RadiationToColor { get; set; } = 0.001f;
+      public float RadiationToAmbienceBrightness { get; set; } = 0.001f;
+      public float MaxAmbienceBrightness { get; set; } = 0.4f;
+      public string AmbienceColor { get; set; } = "0,255,255";
+      [JsonIgnore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
       public float WorldProgressStepDuration { get; set; } = 10.0f;
       public int WorldProgressMaxStepsPerRound { get; set; } = 5;
       public bool UseVanillaRadiation { get; set; } = false;
@@ -92,6 +96,7 @@ namespace JovianRadiationRework
       public void apply()
       {
         vanilla.apply();
+        modSettings.ActualColor = XMLExtensions.ParseColor(modSettings.AmbienceColor);
       }
 
       public void print()
@@ -127,7 +132,7 @@ namespace JovianRadiationRework
         // mod settings 
         msg.WriteSingle(s.modSettings.HuskRadiationResistance);
         msg.WriteSingle(s.modSettings.RadiationDamage);
-        msg.WriteSingle(s.modSettings.RadiationToColor);
+        msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
         msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
         msg.WriteSingle(s.modSettings.WaterRadiationBlockPerMeter);
 
@@ -152,7 +157,7 @@ namespace JovianRadiationRework
         // mod settings 
         s.modSettings.HuskRadiationResistance = msg.ReadSingle();
         s.modSettings.RadiationDamage = msg.ReadSingle();
-        s.modSettings.RadiationToColor = msg.ReadSingle();
+        s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
         s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
         s.modSettings.WaterRadiationBlockPerMeter = msg.ReadSingle();
 

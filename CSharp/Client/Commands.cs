@@ -34,7 +34,13 @@ namespace JovianRadiationRework
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_set", "rad_set amount", (string[] args) =>
       {
-        if (args.Length == 0 || !float.TryParse(args[0], out float amount)) return;
+        if (args.Length == 0)
+        {
+          log($"Radiation.Amount = {GameMain.GameSession.Map.Radiation.Amount}");
+          return;
+        }
+
+        if (!float.TryParse(args[0], out float amount)) return;
 
         GameMain.GameSession.Map.Radiation.Amount = amount;
 

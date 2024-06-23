@@ -95,6 +95,10 @@ namespace JovianRadiationRework
         if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
         float radiationAmount = EntityRadiationAmount(character) * settings.modSettings.RadiationDamage;
+        if (character.Submarine != null)
+        {
+          radiationAmount *= Math.Clamp(1 - settings.modSettings.FractionOfRadiationBlockedInSub, 0, 1);
+        }
 
         if (character.IsHuskInfected)
         {

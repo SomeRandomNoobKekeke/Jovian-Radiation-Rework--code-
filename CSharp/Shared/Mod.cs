@@ -34,7 +34,14 @@ namespace JovianRadiationRework
 
       figureOutModVersionAndDirPath();
       createFolders();
-      patchAll();
+      PatchOnBothSides();
+#if CLIENT
+      PatchOnClient();
+      InitializeClient();
+#elif SERVER
+      PatchOnServer();
+      InitializeServer();
+#endif
 
       info($"{meta.ModName} | {meta.ModVersion} - Compiled");
     }
@@ -44,17 +51,7 @@ namespace JovianRadiationRework
       settings.apply();
     }
 
-    public void patchAll()
-    {
-      patchOnBothSides();
-#if CLIENT
-      PatchOnClient();
-#elif SERVER
-      PatchOnServer();
-#endif
-    }
-
-    public void patchOnBothSides()
+    public void PatchOnBothSides()
     {
       harmony.Patch(
         original: typeof(ColorExtensions).GetMethod("Multiply", AccessTools.all, new Type[]{
