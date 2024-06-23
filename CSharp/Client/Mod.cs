@@ -20,14 +20,8 @@ namespace JovianRadiationRework
   {
     public static bool HasPermissions => GameMain.Client.IsServerOwner || GameMain.Client.HasPermission(ClientPermissions.All);
 
-    public Harmony harmony;
-    public void Initialize()
+    public void InitializeClient()
     {
-      harmony = new Harmony("radiation.rework");
-
-      figureOutModVersionAndDirPath();
-      createFolders();
-      patchAll();
       addCommands();
 
       if (GameMain.IsSingleplayer)
@@ -44,61 +38,10 @@ namespace JovianRadiationRework
 
         Settings.askServerForSettings();
       }
-
-      info($"{meta.ModName} | {meta.ModVersion} - Compiled");
     }
 
-    public static void init()
+    public void PatchOnClient()
     {
-      settings.apply();
-    }
-
-    public void patchAll()
-    {
-      harmony.Patch(
-        original: typeof(ColorExtensions).GetMethod("Multiply", AccessTools.all, new Type[]{
-        typeof(Color),
-        typeof(float),
-        typeof(bool),
-      }),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("ColorExtensions_Multiply_Prefix"))
-      );
-
-      harmony.Patch(
-        original: typeof(MonsterEvent).GetMethod("InitEventSpecific", AccessTools.all),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("MonsterEvent_InitEventSpecific_Replace"))
-      );
-
-      harmony.Patch(
-        original: typeof(Radiation).GetMethod("UpdateRadiation", AccessTools.all),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_UpdateRadiation_Replace"))
-      );
-
-      harmony.Patch(
-        original: typeof(Radiation).GetMethod("OnStep", AccessTools.all),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_OnStep_Replace"))
-      );
-
-      harmony.Patch(
-        original: typeof(Map).GetMethod("ProgressWorld", AccessTools.all, new Type[]{
-          typeof(CampaignMode),
-          typeof(CampaignMode.TransitionType),
-          typeof(float),
-        }),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Map_ProgressWorld_Replace"))
-      );
-
-      harmony.Patch(
-        original: typeof(GameSession).GetMethod("StartRound", AccessTools.all, new Type[]{
-          typeof(LevelData),
-          typeof(bool),
-          typeof(SubmarineInfo),
-          typeof(SubmarineInfo),
-        }),
-        postfix: new HarmonyMethod(typeof(Mod).GetMethod("init"))
-      );
-
-
       harmony.Patch(
         original: typeof(Level).GetMethod("DrawBack", AccessTools.all),
         postfix: new HarmonyMethod(typeof(Mod).GetMethod("Level_DrawBack_Postfix"))

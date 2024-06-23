@@ -24,43 +24,80 @@ namespace JovianRadiationRework
   {
     public static ModMetadata meta = new ModMetadata();
     public static Settings settings = new Settings();
-    public static bool debug = false;
+    public static bool debug = true;
 
-    public static void log(object msg, Color? cl = null, string line = "")
+    public Harmony harmony;
+
+    public void Initialize()
     {
-      if (cl == null) cl = Color.Cyan;
-#if SERVER
-      cl *= 0.8f;
+      harmony = new Harmony("radiation.rework");
+
+      figureOutModVersionAndDirPath();
+      createFolders();
+      patchAll();
+
+      info($"{meta.ModName} | {meta.ModVersion} - Compiled");
+    }
+
+    public static void init()
+    {
+      settings.apply();
+    }
+
+    public void patchAll()
+    {
+      patchOnBothSides();
+#if CLIENT
+      PatchOnClient();
+#elif SERVER
+      PatchOnServer();
 #endif
-      LuaCsLogger.LogMessage($"{line}{msg ?? "null"}", cl, cl);
-    }
-    public static void info(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Cyan, $"{lineNumber}| "); }
-    public static void err(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Orange, $"{lineNumber}| "); }
-
-    public static string json(Object o, bool indent = false)
-    {
-      try { return JsonSerializer.Serialize(o, new JsonSerializerOptions { WriteIndented = indent }); }
-      catch (Exception e) { err(e); return ""; }
     }
 
-    public void figureOutModVersionAndDirPath()
+    public void patchOnBothSides()
     {
-      bool found = false;
+      harmony.Patch(
+        original: typeof(ColorExtensions).GetMethod("Multiply", AccessTools.all, new Type[]{
+        typeof(Color),
+        typeof(float),
+        typeof(bool),
+      }),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("ColorExtensions_Multiply_Prefix"))
+      );
 
-      foreach (ContentPackage p in ContentPackageManager.EnabledPackages.All)
-      {
-        if (p.Name.Contains(meta.ModName))
-        {
-          found = true;
-          meta.ModVersion = p.ModVersion;
-          meta.ModDir = Path.GetFullPath(p.Dir);
-          break;
-        }
-      }
+      harmony.Patch(
+        original: typeof(MonsterEvent).GetMethod("InitEventSpecific", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("MonsterEvent_InitEventSpecific_Replace"))
+      );
 
-      if (!found) err($"Couldn't figure out {meta.ModName} mod folder");
+      harmony.Patch(
+        original: typeof(Radiation).GetMethod("UpdateRadiation", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_UpdateRadiation_Replace"))
+      );
+
+      harmony.Patch(
+        original: typeof(Radiation).GetMethod("OnStep", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_OnStep_Replace"))
+      );
+
+      harmony.Patch(
+        original: typeof(Map).GetMethod("ProgressWorld", AccessTools.all, new Type[]{
+          typeof(CampaignMode),
+          typeof(CampaignMode.TransitionType),
+          typeof(float),
+        }),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Map_ProgressWorld_Replace"))
+      );
+
+      harmony.Patch(
+        original: typeof(GameSession).GetMethod("StartRound", AccessTools.all, new Type[]{
+          typeof(LevelData),
+          typeof(bool),
+          typeof(SubmarineInfo),
+          typeof(SubmarineInfo),
+        }),
+        postfix: new HarmonyMethod(typeof(Mod).GetMethod("init"))
+      );
     }
   }
-
-
 }
