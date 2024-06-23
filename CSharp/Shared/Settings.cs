@@ -130,11 +130,19 @@ namespace JovianRadiationRework
       public static void encode(Settings s, IWriteMessage msg)
       {
         // mod settings 
-        msg.WriteSingle(s.modSettings.HuskRadiationResistance);
-        msg.WriteSingle(s.modSettings.RadiationDamage);
-        msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
-        msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
         msg.WriteSingle(s.modSettings.WaterRadiationBlockPerMeter);
+        msg.WriteSingle(s.modSettings.RadiationDamage);
+        msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
+        msg.WriteSingle(s.modSettings.FractionOfRadiationBlockedInSub);
+        msg.WriteSingle(s.modSettings.HuskRadiationResistance);
+        msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
+        msg.WriteSingle(s.modSettings.MaxAmbienceBrightness);
+        msg.WriteSingle(s.modSettings.WorldProgressStepDuration);
+
+        msg.WriteInt32(s.modSettings.WorldProgressMaxStepsPerRound);
+        msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
+        msg.WriteString(s.modSettings.AmbienceColor);
+
 
         // vanilla
         msg.WriteInt32(s.vanilla.MinimumOutpostAmount);
@@ -155,11 +163,18 @@ namespace JovianRadiationRework
       public static void decode(Settings s, IReadMessage msg)
       {
         // mod settings 
-        s.modSettings.HuskRadiationResistance = msg.ReadSingle();
-        s.modSettings.RadiationDamage = msg.ReadSingle();
-        s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
-        s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
         s.modSettings.WaterRadiationBlockPerMeter = msg.ReadSingle();
+        s.modSettings.RadiationDamage = msg.ReadSingle();
+        s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
+        s.modSettings.FractionOfRadiationBlockedInSub = msg.ReadSingle();
+        s.modSettings.HuskRadiationResistance = msg.ReadSingle();
+        s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
+        s.modSettings.MaxAmbienceBrightness = msg.ReadSingle();
+        s.modSettings.WorldProgressStepDuration = msg.ReadSingle();
+
+        s.modSettings.WorldProgressMaxStepsPerRound = msg.ReadInt32();
+        s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
+        s.modSettings.AmbienceColor = msg.ReadString();
 
         // vanilla
         s.vanilla.MinimumOutpostAmount = msg.ReadInt32();
