@@ -134,6 +134,7 @@ namespace JovianRadiationRework
         // mod settings 
         msg.WriteSingle(s.modSettings.WaterRadiationBlockPerMeter);
         msg.WriteSingle(s.modSettings.RadiationDamage);
+        msg.WriteSingle(s.modSettings.RadiationSlowDown);
         msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
         msg.WriteSingle(s.modSettings.FractionOfRadiationBlockedInSub);
         msg.WriteSingle(s.modSettings.HuskRadiationResistance);
@@ -143,6 +144,7 @@ namespace JovianRadiationRework
 
         msg.WriteInt32(s.modSettings.WorldProgressMaxStepsPerRound);
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
+        msg.WriteBoolean(s.modSettings.KeepSurroundingOutpostsAlive);
         msg.WriteString(s.modSettings.AmbienceColor);
 
 
@@ -167,6 +169,7 @@ namespace JovianRadiationRework
         // mod settings 
         s.modSettings.WaterRadiationBlockPerMeter = msg.ReadSingle();
         s.modSettings.RadiationDamage = msg.ReadSingle();
+        s.modSettings.RadiationSlowDown = msg.ReadSingle();
         s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
         s.modSettings.FractionOfRadiationBlockedInSub = msg.ReadSingle();
         s.modSettings.HuskRadiationResistance = msg.ReadSingle();
@@ -176,6 +179,7 @@ namespace JovianRadiationRework
 
         s.modSettings.WorldProgressMaxStepsPerRound = msg.ReadInt32();
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
+        s.modSettings.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();
 
         // vanilla
