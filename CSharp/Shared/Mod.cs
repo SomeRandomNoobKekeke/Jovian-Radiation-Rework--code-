@@ -77,6 +77,12 @@ namespace JovianRadiationRework
         prefix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_OnStep_Replace"))
       );
 
+      // not yet, might be hard to sync
+      // harmony.Patch(
+      //   original: typeof(Radiation).GetConstructors()[0],
+      //   postfix: new HarmonyMethod(typeof(Mod).GetMethod("Radiation_Constructor_Postfix"))
+      // );
+
       harmony.Patch(
         original: typeof(Map).GetMethod("ProgressWorld", AccessTools.all, new Type[]{
           typeof(CampaignMode),

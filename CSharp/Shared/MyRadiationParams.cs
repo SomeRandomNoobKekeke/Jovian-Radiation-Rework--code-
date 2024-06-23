@@ -17,10 +17,10 @@ namespace JovianRadiationRework
     //[NetworkSerialize]
     public class MyRadiationParams //: INetSerializableStruct
     {
-      public int CriticalRadiationThreshold { get; set; } = 0;
+      public int CriticalRadiationThreshold { get; set; } = 5;
       public int MinimumOutpostAmount { get; set; } = 3;
       public float StartingRadiation { get; set; } = -200f;
-      public float RadiationStep { get; set; } = 100f;
+      public float RadiationStep { get; set; } = 90f;
       public float AnimationSpeed { get; set; } = 3f;
       public float RadiationDamageDelay { get; set; } = 10f;
       public float RadiationDamageAmount { get; set; } = 1f;

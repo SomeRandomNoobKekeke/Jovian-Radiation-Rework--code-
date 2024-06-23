@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Xml.Linq;
 
 using Barotrauma;
 using HarmonyLib;
@@ -24,7 +25,7 @@ namespace JovianRadiationRework
       if (!_.Enabled) { return false; }
       if (steps <= 0) { return false; }
 
-      float increaseAmount = _.Params.RadiationStep * steps;
+      float increaseAmount = Math.Max(0, _.Params.RadiationStep * steps - _.Amount * settings.modSettings.RadiationSlowDown);
 
       if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
       {
@@ -44,7 +45,7 @@ namespace JovianRadiationRework
 
         if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-        if (_.Map.CurrentLocation is { } currLocation)
+        if (settings.modSettings.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
         {
           // Don't advance on nearby locations to avoid buggy behavior
           if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
@@ -122,6 +123,14 @@ namespace JovianRadiationRework
       }
 
       return false;
+    }
+
+    public static void Radiation_Constructor_Postfix(Map map, RadiationParams radiationParams, XElement element, Radiation __instance)
+    {
+      if (element == null)
+      {
+        __instance.Amount = settings.vanilla.StartingRadiation;
+      }
     }
 
   }
