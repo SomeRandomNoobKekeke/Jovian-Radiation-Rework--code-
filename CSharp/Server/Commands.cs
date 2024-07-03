@@ -17,7 +17,9 @@ namespace JovianRadiationRework
     {
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_serv_step", "", (string[] args) =>
       {
-        GameMain.GameSession?.Map?.Radiation?.OnStep();
+        int steps = 1;
+        if (args.Length > 0) int.TryParse(args[0], out steps);
+        GameMain.GameSession?.Map?.Radiation?.OnStep(steps);
       }));
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_serv_set", "", (string[] args) =>

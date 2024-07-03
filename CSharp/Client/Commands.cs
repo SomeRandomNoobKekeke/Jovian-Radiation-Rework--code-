@@ -18,13 +18,17 @@ namespace JovianRadiationRework
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
       {
         log($"Current location irradiation: {CurrentLocationRadiationAmount()}");
+        log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}");
 
         settings.print();
       }));
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_step", "", (string[] args) =>
       {
-        GameMain.GameSession?.Map?.Radiation?.OnStep();
+        int steps = 1;
+        if (args.Length > 0) int.TryParse(args[0], out steps);
+
+        GameMain.GameSession?.Map?.Radiation?.OnStep(steps);
 
         if (GameMain.IsMultiplayer)
         {
