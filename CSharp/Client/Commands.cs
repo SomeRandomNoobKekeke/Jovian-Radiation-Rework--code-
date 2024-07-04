@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.IO;
 
 using Barotrauma;
 using HarmonyLib;
@@ -17,10 +18,9 @@ namespace JovianRadiationRework
     {
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
       {
-        log($"Current location irradiation: {CurrentLocationRadiationAmount()}");
-        log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}");
-
         settings.print();
+        log($"Current location irradiation: {CurrentLocationRadiationAmount()}", Color.Yellow);
+        log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}", Color.Yellow);
       }));
 
       DebugConsole.Commands.Add(new DebugConsole.Command("rad_step", "", (string[] args) =>
@@ -63,13 +63,38 @@ namespace JovianRadiationRework
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_load", "load settings", (string[] args) =>
+      DebugConsole.Commands.Add(new DebugConsole.Command("rad_load", "load settings, press tab to cycle through presets", (string[] args) =>
       {
-        settings = Settings.load();
+        string filename = "";
+        if (args.Length > 0) filename = args[0];
+
+        settings = Settings.load(filename);
         settings.apply();
         Settings.save(settings);
         log("Radiation settings loaded");
         if (GameMain.IsMultiplayer) Settings.sync(settings);
+      }, () =>
+      {
+        try
+        {
+          return new string[][] {
+            Directory.GetFiles(Path.Combine(SettingsFolder, PresetsFolder),"*.json")
+            .Concat(Directory.GetFiles(Path.Combine(meta.ModDir, PresetsFolder),"*.json"))
+            .Select(p=>Path.GetFileNameWithoutExtension(p)).ToArray()
+          };
+        }
+        catch (Exception e) { err(e); }
+
+        return new string[][] { };
+      }));
+
+      DebugConsole.Commands.Add(new DebugConsole.Command("rad_save", "save settings as", (string[] args) =>
+      {
+        string filename = "";
+        if (args.Length > 0) filename = args[0];
+
+        Settings.save(settings, filename);
+        log($"Radiation settings saved as {filename}");
       }));
 
 
@@ -126,6 +151,7 @@ namespace JovianRadiationRework
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_set"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_reset"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_load"));
+      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_save"));
       DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad"));
     }
 
@@ -136,6 +162,7 @@ namespace JovianRadiationRework
       if (command.Value == "rad_set" && HasPermissions) __result = true;
       if (command.Value == "rad_reset" && HasPermissions) __result = true;
       if (command.Value == "rad_load" && HasPermissions) __result = true;
+      if (command.Value == "rad_save") __result = true; // saved locally without syncing
       if (command.Value == "rad" && HasPermissions) __result = true;
 
       if (command.Value == "rad_serv_step" && HasPermissions) __result = true;

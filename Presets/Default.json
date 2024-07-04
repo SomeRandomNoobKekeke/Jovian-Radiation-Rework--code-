@@ -1,0 +1,30 @@
+{
+  "modSettings": {
+    "WaterRadiationBlockPerMeter": 0.6,
+    "RadiationDamage": 0.0275,
+    "RadiationSlowDown": 0.0075,
+    "TooMuchEvenForMonsters": 400,
+    "FractionOfRadiationBlockedInSub": 0.5,
+    "HuskRadiationResistance": 0.5,
+    "RadiationToAmbienceBrightness": 0.00075,
+    "MaxAmbienceBrightness": 0.4,
+    "AmbienceColor": "0,255,255",
+    "WorldProgressStepDuration": 10,
+    "WorldProgressMaxStepsPerRound": 5,
+    "UseVanillaRadiation": false,
+    "KeepSurroundingOutpostsAlive": true
+  },
+  "vanilla": {
+    "CriticalRadiationThreshold": 5,
+    "MinimumOutpostAmount": 3,
+    "StartingRadiation": -200,
+    "RadiationStep": 90,
+    "AnimationSpeed": 3,
+    "RadiationDamageDelay": 10,
+    "RadiationDamageAmount": 1,
+    "MaxRadiation": -1,
+    "BorderAnimationSpeed": 16.66,
+    "RadiationAreaColor": "0,16,32,160",
+    "RadiationBorderTint": "0,127,255,200"
+  }
+}

@@ -20,11 +20,14 @@ namespace JovianRadiationRework
     public static string ModSettingsFolder = "ModSettings\\";
     public static string SettingsFolder = "ModSettings\\Jovian Radiation Rework\\";
     public static string SettingsFileName = "Settings.json";
+    public static string PresetsFolder = "Presets";
+    public static string DefaultPreset = "Default.json";
 
     public static void createFolders()
     {
       if (!Directory.Exists(ModSettingsFolder)) Directory.CreateDirectory(ModSettingsFolder);
       if (!Directory.Exists(SettingsFolder)) Directory.CreateDirectory(SettingsFolder);
+      if (!Directory.Exists(Path.Combine(SettingsFolder, PresetsFolder))) Directory.CreateDirectory(Path.Combine(SettingsFolder, PresetsFolder));
     }
 
     public struct ModMetadata
@@ -62,37 +65,49 @@ namespace JovianRadiationRework
       public ModSettings modSettings { get; set; } = new ModSettings();
       public MyRadiationParams vanilla { get; set; } = new MyRadiationParams();
 
+      public string Author { get; set; } = "";
+      public string Description { get; set; } = "";
+
       public Settings() { }
 
-      public static Settings load(string path = "")
+      public static Settings load(string fileName = "")
       {
-        if (path == "") path = Path.Combine(SettingsFolder, SettingsFileName);
+        if (fileName == "") fileName = SettingsFileName;
+        else if (!fileName.EndsWith(".json")) fileName = $"{fileName}.json";
 
         Settings newSettings = new Settings();
 
-        if (File.Exists(path))
+        bool found = tryLoadPreset(Path.Combine(SettingsFolder, fileName));
+        if (!found) found = tryLoadPreset(Path.Combine(SettingsFolder, PresetsFolder, fileName));
+        if (!found) found = tryLoadPreset(Path.Combine(meta.ModDir, PresetsFolder, fileName));
+        if (!found) tryLoadPreset(Path.Combine(meta.ModDir, PresetsFolder, DefaultPreset));
+
+        bool tryLoadPreset(string file)
         {
-          try
-          {
-            newSettings = JsonSerializer.Deserialize<Settings>(
-              File.ReadAllText(path)
-            );
-          }
-          catch (Exception e) { err(e); }
+          if (!File.Exists(file)) return false;
+          try { newSettings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(file)); }
+          catch (Exception e) { log(e, Color.Orange); return false; }
+          return true;
         }
 
         return newSettings;
       }
 
-      public static void save(Settings s, string path = "")
+      public static void save(Settings s, string fileName = "")
       {
-        if (path == "") path = Path.Combine(SettingsFolder, SettingsFileName);
+        string path = "";
+        if (fileName == "") path = Path.Combine(SettingsFolder, SettingsFileName);
+        else
+        {
+          if (!fileName.EndsWith(".json")) fileName = $"{fileName}.json";
+          path = Path.Combine(SettingsFolder, PresetsFolder, fileName);
+        }
 
         try
         {
           File.WriteAllText(path, json(s, true));
         }
-        catch (Exception e) { err(e); }
+        catch (Exception e) { log(e, Color.Orange); }
       }
 
       public void apply()
@@ -114,6 +129,8 @@ namespace JovianRadiationRework
         {
           log($"{prop} = {prop.GetValue(vanilla)}");
         }
+        log($"Author: {Author}", Color.DeepPink);
+        log($"Description: {Description}");
       }
 
       // doesn't work >:(
