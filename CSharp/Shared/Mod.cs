@@ -101,6 +101,11 @@ namespace JovianRadiationRework
         }),
         postfix: new HarmonyMethod(typeof(Mod).GetMethod("init"))
       );
+
+      harmony.Patch(
+        original: typeof(CampaignMode).GetMethod("HandleSaveAndQuit", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("CampaignMode_HandleSaveAndQuit_Prefix"))
+      );
     }
   }
 }

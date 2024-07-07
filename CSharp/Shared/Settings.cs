@@ -83,16 +83,16 @@ namespace JovianRadiationRework
 
       public void moveObsoleteSettingsToNewPath()
       {
-        modSettings.Progress.WorldProgressMaxStepsPerRound = (float)modSettings.WorldProgressMaxStepsPerRound;
+        modSettings.Progress.WorldProgressMaxStepsPerRound = modSettings.WorldProgressMaxStepsPerRound ?? default(float);
         modSettings.WorldProgressMaxStepsPerRound = null;
 
-        modSettings.Progress.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
+        modSettings.Progress.WorldProgressStepDuration = modSettings.WorldProgressStepDuration ?? default(float);
         modSettings.WorldProgressStepDuration = null;
 
-        modSettings.Progress.KeepSurroundingOutpostsAlive = (bool)modSettings.KeepSurroundingOutpostsAlive;
+        modSettings.Progress.KeepSurroundingOutpostsAlive = modSettings.KeepSurroundingOutpostsAlive ?? default(bool);
         modSettings.KeepSurroundingOutpostsAlive = null;
 
-        modSettings.Progress.RadiationSlowDown = (float)modSettings.RadiationSlowDown;
+        modSettings.Progress.RadiationSlowDown = modSettings.RadiationSlowDown ?? default(float);
         modSettings.RadiationSlowDown = null;
       }
 
@@ -146,9 +146,11 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.MaxAmbienceBrightness);
         msg.WriteSingle(s.modSettings.Progress.WorldProgressStepDuration);
         msg.WriteSingle(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
+        msg.WriteSingle(s.modSettings.Progress.GracePeriod);
 
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
+        msg.WriteBoolean(s.modSettings.Progress.SmoothProgress);
         msg.WriteString(s.modSettings.AmbienceColor);
 
 
@@ -181,9 +183,11 @@ namespace JovianRadiationRework
         s.modSettings.MaxAmbienceBrightness = msg.ReadSingle();
         s.modSettings.Progress.WorldProgressStepDuration = msg.ReadSingle();
         s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadSingle();
+        s.modSettings.Progress.GracePeriod = msg.ReadSingle();
 
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
+        s.modSettings.Progress.SmoothProgress = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();
 
         // vanilla
