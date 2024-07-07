@@ -14,16 +14,21 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public static List<DebugConsole.Command> addedCommands = new List<DebugConsole.Command>();
+
     public static void addCommands()
     {
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
+      if (addedCommands == null) addedCommands = new List<DebugConsole.Command>();
+
+      addedCommands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
       {
         settings.print();
         log($"Current location irradiation: {CurrentLocationRadiationAmount()}", Color.Yellow);
         log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}", Color.Yellow);
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_step", "", (string[] args) =>
+
+      addedCommands.Add(new DebugConsole.Command("rad_step", "", (string[] args) =>
       {
         int steps = 1;
         if (args.Length > 0) int.TryParse(args[0], out steps);
@@ -36,7 +41,7 @@ namespace JovianRadiationRework
         }
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_set", "rad_set amount", (string[] args) =>
+      addedCommands.Add(new DebugConsole.Command("rad_set", "rad_set amount", (string[] args) =>
       {
         if (args.Length == 0)
         {
@@ -54,7 +59,7 @@ namespace JovianRadiationRework
         }
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_reset", "resets settings to default", (string[] args) =>
+      addedCommands.Add(new DebugConsole.Command("rad_reset", "resets settings to default", (string[] args) =>
       {
         settings = new Settings();
         settings.apply();
@@ -63,7 +68,7 @@ namespace JovianRadiationRework
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_load", "load settings, press tab to cycle through presets", (string[] args) =>
+      addedCommands.Add(new DebugConsole.Command("rad_load", "load settings, press tab to cycle through presets", (string[] args) =>
       {
         string filename = "";
         if (args.Length > 0) filename = args[0];
@@ -88,7 +93,7 @@ namespace JovianRadiationRework
         return new string[][] { };
       }));
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad_save", "save settings as", (string[] args) =>
+      addedCommands.Add(new DebugConsole.Command("rad_save", "save settings as", (string[] args) =>
       {
         string filename = "";
         if (args.Length > 0) filename = args[0];
@@ -98,7 +103,7 @@ namespace JovianRadiationRework
       }));
 
 
-      DebugConsole.Commands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
+      addedCommands.Add(new DebugConsole.Command("rad", "rad setting value", (string[] args) =>
       {
         if (args.Length == 0) { log("rad setting value"); return; }
 
@@ -142,17 +147,17 @@ namespace JovianRadiationRework
       }, () => new string[][] {
         typeof(MyRadiationParams).GetProperties().Select(p => p.Name).Concat(typeof(ModSettings).GetProperties().Select(p => p.Name)).OrderBy(s=>s).ToArray()
       }));
+
+
+      addedCommands.ForEach(c => DebugConsole.Commands.Add(c));
     }
 
     public static void removeCommands()
     {
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_info"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_step"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_set"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_reset"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_load"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad_save"));
-      DebugConsole.Commands.RemoveAll(c => c.Names.Contains("rad"));
+      addedCommands.ForEach((c => DebugConsole.Commands.RemoveAll(which => which.Names.Contains(c.Names[0]))));
+
+      addedCommands.Clear();
+      addedCommands = null;
     }
 
     public static void permitCommands(Identifier command, ref bool __result)

@@ -20,6 +20,7 @@ namespace JovianRadiationRework
     public static string ModSettingsFolder = "ModSettings\\";
     public static string SettingsFolder = "ModSettings\\Jovian Radiation Rework\\";
     public static string SettingsFileName = "Settings.json";
+    public static string NewSettingsFileName = "new Settings.json";
     public static string PresetsFolder = "Presets";
     public static string DefaultPreset = "Default.json";
 
@@ -28,36 +29,6 @@ namespace JovianRadiationRework
       if (!Directory.Exists(ModSettingsFolder)) Directory.CreateDirectory(ModSettingsFolder);
       if (!Directory.Exists(SettingsFolder)) Directory.CreateDirectory(SettingsFolder);
       if (!Directory.Exists(Path.Combine(SettingsFolder, PresetsFolder))) Directory.CreateDirectory(Path.Combine(SettingsFolder, PresetsFolder));
-    }
-
-    public struct ModMetadata
-    {
-      public string ModVersion { get; set; } = "1.0.0";
-      public string ModName { get; set; } = "Jovian Radiation Rework";
-      public string ModDir { get; set; } = "";
-
-      public ModMetadata() { }
-    }
-
-    //[NetworkSerialize]
-    public class ModSettings //: INetSerializableStruct
-    {
-      public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
-      public float RadiationDamage { get; set; } = 0.0275f;
-      public float RadiationSlowDown { get; set; } = 0.0075f;
-      public float TooMuchEvenForMonsters { get; set; } = 400;
-      public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
-      public float HuskRadiationResistance { get; set; } = 0.5f;
-      public float RadiationToAmbienceBrightness { get; set; } = 0.00075f;
-      public float MaxAmbienceBrightness { get; set; } = 0.4f;
-      public string AmbienceColor { get; set; } = "0,255,255";
-      [JsonIgnore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
-      public float WorldProgressStepDuration { get; set; } = 10.0f;
-      public int WorldProgressMaxStepsPerRound { get; set; } = 5;
-      public bool UseVanillaRadiation { get; set; } = false;
-      public bool KeepSurroundingOutpostsAlive { get; set; } = true;
-
-      public ModSettings() { }
     }
 
     public partial struct Settings
@@ -96,7 +67,7 @@ namespace JovianRadiationRework
       public static void save(Settings s, string fileName = "")
       {
         string path = "";
-        if (fileName == "") path = Path.Combine(SettingsFolder, SettingsFileName);
+        if (fileName == "") path = Path.Combine(SettingsFolder, NewSettingsFileName);
         else
         {
           if (!fileName.EndsWith(".json")) fileName = $"{fileName}.json";
@@ -110,8 +81,18 @@ namespace JovianRadiationRework
         catch (Exception e) { log(e, Color.Orange); }
       }
 
+      public void moveObsoleteSettingsToNewPath()
+      {
+        modSettings.Step.WorldProgressMaxStepsPerRound = (int)modSettings.WorldProgressMaxStepsPerRound;
+        modSettings.WorldProgressMaxStepsPerRound = null;
+
+        modSettings.Step.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
+        modSettings.WorldProgressStepDuration = null;
+      }
+
       public void apply()
       {
+        moveObsoleteSettingsToNewPath();
         vanilla.apply();
         modSettings.ActualColor = XMLExtensions.ParseColor(modSettings.AmbienceColor);
       }
@@ -157,9 +138,9 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.HuskRadiationResistance);
         msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
         msg.WriteSingle(s.modSettings.MaxAmbienceBrightness);
-        msg.WriteSingle(s.modSettings.WorldProgressStepDuration);
+        msg.WriteSingle(s.modSettings.Step.WorldProgressStepDuration);
 
-        msg.WriteInt32(s.modSettings.WorldProgressMaxStepsPerRound);
+        msg.WriteInt32(s.modSettings.Step.WorldProgressMaxStepsPerRound);
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.KeepSurroundingOutpostsAlive);
         msg.WriteString(s.modSettings.AmbienceColor);
@@ -192,9 +173,9 @@ namespace JovianRadiationRework
         s.modSettings.HuskRadiationResistance = msg.ReadSingle();
         s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
         s.modSettings.MaxAmbienceBrightness = msg.ReadSingle();
-        s.modSettings.WorldProgressStepDuration = msg.ReadSingle();
+        s.modSettings.Step.WorldProgressStepDuration = msg.ReadSingle();
 
-        s.modSettings.WorldProgressMaxStepsPerRound = msg.ReadInt32();
+        s.modSettings.Step.WorldProgressMaxStepsPerRound = msg.ReadInt32();
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();

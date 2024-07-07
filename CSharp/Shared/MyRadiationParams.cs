@@ -48,6 +48,11 @@ namespace JovianRadiationRework
           target.SetValue(GameMain.GameSession.Map.Radiation.Params, value);
         }
 
+        if (GameMain.GameSession?.Campaign.IsFirstRound == true)
+        {
+          GameMain.GameSession.Map.Radiation.Amount = StartingRadiation;
+        }
+
         info("settings applied");
       }
     }

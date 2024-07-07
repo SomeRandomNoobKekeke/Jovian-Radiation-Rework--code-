@@ -27,8 +27,8 @@ namespace JovianRadiationRework
       if (GameMain.IsSingleplayer)
       {
         settings = Settings.load();
-        Settings.save(settings);
         settings.apply();
+        Settings.save(settings);
       }
 
       if (GameMain.IsMultiplayer)
