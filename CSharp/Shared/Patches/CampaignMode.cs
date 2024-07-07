@@ -34,6 +34,8 @@ namespace JovianRadiationRework
         radSteps = (float)Math.Floor(radSteps);
       }
 
+      info($"save load Radiation?.OnStep({radSteps})");
+
       GameMain.GameSession.Map.Radiation?.OnStep(radSteps);
 
       return true;

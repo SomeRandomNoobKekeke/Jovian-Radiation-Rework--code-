@@ -34,16 +34,5 @@ namespace JovianRadiationRework
 
     }
 
-    public void OnLoadCompleted() { }
-    public void PreInitPatching() { }
-
-    public void Dispose()
-    {
-      harmony.UnpatchAll(harmony.Id);
-      harmony = null;
-      removeCommands();
-    }
   }
-
-
 }

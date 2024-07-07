@@ -107,5 +107,17 @@ namespace JovianRadiationRework
         prefix: new HarmonyMethod(typeof(Mod).GetMethod("CampaignMode_HandleSaveAndQuit_Prefix"))
       );
     }
+
+    public void OnLoadCompleted() { }
+    public void PreInitPatching() { }
+
+    public void Dispose()
+    {
+      harmony.UnpatchAll(harmony.Id);
+      harmony = null;
+
+      removeCommands();
+      Settings.allPropsBufferLol = null;
+    }
   }
 }

@@ -123,7 +123,14 @@ namespace JovianRadiationRework
         log("Mod Radiation Settings:", Color.DeepPink);
         foreach (PropertyInfo prop in typeof(ModSettings).GetProperties())
         {
+          if (prop.GetValue(modSettings) == null) continue;
+          if (prop.PropertyType == typeof(ProgressSettings)) continue;
           log($"{prop} = {prop.GetValue(modSettings)}");
+        }
+        log("Radiation progression settings:", Color.DeepPink);
+        foreach (PropertyInfo prop in typeof(ProgressSettings).GetProperties())
+        {
+          log($"{prop} = {prop.GetValue(modSettings.Progress)}");
         }
 
         log("Vanilla Radiation Settings:", Color.DeepPink);
@@ -133,6 +140,25 @@ namespace JovianRadiationRework
         }
         log($"Author: {Author}", Color.DeepPink);
         log($"Description: {Description}");
+      }
+
+      public static string[][] allPropsBufferLol;
+
+      public static string[][] getAllProps()
+      {
+        if (allPropsBufferLol == null)
+        {
+          info("allPropsBufferLol initialized");
+
+          allPropsBufferLol = new string[][] {
+            typeof(ModSettings).GetProperties().Where(p => !p.CustomAttributes.Any(a => a.AttributeType == typeof(JsonIgnoreAttribute))).Select(p => p.Name)
+            .Concat(typeof(ProgressSettings).GetProperties().Select(p => p.Name))
+            .Concat(typeof(MyRadiationParams).GetProperties().Select(p => p.Name))
+            .OrderBy(s=>s).ToArray()
+          };
+        }
+
+        return allPropsBufferLol;
       }
 
       // doesn't work >:(
