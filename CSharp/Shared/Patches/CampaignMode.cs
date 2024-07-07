@@ -15,7 +15,9 @@ namespace JovianRadiationRework
   {
     public static bool CampaignMode_HandleSaveAndQuit_Prefix(CampaignMode __instance)
     {
-      float roundDuration = GameMain.GameSession?.RoundDuration ?? 0.0f;
+      if (GameMain.GameSession == null) return true;
+
+      float roundDuration = GameMain.GameSession.RoundDuration;
 
       float radSteps = roundDuration / (60.0f * settings.modSettings.Progress.WorldProgressStepDuration);
 
@@ -28,7 +30,7 @@ namespace JovianRadiationRework
         radSteps = (float)Math.Floor(radSteps);
       }
 
-      _.Radiation?.OnStep(radSteps);
+      GameMain.GameSession.Map.Radiation?.OnStep(radSteps);
 
       return true;
     }

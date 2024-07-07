@@ -20,7 +20,7 @@ namespace JovianRadiationRework
     public static string ModSettingsFolder = "ModSettings\\";
     public static string SettingsFolder = "ModSettings\\Jovian Radiation Rework\\";
     public static string SettingsFileName = "Settings.json";
-    public static string NewSettingsFileName = "new Settings.json";
+    public static string NewSettingsFileName = "Settings.json";
     public static string PresetsFolder = "Presets";
     public static string DefaultPreset = "Default.json";
 
@@ -85,6 +85,9 @@ namespace JovianRadiationRework
       {
         if (modSettings.WorldProgressMaxStepsPerRound != null)
         {
+          log($"modSettings.Progress.WorldProgressMaxStepsPerRound : {modSettings.Progress.WorldProgressMaxStepsPerRound}");
+          log($"modSettings.WorldProgressMaxStepsPerRound : {modSettings.WorldProgressMaxStepsPerRound}");
+
           modSettings.Progress.WorldProgressMaxStepsPerRound = (float)modSettings.WorldProgressMaxStepsPerRound;
           modSettings.WorldProgressMaxStepsPerRound = null;
         }

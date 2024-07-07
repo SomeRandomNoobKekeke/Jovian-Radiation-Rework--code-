@@ -43,7 +43,7 @@ namespace JovianRadiationRework
       public float RadiationDamage { get; set; } = 0.0275f;
 
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-      public float? RadiationSlowDown { get; set; } = 0.0075f;
+      public float? RadiationSlowDown { get; set; }
       public float TooMuchEvenForMonsters { get; set; } = 400;
       public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
       public float HuskRadiationResistance { get; set; } = 0.5f;
@@ -53,13 +53,14 @@ namespace JovianRadiationRework
       [JsonIgnore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
 
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-      public float? WorldProgressStepDuration { get; set; } = 10.0f;
+      public float? WorldProgressStepDuration { get; set; }
+
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-      public float? WorldProgressMaxStepsPerRound { get; set; } = 5;
+      public float? WorldProgressMaxStepsPerRound { get; set; }
       public ProgressSettings Progress { get; set; } = new ProgressSettings();
       public bool UseVanillaRadiation { get; set; } = false;
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-      public bool? KeepSurroundingOutpostsAlive { get; set; } = true;
+      public bool? KeepSurroundingOutpostsAlive { get; set; }
 
       public ModSettings() { }
     }
