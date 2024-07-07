@@ -166,6 +166,7 @@ namespace JovianRadiationRework
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
         msg.WriteBoolean(s.modSettings.Progress.SmoothProgress);
+        msg.WriteBoolean(s.modSettings.Progress.ProgressOnSaveLoad);
         msg.WriteString(s.modSettings.AmbienceColor);
 
 
@@ -203,6 +204,7 @@ namespace JovianRadiationRework
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
         s.modSettings.Progress.SmoothProgress = msg.ReadBoolean();
+        s.modSettings.Progress.ProgressOnSaveLoad = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();
 
         // vanilla

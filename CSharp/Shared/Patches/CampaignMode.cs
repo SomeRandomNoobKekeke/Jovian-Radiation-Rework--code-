@@ -15,7 +15,9 @@ namespace JovianRadiationRework
   {
     public static bool CampaignMode_HandleSaveAndQuit_Prefix(CampaignMode __instance)
     {
+      if (!settings.modSettings.Progress.ProgressOnSaveLoad) return true;
       if (GameMain.GameSession == null) return true;
+
 
       float roundDuration = GameMain.GameSession.RoundDuration;
 

@@ -32,6 +32,7 @@ namespace JovianRadiationRework
       public float WorldProgressMaxStepsPerRound { get; set; } = 5;
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
       public bool SmoothProgress { get; set; } = true;
+      public bool ProgressOnSaveLoad { get; set; } = true;
       public float GracePeriod { get; set; } = 1.0f;
       public float RadiationSlowDown { get; set; } = 0.0075f;
     }
