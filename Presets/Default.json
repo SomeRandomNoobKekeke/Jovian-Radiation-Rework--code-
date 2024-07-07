@@ -2,23 +2,29 @@
   "modSettings": {
     "WaterRadiationBlockPerMeter": 0.6,
     "RadiationDamage": 0.0275,
-    "RadiationSlowDown": 0.0075,
     "TooMuchEvenForMonsters": 400,
     "FractionOfRadiationBlockedInSub": 0.5,
     "HuskRadiationResistance": 0.5,
     "RadiationToAmbienceBrightness": 0.00075,
     "MaxAmbienceBrightness": 0.4,
     "AmbienceColor": "0,255,255",
-    "WorldProgressStepDuration": 10,
-    "WorldProgressMaxStepsPerRound": 5,
-    "UseVanillaRadiation": false,
-    "KeepSurroundingOutpostsAlive": true
+    "Progress": {
+      "WorldProgressStepDuration": 1,
+      "WorldProgressMaxStepsPerRound": 60,
+      "KeepSurroundingOutpostsAlive": true,
+      "SmoothProgress": true,
+      "ProgressOnSaveLoad": true,
+      "GracePeriod": 1,
+      "OutpostTimeMultiplier": 0.5,
+      "RadiationSlowDown": 0.0075
+    },
+    "UseVanillaRadiation": false
   },
   "vanilla": {
-    "CriticalRadiationThreshold": 5,
+    "CriticalRadiationThreshold": 3,
     "MinimumOutpostAmount": 3,
-    "StartingRadiation": -200,
-    "RadiationStep": 90,
+    "StartingRadiation": 0,
+    "RadiationStep": 20,
     "AnimationSpeed": 3,
     "RadiationDamageDelay": 10,
     "RadiationDamageAmount": 1,
@@ -26,5 +32,7 @@
     "BorderAnimationSpeed": 16.66,
     "RadiationAreaColor": "0,16,32,160",
     "RadiationBorderTint": "0,127,255,200"
-  }
+  },
+  "Author": "",
+  "Description": "Designed for abyssal singleplayer\nRadiation is moving continuously\nTime on outposts goes 2 times slower\nYou can safely travel 1 step left if you have hazmat suits for all crew\nYou still can outrun radiation if you just move straight"
 }

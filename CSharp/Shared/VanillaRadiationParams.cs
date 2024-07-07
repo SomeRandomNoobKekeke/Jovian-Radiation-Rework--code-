@@ -15,12 +15,12 @@ namespace JovianRadiationRework
   public partial class Mod
   {
     //[NetworkSerialize]
-    public class MyRadiationParams //: INetSerializableStruct
+    public class VanillaRadiationParams //: INetSerializableStruct
     {
-      public int CriticalRadiationThreshold { get; set; } = 5;
+      public int CriticalRadiationThreshold { get; set; } = 3;
       public int MinimumOutpostAmount { get; set; } = 3;
-      public float StartingRadiation { get; set; } = -200f;
-      public float RadiationStep { get; set; } = 90f;
+      public float StartingRadiation { get; set; } = 0f;
+      public float RadiationStep { get; set; } = 20f;
       public float AnimationSpeed { get; set; } = 3f;
       public float RadiationDamageDelay { get; set; } = 10f;
       public float RadiationDamageAmount { get; set; } = 1f;
@@ -29,13 +29,13 @@ namespace JovianRadiationRework
       public string RadiationAreaColor { get; set; } = "0,16,32,160";
       public string RadiationBorderTint { get; set; } = "0,127,255,200";
 
-      public MyRadiationParams() { }
+      public VanillaRadiationParams() { }
 
       public void apply()
       {
         if (GameMain.GameSession?.Map?.Radiation?.Params == null) { err("can't apply"); return; }
 
-        foreach (PropertyInfo prop in typeof(MyRadiationParams).GetProperties())
+        foreach (PropertyInfo prop in typeof(VanillaRadiationParams).GetProperties())
         {
           PropertyInfo target = typeof(RadiationParams).GetProperty(prop.Name);
           Object value = prop.GetValue(settings.vanilla);

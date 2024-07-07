@@ -110,9 +110,9 @@ namespace JovianRadiationRework
         PropertyInfo prop = null;
         object target = null;
 
-        if (typeof(MyRadiationParams).GetProperty(args[0]) != null)
+        if (typeof(VanillaRadiationParams).GetProperty(args[0]) != null)
         {
-          prop = typeof(MyRadiationParams).GetProperty(args[0]);
+          prop = typeof(VanillaRadiationParams).GetProperty(args[0]);
           target = settings.vanilla;
         }
 

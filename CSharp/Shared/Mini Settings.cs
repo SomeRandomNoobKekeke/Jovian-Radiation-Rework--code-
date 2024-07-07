@@ -28,14 +28,16 @@ namespace JovianRadiationRework
 
     public class ProgressSettings
     {
-      public float WorldProgressStepDuration { get; set; } = 10.0f;
-      public float WorldProgressMaxStepsPerRound { get; set; } = 5;
+      public float WorldProgressStepDuration { get; set; } = 1.0f;
+      public float WorldProgressMaxStepsPerRound { get; set; } = 60.0f;
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
       public bool SmoothProgress { get; set; } = true;
       public bool ProgressOnSaveLoad { get; set; } = true;
-      public float GracePeriod { get; set; } = 2.0f;
+      public float GracePeriod { get; set; } = 1.0f;
       public float OutpostTimeMultiplier { get; set; } = 0.5f;
       public float RadiationSlowDown { get; set; } = 0.0075f;
+      //public float CriticalOutpostRadiationAmount { get; set; } = 400.0f;
+
     }
 
     //[NetworkSerialize]

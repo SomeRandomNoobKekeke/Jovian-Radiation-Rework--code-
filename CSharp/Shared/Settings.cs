@@ -34,7 +34,7 @@ namespace JovianRadiationRework
     public partial struct Settings
     {
       public ModSettings modSettings { get; set; } = new ModSettings();
-      public MyRadiationParams vanilla { get; set; } = new MyRadiationParams();
+      public VanillaRadiationParams vanilla { get; set; } = new VanillaRadiationParams();
 
       public string Author { get; set; } = "";
       public string Description { get; set; } = "";
@@ -134,12 +134,13 @@ namespace JovianRadiationRework
         }
 
         log("Vanilla Radiation Settings:", Color.DeepPink);
-        foreach (PropertyInfo prop in typeof(MyRadiationParams).GetProperties())
+        foreach (PropertyInfo prop in typeof(VanillaRadiationParams).GetProperties())
         {
           log($"{prop} = {prop.GetValue(vanilla)}");
         }
         log($"Author: {Author}", Color.DeepPink);
-        log($"Description: {Description}");
+        log($"Description:", Color.DeepPink);
+        log($"{Description}");
       }
 
       public static string[][] allPropsBufferLol;
@@ -153,7 +154,7 @@ namespace JovianRadiationRework
           allPropsBufferLol = new string[][] {
             typeof(ModSettings).GetProperties().Where(p => !p.CustomAttributes.Any(a => a.AttributeType == typeof(JsonIgnoreAttribute))).Select(p => p.Name)
             .Concat(typeof(ProgressSettings).GetProperties().Select(p => p.Name))
-            .Concat(typeof(MyRadiationParams).GetProperties().Select(p => p.Name))
+            .Concat(typeof(VanillaRadiationParams).GetProperties().Select(p => p.Name))
             .OrderBy(s=>s).ToArray()
           };
         }
@@ -171,7 +172,7 @@ namespace JovianRadiationRework
       // public static void decode(Settings s, IReadMessage msg)
       // {
       //   s.modSettings = INetSerializableStruct.Read<ModSettings>(msg);
-      //   s.vanilla = INetSerializableStruct.Read<MyRadiationParams>(msg);
+      //   s.vanilla = INetSerializableStruct.Read<VanillaRadiationParams>(msg);
       // }
 
       public static void encode(Settings s, IWriteMessage msg)
@@ -189,6 +190,7 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
         msg.WriteSingle(s.modSettings.Progress.GracePeriod);
         msg.WriteSingle(s.modSettings.Progress.OutpostTimeMultiplier);
+        //msg.WriteSingle(s.modSettings.Progress.CriticalOutpostRadiationAmount);
 
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
@@ -228,6 +230,7 @@ namespace JovianRadiationRework
         s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadSingle();
         s.modSettings.Progress.GracePeriod = msg.ReadSingle();
         s.modSettings.Progress.OutpostTimeMultiplier = msg.ReadSingle();
+        //s.modSettings.Progress.CriticalOutpostRadiationAmount = msg.ReadSingle();
 
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();

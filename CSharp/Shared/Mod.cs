@@ -24,7 +24,7 @@ namespace JovianRadiationRework
   {
     public static ModMetadata meta = new ModMetadata();
     public static Settings settings = new Settings();
-    public static bool debug = true;
+    public static bool debug = false;
 
     public Harmony harmony;
 
