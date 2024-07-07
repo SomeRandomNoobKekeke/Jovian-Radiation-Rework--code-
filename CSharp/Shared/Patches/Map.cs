@@ -21,15 +21,15 @@ namespace JovianRadiationRework
 
       Map _ = __instance;
 
-      //one step per WorldProgressStepDuration minutes of play time
-      int steps = (int)Math.Floor(roundDuration / (60.0f * settings.modSettings.Progress.WorldProgressStepDuration));
+      //one step per 10 minutes of play time
+      int steps = (int)Math.Floor(roundDuration / (60.0f * 10.0f));
       if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
           transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
       {
         //at least one step when progressing to the next location, regardless of how long the round took
         steps = Math.Max(1, steps);
       }
-      steps = Math.Min(steps, settings.modSettings.Progress.WorldProgressMaxStepsPerRound);
+      steps = Math.Min(steps, 5);
       for (int i = 0; i < steps; i++)
       {
         _.ProgressWorld(campaign);
@@ -45,7 +45,23 @@ namespace JovianRadiationRework
         }
       }
 
-      _.Radiation?.OnStep(steps);
+      float radSteps = roundDuration / (60.0f * settings.modSettings.Progress.WorldProgressStepDuration);
+
+      radSteps = Math.Max(0, Math.Min(radSteps, settings.modSettings.Progress.WorldProgressMaxStepsPerRound));
+
+      if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
+          transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+      {
+        if (radSteps < settings.modSettings.Progress.GracePeriod)
+          radSteps = 0;
+      }
+
+      if (!settings.modSettings.Progress.SmoothProgress)
+      {
+        radSteps = (float)Math.Floor(radSteps);
+      }
+
+      _.Radiation?.OnStep(radSteps);
 
       return false;
     }

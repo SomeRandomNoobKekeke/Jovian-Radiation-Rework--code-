@@ -29,8 +29,10 @@ namespace JovianRadiationRework
     public class ProgressSettings
     {
       public float WorldProgressStepDuration { get; set; } = 10.0f;
-      public int WorldProgressMaxStepsPerRound { get; set; } = 5;
+      public float WorldProgressMaxStepsPerRound { get; set; } = 5;
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
+      public bool SmoothProgress { get; set; } = true;
+      public float GracePeriod { get; set; } = 1.0f;
       public float RadiationSlowDown { get; set; } = 0.0075f;
     }
 
@@ -53,7 +55,7 @@ namespace JovianRadiationRework
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
       public float? WorldProgressStepDuration { get; set; } = 10.0f;
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-      public int? WorldProgressMaxStepsPerRound { get; set; } = 5;
+      public float? WorldProgressMaxStepsPerRound { get; set; } = 5;
       public ProgressSettings Progress { get; set; } = new ProgressSettings();
       public bool UseVanillaRadiation { get; set; } = false;
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

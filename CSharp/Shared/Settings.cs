@@ -83,7 +83,7 @@ namespace JovianRadiationRework
 
       public void moveObsoleteSettingsToNewPath()
       {
-        modSettings.Progress.WorldProgressMaxStepsPerRound = (int)modSettings.WorldProgressMaxStepsPerRound;
+        modSettings.Progress.WorldProgressMaxStepsPerRound = (float)modSettings.WorldProgressMaxStepsPerRound;
         modSettings.WorldProgressMaxStepsPerRound = null;
 
         modSettings.Progress.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
@@ -145,8 +145,8 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
         msg.WriteSingle(s.modSettings.MaxAmbienceBrightness);
         msg.WriteSingle(s.modSettings.Progress.WorldProgressStepDuration);
+        msg.WriteSingle(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
 
-        msg.WriteInt32(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
         msg.WriteString(s.modSettings.AmbienceColor);
@@ -180,8 +180,8 @@ namespace JovianRadiationRework
         s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
         s.modSettings.MaxAmbienceBrightness = msg.ReadSingle();
         s.modSettings.Progress.WorldProgressStepDuration = msg.ReadSingle();
+        s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadSingle();
 
-        s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadInt32();
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();
