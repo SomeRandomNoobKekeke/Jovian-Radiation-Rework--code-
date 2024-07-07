@@ -83,17 +83,29 @@ namespace JovianRadiationRework
 
       public void moveObsoleteSettingsToNewPath()
       {
-        modSettings.Progress.WorldProgressMaxStepsPerRound = modSettings.WorldProgressMaxStepsPerRound ?? default(float);
-        modSettings.WorldProgressMaxStepsPerRound = null;
+        if (modSettings.WorldProgressMaxStepsPerRound != null)
+        {
+          modSettings.Progress.WorldProgressMaxStepsPerRound = (float)modSettings.WorldProgressMaxStepsPerRound;
+          modSettings.WorldProgressMaxStepsPerRound = null;
+        }
 
-        modSettings.Progress.WorldProgressStepDuration = modSettings.WorldProgressStepDuration ?? default(float);
-        modSettings.WorldProgressStepDuration = null;
+        if (modSettings.WorldProgressStepDuration != null)
+        {
+          modSettings.Progress.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
+          modSettings.WorldProgressStepDuration = null;
+        }
 
-        modSettings.Progress.KeepSurroundingOutpostsAlive = modSettings.KeepSurroundingOutpostsAlive ?? default(bool);
-        modSettings.KeepSurroundingOutpostsAlive = null;
+        if (modSettings.RadiationSlowDown != null)
+        {
+          modSettings.Progress.RadiationSlowDown = (float)modSettings.RadiationSlowDown;
+          modSettings.RadiationSlowDown = null;
+        }
 
-        modSettings.Progress.RadiationSlowDown = modSettings.RadiationSlowDown ?? default(float);
-        modSettings.RadiationSlowDown = null;
+        if (modSettings.KeepSurroundingOutpostsAlive != null)
+        {
+          modSettings.Progress.KeepSurroundingOutpostsAlive = (bool)modSettings.KeepSurroundingOutpostsAlive;
+          modSettings.KeepSurroundingOutpostsAlive = null;
+        }
       }
 
       public void apply()

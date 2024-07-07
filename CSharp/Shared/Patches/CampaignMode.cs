@@ -13,7 +13,7 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public static bool CampaignMode_HandleSaveAndQuit_Prefix()
+    public static bool CampaignMode_HandleSaveAndQuit_Prefix(CampaignMode __instance)
     {
       log("lol you quited!");
       return true;
