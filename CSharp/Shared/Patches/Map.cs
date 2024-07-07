@@ -22,14 +22,14 @@ namespace JovianRadiationRework
       Map _ = __instance;
 
       //one step per WorldProgressStepDuration minutes of play time
-      int steps = (int)Math.Floor(roundDuration / (60.0f * settings.modSettings.Step.WorldProgressStepDuration));
+      int steps = (int)Math.Floor(roundDuration / (60.0f * settings.modSettings.Progress.WorldProgressStepDuration));
       if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
           transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
       {
         //at least one step when progressing to the next location, regardless of how long the round took
         steps = Math.Max(1, steps);
       }
-      steps = Math.Min(steps, settings.modSettings.Step.WorldProgressMaxStepsPerRound);
+      steps = Math.Min(steps, settings.modSettings.Progress.WorldProgressMaxStepsPerRound);
       for (int i = 0; i < steps; i++)
       {
         _.ProgressWorld(campaign);

@@ -26,10 +26,12 @@ namespace JovianRadiationRework
       public ModMetadata() { }
     }
 
-    public class StepSettings
+    public class ProgressSettings
     {
       public float WorldProgressStepDuration { get; set; } = 10.0f;
       public int WorldProgressMaxStepsPerRound { get; set; } = 5;
+      public bool KeepSurroundingOutpostsAlive { get; set; } = true;
+      public float RadiationSlowDown { get; set; } = 0.0075f;
     }
 
     //[NetworkSerialize]
@@ -37,7 +39,9 @@ namespace JovianRadiationRework
     {
       public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
       public float RadiationDamage { get; set; } = 0.0275f;
-      public float RadiationSlowDown { get; set; } = 0.0075f;
+
+      [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+      public float? RadiationSlowDown { get; set; } = 0.0075f;
       public float TooMuchEvenForMonsters { get; set; } = 400;
       public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
       public float HuskRadiationResistance { get; set; } = 0.5f;
@@ -45,13 +49,15 @@ namespace JovianRadiationRework
       public float MaxAmbienceBrightness { get; set; } = 0.4f;
       public string AmbienceColor { get; set; } = "0,255,255";
       [JsonIgnore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
+
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
       public float? WorldProgressStepDuration { get; set; } = 10.0f;
       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
       public int? WorldProgressMaxStepsPerRound { get; set; } = 5;
-      public StepSettings Step { get; set; } = new StepSettings();
+      public ProgressSettings Progress { get; set; } = new ProgressSettings();
       public bool UseVanillaRadiation { get; set; } = false;
-      public bool KeepSurroundingOutpostsAlive { get; set; } = true;
+      [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+      public bool? KeepSurroundingOutpostsAlive { get; set; } = true;
 
       public ModSettings() { }
     }

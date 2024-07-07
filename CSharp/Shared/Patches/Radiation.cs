@@ -25,7 +25,7 @@ namespace JovianRadiationRework
       if (!_.Enabled) { return false; }
       if (steps <= 0) { return false; }
 
-      float increaseAmount = Math.Max(0, (_.Params.RadiationStep - _.Amount * settings.modSettings.RadiationSlowDown) * steps);
+      float increaseAmount = Math.Max(0, (_.Params.RadiationStep - _.Amount * settings.modSettings.Progress.RadiationSlowDown) * steps);
 
       if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
       {
@@ -45,7 +45,7 @@ namespace JovianRadiationRework
 
         if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-        if (settings.modSettings.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
+        if (settings.modSettings.Progress.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
         {
           // Don't advance on nearby locations to avoid buggy behavior
           if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }

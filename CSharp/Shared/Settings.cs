@@ -83,11 +83,17 @@ namespace JovianRadiationRework
 
       public void moveObsoleteSettingsToNewPath()
       {
-        modSettings.Step.WorldProgressMaxStepsPerRound = (int)modSettings.WorldProgressMaxStepsPerRound;
+        modSettings.Progress.WorldProgressMaxStepsPerRound = (int)modSettings.WorldProgressMaxStepsPerRound;
         modSettings.WorldProgressMaxStepsPerRound = null;
 
-        modSettings.Step.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
+        modSettings.Progress.WorldProgressStepDuration = (float)modSettings.WorldProgressStepDuration;
         modSettings.WorldProgressStepDuration = null;
+
+        modSettings.Progress.KeepSurroundingOutpostsAlive = (bool)modSettings.KeepSurroundingOutpostsAlive;
+        modSettings.KeepSurroundingOutpostsAlive = null;
+
+        modSettings.Progress.RadiationSlowDown = (float)modSettings.RadiationSlowDown;
+        modSettings.RadiationSlowDown = null;
       }
 
       public void apply()
@@ -132,17 +138,17 @@ namespace JovianRadiationRework
         // mod settings 
         msg.WriteSingle(s.modSettings.WaterRadiationBlockPerMeter);
         msg.WriteSingle(s.modSettings.RadiationDamage);
-        msg.WriteSingle(s.modSettings.RadiationSlowDown);
+        msg.WriteSingle(s.modSettings.Progress.RadiationSlowDown);
         msg.WriteSingle(s.modSettings.TooMuchEvenForMonsters);
         msg.WriteSingle(s.modSettings.FractionOfRadiationBlockedInSub);
         msg.WriteSingle(s.modSettings.HuskRadiationResistance);
         msg.WriteSingle(s.modSettings.RadiationToAmbienceBrightness);
         msg.WriteSingle(s.modSettings.MaxAmbienceBrightness);
-        msg.WriteSingle(s.modSettings.Step.WorldProgressStepDuration);
+        msg.WriteSingle(s.modSettings.Progress.WorldProgressStepDuration);
 
-        msg.WriteInt32(s.modSettings.Step.WorldProgressMaxStepsPerRound);
+        msg.WriteInt32(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
-        msg.WriteBoolean(s.modSettings.KeepSurroundingOutpostsAlive);
+        msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
         msg.WriteString(s.modSettings.AmbienceColor);
 
 
@@ -167,17 +173,17 @@ namespace JovianRadiationRework
         // mod settings 
         s.modSettings.WaterRadiationBlockPerMeter = msg.ReadSingle();
         s.modSettings.RadiationDamage = msg.ReadSingle();
-        s.modSettings.RadiationSlowDown = msg.ReadSingle();
+        s.modSettings.Progress.RadiationSlowDown = msg.ReadSingle();
         s.modSettings.TooMuchEvenForMonsters = msg.ReadSingle();
         s.modSettings.FractionOfRadiationBlockedInSub = msg.ReadSingle();
         s.modSettings.HuskRadiationResistance = msg.ReadSingle();
         s.modSettings.RadiationToAmbienceBrightness = msg.ReadSingle();
         s.modSettings.MaxAmbienceBrightness = msg.ReadSingle();
-        s.modSettings.Step.WorldProgressStepDuration = msg.ReadSingle();
+        s.modSettings.Progress.WorldProgressStepDuration = msg.ReadSingle();
 
-        s.modSettings.Step.WorldProgressMaxStepsPerRound = msg.ReadInt32();
+        s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadInt32();
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
-        s.modSettings.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
+        s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
         s.modSettings.AmbienceColor = msg.ReadString();
 
         // vanilla
