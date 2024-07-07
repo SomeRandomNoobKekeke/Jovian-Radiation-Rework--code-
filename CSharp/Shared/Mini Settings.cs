@@ -33,7 +33,8 @@ namespace JovianRadiationRework
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
       public bool SmoothProgress { get; set; } = true;
       public bool ProgressOnSaveLoad { get; set; } = true;
-      public float GracePeriod { get; set; } = 1.0f;
+      public float GracePeriod { get; set; } = 2.0f;
+      public float OutpostTimeMultiplier { get; set; } = 0.5f;
       public float RadiationSlowDown { get; set; } = 0.0075f;
     }
 

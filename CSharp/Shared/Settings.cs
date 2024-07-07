@@ -162,6 +162,7 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.Progress.WorldProgressStepDuration);
         msg.WriteSingle(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
         msg.WriteSingle(s.modSettings.Progress.GracePeriod);
+        msg.WriteSingle(s.modSettings.Progress.OutpostTimeMultiplier);
 
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
@@ -200,6 +201,7 @@ namespace JovianRadiationRework
         s.modSettings.Progress.WorldProgressStepDuration = msg.ReadSingle();
         s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadSingle();
         s.modSettings.Progress.GracePeriod = msg.ReadSingle();
+        s.modSettings.Progress.OutpostTimeMultiplier = msg.ReadSingle();
 
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();

@@ -49,17 +49,24 @@ namespace JovianRadiationRework
 
       radSteps = Math.Max(0, Math.Min(radSteps, settings.modSettings.Progress.WorldProgressMaxStepsPerRound));
 
-      if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
-          transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+      if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
+          transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
       {
         if (radSteps < settings.modSettings.Progress.GracePeriod)
           radSteps = 0;
+      }
+
+      if (transitionType == CampaignMode.TransitionType.LeaveLocation)
+      {
+        radSteps *= settings.modSettings.Progress.OutpostTimeMultiplier;
       }
 
       if (!settings.modSettings.Progress.SmoothProgress)
       {
         radSteps = (float)Math.Floor(radSteps);
       }
+
+      info($"Radiation?.OnStep({radSteps})");
 
       _.Radiation?.OnStep(radSteps);
 

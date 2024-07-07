@@ -27,6 +27,8 @@ namespace JovianRadiationRework
 
       if (radSteps < settings.modSettings.Progress.GracePeriod) radSteps = 0;
 
+      radSteps *= settings.modSettings.Progress.OutpostTimeMultiplier;
+
       if (!settings.modSettings.Progress.SmoothProgress)
       {
         radSteps = (float)Math.Floor(radSteps);
