@@ -33,7 +33,7 @@ namespace JovianRadiationRework
         float steps = 1;
         if (args.Length > 0) float.TryParse(args[0], out steps);
 
-        GameMain.GameSession?.Map?.Radiation?.OnStep(steps);
+        GameMain.GameSession?.Map?.Radiation?.OnStep(steps * settings.modSettings.Progress.WorldProgressStepDuration);
 
         if (GameMain.IsMultiplayer)
         {
@@ -61,10 +61,10 @@ namespace JovianRadiationRework
 
       addedCommands.Add(new DebugConsole.Command("rad_reset", "resets settings to default", (string[] args) =>
       {
-        settings = new Settings();
+        settings = Settings.load();
         settings.apply();
         Settings.save(settings);
-        log("Radiation settings reset");
+        log("Radiation settings reset to default");
         if (GameMain.IsMultiplayer) Settings.sync(settings);
       }));
 

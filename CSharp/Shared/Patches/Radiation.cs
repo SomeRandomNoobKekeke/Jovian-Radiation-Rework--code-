@@ -25,13 +25,26 @@ namespace JovianRadiationRework
       if (!_.Enabled) { return false; }
       if (steps <= 0) { return false; }
 
-      float increaseAmount = Math.Max(0, (_.Params.RadiationStep - _.Amount * settings.modSettings.Progress.RadiationSlowDown) * steps);
+
+      float percentageCovered = _.Amount / _.Map.Width;
+      float speedMult = 1 - (1 - settings.modSettings.Progress.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered;
+
+
+      info($"map.width {_.Map.Width} Amount {_.Amount} speedMult {speedMult}");
+
+      // deprecated, set it to 0
+      float slowDown = _.Amount * settings.modSettings.Progress.RadiationSlowDown;
+      info($"Amount: {_.Amount}, slowDown:{slowDown}");
+
+      float increaseAmount = Math.Max(0, (_.Params.RadiationStep * speedMult - slowDown) * steps);
 
       if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
       {
         increaseAmount = _.Params.MaxRadiation - _.Amount;
       }
 
+
+      info($"Radiation.Amount += {increaseAmount}");
       _.IncreaseRadiation(increaseAmount);
 
       int amountOfOutposts = _.Map.Locations.Count(location => location.Type.HasOutpost && !location.IsCriticallyRadiated());

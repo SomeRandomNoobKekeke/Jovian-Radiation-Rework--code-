@@ -85,9 +85,6 @@ namespace JovianRadiationRework
       {
         if (modSettings.WorldProgressMaxStepsPerRound != null)
         {
-          log($"modSettings.Progress.WorldProgressMaxStepsPerRound : {modSettings.Progress.WorldProgressMaxStepsPerRound}");
-          log($"modSettings.WorldProgressMaxStepsPerRound : {modSettings.WorldProgressMaxStepsPerRound}");
-
           modSettings.Progress.WorldProgressMaxStepsPerRound = (float)modSettings.WorldProgressMaxStepsPerRound;
           modSettings.WorldProgressMaxStepsPerRound = null;
         }
@@ -190,6 +187,8 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.Progress.WorldProgressMaxStepsPerRound);
         msg.WriteSingle(s.modSettings.Progress.GracePeriod);
         msg.WriteSingle(s.modSettings.Progress.OutpostTimeMultiplier);
+        msg.WriteSingle(s.modSettings.Progress.TargetSpeedPercentageAtTheEndOfTheMap);
+
         //msg.WriteSingle(s.modSettings.Progress.CriticalOutpostRadiationAmount);
 
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
@@ -230,6 +229,7 @@ namespace JovianRadiationRework
         s.modSettings.Progress.WorldProgressMaxStepsPerRound = msg.ReadSingle();
         s.modSettings.Progress.GracePeriod = msg.ReadSingle();
         s.modSettings.Progress.OutpostTimeMultiplier = msg.ReadSingle();
+        s.modSettings.Progress.TargetSpeedPercentageAtTheEndOfTheMap = msg.ReadSingle();
         //s.modSettings.Progress.CriticalOutpostRadiationAmount = msg.ReadSingle();
 
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
