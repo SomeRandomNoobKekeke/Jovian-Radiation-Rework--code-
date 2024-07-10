@@ -106,6 +106,11 @@ namespace JovianRadiationRework
         original: typeof(CampaignMode).GetMethod("HandleSaveAndQuit", AccessTools.all),
         prefix: new HarmonyMethod(typeof(Mod).GetMethod("CampaignMode_HandleSaveAndQuit_Prefix"))
       );
+
+      harmony.Patch(
+        original: typeof(Location).GetMethod("IsCriticallyRadiated", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(Mod).GetMethod("Location_IsCriticallyRadiated_Replace"))
+      );
     }
 
     public void OnLoadCompleted() { }

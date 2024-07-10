@@ -93,6 +93,14 @@ namespace JovianRadiationRework
         return new string[][] { };
       }));
 
+      addedCommands.Add(new DebugConsole.Command("rad_debug", "toggles debug", (string[] args) =>
+      {
+        debug = !debug;
+        settings.debug = debug;
+        Settings.save(settings);
+        log($"debug = {debug}");
+      }));
+
       addedCommands.Add(new DebugConsole.Command("rad_save", "save settings as", (string[] args) =>
       {
         string filename = "";
@@ -167,6 +175,7 @@ namespace JovianRadiationRework
     public static void permitCommands(Identifier command, ref bool __result)
     {
       if (command.Value == "rad_info") __result = true;
+      if (command.Value == "rad_debug") __result = true;
       if (command.Value == "rad_step" && HasPermissions) __result = true;
       if (command.Value == "rad_set" && HasPermissions) __result = true;
       if (command.Value == "rad_reset" && HasPermissions) __result = true;

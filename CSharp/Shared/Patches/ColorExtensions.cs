@@ -14,7 +14,7 @@ namespace JovianRadiationRework
   public partial class Mod : IAssemblyPlugin
   {
     // baboon patch to fix this https://github.com/FakeFishGames/Barotrauma/discussions/14150
-    public static bool ColorExtensions_Multiply_Prefix(Color color, ref float value, bool onlyAlpha, Color __result)
+    public static bool ColorExtensions_Multiply_Prefix(Color color, ref float value, bool onlyAlpha)
     {
       value = Math.Max(0, value);
       return true;

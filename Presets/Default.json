@@ -2,7 +2,7 @@
   "modSettings": {
     "WaterRadiationBlockPerMeter": 0.6,
     "RadiationDamage": 0.0275,
-    "TooMuchEvenForMonsters": 400,
+    "TooMuchEvenForMonsters": 600,
     "FractionOfRadiationBlockedInSub": 0.5,
     "HuskRadiationResistance": 0.5,
     "RadiationToAmbienceBrightness": 0.00075,
@@ -17,16 +17,17 @@
       "GracePeriod": 1,
       "OutpostTimeMultiplier": 0.5,
       "RadiationSlowDown": 0,
-      "TargetSpeedPercentageAtTheEndOfTheMap": 0.5
+      "TargetSpeedPercentageAtTheEndOfTheMap": 0.5,
+      "CriticalOutpostRadiationAmount": 600
     },
     "UseVanillaRadiation": false
   },
   "vanilla": {
-    "CriticalRadiationThreshold": 4,
+    "CriticalRadiationThreshold": -1,
     "MinimumOutpostAmount": 3,
-    "StartingRadiation": 0,
+    "StartingRadiation": -60,
     "RadiationStep": 20,
-    "AnimationSpeed": 3,
+    "AnimationSpeed": 2,
     "RadiationDamageDelay": 10,
     "RadiationDamageAmount": 1,
     "MaxRadiation": -1,

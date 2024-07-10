@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -27,8 +28,26 @@ namespace JovianRadiationRework
 #endif
       LuaCsLogger.LogMessage($"{line}{msg ?? "null"}", cl, cl);
     }
-    public static void info(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Cyan, $"{lineNumber}| "); }
-    public static void err(object msg, [CallerLineNumber] int lineNumber = 0) { if (debug) log(msg, Color.Orange, $"{lineNumber}| "); }
+    public static void info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
+    {
+      if (debug)
+      {
+        var fi = new FileInfo(source);
+
+        log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Cyan * 0.5f);
+        log(msg, Color.Cyan);
+      }
+    }
+    public static void err(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
+    {
+      if (debug)
+      {
+        var fi = new FileInfo(source);
+
+        log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Orange * 0.5f);
+        log(msg, Color.Orange);
+      }
+    }
 
     public static string json(Object o, bool indent = false)
     {

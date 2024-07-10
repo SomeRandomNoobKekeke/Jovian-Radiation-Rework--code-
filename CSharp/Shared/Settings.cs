@@ -36,6 +36,8 @@ namespace JovianRadiationRework
       public ModSettings modSettings { get; set; } = new ModSettings();
       public VanillaRadiationParams vanilla { get; set; } = new VanillaRadiationParams();
 
+      [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+      public bool debug { get; set; } = false;
       public string Author { get; set; } = "";
       public string Description { get; set; } = "";
 
@@ -110,6 +112,7 @@ namespace JovianRadiationRework
 
       public void apply()
       {
+        Mod.debug = this.debug;
         moveObsoleteSettingsToNewPath();
         vanilla.apply();
         modSettings.ActualColor = XMLExtensions.ParseColor(modSettings.AmbienceColor);
@@ -188,8 +191,7 @@ namespace JovianRadiationRework
         msg.WriteSingle(s.modSettings.Progress.GracePeriod);
         msg.WriteSingle(s.modSettings.Progress.OutpostTimeMultiplier);
         msg.WriteSingle(s.modSettings.Progress.TargetSpeedPercentageAtTheEndOfTheMap);
-
-        //msg.WriteSingle(s.modSettings.Progress.CriticalOutpostRadiationAmount);
+        msg.WriteSingle(s.modSettings.Progress.CriticalOutpostRadiationAmount);
 
         msg.WriteBoolean(s.modSettings.UseVanillaRadiation);
         msg.WriteBoolean(s.modSettings.Progress.KeepSurroundingOutpostsAlive);
@@ -230,7 +232,7 @@ namespace JovianRadiationRework
         s.modSettings.Progress.GracePeriod = msg.ReadSingle();
         s.modSettings.Progress.OutpostTimeMultiplier = msg.ReadSingle();
         s.modSettings.Progress.TargetSpeedPercentageAtTheEndOfTheMap = msg.ReadSingle();
-        //s.modSettings.Progress.CriticalOutpostRadiationAmount = msg.ReadSingle();
+        s.modSettings.Progress.CriticalOutpostRadiationAmount = msg.ReadSingle();
 
         s.modSettings.UseVanillaRadiation = msg.ReadBoolean();
         s.modSettings.Progress.KeepSurroundingOutpostsAlive = msg.ReadBoolean();
