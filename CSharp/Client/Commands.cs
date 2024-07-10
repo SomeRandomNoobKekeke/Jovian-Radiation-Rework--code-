@@ -61,7 +61,7 @@ namespace JovianRadiationRework
 
       addedCommands.Add(new DebugConsole.Command("rad_reset", "resets settings to default", (string[] args) =>
       {
-        settings = Settings.load();
+        settings = Settings.load(DefaultPreset);
         settings.apply();
         Settings.save(settings);
         log("Radiation settings reset to default");

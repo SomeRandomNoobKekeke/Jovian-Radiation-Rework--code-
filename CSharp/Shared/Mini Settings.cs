@@ -36,7 +36,7 @@ namespace JovianRadiationRework
       public float GracePeriod { get; set; } = 1.0f;
       public float OutpostTimeMultiplier { get; set; } = 0.5f;
       public float RadiationSlowDown { get; set; } = 0.0f; // deprecated
-      public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 0.0f;
+      public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 1.0f;
       //public float CriticalOutpostRadiationAmount { get; set; } = 400.0f;
 
     }
