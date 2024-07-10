@@ -20,9 +20,12 @@ namespace JovianRadiationRework
     {
       if (settings.modSettings.UseVanillaRadiation) return;
 
-      float time = (float)(Timing.TotalTime / 100.0f);
+      float time = (float)(Timing.TotalTime / 50.0f);
 
-      float rad = Math.Clamp(CameraIrradiation(cam) * settings.modSettings.RadiationToAmbienceBrightness - PerlinNoise.GetPerlin(time, time * 0.5f) * 0.3f, 0, settings.modSettings.MaxAmbienceBrightness);
+      float brightness = Math.Clamp(CameraIrradiation(cam) * settings.modSettings.RadiationToAmbienceBrightness, 0, settings.modSettings.MaxAmbienceBrightness);
+
+      float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * settings.modSettings.MaxAmbienceBrightness;
+
       GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(settings.modSettings.ActualColor.Multiply(rad));
     }
   }

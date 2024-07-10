@@ -6,8 +6,8 @@
     "FractionOfRadiationBlockedInSub": 0.5,
     "HuskRadiationResistance": 0.5,
     "RadiationToAmbienceBrightness": 0.00075,
-    "MaxAmbienceBrightness": 0.4,
-    "AmbienceColor": "0,255,255",
+    "MaxAmbienceBrightness": 1,
+    "AmbienceColor": "0,127,255",
     "Progress": {
       "WorldProgressStepDuration": 1,
       "WorldProgressMaxStepsPerRound": 60,
