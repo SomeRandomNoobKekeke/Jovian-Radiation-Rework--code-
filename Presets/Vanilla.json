@@ -20,21 +20,21 @@
       "TargetSpeedPercentageAtTheEndOfTheMap": 0.5,
       "CriticalOutpostRadiationAmount": 600
     },
-    "UseVanillaRadiation": false
+    "UseVanillaRadiation": true
   },
   "vanilla": {
-    "CriticalRadiationThreshold": 1000,
+    "CriticalRadiationThreshold": 10,
     "MinimumOutpostAmount": 3,
-    "StartingRadiation": -60,
-    "RadiationStep": 20,
-    "AnimationSpeed": 2,
+    "StartingRadiation": -100,
+    "RadiationStep": 100,
+    "AnimationSpeed": 3,
     "RadiationDamageDelay": 10,
     "RadiationDamageAmount": 1,
     "MaxRadiation": -1,
     "BorderAnimationSpeed": 16.66,
-    "RadiationAreaColor": "0,16,32,160",
-    "RadiationBorderTint": "0,127,255,200"
+    "RadiationAreaColor": "139,0,0,85",
+    "RadiationBorderTint": "255,0,0,255"
   },
   "Author": "Noob",
-  "Description": "Designed for abyssal singleplayer\nRadiation is moving continuously\nTime on outposts goes 2 times slower\nYou can safely travel 1 step left if you have hazmat suits for all crew\nYou still can outrun radiation if you just move straight"
+  "Description": "Full vanilla radiation, this preset is used to clean up vanilla radiation settings"
 }

@@ -23,7 +23,7 @@
     "UseVanillaRadiation": false
   },
   "vanilla": {
-    "CriticalRadiationThreshold": -1,
+    "CriticalRadiationThreshold": 1000,
     "MinimumOutpostAmount": 3,
     "StartingRadiation": -60,
     "RadiationStep": 25,
@@ -36,5 +36,5 @@
     "RadiationBorderTint": "0,127,255,200"
   },
   "Author": "Noob",
-  "Description": "Designed for abyssal singleplayer\nhard, you need a build, but should be doable on any seed even if you are super unlucky"
+  "Description": "Designed for vanilla singleplayer on abyssal with sellable submarines\nAlmost impossible actually, xd"
 }

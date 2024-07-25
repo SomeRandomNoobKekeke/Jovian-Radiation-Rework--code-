@@ -121,6 +121,9 @@ namespace JovianRadiationRework
       harmony.UnpatchAll(harmony.Id);
       harmony = null;
 
+      settings = Settings.load(VanillaPreset);
+      settings.apply();
+
       removeCommands();
       Settings.allPropsBufferLol = null;
     }

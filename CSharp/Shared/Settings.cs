@@ -23,6 +23,7 @@ namespace JovianRadiationRework
     public static string NewSettingsFileName = "Settings.json";
     public static string PresetsFolder = "Presets";
     public static string DefaultPreset = "Default.json";
+    public static string VanillaPreset = "Vanilla.json";
 
     public static void createFolders()
     {
