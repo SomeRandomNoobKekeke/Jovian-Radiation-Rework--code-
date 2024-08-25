@@ -25,7 +25,7 @@ namespace JovianRadiationRework
         IWriteMessage message = GameMain.LuaCs.Networking.Start("jrr_sync");
         Settings.encode(s, message);
 
-        info("sync start");
+        info("sync client");
 
         GameMain.LuaCs.Networking.Send(message);
       }

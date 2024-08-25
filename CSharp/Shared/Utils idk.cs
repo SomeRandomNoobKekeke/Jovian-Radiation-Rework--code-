@@ -23,10 +23,8 @@ namespace JovianRadiationRework
     public static void log(object msg, Color? cl = null, string line = "")
     {
       if (cl == null) cl = Color.Cyan;
-#if SERVER
-      cl *= 0.8f;
-#endif
-      LuaCsLogger.LogMessage($"{line}{msg ?? "null"}", cl, cl);
+
+      LuaCsLogger.LogMessage($"{line}{msg ?? "null"}", cl * 0.8f, cl);
     }
     public static void info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {

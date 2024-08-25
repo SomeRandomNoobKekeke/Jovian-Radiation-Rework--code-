@@ -17,13 +17,13 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-
     public void InitializeServer()
     {
       addCommands();
 
       settings = Settings.load();
       settings.apply();
+      Settings.save(settings);
 
       GameMain.LuaCs.Networking.Receive("jrr_init", Settings.net_recieve_init);
       GameMain.LuaCs.Networking.Receive("jrr_sync", Settings.net_recieve_sync);
@@ -31,7 +31,10 @@ namespace JovianRadiationRework
 
     public void PatchOnServer()
     {
-
+      harmony.Patch(
+        original: typeof(LuaGame).GetMethod("IsCustomCommandPermitted"),
+        postfix: new HarmonyMethod(typeof(Mod).GetMethod("permitCommands"))
+      );
     }
 
   }

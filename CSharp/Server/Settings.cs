@@ -45,9 +45,20 @@ namespace JovianRadiationRework
 
         Settings.decode(settings, inMsg);
         settings.apply();
+        Settings.save(settings);
 
         IWriteMessage outMsg = GameMain.LuaCs.Networking.Start("jrr_sync");
         Settings.encode(settings, outMsg);
+
+        GameMain.LuaCs.Networking.Send(outMsg);
+      }
+
+      public static void sync(Settings s)
+      {
+        info("sync server");
+
+        IWriteMessage outMsg = GameMain.LuaCs.Networking.Start("jrr_sync");
+        Settings.encode(s, outMsg);
 
         GameMain.LuaCs.Networking.Send(outMsg);
       }

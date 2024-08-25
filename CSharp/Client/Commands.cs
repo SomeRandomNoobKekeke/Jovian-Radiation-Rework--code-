@@ -161,7 +161,7 @@ namespace JovianRadiationRework
       }, Settings.getAllProps));
 
 
-      addedCommands.ForEach(c => DebugConsole.Commands.Add(c));
+      DebugConsole.Commands.AddRange(addedCommands);
     }
 
     public static void removeCommands()
