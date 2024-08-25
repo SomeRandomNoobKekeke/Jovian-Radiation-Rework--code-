@@ -55,6 +55,16 @@ namespace JovianRadiationRework
 
         info("settings applied");
       }
+
+
+      public void printRealValues()
+      {
+        log("Real Vanilla Radiation Settings:", Color.DeepPink);
+        foreach (var p in GameMain.GameSession.Map.Radiation.Params.SerializableProperties)
+        {
+          log($"{p.Key} = {p.Value.GetValue(GameMain.GameSession.Map.Radiation.Params)}");
+        }
+      }
     }
   }
 }

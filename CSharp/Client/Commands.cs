@@ -22,9 +22,16 @@ namespace JovianRadiationRework
 
       addedCommands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
       {
-        settings.print();
-        log($"Current location irradiation: {CurrentLocationRadiationAmount()}", Color.Yellow);
-        log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}", Color.Yellow);
+        if (args.Length == 0)
+        {
+          settings.print();
+          log($"Current location irradiation: {CurrentLocationRadiationAmount()}", Color.Yellow);
+          log($"Current Radiation.Amount: {GameMain.GameSession?.Map?.Radiation.Amount}", Color.Yellow);
+        }
+        else
+        {
+          settings.vanilla.printRealValues();
+        }
       }));
 
 
@@ -73,7 +80,9 @@ namespace JovianRadiationRework
         string filename = "";
         if (args.Length > 0) filename = args[0];
 
+        bool lastDebug = debug;
         settings = Settings.load(filename);
+        settings.debug = debug;
         settings.apply();
         Settings.save(settings);
         log("Radiation settings loaded");
@@ -95,11 +104,15 @@ namespace JovianRadiationRework
 
       addedCommands.Add(new DebugConsole.Command("rad_debug", "toggles debug", (string[] args) =>
       {
-        debug = !debug;
-        settings.debug = debug;
-        Settings.save(settings);
-        log($"debug = {debug}");
-      }));
+        if (args.Length > 0 && bool.TryParse(args[0], out bool d))
+        {
+          debug = d;
+          settings.debug = d;
+          Settings.save(settings);
+        }
+
+        log($"rad_debug = {debug}");
+      }, () => new string[][] { new string[] { "True", "False" } }));
 
       addedCommands.Add(new DebugConsole.Command("rad_save", "save settings as", (string[] args) =>
       {
