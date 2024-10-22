@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="Jovian Radiation Rework (code)" modversion="2.8.0" corepackage="False" gameversion="1.5.8.0">
+<contentpackage name="Jovian Radiation Rework (code)" modversion="2.9.1" corepackage="False" gameversion="1.5.8.0">
   <UIStyle file="%ModDir%/Radiation.xml" />
   <Item file="%ModDir%/dummyitem.xml" />
   <LocationTypes file="%ModDir%/locationTypes.xml" />

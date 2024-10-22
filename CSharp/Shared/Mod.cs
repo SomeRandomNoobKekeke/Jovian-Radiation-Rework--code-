@@ -53,14 +53,14 @@ namespace JovianRadiationRework
 
     public void PatchOnBothSides()
     {
-      harmony.Patch(
-        original: typeof(ColorExtensions).GetMethod("Multiply", AccessTools.all, new Type[]{
-        typeof(Color),
-        typeof(float),
-        typeof(bool),
-      }),
-        prefix: new HarmonyMethod(typeof(Mod).GetMethod("ColorExtensions_Multiply_Prefix"))
-      );
+      // harmony.Patch(
+      //   original: typeof(ColorExtensions).GetMethod("Multiply", AccessTools.all, new Type[]{
+      //   typeof(Color),
+      //   typeof(float),
+      //   typeof(bool),
+      // }),
+      //   prefix: new HarmonyMethod(typeof(Mod).GetMethod("ColorExtensions_Multiply_Prefix"))
+      // );
 
       harmony.Patch(
         original: typeof(MonsterEvent).GetMethod("InitEventSpecific", AccessTools.all),

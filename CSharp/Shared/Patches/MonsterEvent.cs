@@ -22,6 +22,18 @@ namespace JovianRadiationRework
 
       MonsterEvent _ = __instance;
 
+      // apply pvp stun resistance (reduce stun amount via resist multiplier)
+      if (GameMain.NetworkMember is { } networkMember && GameMain.GameSession?.GameMode is PvPMode && !networkMember.ServerSettings.PvPSpawnMonsters)
+      {
+        if (GameSettings.CurrentConfig.VerboseLogging)
+        {
+          DebugConsole.NewMessage($"PvP setting: disabling monster event ({_.SpeciesName})", Color.Yellow);
+        }
+
+        _.disallowed = true;
+        return false;
+      }
+
       if (parentSet != null && _.resetTime == 0)
       {
         // Use the parent reset time only if there's no reset time defined for the event.
@@ -53,6 +65,10 @@ namespace JovianRadiationRework
               _.Prefab.ContentPackage);
           _.disallowed = true;
           continue;
+        }
+        if (_.overridePlayDeadProbability.HasValue)
+        {
+          createdCharacter.EvaluatePlayDeadProbability(_.overridePlayDeadProbability);
         }
         // if (GameMain.GameSession.IsCurrentLocationRadiated())
         // {
