@@ -20,7 +20,7 @@ namespace JovianRadiationRework
     public static Mod instance;
     public string ModDir = "";
     public string ModVersion = "0.0.0";
-    public bool Debug { get; set; } = true;
+    public bool Debug { get; set; }
     public SettingsManager settingsManager;
 
     public Harmony harmony;
@@ -30,7 +30,6 @@ namespace JovianRadiationRework
       instance = this;
 
       FindModFolder();
-
       if (ModDir.Contains("LocalMods"))
       {
         Debug = true;
@@ -38,13 +37,22 @@ namespace JovianRadiationRework
       }
 
       harmony = new Harmony("jovian.radiation.rework");
+      harmony.PatchAll();
 
+      if (GameMain.GameSession?.IsRunning == true)
+      {
+        Init();
+      }
+
+      MemoryUsage("Initialize");
+    }
+
+    public void Init()
+    {
       settingsManager = new SettingsManager();
       settingsManager.Reset();
 
       InitProjSpecific();
-
-      MemoryUsage("Initialize");
     }
 
     public void OnLoadCompleted() { }
