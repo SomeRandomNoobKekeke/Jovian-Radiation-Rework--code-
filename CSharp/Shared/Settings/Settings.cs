@@ -1,25 +1,19 @@
 using System;
 using System.Reflection;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
 
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+  public partial class Settings
   {
-    public void InitProjSpecific()
-    {
-
-    }
-
+    public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
+    public string bebe { get; set; } = "123";
+    public int huhu { get; set; } = 123;
   }
-
-
 }
