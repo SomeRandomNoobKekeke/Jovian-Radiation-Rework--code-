@@ -14,6 +14,7 @@ namespace JovianRadiationRework
   {
     public static FlatView flatView => Settings.flatView;
 
+    //TODO think how to protect it, making it a struct is tedious
     private Settings current; public Settings Current
     {
       get => current;

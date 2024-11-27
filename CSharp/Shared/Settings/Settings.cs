@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public partial struct Settings
+  public partial class Settings
   {
     public static FlatView flatView = new FlatView(typeof(Settings));
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();

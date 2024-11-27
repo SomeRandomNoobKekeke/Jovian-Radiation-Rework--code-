@@ -32,6 +32,7 @@ namespace JovianRadiationRework
 
     public static object SpecialTransform(PropertyInfo target, object value)
     {
+      // parse if value is a string
       if (target.PropertyType != typeof(string) && value.GetType() == typeof(string))
       {
         MethodInfo parse = target.PropertyType.GetMethod("Parse", AccessTools.all, new Type[]{
@@ -157,7 +158,6 @@ namespace JovianRadiationRework
       {
         PropertyInfo pi = obj.GetType().GetProperty(names.Last(), AccessTools.all);
         value = SpecialTransform(pi, value);
-        Mod.Log($"{obj} {value}", Color.Yellow);
         pi.SetValue(obj, value);
       }
       catch (Exception e)
