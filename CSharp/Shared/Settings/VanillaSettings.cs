@@ -22,7 +22,7 @@ namespace JovianRadiationRework
     public int CriticalRadiationThreshold { get; set; } = 3;
     public int MinimumOutpostAmount { get; set; } = 3;
     public float StartingRadiation { get; set; } = 0f;
-    public float RadiationStep { get; set; } = 20f;
+    public float RadiationStep { get; set; } = 200f;
     public float AnimationSpeed { get; set; } = 3f;
     public float RadiationDamageDelay { get; set; } = 10f;
     public float RadiationDamageAmount { get; set; } = 1f;
@@ -41,9 +41,18 @@ namespace JovianRadiationRework
         return;
       }
 
-      foreach (string key in vanillaFlatView.Props.Keys)
+      foreach (string key in flatView.Props.Keys)
       {
-        Mod.Log($"{key} {vanillaFlatView.Props[key]}");
+        object value = flatView.Get(this, key);
+
+        Func<object, object> specialTransform = SpecialTransform.GetValueOrDefault(vanillaFlatView.Props[key].PropertyType);
+
+        if (specialTransform != null)
+        {
+          value = specialTransform(value);
+        }
+
+        vanillaFlatView.Set(GameMain.GameSession.Map.Radiation.Params, key, value);
       }
 
       if (GameMain.GameSession?.Campaign.IsFirstRound == true)
@@ -51,7 +60,7 @@ namespace JovianRadiationRework
         GameMain.GameSession.Map.Radiation.Amount = StartingRadiation;
       }
 
-      Mod.Info("settings applied");
+      Mod.Info("Radiation Settings Applied");
     }
 
     public VanillaSettings() { }

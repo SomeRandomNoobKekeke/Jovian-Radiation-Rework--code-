@@ -18,6 +18,7 @@ namespace JovianRadiationRework
       {typeof(string), true},
       {typeof(float), true},
       {typeof(double), true},
+      {typeof(Color), true},
     };
 
     public static Dictionary<Type, bool> AllowedComplexTypes = new Dictionary<Type, bool>(){
