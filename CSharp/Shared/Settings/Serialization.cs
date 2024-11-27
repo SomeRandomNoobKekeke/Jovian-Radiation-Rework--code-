@@ -10,13 +10,8 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public partial class Settings
+  public partial struct Settings
   {
 
-
-    static Settings()
-    {
-
-    }
   }
 }

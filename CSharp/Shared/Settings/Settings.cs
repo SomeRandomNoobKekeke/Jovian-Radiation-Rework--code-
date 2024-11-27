@@ -10,10 +10,14 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public partial class Settings
+  public partial struct Settings
   {
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
     public string bebe { get; set; } = "123";
     public int huhu { get; set; } = 123;
+
+    public void Apply() => Vanilla.Apply();
+
+    public Settings() { }
   }
 }

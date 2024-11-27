@@ -20,9 +20,13 @@ namespace JovianRadiationRework
       {typeof(double), true},
     };
 
+    public static Dictionary<Type, bool> IgnoredTypes = new Dictionary<Type, bool>(){
+      {typeof(FlatView), true},
+    };
+
     public Type TargetType;
 
-    public Dictionary<string, PropertyInfo> Props = new Dictionary<string, PropertyInfo>();
+    public SortedDictionary<string, PropertyInfo> Props = new SortedDictionary<string, PropertyInfo>();
 
     private Dictionary<string, PropertyInfo> ScanPropsRec(Type T, string baseName = "")
     {
@@ -30,14 +34,18 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in T.GetProperties(AccessTools.all))
       {
+        if (IgnoredTypes.GetValueOrDefault(pi.PropertyType)) continue;
+
         bool isPrimitive = PrimitiveTypes.GetValueOrDefault(pi.PropertyType);
 
         string n = pi.Name;
         if (baseName != "") n = baseName + "." + n;
 
-        props[n] = pi;
-
-        if (!isPrimitive)
+        if (isPrimitive)
+        {
+          props[n] = pi;
+        }
+        else
         {
           Dictionary<string, PropertyInfo> deep = ScanPropsRec(pi.PropertyType, n);
           deep.ToList().ForEach(p => props[p.Key] = p.Value);
@@ -63,6 +71,8 @@ namespace JovianRadiationRework
 
     public object Get(object obj, string deepName)
     {
+      if (obj == null) return null;
+
       string[] names = deepName.Split('.');
 
       foreach (string name in names)
@@ -84,6 +94,8 @@ namespace JovianRadiationRework
 
     public void Set(object obj, string deepName, object value)
     {
+      if (obj == null) return;
+
       string[] names = deepName.Split('.');
 
       foreach (string name in names.SkipLast(1))
