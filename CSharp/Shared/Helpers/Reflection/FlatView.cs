@@ -20,6 +20,11 @@ namespace JovianRadiationRework
       {typeof(double), true},
     };
 
+    public static Dictionary<Type, bool> AllowedComplexTypes = new Dictionary<Type, bool>(){
+      {typeof(Settings), true},
+      {typeof(VanillaSettings), true},
+    };
+
     public static Dictionary<Type, bool> IgnoredTypes = new Dictionary<Type, bool>(){
       {typeof(FlatView), true},
     };
@@ -36,16 +41,15 @@ namespace JovianRadiationRework
       {
         if (IgnoredTypes.GetValueOrDefault(pi.PropertyType)) continue;
 
-        bool isPrimitive = PrimitiveTypes.GetValueOrDefault(pi.PropertyType);
-
         string n = pi.Name;
         if (baseName != "") n = baseName + "." + n;
 
-        if (isPrimitive)
+        if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
         {
           props[n] = pi;
         }
-        else
+
+        if (AllowedComplexTypes.GetValueOrDefault(pi.PropertyType))
         {
           Dictionary<string, PropertyInfo> deep = ScanPropsRec(pi.PropertyType, n);
           deep.ToList().ForEach(p => props[p.Key] = p.Value);
