@@ -12,7 +12,7 @@ namespace JovianRadiationRework
 {
   public class SettingsManager
   {
-    public static FlatView flatView = new FlatView(typeof(Settings));
+    public static FlatView flatView => Settings.flatView;
 
     private Settings current; public Settings Current
     {
@@ -31,6 +31,7 @@ namespace JovianRadiationRework
     }
     public object GetProp(string deepName) => flatView.Get(Current, deepName);
     public T GetProp<T>(string deepName) => flatView.Get<T>(Current, deepName);
+    public bool HasProp(string deepName) => flatView.Has(deepName);
 
     public void Use(Settings s) => Current = s;
     public void Reset() => Current = new Settings();

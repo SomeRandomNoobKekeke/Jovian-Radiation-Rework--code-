@@ -22,7 +22,7 @@ namespace JovianRadiationRework
 
     public static void Info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
-      if (instance?.Debug == true)
+      if (Instance?.Debug == true)
       {
         var fi = new FileInfo(source);
 
@@ -33,7 +33,7 @@ namespace JovianRadiationRework
 
     public static void Error(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
-      if (instance?.Debug == true)
+      if (Instance?.Debug == true)
       {
         var fi = new FileInfo(source);
 
@@ -42,9 +42,15 @@ namespace JovianRadiationRework
       }
     }
 
+    public static bool Assert(bool ok, string msg)
+    {
+      if (!ok) Error(msg);
+      return ok;
+    }
+
     public static void MemoryUsage(object msg)
     {
-      if (instance?.Debug == true)
+      if (Instance?.Debug == true)
       {
         Log($"Memory Usage ({msg}): {LuaCsPerformanceCounter.MemoryUsage}", Color.Lime);
       }

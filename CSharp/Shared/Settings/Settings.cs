@@ -12,6 +12,7 @@ namespace JovianRadiationRework
 {
   public partial struct Settings
   {
+    public static FlatView flatView = new FlatView(typeof(Settings));
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
     public string bebe { get; set; } = "123";
     public int huhu { get; set; } = 123;

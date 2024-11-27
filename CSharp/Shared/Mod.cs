@@ -17,17 +17,17 @@ namespace JovianRadiationRework
   public partial class Mod : IAssemblyPlugin
   {
     public static string ModName = "Jovian Radiation Rework";
-    public static Mod instance;
+    public static Mod Instance;
     public string ModDir = "";
     public string ModVersion = "0.0.0";
     public bool Debug { get; set; }
-    public SettingsManager settingsManager;
+    public SettingsManager settingsManager = new SettingsManager();
 
     public Harmony harmony;
 
     public void Initialize()
     {
-      instance = this;
+      Instance = this;
 
       FindModFolder();
       if (ModDir.Contains("LocalMods"))
@@ -39,17 +39,18 @@ namespace JovianRadiationRework
       harmony = new Harmony("jovian.radiation.rework");
       harmony.PatchAll();
 
-      if (GameMain.GameSession?.IsRunning == true)
+      if (Debug || GameMain.GameSession?.IsRunning == true)
       {
         Init();
       }
+
+      AddCommands();
 
       MemoryUsage("Initialize");
     }
 
     public void Init()
     {
-      settingsManager = new SettingsManager();
       settingsManager.Reset();
 
       InitProjSpecific();
@@ -60,7 +61,7 @@ namespace JovianRadiationRework
 
     public void Dispose()
     {
-
+      RemoveCommands();
     }
   }
 }

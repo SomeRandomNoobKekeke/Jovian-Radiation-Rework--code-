@@ -15,9 +15,6 @@ namespace JovianRadiationRework
     public static FlatView flatView = new FlatView(typeof(VanillaSettings));
     public static FlatView vanillaFlatView = new FlatView(typeof(RadiationParams));
 
-    public static Dictionary<Type, Func<object, object>> SpecialTransform = new Dictionary<Type, Func<object, object>>(){
-      {typeof(Color), (value) => XMLExtensions.ParseColor((string)value)}
-    };
 
     public int CriticalRadiationThreshold { get; set; } = 3;
     public int MinimumOutpostAmount { get; set; } = 3;
@@ -44,13 +41,6 @@ namespace JovianRadiationRework
       foreach (string key in flatView.Props.Keys)
       {
         object value = flatView.Get(this, key);
-
-        Func<object, object> specialTransform = SpecialTransform.GetValueOrDefault(vanillaFlatView.Props[key].PropertyType);
-
-        if (specialTransform != null)
-        {
-          value = specialTransform(value);
-        }
 
         vanillaFlatView.Set(GameMain.GameSession.Map.Radiation.Params, key, value);
       }

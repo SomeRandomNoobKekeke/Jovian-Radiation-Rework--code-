@@ -26,7 +26,7 @@ namespace JovianRadiationRework
       ]
       public static void GameSession_StartRound_Postfix()
       {
-        Mod.instance.Init();
+        Mod.Instance.Init();
       }
     }
 

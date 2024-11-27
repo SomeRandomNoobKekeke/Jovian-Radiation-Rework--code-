@@ -30,9 +30,38 @@ namespace JovianRadiationRework
       {typeof(FlatView), true},
     };
 
+    public static object SpecialTransform(PropertyInfo target, object value)
+    {
+      if (target.PropertyType != typeof(string) && value.GetType() == typeof(string))
+      {
+        MethodInfo parse = target.PropertyType.GetMethod("Parse", AccessTools.all, new Type[]{
+          typeof(string)
+        });
+
+        try
+        {
+          if (parse != null)
+          {
+            value = parse.Invoke(null, new object[] { value });
+          }
+          if (target.PropertyType == typeof(Color))
+          {
+            value = XMLExtensions.ParseColor((string)value);
+          }
+        }
+        catch (Exception e)
+        {
+          Mod.Log($"Can't parse {target.PropertyType} from \"{value}\"");
+        }
+      }
+
+      return value;
+    }
+
     public Type TargetType;
 
     public SortedDictionary<string, PropertyInfo> Props = new SortedDictionary<string, PropertyInfo>();
+    public bool Has(string name) => Props.ContainsKey(name);
 
     private Dictionary<string, PropertyInfo> ScanPropsRec(Type T, string baseName = "")
     {
@@ -73,15 +102,13 @@ namespace JovianRadiationRework
       ScanProps(T);
     }
 
-
     public object Get(object obj, string deepName)
     {
-      if (obj == null) return null;
-
       string[] names = deepName.Split('.');
 
       foreach (string name in names)
       {
+        if (obj == null) return null;
         PropertyInfo pi = obj.GetType().GetProperty(name, AccessTools.all);
 
         if (pi == null) return null;
@@ -99,15 +126,29 @@ namespace JovianRadiationRework
 
     public void Set(object obj, string deepName, object value)
     {
-      if (obj == null) return;
+      if (deepName == null)
+      {
+        Mod.Info("deepName == null");
+        return;
+      }
 
       string[] names = deepName.Split('.');
 
       foreach (string name in names.SkipLast(1))
       {
+        if (obj == null)
+        {
+          Mod.Info("obj == null");
+          return;
+        }
+
         PropertyInfo pi = obj.GetType().GetProperty(name, AccessTools.all);
 
-        if (pi == null) return;
+        if (pi == null)
+        {
+          Mod.Info("pi == null");
+          return;
+        }
 
         obj = pi.GetValue(obj);
       }
@@ -115,6 +156,8 @@ namespace JovianRadiationRework
       try
       {
         PropertyInfo pi = obj.GetType().GetProperty(names.Last(), AccessTools.all);
+        value = SpecialTransform(pi, value);
+        Mod.Log($"{obj} {value}", Color.Yellow);
         pi.SetValue(obj, value);
       }
       catch (Exception e)
