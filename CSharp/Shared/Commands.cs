@@ -32,10 +32,5 @@ namespace JovianRadiationRework
       AddedCommands.Clear();
       AddedCommands = null;
     }
-
-    public static void PermitCommands(Identifier command, ref bool __result)
-    {
-      if (Mod.Instance.AddedCommands.Any(c => c.Names.Contains(command.Value))) __result = true;
-    }
   }
 }
