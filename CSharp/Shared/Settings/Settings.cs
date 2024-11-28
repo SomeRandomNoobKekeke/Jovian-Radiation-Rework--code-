@@ -16,12 +16,12 @@ namespace JovianRadiationRework
   {
     public static FlatView flatView = new FlatView(typeof(Settings));
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
-    public ModSettings modSettings { get; set; } = new ModSettings();
+    public ModSettings Mod { get; set; } = new ModSettings();
 
     public void Apply()
     {
       Vanilla.Apply();
-      modSettings.ActualColor = UltimateParser.Parse<Color>(modSettings.AmbienceColor);
+      Mod.ActualColor = UltimateParser.Parse<Color>(Mod.AmbienceColor);
     }
 
     public Settings() { }

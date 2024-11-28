@@ -53,6 +53,13 @@ namespace JovianRadiationRework
 
         _.monsters.Clear();
 
+        if (CurrentLocationRadiationAmount() > settings.Mod.TooMuchEvenForMonsters)
+        {
+          Info($"too radiated {CurrentLocationRadiationAmount()}");
+          return false;
+        }
+        Info($"spawning monsters in {CurrentLocationRadiationAmount()}");
+
         //+1 because Range returns an integer less than the max value
         int amount = Rand.Range(_.MinAmount, _.MaxAmount + 1);
         for (int i = 0; i < amount; i++)
@@ -70,14 +77,14 @@ namespace JovianRadiationRework
           {
             createdCharacter.EvaluatePlayDeadProbability(_.overridePlayDeadProbability);
           }
-          if (GameMain.GameSession.IsCurrentLocationRadiated())
-          {
-            AfflictionPrefab radiationPrefab = AfflictionPrefab.RadiationSickness;
-            Affliction affliction = new Affliction(radiationPrefab, radiationPrefab.MaxStrength);
-            createdCharacter?.CharacterHealth.ApplyAffliction(null, affliction);
-            // TODO test multiplayer | that's not my TODO :D
-            createdCharacter?.Kill(CauseOfDeathType.Affliction, affliction, log: false);
-          }
+          // if (GameMain.GameSession.IsCurrentLocationRadiated())
+          // {
+          //   AfflictionPrefab radiationPrefab = AfflictionPrefab.RadiationSickness;
+          //   Affliction affliction = new Affliction(radiationPrefab, radiationPrefab.MaxStrength);
+          //   createdCharacter?.CharacterHealth.ApplyAffliction(null, affliction);
+          //   // TODO test multiplayer | that's not my TODO :D
+          //   createdCharacter?.Kill(CauseOfDeathType.Affliction, affliction, log: false);
+          // }
           createdCharacter.DisabledByEvent = true;
           _.monsters.Add(createdCharacter);
         }

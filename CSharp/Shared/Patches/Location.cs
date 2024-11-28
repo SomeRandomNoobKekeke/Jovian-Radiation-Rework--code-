@@ -21,7 +21,10 @@ namespace JovianRadiationRework
       {
         if (GameMain.GameSession?.Map?.Radiation != null)
         {
-          __result = __instance.TurnsInRadiation > GameMain.GameSession.Map.Radiation.Params.CriticalRadiationThreshold;
+          __result = GameMain.GameSession.Map.Radiation.Params.CriticalRadiationThreshold >= 0 && __instance.TurnsInRadiation > GameMain.GameSession.Map.Radiation.Params.CriticalRadiationThreshold;
+
+          __result = __result || settings.Mod.Progress.CriticalOutpostRadiationAmount >= 0 && GameMain.GameSession.Map.Radiation.Amount - __instance.MapPosition.X > settings.Mod.Progress.CriticalOutpostRadiationAmount;
+
           return false;
         }
 

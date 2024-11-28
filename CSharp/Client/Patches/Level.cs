@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using Barotrauma.Extensions;
 
 namespace JovianRadiationRework
 {
@@ -22,27 +23,18 @@ namespace JovianRadiationRework
     [HarmonyPatch(typeof(Level))]
     public class LevelPatch
     {
-      [HarmonyPrefix]
+      [HarmonyPostfix]
       [HarmonyPatch("DrawBack")]
-      public static bool Level_DrawBack_Replace(GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam, Level __instance)
+      public static void Level_DrawBack_Replace(GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam, Level __instance)
       {
-        Level _ = __instance;
+        if (settings.Mod.UseVanillaRadiation) return;
+        float time = (float)(Timing.TotalTime / 50.0f);
 
-        float brightness = MathHelper.Clamp(1.1f + (cam.Position.Y - _.Size.Y) / 100000.0f, 0.1f, 1.0f);
-        var lightColorHLS = _.GenerationParams.AmbientLightColor.RgbToHLS();
-        lightColorHLS.Y *= brightness;
+        float brightness = Math.Clamp(CameraIrradiation(cam) * settings.Mod.RadiationToAmbienceBrightness, 0, settings.Mod.MaxAmbienceBrightness);
 
-        GameMain.LightManager.AmbientLight = ToolBox.HLSToRGB(lightColorHLS);
+        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * settings.Mod.MaxAmbienceBrightness;
 
-        graphics.Clear(_.BackgroundColor);
-
-        if (_.renderer != null)
-        {
-          GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(_.renderer.FlashColor);
-          _.renderer?.DrawBackground(spriteBatch, cam, _.LevelObjectManager, _.backgroundCreatureManager);
-        }
-
-        return false;
+        GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(settings.Mod.ActualColor.Multiply(rad));
       }
     }
 

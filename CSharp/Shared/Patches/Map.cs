@@ -33,6 +33,8 @@ namespace JovianRadiationRework
       ]
       public static bool Map_ProgressWorld_Replace(CampaignMode campaign, CampaignMode.TransitionType transitionType, float roundDuration, Map __instance)
       {
+        if (settings.Mod.UseVanillaRadiation) return true;
+
         Map _ = __instance;
 
         //one step per 10 minutes of play time
@@ -59,7 +61,30 @@ namespace JovianRadiationRework
           }
         }
 
-        _.Radiation?.OnStep(steps);
+        float radSteps = roundDuration / (60.0f * settings.Mod.Progress.WorldProgressStepDuration);
+
+        radSteps = Math.Max(0, Math.Min(radSteps, settings.Mod.Progress.WorldProgressMaxStepsPerRound));
+
+        if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
+            transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+        {
+          if (radSteps < settings.Mod.Progress.GracePeriod)
+            radSteps = 0;
+        }
+
+        if (transitionType == CampaignMode.TransitionType.LeaveLocation)
+        {
+          radSteps *= settings.Mod.Progress.OutpostTimeMultiplier;
+        }
+
+        if (!settings.Mod.Progress.SmoothProgress)
+        {
+          radSteps = (float)Math.Floor(radSteps);
+        }
+
+        Info($"Radiation?.OnStep({radSteps})");
+
+        _.Radiation?.OnStep(radSteps);
 
         return false;
       }

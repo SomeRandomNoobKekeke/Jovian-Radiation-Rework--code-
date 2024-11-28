@@ -28,17 +28,26 @@ namespace JovianRadiationRework
       [HarmonyPatch("OnStep")]
       public static bool Radiation_OnStep_Replace(Radiation __instance, float steps = 1)
       {
+        if (settings.Mod.UseVanillaRadiation) return true;
+
         Radiation _ = __instance;
 
         if (!_.Enabled) { return false; }
         if (steps <= 0) { return false; }
 
-        float increaseAmount = _.Params.RadiationStep * steps;
+        float percentageCovered = _.Amount / _.Map.Width;
+        float speedMult = Math.Clamp(1 - (1 - settings.Mod.Progress.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered, 0, 1);
+
+        Info($"map.width {_.Map.Width} Amount {_.Amount} speedMult {speedMult}");
+
+        float increaseAmount = Math.Max(0, _.Params.RadiationStep * speedMult * steps);
 
         if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
         {
           increaseAmount = _.Params.MaxRadiation - _.Amount;
         }
+
+        Info($"Radiation.Amount += {increaseAmount}");
 
         _.IncreaseRadiation(increaseAmount);
 
@@ -49,12 +58,12 @@ namespace JovianRadiationRework
           if (location.IsGateBetweenBiomes)
           {
             location.Connections.ForEach(c => c.Locked = false);
-            continue;
+            //continue;
           }
 
           if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-          if (_.Map.CurrentLocation is { } currLocation)
+          if (settings.Mod.Progress.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
           {
             // Don't advance on nearby locations to avoid buggy behavior
             if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
@@ -78,6 +87,7 @@ namespace JovianRadiationRework
       [HarmonyPatch("UpdateRadiation")]
       public static bool Radiation_UpdateRadiation_Replace(Radiation __instance, float deltaTime)
       {
+        if (settings.Mod.UseVanillaRadiation) return true;
         Radiation _ = __instance;
 
         if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
@@ -102,12 +112,31 @@ namespace JovianRadiationRework
 
         foreach (Character character in Character.CharacterList)
         {
-          if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
+          if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-          if (_.IsEntityRadiated(character))
+          float radiationAmount = EntityRadiationAmount(character) * settings.Mod.RadiationDamage;
+          if (character.Submarine != null)
+          {
+            radiationAmount *= Math.Clamp(1 - settings.Mod.FractionOfRadiationBlockedInSub, 0, 1);
+          }
+
+          if (character.IsHuskInfected)
+          {
+            Info("it's a husk");
+            radiationAmount = Math.Max(0, radiationAmount - settings.Mod.HuskRadiationResistance * GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+          }
+          Info(radiationAmount / GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+
+          if (radiationAmount > 0)
           {
             var limb = character.AnimController.MainLimb;
-            AttackResult attackResult = limb.AddDamage(limb.SimPosition, _.radiationAffliction.ToEnumerable(), playSound: false);
+            AttackResult attackResult = limb.AddDamage(
+              limb.SimPosition,
+              AfflictionPrefab.RadiationSickness.Instantiate(radiationAmount).ToEnumerable(),
+              playSound: false
+            );
+
+            // CharacterHealth.ApplyAffliction is simpler but it ignores gear
             character.CharacterHealth.ApplyDamage(limb, attackResult);
           }
         }

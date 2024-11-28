@@ -23,14 +23,19 @@ namespace JovianRadiationRework
       set
       {
         current = value;
-        current.Apply();
+        OnSettingsChanged();
       }
+    }
+
+    public void OnSettingsChanged()
+    {
+      Current.Apply();
     }
 
     public void SetProp(string deepName, object value)
     {
       flatView.Set(Current, deepName, value);
-      Current.Apply();
+      OnSettingsChanged();
     }
     public object GetProp(string deepName) => flatView.Get(Current, deepName);
     public T GetProp<T>(string deepName) => flatView.Get<T>(Current, deepName);
