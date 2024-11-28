@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Vanilla.AnimationSpeed>3</Vanilla.AnimationSpeed>
+  <Vanilla.BorderAnimationSpeed>16.66</Vanilla.BorderAnimationSpeed>
+  <Vanilla.CriticalRadiationThreshold>3</Vanilla.CriticalRadiationThreshold>
+  <Vanilla.MaxRadiation>-1</Vanilla.MaxRadiation>
+  <Vanilla.MinimumOutpostAmount>3</Vanilla.MinimumOutpostAmount>
+  <Vanilla.RadiationAreaColor>0,16,32,160</Vanilla.RadiationAreaColor>
+  <Vanilla.RadiationBorderTint>0,127,255,201</Vanilla.RadiationBorderTint>
+  <Vanilla.RadiationDamageAmount>1</Vanilla.RadiationDamageAmount>
+  <Vanilla.RadiationDamageDelay>10</Vanilla.RadiationDamageDelay>
+  <Vanilla.RadiationStep>200</Vanilla.RadiationStep>
+  <Vanilla.StartingRadiation>0</Vanilla.StartingRadiation>
+  <bebe>123</bebe>
+  <huhu>512</huhu>
+</Settings>

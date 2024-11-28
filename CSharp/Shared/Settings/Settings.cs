@@ -6,7 +6,9 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace JovianRadiationRework
 {
@@ -20,5 +22,7 @@ namespace JovianRadiationRework
     public void Apply() => Vanilla.Apply();
 
     public Settings() { }
+
+
   }
 }

@@ -6,6 +6,9 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 using System.Runtime.CompilerServices;
 [assembly: IgnoresAccessChecksTo("Barotrauma")]
@@ -44,7 +47,6 @@ namespace JovianRadiationRework
         Init();
       }
 
-
       AddCommands();
 
       MemoryUsage("Initialize");
@@ -53,6 +55,9 @@ namespace JovianRadiationRework
     public void Init()
     {
       settingsManager.Reset();
+      //settingsManager.SaveTo(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
+      settingsManager.LoadFrom(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
+      settingsManager.Print();
 
       InitProjSpecific();
     }

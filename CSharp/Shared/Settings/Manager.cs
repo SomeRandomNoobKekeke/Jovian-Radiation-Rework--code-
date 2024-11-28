@@ -6,7 +6,9 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace JovianRadiationRework
 {
@@ -42,6 +44,42 @@ namespace JovianRadiationRework
       foreach (string key in flatView.Props.Keys)
       {
         Mod.Log($"{key} = {flatView.Get(Current, key)}");
+      }
+    }
+
+    public void SaveTo(string path)
+    {
+      try
+      {
+        XDocument doc = new XDocument();
+        XElement root = new XElement("Settings");
+        foreach (string key in flatView.Props.Keys)
+        {
+          root.Add(new XElement(key, flatView.Get(Current, key)));
+        }
+        doc.Add(root);
+        doc.Save(path);
+      }
+      catch (Exception e)
+      {
+        Mod.Error(e);
+      }
+    }
+
+    public void LoadFrom(string path)
+    {
+      try
+      {
+        XDocument doc = XDocument.Load(path);
+        XElement root = doc.Element("Settings");
+        foreach (XElement e in root.Elements())
+        {
+          flatView.Set(Current, e.Name.ToString(), e.Value);
+        }
+      }
+      catch (Exception e)
+      {
+        Mod.Error(e);
       }
     }
   }

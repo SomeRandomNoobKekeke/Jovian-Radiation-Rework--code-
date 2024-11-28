@@ -58,10 +58,9 @@ namespace JovianRadiationRework
           Expect(() => flatView.Set(settings, "nest.jujuju", "jujuju")).ToNotThrow();
         });
 
-        Describe("now should be equal 11", () =>
+        Describe("now should be equal jujuju", () =>
         {
-          Expect(flatView.Get(settings, "nest.jujuju")).ToBeEqual("jujuju"
-          );
+          Expect(flatView.Get(settings, "nest.jujuju")).ToBeEqual("jujuju");
         });
       });
 
