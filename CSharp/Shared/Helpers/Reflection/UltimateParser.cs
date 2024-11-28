@@ -28,52 +28,33 @@ namespace JovianRadiationRework
       return null;
     }
 
+    // Note: this is intentionally unsafe
+    // because setting value to default when you can't parse it is very sneaky
+    // this should be handled upstream
     public static object Parse(Type targetType, string value)
     {
-      if (value.GetType() != typeof(string))
-      {
-        Mod.Info($"Can't parse {value} into {targetType}");
-        return GetDefault(targetType);
-      }
+      if (targetType == typeof(string)) return value;
 
-      if (targetType == typeof(string))
-      {
-        return value;
-      }
-
-      object result;
+      object result = value;
 
       MethodInfo parse = targetType.GetMethod("Parse", AccessTools.all, new Type[]{
         typeof(string)
       });
 
-      if (parse != null)
+      try
       {
-        try
+        if (parse != null)
         {
           result = parse.Invoke(null, new object[] { value });
         }
-        catch (Exception e)
-        {
-          Mod.Info($"Can't parse {value} into {targetType}");
-          result = GetDefault(targetType);
-        }
-      }
-      else if (AditionalParseMethods.ContainsKey(targetType))
-      {
-        try
+        else if (AditionalParseMethods.ContainsKey(targetType))
         {
           result = AditionalParseMethods[targetType](value);
         }
-        catch (Exception e)
-        {
-          Mod.Info($"AditionalParseMethods failed while trying to parse {value} into {targetType}");
-          result = GetDefault(targetType);
-        }
       }
-      else
+      catch (Exception e)
       {
-        result = GetDefault(targetType);
+        result = value;
       }
 
       return result;
