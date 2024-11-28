@@ -32,34 +32,6 @@ namespace JovianRadiationRework
       {typeof(FlatView), true},
     };
 
-    public static object SpecialTransform(PropertyInfo target, object value)
-    {
-      // parse if value is a string
-      if (target.PropertyType != typeof(string) && value.GetType() == typeof(string))
-      {
-        MethodInfo parse = target.PropertyType.GetMethod("Parse", AccessTools.all, new Type[]{
-          typeof(string)
-        });
-
-        try
-        {
-          if (parse != null)
-          {
-            value = parse.Invoke(null, new object[] { value });
-          }
-          if (target.PropertyType == typeof(Color))
-          {
-            value = XMLExtensions.ParseColor((string)value);
-          }
-        }
-        catch (Exception e)
-        {
-          Mod.Log($"Can't parse {target.PropertyType} from \"{value}\"");
-        }
-      }
-
-      return value;
-    }
 
     public Type TargetType;
 
@@ -179,7 +151,10 @@ namespace JovianRadiationRework
       try
       {
         PropertyInfo pi = obj.GetType().GetProperty(names.Last(), AccessTools.all);
-        value = SpecialTransform(pi, value);
+        if (value.GetType() == typeof(string) && pi.PropertyType != typeof(string))
+        {
+          value = UltimateParser.Parse(pi.PropertyType, (string)value);
+        }
         pi.SetValue(obj, value);
       }
       catch (Exception e)

@@ -41,10 +41,7 @@ namespace JovianRadiationRework
 
     public void Print()
     {
-      foreach (string key in flatView.Props.Keys)
-      {
-        Mod.Log($"{key} = {flatView.Get(Current, key)}");
-      }
+      TypeCrawler.PrintProps(Current);
     }
 
     public void SaveTo(string path)
@@ -52,11 +49,7 @@ namespace JovianRadiationRework
       try
       {
         XDocument doc = new XDocument();
-        XElement root = new XElement("Settings");
-        foreach (string key in flatView.Props.Keys)
-        {
-          root.Add(new XElement(key, flatView.Get(Current, key)));
-        }
+        XElement root = TypeCrawler.ToXML(Current, new XElement("Settings"));
         doc.Add(root);
         doc.Save(path);
       }
@@ -72,10 +65,7 @@ namespace JovianRadiationRework
       {
         XDocument doc = XDocument.Load(path);
         XElement root = doc.Element("Settings");
-        foreach (XElement e in root.Elements())
-        {
-          flatView.Set(Current, e.Name.ToString(), e.Value);
-        }
+        TypeCrawler.FromXML(Current, root);
       }
       catch (Exception e)
       {

@@ -55,7 +55,8 @@ namespace JovianRadiationRework
     public void Init()
     {
       settingsManager.Reset();
-      //settingsManager.SaveTo(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
+      settingsManager.SetProp("huhu", "bebe");
+      settingsManager.SaveTo(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
       settingsManager.LoadFrom(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
       settingsManager.Print();
 

@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings>
-  <Vanilla.AnimationSpeed>3</Vanilla.AnimationSpeed>
-  <Vanilla.BorderAnimationSpeed>16.66</Vanilla.BorderAnimationSpeed>
-  <Vanilla.CriticalRadiationThreshold>3</Vanilla.CriticalRadiationThreshold>
-  <Vanilla.MaxRadiation>-1</Vanilla.MaxRadiation>
-  <Vanilla.MinimumOutpostAmount>3</Vanilla.MinimumOutpostAmount>
-  <Vanilla.RadiationAreaColor>0,16,32,160</Vanilla.RadiationAreaColor>
-  <Vanilla.RadiationBorderTint>0,127,255,201</Vanilla.RadiationBorderTint>
-  <Vanilla.RadiationDamageAmount>1</Vanilla.RadiationDamageAmount>
-  <Vanilla.RadiationDamageDelay>10</Vanilla.RadiationDamageDelay>
-  <Vanilla.RadiationStep>200</Vanilla.RadiationStep>
-  <Vanilla.StartingRadiation>0</Vanilla.StartingRadiation>
+  <Vanilla>
+    <CriticalRadiationThreshold>3</CriticalRadiationThreshold>
+    <MinimumOutpostAmount>3</MinimumOutpostAmount>
+    <StartingRadiation>0</StartingRadiation>
+    <RadiationStep>200</RadiationStep>
+    <AnimationSpeed>3</AnimationSpeed>
+    <RadiationDamageDelay>10</RadiationDamageDelay>
+    <RadiationDamageAmount>1</RadiationDamageAmount>
+    <MaxRadiation>-1</MaxRadiation>
+    <BorderAnimationSpeed>16.66</BorderAnimationSpeed>
+    <RadiationAreaColor>0,16,32,160</RadiationAreaColor>
+    <RadiationBorderTint>0,127,255,200</RadiationBorderTint>
+  </Vanilla>
   <bebe>123</bebe>
-  <huhu>512</huhu>
+  <huhu>0</huhu>
 </Settings>
