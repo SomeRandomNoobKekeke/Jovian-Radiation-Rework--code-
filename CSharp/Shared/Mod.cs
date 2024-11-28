@@ -21,6 +21,7 @@ namespace JovianRadiationRework
   {
     public static string ModName = "Jovian Radiation Rework";
     public static Mod Instance;
+    public static Settings settings => Instance.settingsManager.Current;
     public string ModDir = "";
     public string ModVersion = "0.0.0";
     public bool Debug { get; set; }
@@ -38,6 +39,7 @@ namespace JovianRadiationRework
         Debug = true;
         Info($"Found {ModName} in LocalMods, debug: {Debug}\n");
       }
+      EnsureExists(SettingsFolder);
 
       harmony = new Harmony("jovian.radiation.rework");
       harmony.PatchAll();
@@ -56,8 +58,8 @@ namespace JovianRadiationRework
     {
       settingsManager.Reset();
       settingsManager.SetProp("huhu", "bebe");
-      settingsManager.SaveTo(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
-      settingsManager.LoadFrom(Path.Combine(Mod.Instance.ModDir, "Settings.xml"));
+      settingsManager.SaveTo(SettingsFile);
+      settingsManager.LoadFrom(SettingsFile);
       settingsManager.Print();
 
       InitProjSpecific();
