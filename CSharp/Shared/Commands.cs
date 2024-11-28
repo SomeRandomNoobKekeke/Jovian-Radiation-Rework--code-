@@ -9,7 +9,6 @@ using System.IO;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace JovianRadiationRework
 {
@@ -20,7 +19,10 @@ namespace JovianRadiationRework
     {
       AddProjSpecificCommands();
 
-
+      AddedCommands.Add(new DebugConsole.Command("rad_print", "", (string[] args) =>
+      {
+        Mod.Instance.settingsManager.Print();
+      }));
 
       DebugConsole.Commands.InsertRange(0, AddedCommands);
     }

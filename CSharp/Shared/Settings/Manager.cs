@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using Barotrauma.Networking;
 
 namespace JovianRadiationRework
 {
@@ -82,6 +83,30 @@ namespace JovianRadiationRework
       }
 
       return next;
+    }
+
+    public void Encode(IWriteMessage msg) => Encode(Current, msg);
+
+    public void Decode(IReadMessage msg)
+    {
+      Decode(Current, msg);
+      OnSettingsChanged();
+    }
+
+    public static void Encode(Settings s, IWriteMessage msg)
+    {
+      foreach (string key in flatView.Props.Keys)
+      {
+        NetManager.WriteObject(flatView.Get(s, key), msg);
+      }
+    }
+
+    public static void Decode(Settings s, IReadMessage msg)
+    {
+      foreach (string key in flatView.Props.Keys)
+      {
+        flatView.Set(s, key, NetManager.ReadObject(flatView.Props[key].PropertyType, msg));
+      }
     }
   }
 }

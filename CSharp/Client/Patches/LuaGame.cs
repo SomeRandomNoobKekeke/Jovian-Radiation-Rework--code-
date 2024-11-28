@@ -20,6 +20,7 @@ namespace JovianRadiationRework
       public static void PermitCommands(Identifier command, ref bool __result)
       {
         if (Mod.Instance.AddedCommands.Any(c => c.Names.Contains(command.Value))) __result = true;
+        if (command.Value == "rad_serv_amount") __result = true;
       }
     }
   }

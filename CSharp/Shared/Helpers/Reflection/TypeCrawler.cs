@@ -62,7 +62,13 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in primitive)
       {
+        // BaroDev (Wide)
+#if CLIENT
         string s = Mod.WrapInColor(pi.GetValue(o), "128,255,255");
+#elif SERVER
+        string s = pi.GetValue(o).ToString();
+#endif
+
         Mod.Log($"{offset}{pi.Name}  {s}  ({pi.PropertyType.Name})", Color.White);
       }
     }

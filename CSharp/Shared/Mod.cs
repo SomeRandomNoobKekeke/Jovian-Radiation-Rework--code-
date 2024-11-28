@@ -58,18 +58,6 @@ namespace JovianRadiationRework
 
     public void Init()
     {
-      if (IOManager.SettingsExist)
-      {
-        settingsManager.LoadFromAndUse(IOManager.SettingsFile);
-      }
-      else
-      {
-        settingsManager.LoadFromAndUse(IOManager.DefaultPreset);
-        settingsManager.SaveTo(IOManager.SettingsFile);
-      }
-
-      settingsManager.Print();
-
       InitProjSpecific();
     }
 

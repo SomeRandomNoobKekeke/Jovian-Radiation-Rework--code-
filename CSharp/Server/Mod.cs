@@ -15,7 +15,18 @@ namespace JovianRadiationRework
   {
     public void InitProjSpecific()
     {
+      if (IOManager.SettingsExist)
+      {
+        settingsManager.LoadFromAndUse(IOManager.SettingsFile);
+      }
+      else
+      {
+        settingsManager.LoadFromAndUse(IOManager.DefaultPreset);
+        settingsManager.SaveTo(IOManager.SettingsFile);
+      }
 
+      GameMain.LuaCs.Networking.Receive("jrr_ask", NetManager.Give);
+      GameMain.LuaCs.Networking.Receive("jrr_sync", NetManager.Receive);
     }
 
 
