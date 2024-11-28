@@ -16,11 +16,11 @@ namespace JovianRadiationRework
 
     public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
     public float RadiationDamage { get; set; } = 0.0275f;
-    public float TooMuchEvenForMonsters { get; set; } = 400;
+    public float TooMuchEvenForMonsters { get; set; } = 600;
     public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
     public float HuskRadiationResistance { get; set; } = 0.5f;
     public float RadiationToAmbienceBrightness { get; set; } = 0.00075f;
-    public float MaxAmbienceBrightness { get; set; } = 0.4f;
+    public float MaxAmbienceBrightness { get; set; } = 1.0f;
     public string AmbienceColor { get; set; } = "0,255,255";
     public bool UseVanillaRadiation { get; set; } = false;
     [Ignore] public Color ActualColor { get; set; } = new Color(0, 255, 255);

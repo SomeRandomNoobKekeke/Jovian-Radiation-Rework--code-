@@ -39,12 +39,14 @@ namespace JovianRadiationRework
         Debug = true;
         Info($"Found {ModName} in LocalMods, debug: {Debug}\n");
       }
-      EnsureExists(SettingsFolder);
+
+      IOManager.EnsureStuff();
+      settingsManager.Reset();
 
       harmony = new Harmony("jovian.radiation.rework");
       harmony.PatchAll();
 
-      if (Debug || GameMain.GameSession?.IsRunning == true)
+      if (GameMain.GameSession?.IsRunning == true)
       {
         Init();
       }
@@ -56,10 +58,16 @@ namespace JovianRadiationRework
 
     public void Init()
     {
-      settingsManager.Reset();
-      settingsManager.SetProp("huhu", "bebe");
-      settingsManager.SaveTo(SettingsFile);
-      settingsManager.LoadFrom(SettingsFile);
+      if (IOManager.SettingsExist)
+      {
+        settingsManager.LoadFromAndUse(IOManager.SettingsFile);
+      }
+      else
+      {
+        settingsManager.LoadFromAndUse(IOManager.DefaultPreset);
+        settingsManager.SaveTo(IOManager.SettingsFile);
+      }
+
       settingsManager.Print();
 
       InitProjSpecific();
@@ -71,6 +79,7 @@ namespace JovianRadiationRework
     public void Dispose()
     {
       RemoveCommands();
+      settingsManager.LoadFromAndUse(IOManager.VanillaPreset);
     }
   }
 }

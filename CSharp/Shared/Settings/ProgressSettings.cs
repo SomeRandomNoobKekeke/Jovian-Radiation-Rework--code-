@@ -19,8 +19,8 @@ namespace JovianRadiationRework
     public bool ProgressOnSaveLoad { get; set; } = true;
     public float GracePeriod { get; set; } = 1.0f;
     public float OutpostTimeMultiplier { get; set; } = 0.5f;
-    public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 1.0f;
-    public float CriticalOutpostRadiationAmount { get; set; } = -1.0f;
+    public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 0.5f;
+    public float CriticalOutpostRadiationAmount { get; set; } = 600.0f;
 
     public ProgressSettings() { }
   }

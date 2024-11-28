@@ -64,18 +64,23 @@ namespace JovianRadiationRework
       }
     }
 
-    public void LoadFrom(string path)
+    public void LoadFromAndUse(string path) => Use(LoadFrom(path));
+    public Settings LoadFrom(string path)
     {
+      Settings next = new Settings();
       try
       {
         XDocument doc = XDocument.Load(path);
         XElement root = doc.Element("Settings");
-        TypeCrawler.FromXML(Current, root);
+        TypeCrawler.FromXML(next, root);
+        next.Name = Path.GetFileNameWithoutExtension(path);
       }
       catch (Exception e)
       {
         Mod.Error(e);
       }
+
+      return next;
     }
   }
 }

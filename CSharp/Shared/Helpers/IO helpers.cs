@@ -13,17 +13,6 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public static string BarotraumaFolder => AppDomain.CurrentDomain.BaseDirectory;
-    public static string SettingsFolder => Path.Combine(BarotraumaFolder, $"ModSettings/{ModName}");
-    //public static string SettingsFile => Path.Combine(SettingsFolder, $"Settings.xml");
-    public static string SettingsFile => Path.Combine(Mod.Instance.ModDir, $"Settings.xml");
-
-
-    public static void EnsureExists(string path)
-    {
-      if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    }
-
     public void FindModFolder()
     {
       bool found = false;

@@ -74,6 +74,7 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in o.GetType().GetProperties(AccessTools.all))
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
         if (Attribute.IsDefined(pi, typeof(IgnoreWriteAttribute))) continue;
 
         if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
@@ -108,6 +109,7 @@ namespace JovianRadiationRework
       foreach (PropertyInfo pi in o.GetType().GetProperties(AccessTools.all))
       {
         if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
+        if (Attribute.IsDefined(pi, typeof(IgnoreReadAttribute))) continue;
 
         if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
         {

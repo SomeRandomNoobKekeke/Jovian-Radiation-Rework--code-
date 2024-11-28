@@ -12,4 +12,5 @@ namespace JovianRadiationRework
 {
   public class IgnoreAttribute : System.Attribute { }
   public class IgnoreWriteAttribute : System.Attribute { }
+  public class IgnoreReadAttribute : System.Attribute { }
 }

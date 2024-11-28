@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Vanilla>
+    <CriticalRadiationThreshold>1000</CriticalRadiationThreshold>
+    <MinimumOutpostAmount>3</MinimumOutpostAmount>
+    <StartingRadiation>-60</StartingRadiation>
+    <RadiationStep>25</RadiationStep>
+    <AnimationSpeed>2</AnimationSpeed>
+    <RadiationDamageDelay>10</RadiationDamageDelay>
+    <RadiationDamageAmount>1</RadiationDamageAmount>
+    <MaxRadiation>-1</MaxRadiation>
+    <BorderAnimationSpeed>16.66</BorderAnimationSpeed>
+    <RadiationAreaColor>0,16,32,160</RadiationAreaColor>
+    <RadiationBorderTint>0,127,255,200</RadiationBorderTint>
+  </Vanilla>
+  <Mod>
+    <Progress>
+      <WorldProgressStepDuration>1</WorldProgressStepDuration>
+      <WorldProgressMaxStepsPerRound>60</WorldProgressMaxStepsPerRound>
+      <KeepSurroundingOutpostsAlive>true</KeepSurroundingOutpostsAlive>
+      <SmoothProgress>true</SmoothProgress>
+      <ProgressOnSaveLoad>true</ProgressOnSaveLoad>
+      <GracePeriod>1</GracePeriod>
+      <OutpostTimeMultiplier>0.5</OutpostTimeMultiplier>
+      <TargetSpeedPercentageAtTheEndOfTheMap>0.5</TargetSpeedPercentageAtTheEndOfTheMap>
+      <CriticalOutpostRadiationAmount>600</CriticalOutpostRadiationAmount>
+    </Progress>
+    <WaterRadiationBlockPerMeter>0.6</WaterRadiationBlockPerMeter>
+    <RadiationDamage>0.0275</RadiationDamage>
+    <TooMuchEvenForMonsters>600</TooMuchEvenForMonsters>
+    <FractionOfRadiationBlockedInSub>0.5</FractionOfRadiationBlockedInSub>
+    <HuskRadiationResistance>0.5</HuskRadiationResistance>
+    <RadiationToAmbienceBrightness>0.00075</RadiationToAmbienceBrightness>
+    <MaxAmbienceBrightness>1</MaxAmbienceBrightness>
+    <AmbienceColor>0,127,255</AmbienceColor>
+    <UseVanillaRadiation>false</UseVanillaRadiation>
+  </Mod>
+</Settings>

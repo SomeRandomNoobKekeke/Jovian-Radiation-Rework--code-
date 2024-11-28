@@ -36,9 +36,58 @@ namespace JovianRadiationRework
         Log($"{settingsManager.GetProp(name).GetType().Name} {settingsManager.GetProp(name)}");
       }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
 
+
       AddedCommands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
       {
         Mod.Instance.settingsManager.Print();
+      }));
+
+      AddedCommands.Add(new DebugConsole.Command("rad_guh", "", (string[] args) =>
+      {
+        IOManager.AllPresets();
+      }));
+
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "", (string[] args) =>
+      {
+        if (args.Length == 0)
+        {
+          Mod.Instance.settingsManager.LoadFromAndUse(IOManager.SettingsFile);
+          return;
+        }
+
+        var presets = IOManager.AllPresets();
+
+        if (presets.ContainsKey(args[0]))
+        {
+          Mod.Instance.settingsManager.LoadFromAndUse(presets[args[0]]);
+          return;
+        }
+
+        foreach (string key in presets.Keys)
+        {
+          if (String.Equals(key, args[0], StringComparison.OrdinalIgnoreCase))
+          {
+            Mod.Instance.settingsManager.LoadFromAndUse(presets[key]);
+            return;
+          }
+        }
+
+        Mod.Log("Not found");
+      }, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
+
+
+      AddedCommands.Add(new DebugConsole.Command("rad_save", "", (string[] args) =>
+      {
+        string targetPath = IOManager.SettingsFile;
+
+        if (args.Length != 0)
+        {
+          targetPath = Path.Combine(IOManager.SavedPresets, args[0] + ".xml");
+        }
+
+        Mod.Instance.settingsManager.SaveTo(targetPath);
+
+        Mod.Log($"Saved to {targetPath}");
       }));
 
 
