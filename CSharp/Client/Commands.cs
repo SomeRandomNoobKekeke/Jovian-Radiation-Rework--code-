@@ -33,21 +33,18 @@ namespace JovianRadiationRework
           settingsManager.SetProp(name, value);
         }
 
+        Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
         Log($"{settingsManager.GetProp(name).GetType().Name} {settingsManager.GetProp(name)}");
       }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
 
 
-      AddedCommands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
+      AddedCommands.Add(new DebugConsole.Command("rad_print", "", (string[] args) =>
       {
         Mod.Instance.settingsManager.Print();
       }));
 
-      AddedCommands.Add(new DebugConsole.Command("rad_guh", "", (string[] args) =>
-      {
-        IOManager.AllPresets();
-      }));
 
-      AddedCommands.Add(new DebugConsole.Command("rad_load", "", (string[] args) =>
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", (string[] args) =>
       {
         if (args.Length == 0)
         {
@@ -76,7 +73,7 @@ namespace JovianRadiationRework
       }, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
 
 
-      AddedCommands.Add(new DebugConsole.Command("rad_save", "", (string[] args) =>
+      AddedCommands.Add(new DebugConsole.Command("rad_save", "rad_save [name]", (string[] args) =>
       {
         string targetPath = IOManager.SettingsFile;
 
@@ -88,6 +85,19 @@ namespace JovianRadiationRework
         Mod.Instance.settingsManager.SaveTo(targetPath);
 
         Mod.Log($"Saved to {targetPath}");
+      }));
+
+      AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", (string[] args) =>
+      {
+        if (args.Length != 0 && GameMain.GameSession?.Map?.Radiation != null)
+        {
+          if (float.TryParse(args[0], out float amount))
+          {
+            GameMain.GameSession.Map.Radiation.Amount = amount;
+          }
+        }
+
+        Mod.Log($"Radiation.Amount = {GameMain.GameSession?.Map?.Radiation.Amount}");
       }));
 
 

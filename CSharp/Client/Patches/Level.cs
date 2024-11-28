@@ -32,7 +32,7 @@ namespace JovianRadiationRework
 
         float brightness = Math.Clamp(CameraIrradiation(cam) * settings.Mod.RadiationToAmbienceBrightness, 0, settings.Mod.MaxAmbienceBrightness);
 
-        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * settings.Mod.MaxAmbienceBrightness;
+        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * settings.Mod.AmbienceNoiseAmplitude;
 
         GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(settings.Mod.ActualColor.Multiply(rad));
       }

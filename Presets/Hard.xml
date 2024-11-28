@@ -32,7 +32,9 @@
     <HuskRadiationResistance>0.5</HuskRadiationResistance>
     <RadiationToAmbienceBrightness>0.00075</RadiationToAmbienceBrightness>
     <MaxAmbienceBrightness>1</MaxAmbienceBrightness>
+    <AmbienceNoiseAmplitude>0.5</AmbienceNoiseAmplitude>
     <AmbienceColor>0,127,255</AmbienceColor>
     <UseVanillaRadiation>false</UseVanillaRadiation>
   </Mod>
+  <Name>Hard</Name>
 </Settings>

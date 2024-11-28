@@ -18,7 +18,7 @@ namespace JovianRadiationRework
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
     public ModSettings Mod { get; set; } = new ModSettings();
 
-    [IgnoreRead] public string Name { get; set; } = "???";
+    public string Name { get; set; } = null;
     public void Apply()
     {
       Vanilla.Apply();

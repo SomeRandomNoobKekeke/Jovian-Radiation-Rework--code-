@@ -53,6 +53,7 @@ namespace JovianRadiationRework
     {
       try
       {
+        Current.Name ??= Path.GetFileNameWithoutExtension(path);
         XDocument doc = new XDocument();
         XElement root = TypeCrawler.ToXML(Current, new XElement("Settings"));
         doc.Add(root);
@@ -73,7 +74,7 @@ namespace JovianRadiationRework
         XDocument doc = XDocument.Load(path);
         XElement root = doc.Element("Settings");
         TypeCrawler.FromXML(next, root);
-        next.Name = Path.GetFileNameWithoutExtension(path);
+        next.Name ??= Path.GetFileNameWithoutExtension(path);
       }
       catch (Exception e)
       {

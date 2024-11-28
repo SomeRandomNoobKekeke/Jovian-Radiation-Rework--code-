@@ -21,6 +21,7 @@ namespace JovianRadiationRework
     public float HuskRadiationResistance { get; set; } = 0.5f;
     public float RadiationToAmbienceBrightness { get; set; } = 0.00075f;
     public float MaxAmbienceBrightness { get; set; } = 1.0f;
+    public float AmbienceNoiseAmplitude { get; set; } = 0.5f;
     public string AmbienceColor { get; set; } = "0,255,255";
     public bool UseVanillaRadiation { get; set; } = false;
     [Ignore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
