@@ -21,9 +21,11 @@ namespace JovianRadiationRework
       {typeof(Color), true},
     };
 
+    // need this, or ScanPropsRec will go deep and eat all memory
     public static Dictionary<Type, bool> AllowedComplexTypes = new Dictionary<Type, bool>(){
       {typeof(Settings), true},
       {typeof(VanillaSettings), true},
+      {typeof(FlatViewTest.TestNestedSettings), true},
     };
 
     public static Dictionary<Type, bool> IgnoredTypes = new Dictionary<Type, bool>(){
@@ -105,14 +107,34 @@ namespace JovianRadiationRework
 
     public object Get(object obj, string deepName)
     {
+      if (obj == null)
+      {
+        Mod.Info("obj == null");
+        return null;
+      }
+
+      if (deepName == null)
+      {
+        Mod.Info("deepName == null");
+        return null;
+      }
+
       string[] names = deepName.Split('.');
 
       foreach (string name in names)
       {
-        if (obj == null) return null;
+        if (obj == null)
+        {
+          Mod.Info("obj == null");
+          return null;
+        }
         PropertyInfo pi = obj.GetType().GetProperty(name, AccessTools.all);
 
-        if (pi == null) return null;
+        if (pi == null)
+        {
+          Mod.Info("PropertyInfo == null");
+          return null;
+        }
 
         obj = pi.GetValue(obj);
       }
@@ -147,7 +169,7 @@ namespace JovianRadiationRework
 
         if (pi == null)
         {
-          Mod.Info("pi == null");
+          Mod.Info("PropertyInfo == null");
           return;
         }
 

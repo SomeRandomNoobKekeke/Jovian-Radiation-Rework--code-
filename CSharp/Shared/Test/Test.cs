@@ -45,7 +45,7 @@ namespace JovianRadiationRework
     {
       List<Type> allTest = new List<Type>();
 
-      Assembly CallingAssembly = Assembly.GetCallingAssembly();
+      Assembly CallingAssembly = Assembly.GetAssembly(typeof(Test));
 
       foreach (Type t in CallingAssembly.GetTypes())
       {
@@ -59,6 +59,30 @@ namespace JovianRadiationRework
       {
         Run(T);
       }
+    }
+
+    public static void Run(string name)
+    {
+      if (String.Equals("all", name, StringComparison.OrdinalIgnoreCase))
+      {
+        RunAll();
+        return;
+      }
+
+      Assembly CallingAssembly = Assembly.GetAssembly(typeof(Test));
+
+      foreach (Type t in CallingAssembly.GetTypes())
+      {
+        Mod.Log(t.Name);
+
+        if (String.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase))
+        {
+          Run(t);
+          return;
+        }
+      }
+
+      Mod.Log($"{name} not found");
     }
 
     public static void Run<RawType>() => Run(typeof(RawType));
@@ -175,7 +199,9 @@ namespace JovianRadiationRework
           cl = Color.White;
         }
 
-        Mod.Log($"{tr.Context} [{tr.Result}]", cl);
+        object result = tr.Error ? tr.exception.Message : tr.Result;
+
+        Mod.Log($"{tr.Context} [{result}]", cl);
       }
 
       string conclusion = passed == Results.Count ? "All Passed" : "Failed";

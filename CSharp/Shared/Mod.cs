@@ -44,7 +44,6 @@ namespace JovianRadiationRework
         Init();
       }
 
-      Test.RunAll();
 
       AddCommands();
 
