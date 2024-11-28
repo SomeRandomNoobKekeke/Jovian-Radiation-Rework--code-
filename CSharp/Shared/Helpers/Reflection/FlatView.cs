@@ -12,6 +12,7 @@ namespace JovianRadiationRework
 {
   public class FlatView
   {
+    //TODO mb this should be somewhere else, it's used in two places now
     public static Dictionary<Type, bool> PrimitiveTypes = new Dictionary<Type, bool>(){
       {typeof(int), true},
       {typeof(bool), true},
@@ -25,6 +26,8 @@ namespace JovianRadiationRework
     public static Dictionary<Type, bool> AllowedComplexTypes = new Dictionary<Type, bool>(){
       {typeof(Settings), true},
       {typeof(VanillaSettings), true},
+      {typeof(ModSettings), true},
+      {typeof(ProgressSettings), true},
       {typeof(FlatViewTest.TestNestedSettings), true},
     };
 
@@ -45,6 +48,7 @@ namespace JovianRadiationRework
       foreach (PropertyInfo pi in T.GetProperties(AccessTools.all))
       {
         if (IgnoredTypes.GetValueOrDefault(pi.PropertyType)) continue;
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
 
         string n = pi.Name;
         if (baseName != "") n = baseName + "." + n;

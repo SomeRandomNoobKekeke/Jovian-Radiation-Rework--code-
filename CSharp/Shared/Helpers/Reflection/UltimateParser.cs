@@ -31,6 +31,7 @@ namespace JovianRadiationRework
     // Note: this is intentionally unsafe
     // because setting value to default when you can't parse it is very sneaky
     // this should be handled upstream
+    public static T Parse<T>(string value) => (T)Parse(typeof(T), value);
     public static object Parse(Type targetType, string value)
     {
       if (targetType == typeof(string)) return value;

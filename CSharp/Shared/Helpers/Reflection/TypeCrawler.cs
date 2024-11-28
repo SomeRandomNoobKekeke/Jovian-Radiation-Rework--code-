@@ -27,6 +27,8 @@ namespace JovianRadiationRework
     public static Dictionary<Type, bool> AllowedComplexTypes = new Dictionary<Type, bool>(){
       {typeof(Settings), true},
       {typeof(VanillaSettings), true},
+      {typeof(ModSettings), true},
+      {typeof(ProgressSettings), true},
     };
 
     // I wanted to make abstract method, but it seems needlesly complex
@@ -39,6 +41,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in o.GetType().GetProperties(AccessTools.all))
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
+
         if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
         {
           primitive.Add(pi);
@@ -52,13 +56,14 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in complex)
       {
-        Mod.Log($"{offset}{pi.Name}:", Color.Yellow);
+        Mod.Log($"{offset}{pi.Name}:", Color.Violet);
         PrintProps(pi.GetValue(o), offset + "    ");
       }
 
       foreach (PropertyInfo pi in primitive)
       {
-        Mod.Log($"{offset}{pi.Name} {pi.GetValue(o)}");
+        string s = Mod.WrapInColor(pi.GetValue(o), "128,255,255");
+        Mod.Log($"{offset}{pi.Name}  {s}  ({pi.PropertyType.Name})", Color.White);
       }
     }
 
@@ -69,6 +74,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in o.GetType().GetProperties(AccessTools.all))
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreWriteAttribute))) continue;
+
         if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
         {
           primitive.Add(pi);
@@ -100,6 +107,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in o.GetType().GetProperties(AccessTools.all))
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
+
         if (PrimitiveTypes.GetValueOrDefault(pi.PropertyType))
         {
           primitive[pi.Name] = pi;

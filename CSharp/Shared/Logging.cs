@@ -14,6 +14,11 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public static string WrapInColor(object o, string cl)
+    {
+      return $"‖color:{cl}‖{o}‖end‖";
+    }
+
     public static void Log(object msg, Color? cl = null)
     {
       cl ??= Color.Cyan;

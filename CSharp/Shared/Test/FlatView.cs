@@ -14,6 +14,7 @@ namespace JovianRadiationRework
   {
     public class TestSettings
     {
+      [Ignore] public int kokoko { get; set; } = 123;
       public int bebebe { get; set; } = 10;
       public TestNestedSettings nest { get; set; } = new TestNestedSettings();
     }
@@ -89,6 +90,11 @@ namespace JovianRadiationRework
         Describe("get something on a null", () =>
         {
           Expect(() => flatView.Get(null, "bebebe")).ToNotThrow();
+        });
+
+        Describe("ignored prop", () =>
+        {
+          Expect(flatView.Props.ContainsKey("kokoko")).ToBeEqual(false);
         });
       });
 

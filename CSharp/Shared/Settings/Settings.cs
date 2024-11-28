@@ -16,10 +16,13 @@ namespace JovianRadiationRework
   {
     public static FlatView flatView = new FlatView(typeof(Settings));
     public VanillaSettings Vanilla { get; set; } = new VanillaSettings();
-    public string bebe { get; set; } = "123";
-    public int huhu { get; set; } = 123;
+    public ModSettings modSettings { get; set; } = new ModSettings();
 
-    public void Apply() => Vanilla.Apply();
+    public void Apply()
+    {
+      Vanilla.Apply();
+      modSettings.ActualColor = UltimateParser.Parse<Color>(modSettings.AmbienceColor);
+    }
 
     public Settings() { }
 

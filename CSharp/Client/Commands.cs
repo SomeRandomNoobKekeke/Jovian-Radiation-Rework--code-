@@ -36,6 +36,11 @@ namespace JovianRadiationRework
         Log($"{settingsManager.GetProp(name).GetType().Name} {settingsManager.GetProp(name)}");
       }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
 
+      AddedCommands.Add(new DebugConsole.Command("rad_info", "", (string[] args) =>
+      {
+        Mod.Instance.settingsManager.Print();
+      }));
+
 
       if (Debug)
       {
