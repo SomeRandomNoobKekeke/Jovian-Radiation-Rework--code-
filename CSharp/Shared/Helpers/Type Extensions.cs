@@ -14,7 +14,7 @@ namespace JovianRadiationRework
   public partial class Mod : IAssemblyPlugin
   {
 
-    // There's really only 1 case, so i don't care
+    // This is the only case, so i don't care
 
     // public static Color Parse(this Color cl, string value)
     // {

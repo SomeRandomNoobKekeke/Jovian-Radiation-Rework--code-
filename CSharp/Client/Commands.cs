@@ -33,8 +33,8 @@ namespace JovianRadiationRework
           settingsManager.SetProp(name, value);
         }
 
-        Log(settingsManager.GetProp(name));
-      }, () => new string[][] { SettingsManager.flatView.Props.Keys.ToArray() }));
+        Log($"{settingsManager.GetProp(name).GetType().Name} {settingsManager.GetProp(name)}");
+      }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
     }
   }
 }

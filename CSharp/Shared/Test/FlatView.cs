@@ -20,14 +20,22 @@ namespace JovianRadiationRework
     public FlatView flatView;
     public TestSettings settings;
 
-    // TODO rethink   
-    public override bool Execute()
+    public override void Execute()
     {
-      bool ok = true;
+      Describe("get level 1 value, should be equal 10", () =>
+      {
+        Expect(flatView.Get(settings, "bebebe")).ToBeEqual(10);
+      });
 
-      ok |= Mod.Assert(Object.Equals(flatView.Get(settings, "bebebe"), 10), "Failed to get direct value");
+      Describe("setting it to 11", () =>
+      {
+        Expect(() => flatView.Set(settings, "bebebe", 11)).ToNotThrow();
+      });
 
-      return ok;
+      Describe("now should be equal 11", () =>
+      {
+        Expect(flatView.Get(settings, "bebebe")).ToBeEqual(11);
+      });
     }
 
     public override void Prepare()
