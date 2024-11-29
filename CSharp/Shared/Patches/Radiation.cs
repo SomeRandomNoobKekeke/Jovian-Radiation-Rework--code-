@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,6 +88,8 @@ namespace JovianRadiationRework
       [HarmonyPatch("UpdateRadiation")]
       public static bool Radiation_UpdateRadiation_Replace(Radiation __instance, float deltaTime)
       {
+        Stopwatch sw = new Stopwatch();
+
         if (settings.Mod.UseVanillaRadiation) return true;
         Radiation _ = __instance;
 
@@ -99,6 +102,10 @@ namespace JovianRadiationRework
           _.radiationTimer -= deltaTime;
           return false;
         }
+
+        sw.Restart();
+
+        Mod.Instance.electronicsDamager.DamageItems();
 
         if (_.radiationAffliction == null)
         {
@@ -115,17 +122,29 @@ namespace JovianRadiationRework
           if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
           float radiationAmount = EntityRadiationAmount(character) * settings.Mod.RadiationDamage;
-          if (character.Submarine != null)
+
+
+          // Reduce damage in sub
+          if (character.CurrentHull != null)
           {
-            radiationAmount *= Math.Clamp(1 - settings.Mod.FractionOfRadiationBlockedInSub, 0, 1);
+            float gapSize = 0;
+            foreach (Gap g in character.CurrentHull.ConnectedGaps)
+            {
+              if (g.linkedTo.Count == 1) gapSize += g.Open;
+            }
+
+            gapSize = Math.Clamp(gapSize, 0, 1);
+
+            float mult = Math.Clamp(1 - (1 - gapSize) * settings.Mod.FractionOfRadiationBlockedInSub, 0, 1);
+
+            radiationAmount *= mult;
+            //Info($"{character}{character?.Info.Name} gap mult {mult}");
           }
 
           if (character.IsHuskInfected)
           {
-            Info("it's a husk");
-            radiationAmount = Math.Max(0, radiationAmount - settings.Mod.HuskRadiationResistance * GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
+            radiationAmount = Math.Max(0, radiationAmount - settings.Mod.HuskRadiationResistance * settings.Vanilla.RadiationDamageDelay);
           }
-          Info(radiationAmount / GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay);
 
           if (radiationAmount > 0)
           {
@@ -140,6 +159,9 @@ namespace JovianRadiationRework
             character.CharacterHealth.ApplyDamage(limb, attackResult);
           }
         }
+
+        sw.Stop();
+        Info($"Rad update took: {sw.ElapsedTicks * TicksToMs}ms");
 
         return false;
       }
