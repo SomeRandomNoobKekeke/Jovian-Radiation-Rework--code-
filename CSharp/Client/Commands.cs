@@ -17,6 +17,15 @@ namespace JovianRadiationRework
   {
     public void AddProjSpecificCommands()
     {
+      AddedCommands.Add(new DebugConsole.Command("rad_info", "some info", (string[] args) =>
+      {
+        if (Screen.Selected.Cam != null)
+        {
+          Mod.Log($"Radiation here: {CameraIrradiation(Screen.Selected.Cam)}");
+        }
+      }));
+
+
       AddedCommands.Add(new DebugConsole.Command("rad", "rad variable [value]", (string[] args) =>
       {
         if (args.Length == 0)
