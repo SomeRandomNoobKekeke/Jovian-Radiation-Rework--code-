@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public static double TicksToMs = 1000.0 / Stopwatch.Frequency;
     public static string ModName = "Jovian Radiation Rework";
     public static Mod Instance;
     public static Settings settings => Instance.settingsManager.Current;
@@ -26,6 +28,7 @@ namespace JovianRadiationRework
     public string ModVersion = "0.0.0";
     public bool Debug { get; set; }
     public SettingsManager settingsManager = new SettingsManager();
+    public ElectronicsDamager electronicsDamager = new ElectronicsDamager();
 
     public Harmony harmony;
 
@@ -43,6 +46,7 @@ namespace JovianRadiationRework
       IOManager.EnsureStuff();
       settingsManager.Reset();
 
+      //TODO perhaps i should patch it after init to prevent use of null vars
       harmony = new Harmony("jovian.radiation.rework");
       harmony.PatchAll();
 
@@ -58,6 +62,7 @@ namespace JovianRadiationRework
 
     public void Init()
     {
+      electronicsDamager.FindItems();
       InitProjSpecific();
     }
 

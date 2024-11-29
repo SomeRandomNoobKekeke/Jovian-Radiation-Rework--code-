@@ -24,7 +24,7 @@ namespace JovianRadiationRework
         GameMain.GameSession.Map.Radiation.Amount = amount;
       }));
 
-      //TODO i need more sync net event for this
+      //TODO i need more sync net events for this
       // AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", (string[] args) =>
       // {
       //   if (args.Length != 0 && GameMain.GameSession?.Map?.Radiation != null)
