@@ -53,15 +53,25 @@ namespace JovianRadiationRework
 
         _.monsters.Clear();
 
-        if (settings.Mod.TooMuchEvenForMonsters > 0 && CurrentLocationRadiationAmount() > settings.Mod.TooMuchEvenForMonsters)
+
+        float currentLocationRadiationAmount = CurrentLocationRadiationAmount();
+        if (settings.Mod.TooMuchEvenForMonsters > 0 && currentLocationRadiationAmount > settings.Mod.TooMuchEvenForMonsters)
         {
-          Info($"too radiated {CurrentLocationRadiationAmount()}");
+          Info($"{_} too radiated {currentLocationRadiationAmount}");
           return false;
         }
-        Info($"spawning monsters in {CurrentLocationRadiationAmount()}");
+
+
+        float mult = 1 + currentLocationRadiationAmount * settings.Mod.RadiationToMonstersMult;
+        mult = Math.Clamp(mult, 0, settings.Mod.MaxRadiationToMonstersMult);
+
+        int MinAmount = (int)Math.Round(_.MinAmount * mult);
+        int MaxAmount = (int)Math.Round(_.MaxAmount * mult);
+
+        Info($"{_} {mult} MinAmount:{_.MinAmount}->{MinAmount} MaxAmount:{_.MaxAmount}->{MaxAmount}");
 
         //+1 because Range returns an integer less than the max value
-        int amount = Rand.Range(_.MinAmount, _.MaxAmount + 1);
+        int amount = Rand.Range(MinAmount, MaxAmount + 1);
         for (int i = 0; i < amount; i++)
         {
           string seed = i.ToString() + Level.Loaded.Seed;

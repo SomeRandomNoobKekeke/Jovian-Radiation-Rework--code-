@@ -27,6 +27,8 @@ namespace JovianRadiationRework
     [Ignore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
     public float ElectronicsDamageMultiplier { get; set; } = 0.008f;
     public float MaxDamageToElectronics { get; set; } = 6.0f;
+    public float RadiationToMonstersMult { get; set; } = 0.005f;
+    public float MaxRadiationToMonstersMult { get; set; } = 2.0f;
 
     public ModSettings() { }
   }

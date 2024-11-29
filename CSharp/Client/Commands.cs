@@ -21,7 +21,12 @@ namespace JovianRadiationRework
       {
         if (Screen.Selected.Cam != null)
         {
-          Mod.Log($"Radiation here: {CameraIrradiation(Screen.Selected.Cam)}");
+          Mod.Log($"Camera Irradiation: {CameraIrradiation(Screen.Selected.Cam)}");
+        }
+
+        if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        {
+          Mod.Log($"Location Irradiation: {CurrentLocationRadiationAmount()}");
         }
       }));
 

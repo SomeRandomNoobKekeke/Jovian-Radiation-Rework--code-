@@ -27,14 +27,18 @@
     </Progress>
     <WaterRadiationBlockPerMeter>0.6</WaterRadiationBlockPerMeter>
     <RadiationDamage>0.0275</RadiationDamage>
-    <TooMuchEvenForMonsters>600</TooMuchEvenForMonsters>
+    <TooMuchEvenForMonsters>-1</TooMuchEvenForMonsters>
     <FractionOfRadiationBlockedInSub>0.5</FractionOfRadiationBlockedInSub>
     <HuskRadiationResistance>0.5</HuskRadiationResistance>
-    <RadiationToAmbienceBrightness>0.00075</RadiationToAmbienceBrightness>
+    <RadiationToAmbienceBrightness>0.001</RadiationToAmbienceBrightness>
     <MaxAmbienceBrightness>1</MaxAmbienceBrightness>
     <AmbienceNoiseAmplitude>0.5</AmbienceNoiseAmplitude>
     <AmbienceColor>0,127,255</AmbienceColor>
     <UseVanillaRadiation>false</UseVanillaRadiation>
+    <ElectronicsDamageMultiplier>0.008</ElectronicsDamageMultiplier>
+    <MaxDamageToElectronics>6</MaxDamageToElectronics>
+    <RadiationToMonstersMult>0.005</RadiationToMonstersMult>
+    <MaxRadiationToMonstersMult>2</MaxRadiationToMonstersMult>
   </Mod>
-  <Name>Hard</Name>
+  <Name>Default</Name>
 </Settings>
