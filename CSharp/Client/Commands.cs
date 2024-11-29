@@ -30,6 +30,12 @@ namespace JovianRadiationRework
         }
       }));
 
+      AddedCommands.Add(new DebugConsole.Command("rad_debug", "", (string[] args) =>
+      {
+        Mod.Instance.Debug = !Mod.Instance.Debug;
+        Mod.Log($"Radiation Debug: {Mod.Instance.Debug}");
+      }));
+
 
       AddedCommands.Add(new DebugConsole.Command("rad", "rad variable [value]", (string[] args) =>
       {
