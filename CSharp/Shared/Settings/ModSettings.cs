@@ -19,12 +19,14 @@ namespace JovianRadiationRework
     public float TooMuchEvenForMonsters { get; set; } = 600;
     public float FractionOfRadiationBlockedInSub { get; set; } = 0.5f;
     public float HuskRadiationResistance { get; set; } = 0.5f;
-    public float RadiationToAmbienceBrightness { get; set; } = 0.00075f;
+    public float RadiationToAmbienceBrightness { get; set; } = 0.001f;
     public float MaxAmbienceBrightness { get; set; } = 1.0f;
     public float AmbienceNoiseAmplitude { get; set; } = 0.5f;
     public string AmbienceColor { get; set; } = "0,255,255";
     public bool UseVanillaRadiation { get; set; } = false;
     [Ignore] public Color ActualColor { get; set; } = new Color(0, 255, 255);
+    public float ElectronicsDamageMultiplier { get; set; } = 0.008f;
+    public float MaxDamageToElectronics { get; set; } = 6.0f;
 
     public ModSettings() { }
   }
