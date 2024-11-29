@@ -53,7 +53,7 @@ namespace JovianRadiationRework
 
         _.monsters.Clear();
 
-        if (CurrentLocationRadiationAmount() > settings.Mod.TooMuchEvenForMonsters)
+        if (settings.Mod.TooMuchEvenForMonsters > 0 && CurrentLocationRadiationAmount() > settings.Mod.TooMuchEvenForMonsters)
         {
           Info($"too radiated {CurrentLocationRadiationAmount()}");
           return false;
