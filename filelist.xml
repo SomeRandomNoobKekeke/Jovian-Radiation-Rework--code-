@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="Jovian Radiation Rework (code)" modversion="3.0.0" corepackage="False">
+<contentpackage name="Jovian Radiation Rework" modversion="3.0.0" corepackage="False" steamworkshopid="3269363928">
   <UIStyle file="%ModDir%/Radiation.xml" />
   <Item file="%ModDir%/dummyitem.xml" />
 </contentpackage>
