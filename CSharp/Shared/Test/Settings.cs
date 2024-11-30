@@ -20,22 +20,33 @@ namespace JovianRadiationRework
 
     public override void Execute()
     {
-      Describe("Loading normal settings", () =>
+      Settings s1 = manager.JustLoad(preset1Path);
+      Settings s2 = manager.JustLoad(preset2Path);
+
+      manager.Use(s1);
+      manager.SaveTo(settingsPath);
+      Settings s = manager.JustLoad(settingsPath);
+
+      Describe("s1 == s1", () =>
       {
-        manager.LoadFrom(settingsPath);
-        Expect(manager.Current.Name).ToBeEqual("Settings");
+        Expect(SettingsManager.Compare(s1, s1)).ToBeEqual(true);
       });
 
-      Describe("Loading guh1", () =>
+      Describe("s1 != s2", () =>
       {
-        manager.LoadFrom(preset1Path);
-        Expect(manager.Current.Name).ToBeEqual("Guh1");
+        Expect(SettingsManager.Compare(s1, s2)).ToBeEqual(false);
       });
 
-      Describe("Loading guh2", () =>
+      Describe("s1 and s2 differ in name and CriticalRadiationThreshold", () =>
       {
-        manager.LoadFrom(preset2Path);
-        Expect(manager.Current.Name).ToBeEqual("Guh2");
+        List<string> diff = SettingsManager.Difference(s1, s2);
+
+        Expect(diff.SequenceEqual(new string[] { "Name", "Vanilla.CriticalRadiationThreshold" })).ToBeEqual(true);
+      });
+
+      Describe("s == s1", () =>
+      {
+        Expect(SettingsManager.Compare(s1, s)).ToBeEqual(true);
       });
     }
 
@@ -46,10 +57,12 @@ namespace JovianRadiationRework
 
       manager.Reset();
       manager.Current.Name = "Guh1";
+      manager.Current.Vanilla.CriticalRadiationThreshold = 1001;
       manager.SaveTo(preset1Path);
 
       manager.Reset();
       manager.Current.Name = "Guh2";
+      manager.Current.Vanilla.CriticalRadiationThreshold = 1002;
       manager.SaveTo(preset2Path);
     }
   }
