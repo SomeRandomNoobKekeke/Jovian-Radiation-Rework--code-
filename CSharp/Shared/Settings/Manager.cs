@@ -66,8 +66,8 @@ namespace JovianRadiationRework
       }
     }
 
-    public void LoadFromAndUse(string path) => Use(LoadFrom(path));
-    public Settings LoadFrom(string path)
+    public void LoadFrom(string path) => Use(JustLoad(path));
+    public Settings JustLoad(string path)
     {
       Settings next = new Settings();
       try
