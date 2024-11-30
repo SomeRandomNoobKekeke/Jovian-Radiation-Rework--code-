@@ -22,8 +22,8 @@ namespace JovianRadiationRework
       else
       {
         settingsManager.LoadFrom(IOManager.DefaultPreset);
-        settingsManager.SaveTo(IOManager.SettingsFile);
       }
+      settingsManager.SaveTo(IOManager.SettingsFile);
 
       GameMain.LuaCs.Networking.Receive("jrr_ask", NetManager.Give);
       GameMain.LuaCs.Networking.Receive("jrr_sync", NetManager.Receive);
