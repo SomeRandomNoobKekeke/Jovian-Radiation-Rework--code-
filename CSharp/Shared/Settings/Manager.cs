@@ -108,5 +108,47 @@ namespace JovianRadiationRework
         flatView.Set(s, key, NetManager.ReadObject(flatView.Props[key].PropertyType, msg));
       }
     }
+
+    public static bool Compare(Settings s1, Settings s2)
+    {
+      bool ok = true;
+
+      foreach (string key in flatView.Props.Keys)
+      {
+        if (!Object.Equals(flatView.Get(s1, key), flatView.Get(s2, key)))
+        {
+          ok = false;
+        }
+      }
+
+      return ok;
+    }
+
+    public static Dictionary<string, bool> DeepCompare(Settings s1, Settings s2)
+    {
+      Dictionary<string, bool> result = new Dictionary<string, bool>();
+
+      foreach (string key in flatView.Props.Keys)
+      {
+        result[key] = Object.Equals(flatView.Get(s1, key), flatView.Get(s2, key));
+      }
+
+      return result;
+    }
+
+    public static List<string> Difference(Settings s1, Settings s2)
+    {
+      List<string> result = new List<string>();
+
+      foreach (string key in flatView.Props.Keys)
+      {
+        if (!Object.Equals(flatView.Get(s1, key), flatView.Get(s2, key)))
+        {
+          result.Add(key);
+        }
+      }
+
+      return result;
+    }
   }
 }
