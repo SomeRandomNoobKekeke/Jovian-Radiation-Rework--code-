@@ -22,11 +22,11 @@ namespace JovianRadiationRework
       {
         if (IOManager.SettingsExist)
         {
-          settingsManager.LoadFromAndUse(IOManager.SettingsFile);
+          settingsManager.LoadFrom(IOManager.SettingsFile);
         }
         else
         {
-          settingsManager.LoadFromAndUse(IOManager.DefaultPreset);
+          settingsManager.LoadFrom(IOManager.DefaultPreset);
           settingsManager.SaveTo(IOManager.SettingsFile);
         }
       }

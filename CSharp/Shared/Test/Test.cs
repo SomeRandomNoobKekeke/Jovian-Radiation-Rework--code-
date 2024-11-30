@@ -73,8 +73,6 @@ namespace JovianRadiationRework
 
       foreach (Type t in CallingAssembly.GetTypes())
       {
-        Mod.Log(t.Name);
-
         if (String.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase))
         {
           Run(t);

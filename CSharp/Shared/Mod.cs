@@ -55,6 +55,8 @@ namespace JovianRadiationRework
         Init();
       }
 
+      Test.Run<SettingsTest>();
+
       AddCommands();
 
       MemoryUsage("Initialize");
@@ -72,7 +74,7 @@ namespace JovianRadiationRework
     public void Dispose()
     {
       RemoveCommands();
-      settingsManager.LoadFromAndUse(IOManager.VanillaPreset);
+      settingsManager.LoadFrom(IOManager.VanillaPreset);
     }
   }
 }

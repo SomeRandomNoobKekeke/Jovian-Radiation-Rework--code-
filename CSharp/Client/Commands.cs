@@ -115,7 +115,7 @@ namespace JovianRadiationRework
 
         if (GameMain.IsSingleplayer)
         {
-          Mod.Instance.settingsManager.LoadFromAndUse(targetPath);
+          Mod.Instance.settingsManager.LoadFrom(targetPath);
           Mod.Log($"Loaded {Mod.settings.Name}");
         }
 
@@ -123,7 +123,7 @@ namespace JovianRadiationRework
         {
           if (HasPermissions)
           {
-            Mod.Instance.settingsManager.LoadFromAndUse(targetPath);
+            Mod.Instance.settingsManager.LoadFrom(targetPath);
             NetManager.Sync(Mod.settings);
             Mod.Log($"Loaded {Mod.settings.Name}");
           }

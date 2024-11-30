@@ -81,7 +81,7 @@ namespace JovianRadiationRework
         }
 
 
-        Mod.Instance.settingsManager.LoadFromAndUse(targetPath);
+        Mod.Instance.settingsManager.LoadFrom(targetPath);
         NetManager.Broadcast(Mod.settings);
       }, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
 
