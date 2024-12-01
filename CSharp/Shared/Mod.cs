@@ -55,8 +55,6 @@ namespace JovianRadiationRework
         Init();
       }
 
-      Test.Run<SettingsTest>();
-
       AddCommands();
 
       MemoryUsage("Initialize");
