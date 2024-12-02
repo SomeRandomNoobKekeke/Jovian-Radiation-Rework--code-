@@ -57,7 +57,7 @@ namespace JovianRadiationRework
 
       AddCommands();
 
-      MemoryUsage("Initialize");
+      //MemoryUsage("Initialize");
     }
 
     public void Init()
@@ -71,8 +71,22 @@ namespace JovianRadiationRework
 
     public void Dispose()
     {
+      harmony = null;
       RemoveCommands();
       settingsManager.LoadFrom(IOManager.VanillaPreset);
+      settingsManager = null;
+      electronicsDamager.Damagable.Clear();
+      electronicsDamager = null;
+
+      Settings.flatView.Dispose(); Settings.flatView = null;
+      VanillaSettings.flatView.Dispose(); VanillaSettings.flatView = null;
+      VanillaSettings.vanillaFlatView.Dispose(); VanillaSettings.vanillaFlatView = null;
+
+      FlatView.PrimitiveTypes.Clear(); FlatView.PrimitiveTypes = null;
+      FlatView.AllowedComplexTypes.Clear(); FlatView.AllowedComplexTypes = null;
+      FlatView.IgnoredTypes.Clear(); FlatView.IgnoredTypes = null;
+
+      Instance = null;
     }
   }
 }

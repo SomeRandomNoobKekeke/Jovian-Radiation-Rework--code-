@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public class FlatView
+  public class FlatView : IDisposable
   {
     //TODO mb this should be somewhere else, it's used in two places now
     public static Dictionary<Type, bool> PrimitiveTypes = new Dictionary<Type, bool>(){
@@ -165,6 +165,14 @@ namespace JovianRadiationRework
       {
         Mod.Error($"FlatView.Set({obj}, \"{deepName}\", {value})\n{e.Message}");
       }
+    }
+
+
+    public void Dispose()
+    {
+      Props.Clear();
+      Props = null;
+      TargetType = null;
     }
   }
 }

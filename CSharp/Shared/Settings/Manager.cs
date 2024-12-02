@@ -30,7 +30,7 @@ namespace JovianRadiationRework
 
     public void OnSettingsChanged()
     {
-      Current.Apply();
+      Current?.Apply();
     }
 
     public void SetProp(string deepName, object value)
