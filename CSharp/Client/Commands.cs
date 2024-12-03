@@ -35,6 +35,15 @@ namespace JovianRadiationRework
         }
       }));
 
+      AddedCommands.Add(new DebugConsole.Command("rad_metadata", "", (string[] args) =>
+      {
+        object o = GetMetadata("CurrentLocationIrradiation") ?? "null";
+        Mod.Log($"CurrentLocationIrradiation: {o}");
+
+        // o = GetMetadata("MainSubIrradiation") ?? "null";
+        // Mod.Log($"MainSubIrradiation: {o}");
+      }));
+
       AddedCommands.Add(new DebugConsole.Command("rad_debug", "", (string[] args) =>
       {
         Mod.Instance.Debug = !Mod.Instance.Debug;
@@ -162,6 +171,7 @@ namespace JovianRadiationRework
           if (float.TryParse(args[0], out float amount))
           {
             GameMain.GameSession.Map.Radiation.Amount = amount;
+            SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
 
             if (GameMain.IsMultiplayer)
             {

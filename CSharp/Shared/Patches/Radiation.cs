@@ -25,16 +25,41 @@ namespace JovianRadiationRework
     [HarmonyPatch(typeof(Radiation))]
     public class RadiationPatch
     {
+      public static double lastSetMetadataTiming = 0;
+      public static void SetCampaignMetadata()
+      {
+        if (Timing.TotalTime - lastSetMetadataTiming > 1.0)
+        {
+          lastSetMetadataTiming = Timing.TotalTime;
+          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+          SetMetadata("MainSubIrradiation", EntityRadiationAmount(Submarine.MainSub));
+        }
+      }
+
+
+
       [HarmonyPrefix]
       [HarmonyPatch("OnStep")]
       public static bool Radiation_OnStep_Replace(Radiation __instance, float steps = 1)
       {
-        if (settings.Mod.UseVanillaRadiation) return true;
+        if (settings.Mod.UseVanillaRadiation)
+        {
+          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+          return true;
+        }
 
         Radiation _ = __instance;
 
-        if (!_.Enabled) { return false; }
-        if (steps <= 0) { return false; }
+        if (!_.Enabled)
+        {
+          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+          return false;
+        }
+        if (steps <= 0)
+        {
+          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+          return false;
+        }
 
         float percentageCovered = _.Amount / _.Map.Width;
         float speedMult = Math.Clamp(1 - (1 - settings.Mod.Progress.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered, 0, 1);
@@ -81,6 +106,7 @@ namespace JovianRadiationRework
           }
         }
 
+        SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
         return false;
       }
 
@@ -92,6 +118,8 @@ namespace JovianRadiationRework
 
         if (settings.Mod.UseVanillaRadiation) return true;
         Radiation _ = __instance;
+
+        //SetCampaignMetadata();
 
         if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
 
