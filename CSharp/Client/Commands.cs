@@ -24,6 +24,11 @@ namespace JovianRadiationRework
           Mod.Log($"Camera Irradiation: {CameraIrradiation(Screen.Selected.Cam)}");
         }
 
+        if (Screen.Selected.Cam != null)
+        {
+          Mod.Log($"Main Sub Irradiation: {EntityRadiationAmount(Submarine.MainSub)}");
+        }
+
         if (GameMain.GameSession?.Map?.CurrentLocation != null)
         {
           Mod.Log($"Location Irradiation: {CurrentLocationRadiationAmount()}");
