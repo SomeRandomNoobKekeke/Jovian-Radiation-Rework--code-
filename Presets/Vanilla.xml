@@ -21,7 +21,7 @@
       <SmoothProgress>true</SmoothProgress>
       <ProgressOnSaveLoad>true</ProgressOnSaveLoad>
       <GracePeriod>1</GracePeriod>
-      <OutpostTimeMultiplier>0.5</OutpostTimeMultiplier>
+      <OutpostTimeMultiplier>0.25</OutpostTimeMultiplier>
       <TargetSpeedPercentageAtTheEndOfTheMap>0.5</TargetSpeedPercentageAtTheEndOfTheMap>
       <CriticalOutpostRadiationAmount>600</CriticalOutpostRadiationAmount>
     </Progress>
