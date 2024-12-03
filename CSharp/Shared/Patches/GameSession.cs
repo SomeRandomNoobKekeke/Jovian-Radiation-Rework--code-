@@ -27,6 +27,7 @@ namespace JovianRadiationRework
       public static void GameSession_StartRound_Postfix()
       {
         Mod.Instance.Init();
+        SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
       }
     }
 
