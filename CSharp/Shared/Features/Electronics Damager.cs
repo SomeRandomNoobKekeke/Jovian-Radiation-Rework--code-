@@ -45,7 +45,7 @@ namespace JovianRadiationRework
       {
         if (Submarine.MainSub == null) return;
 
-        float damage = EntityRadiationAmount(Submarine.MainSub) * settings.Mod.ElectronicsDamageMultiplier;
+        float damage = Math.Max(0, EntityRadiationAmount(Submarine.MainSub)) * settings.Mod.ElectronicsDamageMultiplier;
         damage = Math.Clamp(damage, 0, settings.Mod.MaxDamageToElectronics);
 
         if (Debug) Info($"Damaging Electronics {damage}");

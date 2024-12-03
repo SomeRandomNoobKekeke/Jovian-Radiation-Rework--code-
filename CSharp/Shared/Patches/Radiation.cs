@@ -121,7 +121,7 @@ namespace JovianRadiationRework
         {
           if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-          float radiationAmount = EntityRadiationAmount(character) * settings.Mod.RadiationDamage;
+          float radiationAmount = Math.Max(0, EntityRadiationAmount(character)) * settings.Mod.RadiationDamage;
 
 
           // Reduce damage in sub

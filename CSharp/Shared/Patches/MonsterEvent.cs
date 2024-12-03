@@ -54,7 +54,7 @@ namespace JovianRadiationRework
         _.monsters.Clear();
 
 
-        float currentLocationRadiationAmount = CurrentLocationRadiationAmount();
+        float currentLocationRadiationAmount = Math.Max(0, CurrentLocationRadiationAmount());
         if (settings.Mod.TooMuchEvenForMonsters > 0 && currentLocationRadiationAmount > settings.Mod.TooMuchEvenForMonsters)
         {
           Info($"{_} too radiated {currentLocationRadiationAmount}");

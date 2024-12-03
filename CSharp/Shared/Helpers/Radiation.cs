@@ -15,6 +15,7 @@ namespace JovianRadiationRework
   {
     public static float EntityRadiationAmount(Entity entity)
     {
+      if (entity == null) return 0;
       if (GameMain.GameSession?.Map?.Radiation == null) return 0;
 
       if (!GameMain.GameSession.Map.Radiation.Enabled) { return 0; }
@@ -26,13 +27,11 @@ namespace JovianRadiationRework
 
         float entityMapX = startLocation.MapPosition.X + (endLocation.MapPosition.X - startLocation.MapPosition.X) * distance;
 
-        float amount = Math.Max(0,
-          GameMain.GameSession.Map.Radiation.Amount
-          - entityMapX
-          - RelativeDepth * settings.Mod.WaterRadiationBlockPerMeter
-        );
-
-        return amount;
+        return GameMain.GameSession.Map.Radiation.Amount - entityMapX - RelativeDepth * settings.Mod.WaterRadiationBlockPerMeter;
+      }
+      else
+      {
+        return CurrentLocationRadiationAmount();
       }
 
       return 0;
@@ -47,10 +46,7 @@ namespace JovianRadiationRework
         GameMain.GameSession.Campaign == null
       ) { return 0; }
 
-      return Math.Max(0,
-        GameMain.GameSession.Map.Radiation.Amount
-        - GameMain.GameSession.Map.CurrentLocation.MapPosition.X
-      );
+      return GameMain.GameSession.Map.Radiation.Amount - GameMain.GameSession.Map.CurrentLocation.MapPosition.X;
     }
 
 #if CLIENT
@@ -74,6 +70,8 @@ namespace JovianRadiationRework
         );
 
         return amount;
+      } else {
+        return  CurrentLocationRadiationAmount();
       }
 
       return 0;
