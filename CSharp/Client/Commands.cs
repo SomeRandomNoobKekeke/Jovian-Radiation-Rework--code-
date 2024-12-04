@@ -31,8 +31,18 @@ namespace JovianRadiationRework
 
         if (GameMain.GameSession?.Map?.CurrentLocation != null)
         {
-          Mod.Log($"Location Irradiation: {CurrentLocationRadiationAmount()}");
+          Mod.Log($"Current Location Irradiation: {CurrentLocationRadiationAmount()}");
         }
+
+        // if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        // {
+        //   Mod.Log($"Start Location Irradiation: {LocationIrradiation(Level.Loaded?.StartLocation)}");
+        // }
+
+        // if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        // {
+        //   Mod.Log($"End Location Irradiation: {LocationIrradiation(Level.Loaded?.EndLocation)}");
+        // }
       }));
 
       AddedCommands.Add(new DebugConsole.Command("rad_metadata", "", (string[] args) =>

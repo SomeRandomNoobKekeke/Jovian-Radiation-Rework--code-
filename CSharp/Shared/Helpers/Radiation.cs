@@ -37,6 +37,12 @@ namespace JovianRadiationRework
       return 0;
     }
 
+    public static float LocationIrradiation(Location l)
+    {
+      if (GameMain.GameSession?.Map?.Radiation == null || l == null) return 0;
+      return GameMain.GameSession.Map.Radiation.Amount - l.MapPosition.X;
+    }
+
     public static float CurrentLocationRadiationAmount()
     {
       if (
