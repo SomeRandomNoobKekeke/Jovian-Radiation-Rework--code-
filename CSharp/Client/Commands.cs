@@ -24,7 +24,7 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", Rad_Load_Command, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
       AddedCommands.Add(new DebugConsole.Command("rad_save", "rad_save [name]", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", Rad_Amount_Command));
-
+      AddedCommands.Add(new DebugConsole.Command("rad_gui", "opens the gui", Rad_GUI_Command));
 
       if (Debug)
       {
@@ -50,39 +50,53 @@ namespace JovianRadiationRework
 
     public void Rad_Info_Command(string[] args)
     {
-      if (Screen.Selected.Cam != null)
+      try
       {
-        Mod.Log($"Camera Irradiation: {CameraIrradiation(Screen.Selected.Cam)}");
-      }
+        if (Screen.Selected.Cam != null)
+        {
+          Mod.Log($"Camera Irradiation: {CameraIrradiation(Screen.Selected.Cam)}");
+        }
 
-      if (Screen.Selected.Cam != null)
+        if (Screen.Selected.Cam != null)
+        {
+          Mod.Log($"Main Sub Irradiation: {EntityRadiationAmount(Submarine.MainSub)}");
+        }
+
+        if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        {
+          Mod.Log($"Current Location Irradiation: {CurrentLocationRadiationAmount()}");
+        }
+
+        // if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        // {
+        //   Mod.Log($"Start Location Irradiation: {LocationIrradiation(Level.Loaded?.StartLocation)}");
+        // }
+
+        // if (GameMain.GameSession?.Map?.CurrentLocation != null)
+        // {
+        //   Mod.Log($"End Location Irradiation: {LocationIrradiation(Level.Loaded?.EndLocation)}");
+        // }
+      }
+      catch (Exception e)
       {
-        Mod.Log($"Main Sub Irradiation: {EntityRadiationAmount(Submarine.MainSub)}");
+        Mod.Warning(e);
       }
-
-      if (GameMain.GameSession?.Map?.CurrentLocation != null)
-      {
-        Mod.Log($"Current Location Irradiation: {CurrentLocationRadiationAmount()}");
-      }
-
-      // if (GameMain.GameSession?.Map?.CurrentLocation != null)
-      // {
-      //   Mod.Log($"Start Location Irradiation: {LocationIrradiation(Level.Loaded?.StartLocation)}");
-      // }
-
-      // if (GameMain.GameSession?.Map?.CurrentLocation != null)
-      // {
-      //   Mod.Log($"End Location Irradiation: {LocationIrradiation(Level.Loaded?.EndLocation)}");
-      // }
     }
 
     public void Rad_Metadata_Command(string[] args)
     {
-      object o = GetMetadata("CurrentLocationIrradiation") ?? "null";
-      Mod.Log($"CurrentLocationIrradiation: {o}");
+      try
+      {
+        object o = GetMetadata("CurrentLocationIrradiation") ?? "null";
+        Mod.Log($"CurrentLocationIrradiation: {o}");
 
-      // o = GetMetadata("MainSubIrradiation") ?? "null";
-      // Mod.Log($"MainSubIrradiation: {o}");
+        // o = GetMetadata("MainSubIrradiation") ?? "null";
+        // Mod.Log($"MainSubIrradiation: {o}");
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
     }
 
 
@@ -94,126 +108,32 @@ namespace JovianRadiationRework
 
     public void Rad_Command(string[] args)
     {
-      if (args.Length == 0)
+      try
       {
-        Log("rad variable [value]");
-        return;
-      }
-
-      string name = args.ElementAtOrDefault(0);
-      string value = args.ElementAtOrDefault(1);
-
-      // TODO what if prop doesn't exist?
-      if (value != null)
-      {
-        if (GameMain.IsSingleplayer)
+        if (args.Length == 0)
         {
-          settingsManager.SetProp(name, value);
-          Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
+          Log("rad variable [value]");
+          return;
         }
 
-        if (GameMain.IsMultiplayer)
+        string name = args.ElementAtOrDefault(0);
+        string value = args.ElementAtOrDefault(1);
+
+        // TODO what if prop doesn't exist?
+        if (value != null)
         {
-          if (HasPermissions)
+          if (GameMain.IsSingleplayer)
           {
             settingsManager.SetProp(name, value);
-            NetManager.Sync(Mod.settings);
+            Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
           }
-          else
-          {
-            Mod.Log($"Only Host or players with all permissions can use this");
-          }
-        }
-      }
-
-      Log($"{Settings.flatView.Props.GetValueOrDefault(name)?.Name} = {settingsManager.GetProp(name)}");
-    }
-
-    public void Rad_Load_Command(string[] args)
-    {
-      string targetPath = null;
-
-      if (args.Length == 0)
-      {
-        targetPath = IOManager.SettingsFile;
-      }
-      else
-      {
-        var presets = IOManager.AllPresets();
-
-        if (presets.ContainsKey(args[0]))
-        {
-          targetPath = presets[args[0]];
-        }
-        else
-        {
-          foreach (string key in presets.Keys)
-          {
-            if (String.Equals(key, args[0], StringComparison.OrdinalIgnoreCase))
-            {
-              targetPath = presets[key];
-            }
-          }
-        }
-      }
-
-      if (targetPath == null)
-      {
-        Mod.Log("Not found");
-        return;
-      }
-
-
-      if (GameMain.IsSingleplayer)
-      {
-        Mod.Instance.settingsManager.LoadFrom(targetPath);
-        Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
-        Mod.Log($"Loaded {Mod.settings.Name}");
-      }
-
-      if (GameMain.IsMultiplayer)
-      {
-        if (HasPermissions)
-        {
-          Mod.Instance.settingsManager.JustLoad(targetPath);
-          NetManager.Sync(Mod.settings);
-          Mod.Log($"Loaded {Mod.settings.Name}");
-        }
-        else
-        {
-          Mod.Log($"Only Host or players with all permissions can use this");
-        }
-      }
-    }
-
-    public void Rad_Save_Command(string[] args)
-    {
-      string targetPath = IOManager.SettingsFile;
-
-      if (args.Length != 0)
-      {
-        targetPath = Path.Combine(IOManager.SavedPresets, args[0] + ".xml");
-      }
-
-      Mod.Instance.settingsManager.SaveTo(targetPath);
-
-      Mod.Log($"Saved to {targetPath}");
-    }
-
-    public void Rad_Amount_Command(string[] args)
-    {
-      if (args.Length != 0 && GameMain.GameSession?.Map?.Radiation != null)
-      {
-        if (float.TryParse(args[0], out float amount))
-        {
-          GameMain.GameSession.Map.Radiation.Amount = amount;
-          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
 
           if (GameMain.IsMultiplayer)
           {
             if (HasPermissions)
             {
-              DebugConsole.ExecuteCommand($"rad_serv_amount {amount}");
+              settingsManager.SetProp(name, value);
+              NetManager.Sync(Mod.settings);
             }
             else
             {
@@ -221,9 +141,144 @@ namespace JovianRadiationRework
             }
           }
         }
-      }
 
-      Mod.Log($"Radiation.Amount = {GameMain.GameSession?.Map?.Radiation.Amount}");
+        Log($"{Settings.flatView.Props.GetValueOrDefault(name)?.Name} = {settingsManager.GetProp(name)}");
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
+    }
+
+    public void Rad_Load_Command(string[] args)
+    {
+      try
+      {
+        string targetPath = null;
+
+        if (args.Length == 0)
+        {
+          targetPath = IOManager.SettingsFile;
+        }
+        else
+        {
+          var presets = IOManager.AllPresets();
+
+          if (presets.ContainsKey(args[0]))
+          {
+            targetPath = presets[args[0]];
+          }
+          else
+          {
+            foreach (string key in presets.Keys)
+            {
+              if (String.Equals(key, args[0], StringComparison.OrdinalIgnoreCase))
+              {
+                targetPath = presets[key];
+              }
+            }
+          }
+        }
+
+        if (targetPath == null)
+        {
+          Mod.Log("Not found");
+          return;
+        }
+
+
+        if (GameMain.IsSingleplayer)
+        {
+          Mod.Instance.settingsManager.LoadFrom(targetPath);
+          Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
+          Mod.Log($"Loaded {Mod.settings.Name}");
+        }
+
+        if (GameMain.IsMultiplayer)
+        {
+          if (HasPermissions)
+          {
+            Mod.Instance.settingsManager.JustLoad(targetPath);
+            NetManager.Sync(Mod.settings);
+            Mod.Log($"Loaded {Mod.settings.Name}");
+          }
+          else
+          {
+            Mod.Log($"Only Host or players with all permissions can use this");
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
+    }
+
+    public void Rad_Save_Command(string[] args)
+    {
+      try
+      {
+        string targetPath = IOManager.SettingsFile;
+
+        if (args.Length != 0)
+        {
+          targetPath = Path.Combine(IOManager.SavedPresets, args[0] + ".xml");
+        }
+
+        Mod.Instance.settingsManager.SaveTo(targetPath);
+
+        Mod.Log($"Saved to {targetPath}");
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
+    }
+
+    public void Rad_Amount_Command(string[] args)
+    {
+      try
+      {
+        if (args.Length != 0 && GameMain.GameSession?.Map?.Radiation != null)
+        {
+          if (float.TryParse(args[0], out float amount))
+          {
+            GameMain.GameSession.Map.Radiation.Amount = amount;
+            SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+
+            if (GameMain.IsMultiplayer)
+            {
+              if (HasPermissions)
+              {
+                DebugConsole.ExecuteCommand($"rad_serv_amount {amount}");
+              }
+              else
+              {
+                Mod.Log($"Only Host or players with all permissions can use this");
+              }
+            }
+          }
+        }
+
+        Mod.Log($"Radiation.Amount = {GameMain.GameSession?.Map?.Radiation.Amount}");
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
+    }
+
+    public void Rad_GUI_Command(string[] args)
+    {
+      try
+      {
+        if (Mod.Instance == null) return;
+        Mod.Instance.UI.Visible = !Mod.Instance.UI.Visible;
+      }
+      catch (Exception e)
+      {
+        Mod.Error(e);
+      }
     }
   }
 }
