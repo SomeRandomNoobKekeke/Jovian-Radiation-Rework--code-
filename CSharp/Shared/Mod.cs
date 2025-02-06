@@ -50,6 +50,8 @@ namespace JovianRadiationRework
       harmony = new Harmony("jovian.radiation.rework");
       harmony.PatchAll();
 
+      InitializeProjSpecific();
+
       if (GameMain.GameSession?.IsRunning == true)
       {
         Init();
@@ -85,6 +87,8 @@ namespace JovianRadiationRework
       FlatView.PrimitiveTypes.Clear(); FlatView.PrimitiveTypes = null;
       FlatView.AllowedComplexTypes.Clear(); FlatView.AllowedComplexTypes = null;
       FlatView.IgnoredTypes.Clear(); FlatView.IgnoredTypes = null;
+
+      DisposeProjSpecific();
 
       Instance = null;
     }

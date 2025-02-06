@@ -29,6 +29,14 @@ namespace JovianRadiationRework
       GameMain.LuaCs.Networking.Receive("jrr_sync", NetManager.Receive);
     }
 
+    public void InitializeProjSpecific()
+    {
+
+    }
+    public void DisposeProjSpecific()
+    {
+
+    }
 
   }
 }
