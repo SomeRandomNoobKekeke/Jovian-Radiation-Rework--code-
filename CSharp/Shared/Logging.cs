@@ -25,6 +25,12 @@ namespace JovianRadiationRework
       LuaCsLogger.LogMessage($"{msg ?? "null"}", cl * 0.8f, cl);
     }
 
+    public static void Warning(object msg, Color? cl = null)
+    {
+      cl ??= Color.Yellow;
+      LuaCsLogger.LogMessage($"{msg ?? "null"}", cl * 0.8f, cl);
+    }
+
     public static void Info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
       if (Instance?.Debug == true)
