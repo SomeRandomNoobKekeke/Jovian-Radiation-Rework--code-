@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   public class CUISerializableAttribute : System.Attribute { }
   public class DontSerializeAttribute : System.Attribute { }

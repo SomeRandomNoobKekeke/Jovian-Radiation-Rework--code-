@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   /// <summary>
   /// Resizing components to it's Width and placing them sequentially

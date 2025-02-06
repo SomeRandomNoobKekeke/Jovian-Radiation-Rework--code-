@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   /// <summary>
   /// For debug lol, but i leave it here coz you might also find it usefull

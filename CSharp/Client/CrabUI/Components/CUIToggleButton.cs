@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Barotrauma.Extensions;
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   /// <summary>
   /// A button which can be on and off  

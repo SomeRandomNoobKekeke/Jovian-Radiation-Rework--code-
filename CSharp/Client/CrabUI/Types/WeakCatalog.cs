@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Runtime.CompilerServices;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
 
   public class WeakCatalog<TKey, TValue> where TValue : class

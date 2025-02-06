@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   /// <summary>
   /// Allowing you to load textures safely  

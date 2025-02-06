@@ -12,7 +12,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using System.Diagnostics;
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
 
   public class CUIStyleLoader

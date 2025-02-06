@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using HarmonyLib;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   // I'm not an expert in color theory, but at least some order
   public class CUIColorPreset

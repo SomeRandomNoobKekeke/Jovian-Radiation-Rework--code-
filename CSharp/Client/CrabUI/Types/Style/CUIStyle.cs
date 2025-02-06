@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
 
   /// <summary>

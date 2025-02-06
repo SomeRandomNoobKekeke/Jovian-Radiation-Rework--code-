@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using HarmonyLib;
 
-namespace CrabUI
+namespace CrabUI_JovianRadiationRework
 {
   [CUIInternal]
   public static class CUIExtensions
