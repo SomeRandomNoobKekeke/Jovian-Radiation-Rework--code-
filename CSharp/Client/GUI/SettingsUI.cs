@@ -8,6 +8,7 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Barotrauma.Networking;
 using CrabUI_JovianRadiationRework;
@@ -16,48 +17,6 @@ namespace JovianRadiationRework
 {
   public class SettingsUI
   {
-
-    private bool visible; public bool Visible
-    {
-      get => visible;
-      set
-      {
-        visible = value;
-        opened = false;
-        if (visible)
-        {
-          MainFrame.Revealed = false;
-          OpenButton.Revealed = true;
-        }
-        else
-        {
-          MainFrame.Revealed = false;
-          OpenButton.Revealed = false;
-        }
-      }
-    }
-
-    private bool opened; public bool Opened
-    {
-      get => opened;
-      set
-      {
-        opened = value;
-        visible = true;
-        if (opened)
-        {
-          MainFrame.Revealed = true;
-          OpenButton.Revealed = false;
-        }
-        else
-        {
-          MainFrame.Revealed = false;
-          OpenButton.Revealed = true;
-        }
-      }
-    }
-
-    public CUIButton OpenButton;
     public CUIFrame MainFrame;
 
     public void SyncSettings(Settings s)
@@ -195,22 +154,21 @@ namespace JovianRadiationRework
       }
     }
 
+    public void OpenSettingsFrame()
+    {
+      MainFrame.Revealed = true;
+      if (GUI.PauseMenuOpen) GUI.TogglePauseMenu();
+    }
+
     public void CreateUI()
     {
-      OpenButton = new CUIButton("RADIATION\nSETTINGS")
-      {
-        Vertical = true,
-        Anchor = CUIAnchor.CenterRight,
-        Font = GUIStyle.MonospacedFont,
-        TextAlign = CUIAnchor.Center,
-        Padding = new Vector2(4, 4),
-        AddOnMouseDown = (e) => Opened = !Opened,
-        Style = new CUIStyle(){
-          {"MasterColorOpaque", "CUIPalette.Current.H1.Background"},
-          {"BorderColor", "CUIPalette.Current.H1.Border"},
-        }
-      };
-      CUI.Main.Append(OpenButton);
+      // CUI.Main.Global.OnKeyDown += (e) =>
+      // {
+      //   if (e.PressedKeys.Contains(Keys.Escape))
+      //   {
+      //     if (!GUI.InputBlockingMenuOpen && MainFrame.Revealed) MainFrame.Revealed = false;
+      //   }
+      // };
 
       MainFrame = new CUIFrame()
       {
@@ -218,6 +176,8 @@ namespace JovianRadiationRework
         Anchor = CUIAnchor.Center,
         Revealed = false,
       };
+
+      CUI.IsBlockingPredicates.Add(() => MainFrame.Revealed);
 
       MainFrame["list"] = new CUIVerticalList()
       {
@@ -248,7 +208,7 @@ namespace JovianRadiationRework
       MainFrame["list"]["header"]["close"] = new CUICloseButton()
       {
         Absolute = new CUINullRect(0, 0, 20, 20),
-        AddOnMouseDown = (e) => Opened = !Opened,
+        AddOnMouseDown = (e) => MainFrame.Revealed = false,
       };
 
       MainFrame["list"]["header"]["caption"] = new CUITextBlock("Radiation Settings")
@@ -288,7 +248,6 @@ namespace JovianRadiationRework
       FillContent(MainFrame["list"]["content"]);
 
       CUI.Main.Append(MainFrame);
-      Opened = true;
     }
 
     public SettingsUI()

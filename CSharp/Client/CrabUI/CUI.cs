@@ -95,6 +95,21 @@ namespace CrabUI_JovianRadiationRework
     public static event Action<TextInputEventArgs> OnWindowTextInput;
     public static event Action<TextInputEventArgs> OnWindowKeyDown;
     //public static event Action<TextInputEventArgs> OnWindowKeyUp;
+
+    //TODO this doesn't trigger when you press menu button, i need to go inside thet method
+    public static event Action OnPauseMenuToggled;
+    public static void InvokeOnPauseMenuToggled() => OnPauseMenuToggled?.Invoke();
+
+    public static bool InputBlockingMenuOpen
+    {
+      get
+      {
+        if (IsBlockingPredicates == null) return false;
+        return IsBlockingPredicates.Any(p => p());
+      }
+    }
+    public static List<Func<bool>> IsBlockingPredicates => Instance?.isBlockingPredicates;
+    private List<Func<bool>> isBlockingPredicates = new List<Func<bool>>();
     /// <summary>
     /// In theory multiple mods could use same CUI instance, 
     /// i clean it up when UserCount drops to 0
@@ -171,6 +186,8 @@ namespace CrabUI_JovianRadiationRework
         TextureManager.Dispose();
         CUIDebugEventComponent.CapturedIDs.Clear();
         OnDispose?.Invoke();
+
+        Instance.isBlockingPredicates.Clear();
 
         Instance.LuaRegistrar.Deregister();
 

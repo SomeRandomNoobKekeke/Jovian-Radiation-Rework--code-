@@ -333,7 +333,7 @@ namespace JovianRadiationRework
       try
       {
         if (Mod.Instance == null) return;
-        Mod.Instance.UI.Visible = !Mod.Instance.UI.Visible;
+        Mod.Instance.UI.OpenSettingsFrame();
       }
       catch (Exception e)
       {
