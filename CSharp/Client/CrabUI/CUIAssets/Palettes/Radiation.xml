@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Palette Name="Radiation">
   <Borderless Background="255,255,255,255" Border="0,0,0,0" />
-  <Button Background="0,127,255,255" Border="0,0,0,255" />
+  <Button Background="0,80,255,255" Border="0,0,0,255" />
   <CloseButton Background="0,127,255,255" Border="0,0,0,0" />
   <Component Background="0,0,0,255" Border="0,0,0,255" />
   <H1 Background="0,0,64,255" Border="0,0,0,255" />
@@ -15,7 +15,7 @@
   <Frame Background="0,0,8,255" Border="32,0,16,255" />
   <Handle Background="0,100,200,255" Border="0,0,0,0" />
   <HandleGrabbed Background="0,255,255,255" Border="0,0,0,0" />
-  <Input Background="0,0,16,255" Border="0,0,0,255" Text="100,200,255,255" />
+  <Input Background="0,0,16,240" Border="0,0,0,127" Text="100,200,255,255" />
   <InputCaret Background="0,255,255,255" Border="0,0,0,0" />
   <InputHighlited Background="0,255,255,255" Border="0,100,200,255" />
   <InputInvalid Background="0,255,255,255" Border="255,0,0,255" />
@@ -23,7 +23,7 @@
   <InputValid Background="0,255,255,255" Border="0,255,0,255" />
   <Text Background="0,0,0,0" Border="0,0,0,0" Text="200,200,200,255" />
   <Text2 Background="32,0,64,255" Border="0,0,0,0" Text="100,200,200,255" />
-  <Text3 Background="16,0,40,0" Border="0,0,0,0" Text="100,200,200,255" />
+  <Text3 Background="0,0,0,255" Border="0,0,0,0" Text="100,200,200,255" />
   <Wrapper Background="0,0,0,0" Border="0,0,0,0" />
   <Wrapper2 Background="0,0,0,0" Border="0,0,0,255" />
 </Palette>

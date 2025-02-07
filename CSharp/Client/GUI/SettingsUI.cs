@@ -192,9 +192,12 @@ namespace JovianRadiationRework
         TextAlign = CUIAnchor.Center,
         Padding = new Vector2(4, 4),
         AddOnMouseDown = (e) => Opened = !Opened,
+        Style = new CUIStyle(){
+          {"MasterColorOpaque", "CUIPalette.Current.H1.Background"},
+          {"BorderColor", "CUIPalette.Current.H1.Border"},
+        }
       };
       CUI.Main.Append(OpenButton);
-
 
       MainFrame = new CUIFrame()
       {
@@ -203,9 +206,22 @@ namespace JovianRadiationRework
         Revealed = false,
       };
 
-      MainFrame.Layout = new CUILayoutVerticalList();
+      MainFrame["list"] = new CUIVerticalList()
+      {
+        Relative = new CUINullRect(0, 0, 1, 1),
+      };
 
-      MainFrame["header"] = new CUIHorizontalList()
+
+      CUIRadiation Radiation = new CUIRadiation(256, 256)
+      {
+        Relative = new CUINullRect(0, 0, 1, 1),
+      };
+      MainFrame["radiation"] = Radiation;
+      MainFrame.OnUpdate += (t) => { if (MainFrame.Revealed) Radiation.Update(t); };
+
+
+
+      MainFrame["list"]["header"] = new CUIHorizontalList()
       {
         Absolute = new CUINullRect(h: 20),
         Direction = CUIDirection.Reverse,
@@ -216,19 +232,19 @@ namespace JovianRadiationRework
         }
       };
 
-      MainFrame["header"]["close"] = new CUICloseButton()
+      MainFrame["list"]["header"]["close"] = new CUICloseButton()
       {
         Absolute = new CUINullRect(0, 0, 20, 20),
         AddOnMouseDown = (e) => Opened = !Opened,
       };
 
-      MainFrame["header"]["caption"] = new CUITextBlock("Radiation Settings")
+      MainFrame["list"]["header"]["caption"] = new CUITextBlock("Radiation Settings")
       {
         FillEmptySpace = new CUIBool2(true, false),
         TextAlign = CUIAnchor.CenterLeft,
       };
 
-      MainFrame["nav"] = new CUIHorizontalList()
+      MainFrame["list"]["nav"] = new CUIHorizontalList()
       {
         Absolute = new CUINullRect(h: 20),
         Style = new CUIStyle(){
@@ -238,22 +254,24 @@ namespace JovianRadiationRework
 
       };
 
-      MainFrame["nav"]["save"] = new CUIButton("save as")
+      MainFrame["list"]["nav"]["save"] = new CUIButton("save as")
       {
-
+        FillEmptySpace = new CUIBool2(true, false),
       };
-      MainFrame["nav"]["load"] = new CUIButton("load")
+      MainFrame["list"]["nav"]["load"] = new CUIButton("load")
       {
-
+        FillEmptySpace = new CUIBool2(true, false),
       };
 
-      MainFrame["content"] = new CUIVerticalList()
+      MainFrame["list"]["content"] = new CUIVerticalList()
       {
         FillEmptySpace = new CUIBool2(false, true),
         Scrollable = true,
+        BottomGap = 0,
+        ScrollSpeed = 0.3f,
       };
 
-      FillContent(MainFrame["content"]);
+      FillContent(MainFrame["list"]["content"]);
 
       CUI.Main.Append(MainFrame);
       Opened = true;

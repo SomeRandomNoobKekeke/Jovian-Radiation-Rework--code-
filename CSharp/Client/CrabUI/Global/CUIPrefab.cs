@@ -58,6 +58,8 @@ namespace CrabUI_JovianRadiationRework
         FillEmptySpace = new CUIBool2(true, false),
         Text = $"{pi.PropertyType.Name} {pi.Name}",
         TextAlign = CUIAnchor.CenterLeft,
+        BackgroundSprite = new CUISprite("gradient.png"),
+
         Style = new CUIStyle(){
           {"BackgroundColor", "CUIPalette.Current.Text3.Background"},
           {"BorderColor", "CUIPalette.Current.Text3.Border"},
