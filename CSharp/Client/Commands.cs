@@ -15,13 +15,23 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public event Action<Settings> OnSettinsChangedFromConsole;
+
     public void AddProjSpecificCommands()
     {
       AddedCommands.Add(new DebugConsole.Command("rad_info", "some info", Rad_Info_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_metadata", "", Rad_Metadata_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_debug", "", Rad_Debug_Command));
-      AddedCommands.Add(new DebugConsole.Command("rad", "rad variable [value]", Rad_Command, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
-      AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", Rad_Load_Command, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
+      AddedCommands.Add(new DebugConsole.Command("rad", "rad variable [value]", (string[] args) =>
+      {
+        Rad_Command(args);
+        OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
+      }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", (string[] args) =>
+      {
+        Rad_Load_Command(args);
+        OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
+      }, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
       AddedCommands.Add(new DebugConsole.Command("rad_save", "rad_save [name]", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_gui", "opens the gui", Rad_GUI_Command));

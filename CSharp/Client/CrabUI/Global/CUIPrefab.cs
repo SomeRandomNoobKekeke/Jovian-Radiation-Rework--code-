@@ -37,8 +37,17 @@ namespace CrabUI_JovianRadiationRework
       return list;
     }
 
+    //TODO this is now too specific and shouldn't be here
     public static CUIHorizontalList InputWithValidation(PropertyInfo pi, string command)
     {
+      string ToUserFriendly(Type T)
+      {
+        if (T == typeof(bool)) return "Boolean";
+        if (T == typeof(int)) return "Integer";
+        if (T == typeof(float)) return "Float";
+        return T.Name;
+      }
+
       CUIHorizontalList list = new CUIHorizontalList()
       {
         FitContent = new CUIBool2(true, true),
@@ -51,12 +60,13 @@ namespace CrabUI_JovianRadiationRework
         Relative = new CUINullRect(w: 0.3f),
         Command = command,
         Consumes = command,
+        VatidationType = pi.PropertyType,
       };
 
       list["label"] = new CUITextBlock()
       {
         FillEmptySpace = new CUIBool2(true, false),
-        Text = $"{pi.PropertyType.Name} {pi.Name}",
+        Text = $"{ToUserFriendly(pi.PropertyType)} {pi.Name}",
         TextAlign = CUIAnchor.CenterLeft,
         BackgroundSprite = new CUISprite("gradient.png"),
 

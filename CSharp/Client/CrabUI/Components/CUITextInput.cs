@@ -49,6 +49,7 @@ namespace CrabUI_JovianRadiationRework
         Text = Text.Insert(CaretPos, text);
         CaretPos = CaretPos + 1;
         OnTextAdded?.Invoke(text);
+        //CUI.Log($"ReceiveTextInput {text}");
       }
       catch (Exception e)
       {
@@ -64,6 +65,7 @@ namespace CrabUI_JovianRadiationRework
       if (pressedKey == Keys.A) SelectAll();
       if (pressedKey == Keys.C) Copy();
       if (pressedKey == Keys.V) Paste();
+      //CUI.Log($"ReceiveCommandInput {command}");
     }
 
     //Alt+tab?
@@ -226,6 +228,41 @@ namespace CrabUI_JovianRadiationRework
       };
     }
 
+
+
+    private bool valid = true; public bool Valid
+    {
+      get => valid;
+      set
+      {
+        if (valid == value) return;
+        valid = value;
+        UpdateBorderColor();
+      }
+    }
+
+    public Type VatidationType { get; set; }
+    public bool IsValidText(string text)
+    {
+      if (VatidationType == null) return true;
+
+      if (VatidationType == typeof(string)) return true;
+      if (VatidationType == typeof(Color)) return true;
+      if (VatidationType == typeof(bool)) return bool.TryParse(text, out _);
+      if (VatidationType == typeof(int)) return int.TryParse(text, out _);
+      if (VatidationType == typeof(float)) return float.TryParse(text, out _);
+      if (VatidationType == typeof(double)) return double.TryParse(text, out _);
+
+      return false;
+    }
+
+    public override void Consume(object o)
+    {
+      string value = (string)o;
+      State = new TextInputState(value, State.Selection, State.CaretPos);
+      Valid = IsValidText(value);
+    }
+
     internal CUITextBlock TextComponent;
     public string Text
     {
@@ -233,8 +270,17 @@ namespace CrabUI_JovianRadiationRework
       set
       {
         if (Disabled) return;
+
         State = new TextInputState(value, State.Selection, State.CaretPos);
-        OnTextChanged?.Invoke(State.Text);
+
+        bool isvalid = IsValidText(value);
+        if (isvalid)
+        {
+          OnTextChanged?.Invoke(State.Text);
+          if (Command != null) DispatchUp(new CUICommand(Command, State.Text));
+        }
+        Valid = isvalid;
+
       }
     }
 
@@ -262,15 +308,27 @@ namespace CrabUI_JovianRadiationRework
 
     public void UpdateBorderColor()
     {
-      if (Focused)
+      if (Valid)
       {
-        Style["BorderColor"] = "CUIPalette.Current.InputHighlited.Border";
+        if (Focused)
+        {
+          Style["BorderColor"] = "CUIPalette.Current.InputHighlited.Border";
+        }
+        else
+        {
+          Style["BorderColor"] = "CUIPalette.Current.Input.Border";
+        }
       }
       else
       {
-        Style["BorderColor"] = "CUIPalette.Current.Input.Border";
+        Style["BorderColor"] = "CUIPalette.Current.InputInvalid.Border";
       }
+    }
 
+    public float TextScale
+    {
+      get => TextComponent.TextScale;
+      set => TextComponent.TextScale = value;
     }
 
     public event Action<string> OnTextChanged;
@@ -331,7 +389,7 @@ namespace CrabUI_JovianRadiationRework
       };
 
 
-      //TODO unhardcode
+
       OnFocus += () =>
       {
         UpdateBorderColor();

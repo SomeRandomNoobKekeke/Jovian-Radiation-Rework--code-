@@ -78,7 +78,8 @@ namespace CrabUI_JovianRadiationRework
     /// <param name="command"></param>
     public void DispatchUp(CUICommand command)
     {
-      if (Commands.ContainsKey(command.Name)) Execute(command);
+      if (OnAnyCommand != null) OnAnyCommand.Invoke(command);
+      else if (Commands.ContainsKey(command.Name)) Execute(command);
       else Parent?.DispatchUp(command);
     }
 
@@ -106,7 +107,6 @@ namespace CrabUI_JovianRadiationRework
     /// <param name="commandName"></param>
     public void Execute(CUICommand command)
     {
-      OnAnyCommand?.Invoke(command);
       Commands.GetValueOrDefault(command.Name)?.Invoke(command.data);
     }
 

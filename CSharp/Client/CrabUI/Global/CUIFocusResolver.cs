@@ -74,6 +74,7 @@ namespace CrabUI_JovianRadiationRework
 
       if (oldSubscriber is CUIComponent component1 && newSubscriber is GUITextBox)
       {
+        //TODO for some season TextInput doesn't loose focus here
         component1.InvokeOnFocusLost();
         component1.Focused = false;
         focusedCUIComponent = null;

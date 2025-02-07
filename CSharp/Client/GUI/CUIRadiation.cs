@@ -6,8 +6,8 @@ using Barotrauma;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-
-namespace CrabUI_JovianRadiationRework
+using CrabUI_JovianRadiationRework;
+namespace JovianRadiationRework
 {
   public class CUIRadiation : CUIWater
   {

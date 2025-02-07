@@ -12,7 +12,7 @@
   <DDOption BBackground="0,0,0,0" Border="0,0,0,0" />
   <DDOptionHover Background="0,0,64,255" Border="0,0,0,0" />
   <DDOptionsBox Background="32,0,64,255" Border="0,0,0,255" />
-  <Frame Background="0,0,8,255" Border="32,0,16,255" />
+  <Frame Background="0,0,8,255" Border="0,0,40,255" />
   <Handle Background="0,100,200,255" Border="0,0,0,0" />
   <HandleGrabbed Background="0,255,255,255" Border="0,0,0,0" />
   <Input Background="0,0,16,240" Border="0,0,0,127" Text="100,200,255,255" />

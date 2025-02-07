@@ -60,7 +60,20 @@ namespace JovianRadiationRework
     public CUIButton OpenButton;
     public CUIFrame MainFrame;
 
-
+    public void SyncSettings(Settings s)
+    {
+      foreach (string key in Settings.flatView.Props.Keys)
+      {
+        try
+        {
+          MainFrame.DispatchDown(new CUIData(key, Settings.flatView.Get(s, key).ToString()));
+        }
+        catch (Exception e)
+        {
+          Mod.Warning(e);
+        }
+      }
+    }
 
     public void FillContent(CUIComponent content)
     {
@@ -137,7 +150,7 @@ namespace JovianRadiationRework
       {
         if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
         if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
-        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Progress.{pi.Name}");
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Mod.Progress.{pi.Name}");
         content["progress"].Append(setting);
       }
 
@@ -177,12 +190,12 @@ namespace JovianRadiationRework
       {
         if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
         if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
-        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Modsettings.{pi.Name}");
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Mod.{pi.Name}");
         content["modsettings"].Append(setting);
       }
     }
 
-    public SettingsUI()
+    public void CreateUI()
     {
       OpenButton = new CUIButton("RADIATION\nSETTINGS")
       {
@@ -251,16 +264,17 @@ namespace JovianRadiationRework
           {"BackgroundColor", "CUIPalette.Current.H2.Background"},
           {"BorderColor", "CUIPalette.Current.H2.Border"},
         }
-
       };
 
-      MainFrame["list"]["nav"]["save"] = new CUIButton("save as")
+      MainFrame["list"]["nav"]["save"] = new CUIButton("Save as")
       {
         FillEmptySpace = new CUIBool2(true, false),
+        AddOnMouseDown = (e) => CUISaveDialog.Open(),
       };
-      MainFrame["list"]["nav"]["load"] = new CUIButton("load")
+      MainFrame["list"]["nav"]["load"] = new CUIButton("Load")
       {
         FillEmptySpace = new CUIBool2(true, false),
+        AddOnMouseDown = (e) => CUIOpenDialog.Open(),
       };
 
       MainFrame["list"]["content"] = new CUIVerticalList()
@@ -275,6 +289,21 @@ namespace JovianRadiationRework
 
       CUI.Main.Append(MainFrame);
       Opened = true;
+    }
+
+    public SettingsUI()
+    {
+      CreateUI();
+      MainFrame.OnAnyCommand = (c) =>
+      {
+        Mod.Instance?.Rad_Command(new string[] { c.Name, (string)c.data });
+      };
+
+      Mod.Instance.OnSettinsChangedFromConsole += (s) =>
+      {
+        SyncSettings(s);
+      };
+
     }
   }
 }
