@@ -93,8 +93,8 @@ namespace CrabUI_JovianRadiationRework
         ParentAnchor = CUIAnchor.BottomLeft,
         ZIndex = 500,
         Style = new CUIStyle(){
-          {"BackgroundColor", "CUIPalette.Current.Tertiary.Off"},
-          {"BorderColor", "CUIPalette.Current.Tertiary.Border"},
+          {"BackgroundColor", "CUIPalette.Current.DDOptionsBox.Background"},
+          {"BorderColor", "CUIPalette.Current.DDOptionsBox.Border"},
         },
       };
 

@@ -27,6 +27,7 @@ namespace CrabUI_JovianRadiationRework
     /// This command will be dispatched up when some component specific event happens
     /// </summary>
     [CUISerializable] public string Command { get; set; }
+    public Action<CUICommand> OnAnyCommand { get; set; }
     /// <summary>
     /// Those dispatched down commands will be consumed, consume logic is component specific
     /// </summary>

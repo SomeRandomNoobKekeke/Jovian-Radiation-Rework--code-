@@ -256,9 +256,22 @@ namespace CrabUI_JovianRadiationRework
       set => State = new TextInputState(State.Text, State.Selection, value);
     }
 
-    [CUISerializable] public Color FocusedBorderColor { get; set; } = Color.Aqua;
+
     //TODO
     //[CUISerializable] public bool PreventOverflow { get; set; } = false;
+
+    public void UpdateBorderColor()
+    {
+      if (Focused)
+      {
+        Style["BorderColor"] = "CUIPalette.Current.Quaternary.Highlighted";
+      }
+      else
+      {
+        Style["BorderColor"] = "CUIPalette.Current.Quaternary.Border";
+      }
+
+    }
 
     public event Action<string> OnTextChanged;
     public Action<string> AddOnTextChanged { set => OnTextChanged += value; }
@@ -298,8 +311,8 @@ namespace CrabUI_JovianRadiationRework
       this["SelectionOverlay"] = SelectionOverlay = new CUIComponent()
       {
         Style = new CUIStyle(){
-          {"BackgroundColor", "0,255,255,128"},
-          {"BorderColor", "Transparent"},
+          {"BackgroundColor", "CUIPalette.Current.InputSelectionOverlay.Background"},
+          {"BorderColor", "CUIPalette.Current.InputSelectionOverlay.Border"},
         },
         Relative = new CUINullRect(h: 1),
         Ghost = new CUIBool2(true, true),
@@ -308,8 +321,8 @@ namespace CrabUI_JovianRadiationRework
       this["CaretIndicator"] = CaretIndicator = new CUIComponent()
       {
         Style = new CUIStyle(){
-          {"BackgroundColor", "255,255,255,150"},
-          {"BorderColor", "Transparent"},
+          {"BackgroundColor", "CUIPalette.Current.InputCaret.Background"},
+          {"BorderColor", "CUIPalette.Current.InputCaret.Border"},
         },
         Relative = new CUINullRect(h: 1),
         Absolute = new CUINullRect(w: 1),
@@ -320,12 +333,12 @@ namespace CrabUI_JovianRadiationRework
       //TODO unhardcode
       OnFocus += () =>
       {
-        BorderColor = FocusedBorderColor;
+        UpdateBorderColor();
       };
 
       OnFocusLost += () =>
       {
-        BorderColor = Color.Transparent;
+        UpdateBorderColor();
         Selection = IntRange.Zero;
       };
 

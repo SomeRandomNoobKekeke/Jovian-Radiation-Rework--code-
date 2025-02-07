@@ -150,7 +150,7 @@ namespace CrabUI_JovianRadiationRework
         value = CUIPalette.Extract(raw.Substring(CUIPalettePrefix.Length));
         if (value == null)
         {
-          CUI.Warning($"Can't find {raw.Substring(CUIPalettePrefix.Length)} in palette");
+          CUI.Warning($"Can't find {raw.Substring(CUIPalettePrefix.Length)} palette style for {target}");
           return;
         }
       }

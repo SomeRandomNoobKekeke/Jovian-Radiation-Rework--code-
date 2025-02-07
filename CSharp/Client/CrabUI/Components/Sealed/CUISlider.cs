@@ -65,8 +65,8 @@ namespace CrabUI_JovianRadiationRework
     {
       ChildrenBoundaries = CUIBoundaries.Box;
       Style = new CUIStyle(){
-        {"BackgroundColor", "Transparent"},
-        {"BorderColor", "Transparent"},
+        {"BackgroundColor", "CUIPalette.Current.Wrapper.Background"},
+        {"BorderColor", "CUIPalette.Current.Wrapper.Border"},
       };
 
       this["LeftEnding"] = LeftEnding = new CUIComponent()
@@ -75,7 +75,7 @@ namespace CrabUI_JovianRadiationRework
         Relative = new CUINullRect(h: 1),
         CrossRelative = new CUINullRect(w: 1),
         BackgroundSprite = CUI.TextureManager.GetCUISprite(2, 2, CUISpriteDrawMode.Resize, SpriteEffects.FlipHorizontally),
-        Style = new CUIStyle() { { "BorderColor", "Transparent" } },
+        Style = new CUIStyle() { { "BorderColor", "CUIPalette.Current.Borderless.Border" } },
       };
 
       this["RightEnding"] = RightEnding = new CUIComponent()
@@ -84,13 +84,13 @@ namespace CrabUI_JovianRadiationRework
         Relative = new CUINullRect(h: 1),
         CrossRelative = new CUINullRect(w: 1),
         BackgroundSprite = CUI.TextureManager.GetCUISprite(2, 2),
-        Style = new CUIStyle() { { "BorderColor", "Transparent" } },
+        Style = new CUIStyle() { { "BorderColor", "CUIPalette.Current.Borderless.Border" } },
       };
 
 
       this["handle"] = Handle = new CUIComponent()
       {
-        Style = new CUIStyle() { { "BorderColor", "Transparent" } },
+        Style = new CUIStyle() { { "BorderColor", "CUIPalette.Current.Borderless.Border" } },
         Draggable = true,
         BackgroundSprite = CUI.TextureManager.GetCUISprite(0, 2),
         Relative = new CUINullRect(h: 1),

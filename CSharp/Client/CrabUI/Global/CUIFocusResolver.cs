@@ -28,14 +28,14 @@ namespace CrabUI_JovianRadiationRework
 
         if (oldFocused != null)
         {
-          oldFocused.InvokeOnFocusLost();
           oldFocused.Focused = false;
+          oldFocused.InvokeOnFocusLost();
         }
 
         if (newFocused != null)
         {
-          newFocused.InvokeOnFocus();
           newFocused.Focused = true;
+          newFocused.InvokeOnFocus();
         }
 
         if (oldFocused is IKeyboardSubscriber || newFocused is null)

@@ -33,6 +33,7 @@ namespace CrabUI_JovianRadiationRework
     public static string CUIPath => GetCallerFolderPath();
     public static string CUIAssetsPath => Path.Combine(CUIPath, @"CUIAssets");
     public static string CUITexturePath => "CUI.png";
+    public static string CUIPalettesPath => Path.Combine(CUIAssetsPath, @"Palettes");
     /// <summary>
     /// If set CUI will also check this folder when loading textures
     /// </summary>
@@ -193,6 +194,7 @@ namespace CrabUI_JovianRadiationRework
       CUIExtensions.InitStatic();
       CUIReflection.InitStatic();
       CUIMultiModResolver.InitStatic();
+      CUIPalette.InitStatic();
       CUIMap.CUIMapLink.InitStatic();
       CUIComponent.InitStatic();
       CUITypeMetaData.InitStatic();

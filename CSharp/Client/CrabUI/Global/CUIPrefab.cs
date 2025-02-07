@@ -37,6 +37,35 @@ namespace CrabUI_JovianRadiationRework
       return list;
     }
 
+    public static CUIHorizontalList InputWithValidation(Type T, string command)
+    {
+      CUIHorizontalList list = new CUIHorizontalList()
+      {
+        FitContent = new CUIBool2(true, true),
+        BorderColor = Color.Transparent,
+      };
+
+      list["label"] = new CUITextBlock()
+      {
+        Absolute = new CUINullRect(w: 50),
+        Text = T.Name,
+        TextAlign = CUIAnchor.Center,
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.Text3.Background"},
+          {"BorderColor", "CUIPalette.Current.Text3.Border"},
+        },
+      };
+
+      list["input"] = new CUITextInput()
+      {
+        FillEmptySpace = new CUIBool2(true, false),
+        Command = command,
+        Consumes = command,
+      };
+
+      return list;
+    }
+
 
   }
 }

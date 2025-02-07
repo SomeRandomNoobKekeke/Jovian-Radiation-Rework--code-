@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Palette Name="Radiation">
+  <Borderless Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button2 Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button2Disabled Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button2Hover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button2On Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button2OnHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button3 Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button3Disabled Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button3Hover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button3On Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Button3OnHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <ButtonDisabled Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <ButtonHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <ButtonOn Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <ButtonOnHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <CloseButton Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <CloseButtonDisabled Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <CloseButtonHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <CloseButtonOn Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <CloseButtonOnHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Component Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDButton Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDButtonDisabled Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDButtonHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDButtonOn Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDButtonOnHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDOption Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDOptionHover Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <DDOptionsBox Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Frame Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Handle Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Input Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <InputCaret Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <InputHighlited Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <InputInvalid Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <InputSelectionOverlay Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <InputValid Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Text Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Text2 Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Text3 Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Wrapper Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+  <Wrapper2 Background="0,0,0,0" Border="0,0,0,0" Text="0,0,0,0" />
+</Palette>

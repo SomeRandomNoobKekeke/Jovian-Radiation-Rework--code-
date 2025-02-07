@@ -76,6 +76,11 @@ namespace JovianRadiationRework
         Font = GUIStyle.MonospacedFont,
         TextAlign = CUIAnchor.Center,
         Padding = new Vector2(4, 4),
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
+          {"BorderColor", "CUIPalette.Current.Text2.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Border"},
+        },
       };
 
       VanillaDiv["content"] = new CUIVerticalList()
@@ -89,7 +94,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in typeof(VanillaSettings).GetProperties())
       {
-        content["vanilla"].Append(new CUITextBlock($"{pi}"));
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi.PropertyType, $"Vanilla.{pi.Name}");
+        content["vanilla"].Append(setting);
       }
 
 
@@ -105,6 +111,11 @@ namespace JovianRadiationRework
         Font = GUIStyle.MonospacedFont,
         TextAlign = CUIAnchor.Center,
         Padding = new Vector2(4, 4),
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
+          {"BorderColor", "CUIPalette.Current.Text2.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Border"},
+        },
       };
 
       ProgressDiv["content"] = new CUIVerticalList()
@@ -118,6 +129,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in typeof(ProgressSettings).GetProperties())
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
+        if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
         content["progress"].Append(new CUITextBlock($"{pi}"));
       }
 
@@ -134,6 +147,11 @@ namespace JovianRadiationRework
         Font = GUIStyle.MonospacedFont,
         TextAlign = CUIAnchor.Center,
         Padding = new Vector2(4, 4),
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
+          {"BorderColor", "CUIPalette.Current.Text2.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Border"},
+        },
       };
 
       ModDiv["content"] = new CUIVerticalList()
@@ -147,6 +165,8 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in typeof(ModSettings).GetProperties())
       {
+        if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
+        if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
         content["modsettings"].Append(new CUITextBlock($"{pi}"));
       }
     }

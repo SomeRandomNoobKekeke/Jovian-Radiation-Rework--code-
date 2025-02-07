@@ -86,7 +86,7 @@ namespace CrabUI_JovianRadiationRework
       return props;
     }
 
-
+    public static string ColorToString(Color c) => $"{c.R},{c.G},{c.B},{c.A}";
     public static string Vector2ToString(Vector2 v) => $"[{v.X},{v.Y}]";
     public static string RectangleToString(Rectangle r) => $"[{r.X},{r.Y},{r.Width},{r.Height}]";
     public static string GUIFontToString(GUIFont f) => f.Identifier.Value;
@@ -173,7 +173,7 @@ namespace CrabUI_JovianRadiationRework
         Parse[typeof(GUIFont)] = typeof(CUIExtensions).GetMethod("ParseGUIFont");
         Parse[typeof(SpriteEffects)] = typeof(CUIExtensions).GetMethod("ParseSpriteEffects");
 
-
+        CustomToString[typeof(Color)] = typeof(CUIExtensions).GetMethod("ColorToString");
         CustomToString[typeof(SpriteEffects)] = typeof(CUIExtensions).GetMethod("SpriteEffectsToString");
         CustomToString[typeof(Vector2)] = typeof(CUIExtensions).GetMethod("Vector2ToString");
         CustomToString[typeof(Rectangle)] = typeof(CUIExtensions).GetMethod("RectangleToString");

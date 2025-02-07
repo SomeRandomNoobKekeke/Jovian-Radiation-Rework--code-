@@ -104,7 +104,11 @@ namespace CrabUI_JovianRadiationRework
     /// Will execute action corresponding to this command
     /// </summary>
     /// <param name="commandName"></param>
-    public void Execute(CUICommand command) => Commands.GetValueOrDefault(command.Name)?.Invoke(command.data);
+    public void Execute(CUICommand command)
+    {
+      OnAnyCommand?.Invoke(command);
+      Commands.GetValueOrDefault(command.Name)?.Invoke(command.data);
+    }
 
     public virtual void Consume(object o) { }
   }
