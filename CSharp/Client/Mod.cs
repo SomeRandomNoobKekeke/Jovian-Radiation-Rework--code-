@@ -47,6 +47,7 @@ namespace JovianRadiationRework
     {
       CUI.PGNAssets = Path.Combine(ModDir, "Assets");
       CUI.Initialize();
+      CUIPalette.Current = CUIPalette.Radiation;
 
       UI = new SettingsUI();
     }

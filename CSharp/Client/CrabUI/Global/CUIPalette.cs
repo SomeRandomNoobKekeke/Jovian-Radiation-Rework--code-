@@ -104,23 +104,23 @@ namespace CrabUI_JovianRadiationRework
       },
     };
 
-    public static CUIPalette DarkRed = new CUIPalette()
+    public static CUIPalette Radiation = new CUIPalette()
     {
       Primary = new CUIColorPreset()
       {
-        Border = new Color(128, 128, 128, 255),
-        Text = new Color(255, 255, 255, 255),
-        Off = new Color(32, 0, 0, 128),
+        Border = new Color(16, 16, 16, 255),
+        Text = new Color(200, 230, 230, 255),
+        Off = new Color(0, 0, 0, 255),
         Disabled = new Color(128, 128, 128, 255),
       },
       Secondary = new CUIColorPreset()
       {
-        Border = new Color(100, 100, 100, 255),
-        Text = new Color(255, 255, 255, 255),
-        Off = new Color(0, 0, 32, 255),
-        OffHover = new Color(0, 0, 64, 255),
-        On = new Color(0, 0, 255, 255),
-        OnHover = new Color(0, 0, 196, 255),
+        Border = new Color(16, 16, 16, 255),
+        Text = new Color(200, 230, 230, 255),
+        Off = new Color(0, 16, 16, 255),
+        OffHover = new Color(0, 32, 32, 255),
+        On = new Color(0, 64, 64, 255),
+        OnHover = new Color(0, 64, 64, 255),
         Disabled = new Color(64, 64, 64, 255),
       },
       Tertiary = new CUIColorPreset()
@@ -134,6 +134,7 @@ namespace CrabUI_JovianRadiationRework
         Disabled = new Color(32, 32, 32, 255),
       },
     };
+
 
     public static CUIPalette Default => DarkBlue;
     private static CUIPalette current = Default;
