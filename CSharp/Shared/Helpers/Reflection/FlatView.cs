@@ -108,7 +108,7 @@ namespace JovianRadiationRework
 
         if (pi == null)
         {
-          Mod.Info("PropertyInfo == null");
+          Mod.Info($"PropertyInfo == null ({deepName})");
           return null;
         }
 
@@ -145,7 +145,7 @@ namespace JovianRadiationRework
 
         if (pi == null)
         {
-          Mod.Info("PropertyInfo == null");
+          Mod.Info($"PropertyInfo == null ({deepName})");
           return;
         }
 

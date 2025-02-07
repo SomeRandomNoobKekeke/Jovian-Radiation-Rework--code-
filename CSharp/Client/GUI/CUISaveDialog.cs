@@ -23,6 +23,7 @@ namespace JovianRadiationRework
       Layout = new CUILayoutVerticalList();
       Anchor = CUIAnchor.Center;
       FitContent = new CUIBool2(true, true);
+      Resizible = false;
       this["header"] = new CUITextBlock("Save current settings as:")
       {
         Padding = new Vector2(4, 4),
@@ -35,9 +36,18 @@ namespace JovianRadiationRework
           {"TextColor", "CUIPalette.Current.Text2.Text"},
         },
       };
-      this["input"] = new CUITextInput()
+
+      this["main"] = new CUIVerticalList()
       {
-        TextScale = 2.0f,
+        AbsoluteMin = new CUINullRect(h: 200),
+      };
+      this["main"]["input"] = new CUITextInput()
+      {
+        Anchor = CUIAnchor.Center,
+        TextScale = 1.0f,
+        Style = new CUIStyle(){
+          {"BackgroundColor", "32,32,64"},
+        },
       };
       this["nav"] = new CUIHorizontalList()
       {
@@ -50,7 +60,7 @@ namespace JovianRadiationRework
         TextScale = 1.2f,
         AddOnMouseDown = (e) =>
         {
-          Mod.Instance?.Rad_Save_Command(new string[] { this.Get<CUITextInput>("input").Text });
+          Mod.Instance?.Rad_Save_Command(new string[] { this.Get<CUITextInput>("main.input").Text });
           this.RemoveSelf();
         },
       };

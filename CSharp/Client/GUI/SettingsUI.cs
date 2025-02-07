@@ -21,11 +21,12 @@ namespace JovianRadiationRework
 
     public void SyncSettings(Settings s)
     {
+      if (s == null) return;
       foreach (string key in Settings.flatView.Props.Keys)
       {
         try
         {
-          MainFrame.DispatchDown(new CUIData(key, Settings.flatView.Get(s, key).ToString()));
+          MainFrame.DispatchDown(new CUIData(key, $"{Settings.flatView.Get(s, key)}"));
         }
         catch (Exception e)
         {
@@ -158,6 +159,33 @@ namespace JovianRadiationRework
     {
       MainFrame.Revealed = true;
       if (GUI.PauseMenuOpen) GUI.TogglePauseMenu();
+      SyncSettings(Mod.Instance?.settingsManager?.Current);
+    }
+
+
+    public void AddOpenButtonToVanillaMenu()
+    {
+      try
+      {
+        if (GUI.PauseMenuOpen)
+        {
+          GUIFrame frame = GUI.PauseMenu;
+
+          GUIComponent list = frame.GetChild(1).GetChild(0);
+
+          GUIButton button = new GUIButton(new RectTransform(new Vector2(1f, 0.1f), list.RectTransform), "Radiation Settings", Alignment.Center, "GUIButtonSmall");
+
+          button.OnClicked = (sender, args) =>
+          {
+            OpenSettingsFrame();
+            return true;
+          };
+        }
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
     }
 
     public void CreateUI()
@@ -175,9 +203,11 @@ namespace JovianRadiationRework
         Relative = new CUINullRect(0, 0, 0.5f, 0.5f),
         Anchor = CUIAnchor.Center,
         Revealed = false,
+        ResizibleLeft = false,
       };
 
       CUI.IsBlockingPredicates.Add(() => MainFrame.Revealed);
+      CUI.OnPauseMenuToggled += () => AddOpenButtonToVanillaMenu();
 
       MainFrame["list"] = new CUIVerticalList()
       {
@@ -185,7 +215,7 @@ namespace JovianRadiationRework
       };
 
 
-      CUIRadiation Radiation = new CUIRadiation(256, 256)
+      CUIRadiation Radiation = new CUIRadiation(128, 128)
       {
         Relative = new CUINullRect(0, 0, 1, 1),
       };
@@ -214,7 +244,7 @@ namespace JovianRadiationRework
       MainFrame["list"]["header"]["caption"] = new CUITextBlock("Radiation Settings")
       {
         FillEmptySpace = new CUIBool2(true, false),
-        TextAlign = CUIAnchor.CenterLeft,
+        TextAlign = CUIAnchor.Center,
       };
 
       MainFrame["list"]["nav"] = new CUIHorizontalList()

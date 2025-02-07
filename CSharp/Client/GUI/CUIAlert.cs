@@ -24,6 +24,7 @@ namespace JovianRadiationRework
       Anchor = CUIAnchor.Center;
       Absolute = new CUINullRect(w: 200);
       FitContent = new CUIBool2(false, true);
+      Resizible = false;
       this["message"] = new CUITextBlock(text)
       {
         TextScale = 1.2f,

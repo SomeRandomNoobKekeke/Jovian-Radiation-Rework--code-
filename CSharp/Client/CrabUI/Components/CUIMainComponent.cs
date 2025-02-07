@@ -309,7 +309,10 @@ namespace CrabUI_JovianRadiationRework
 
       // form MouseOnList
       // Note: including main component
-      if (GUI.MouseOn == null || (GUI.MouseOn is GUIButton btn && btn.Text == "DUMMY"))
+      if (
+        GUI.MouseOn == null || (GUI.MouseOn is GUIButton btn && btn.Text == "DUMMY")
+        || (this == CUI.TopMain) //TODO guh
+      )
       {
         RunStraigth(c =>
         {

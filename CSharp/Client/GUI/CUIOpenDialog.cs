@@ -33,7 +33,8 @@ namespace JovianRadiationRework
     {
       Layout = new CUILayoutVerticalList();
       Anchor = CUIAnchor.Center;
-      Absolute = new CUINullRect(w: 200, h: 300);
+      Resizible = false;
+      Absolute = new CUINullRect(w: 300, h: 200);
       this["header"] = new CUITextBlock("Open preset:")
       {
         TextScale = 1.2f,

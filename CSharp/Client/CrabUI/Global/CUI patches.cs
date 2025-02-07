@@ -55,9 +55,7 @@ namespace CrabUI_JovianRadiationRework
       );
 
       harmony.Patch(
-        original: typeof(GUI).GetMethod("TogglePauseMenu", AccessTools.all, new Type[]{
-          typeof(GUIButton),typeof(object)
-        }),
+        original: typeof(GUI).GetMethod("TogglePauseMenu", AccessTools.all, new Type[] { }),
         postfix: new HarmonyMethod(typeof(CUI).GetMethod("GUI_TogglePauseMenu_Postfix", AccessTools.all))
       );
 
@@ -72,7 +70,7 @@ namespace CrabUI_JovianRadiationRework
       __result = __result || CUI.InputBlockingMenuOpen;
     }
 
-    public static void GUI_TogglePauseMenu_Postfix(GUIButton button, object obj)
+    public static void GUI_TogglePauseMenu_Postfix()
     {
       CUI.InvokeOnPauseMenuToggled();
     }

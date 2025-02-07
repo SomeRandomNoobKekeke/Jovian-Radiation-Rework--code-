@@ -21,7 +21,7 @@ namespace JovianRadiationRework
       {
         (X, Y) = (x, y);
 
-        Frequency = CUI.Random.NextDouble() * 0.2 + 0.01;
+        Frequency = CUI.Random.NextDouble() * 0.6 + 0.01;
         TicksToLive = (int)Math.Clamp(10 / Frequency, 10, 300);
       }
     }
@@ -31,7 +31,7 @@ namespace JovianRadiationRework
     public override void UpdateSelf()
     {
 
-      if (Splashes.Count < 30)
+      if (Splashes.Count < 20)
       {
         int w = Pool1.GetUpperBound(0);
         int h = Pool1.GetUpperBound(1);
@@ -52,14 +52,14 @@ namespace JovianRadiationRework
     public CUIRadiation(int x, int y) : base(x, y)
     {
       DropSize = 4.0f;
-      Omega = 1.999f;
+      Omega = 1.99f;
 
-      UpdateInterval = 1.0 / 60.0;
+      UpdateInterval = 1.0 / 30.0;
 
       ColorPalette = new Color[]{
         new Color(0,0,0,0),
         new Color(0,0,255),
-        new Color(0,100,255),
+        new Color(0,0,255),
       };
 
 
