@@ -5,6 +5,12 @@
     <BorderColor>CUIPalette.Current.Component.Border</BorderColor>
   </CUIComponent>
 
+  <CUIFrame>
+    <BackgroundColor>CUIPalette.Current.Frame.Background</BackgroundColor>
+    <!-- <BorderColor>CUIPalette.Current.Frame.Border</BorderColor> -->
+    <OutlineColor>CUIPalette.Current.Frame.Border</OutlineColor>
+  </CUIFrame>
+
   <CUITextBlock>
     <TextColor>CUIPalette.Current.Text.Text</TextColor>
     <BorderColor>CUIPalette.Current.Text.Border</BorderColor>
@@ -19,12 +25,17 @@
   </CUITextInput>
 
   <CUIButton>
-    <MasterColorOpaque>CUIPalette.Current.ButtonOn.Background</MasterColorOpaque>
+    <MasterColorOpaque>CUIPalette.Current.Button.Background</MasterColorOpaque>
     <BorderColor>CUIPalette.Current.Button.Border</BorderColor>
     <DisabledColor>CUIPalette.Current.ButtonDisabled.Background</DisabledColor>
     <Padding>[4,2]</Padding>
     <TextAlign>[0.5,0.5]</TextAlign>
   </CUIButton>
+
+  <CUICloseButton>
+    <MasterColorOpaque>CUIPalette.Current.CloseButton.Background</MasterColorOpaque>
+    <BorderColor>CUIPalette.Current.CloseButton.Border</BorderColor>
+  </CUICloseButton>
 
   <CUIDropDown>
     <BackgroundColor>CUIPalette.Current.DDButton.Background</BackgroundColor>
@@ -41,7 +52,7 @@
   </DDOption>
 
   <CUIToggleButton>
-    <MasterColorOpaque>CUIPalette.Current.ButtonOn.Background</MasterColorOpaque>
+    <MasterColorOpaque>CUIPalette.Current.Button.Background</MasterColorOpaque>
     <BorderColor>CUIPalette.Current.Button.Border</BorderColor>
     <DisabledColor>CUIPalette.Current.ButtonDisabled.Background</DisabledColor>
   </CUIToggleButton>

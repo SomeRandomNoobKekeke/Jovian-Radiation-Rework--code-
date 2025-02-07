@@ -49,7 +49,7 @@ namespace JovianRadiationRework
       CUI.Initialize();
       CUIPalette.Current = CUIPalette.Radiation;
 
-      //UI = new SettingsUI();
+      UI = new SettingsUI();
     }
 
     public void DisposeProjSpecific()

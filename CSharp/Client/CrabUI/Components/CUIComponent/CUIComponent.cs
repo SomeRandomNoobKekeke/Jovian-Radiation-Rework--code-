@@ -141,6 +141,8 @@ namespace CrabUI_JovianRadiationRework
 
       if (BorderVisible) GUI.DrawRectangle(spriteBatch, BorderBox.Position, BorderBox.Size, BorderColor, thickness: BorderThickness);
 
+      if (OutlineVisible) GUI.DrawRectangle(spriteBatch, OutlineBox.Position, OutlineBox.Size, OutlineColor, thickness: OutlineThickness);
+
       LeftResizeHandle.Draw(spriteBatch);
       RightResizeHandle.Draw(spriteBatch);
     }

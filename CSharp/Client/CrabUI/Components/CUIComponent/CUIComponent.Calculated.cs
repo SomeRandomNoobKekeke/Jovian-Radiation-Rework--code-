@@ -56,6 +56,7 @@ namespace CrabUI_JovianRadiationRework
     /// BorderColor != Color.Transparent
     /// </summary>
     protected bool BorderVisible { get; set; }
+    protected bool OutlineVisible { get; set; }
 
     // This is for state clones, to protect them from style changes
     internal bool Unreal { get; set; }
@@ -100,6 +101,7 @@ namespace CrabUI_JovianRadiationRework
     /// Calculated Prop, Real + BorderThickness
     /// </summary>
     protected CUIRect BorderBox { get; set; }
+    protected CUIRect OutlineBox { get; set; }
     internal Rectangle? ScissorRect { get; set; }
     /// <summary>
     /// Calculated prop, position on real screen in pixels
@@ -132,6 +134,13 @@ namespace CrabUI_JovianRadiationRework
       //   real.Width + 2 * BorderThickness,
       //   real.Height + 2 * BorderThickness
       // );
+
+      OutlineBox = new CUIRect(
+        real.Left - OutlineThickness,
+        real.Top - OutlineThickness,
+        real.Width + 2 * OutlineThickness,
+        real.Height + 2 * OutlineThickness
+      );
 
       if (HideChildrenOutsideFrame)
       {

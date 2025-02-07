@@ -168,6 +168,15 @@ namespace CrabUI_JovianRadiationRework
         },
       };
 
+      public CUIProp<Color> OutlineColor = new CUIProp<Color>()
+      {
+        ShowInDebug = false,
+        OnSet = (v, host) =>
+        {
+          host.OutlineVisible = v != Color.Transparent;
+        },
+      };
+
       public CUIProp<Vector2> Padding = new CUIProp<Vector2>()
       {
         Value = new Vector2(2, 2),

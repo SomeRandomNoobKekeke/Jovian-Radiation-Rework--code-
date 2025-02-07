@@ -68,6 +68,9 @@ namespace JovianRadiationRework
       CUIHorizontalList VanillaDiv = new CUIHorizontalList()
       {
         FitContent = new CUIBool2(false, true),
+        Style = new CUIStyle(){
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+        },
       };
 
       VanillaDiv["caption"] = new CUITextBlock("VANILLA")
@@ -78,8 +81,8 @@ namespace JovianRadiationRework
         Padding = new Vector2(4, 4),
         Style = new CUIStyle(){
           {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
-          {"BorderColor", "CUIPalette.Current.Text2.Border"},
-          {"TextColor", "CUIPalette.Current.Text2.Border"},
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Text"},
         },
       };
 
@@ -94,7 +97,7 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in typeof(VanillaSettings).GetProperties())
       {
-        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi.PropertyType, $"Vanilla.{pi.Name}");
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Vanilla.{pi.Name}");
         content["vanilla"].Append(setting);
       }
 
@@ -105,7 +108,7 @@ namespace JovianRadiationRework
         FitContent = new CUIBool2(false, true),
       };
 
-      ProgressDiv["caption"] = new CUITextBlock("PRROGRESS")
+      ProgressDiv["caption"] = new CUITextBlock("PROGRESS")
       {
         Vertical = true,
         Font = GUIStyle.MonospacedFont,
@@ -113,8 +116,8 @@ namespace JovianRadiationRework
         Padding = new Vector2(4, 4),
         Style = new CUIStyle(){
           {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
-          {"BorderColor", "CUIPalette.Current.Text2.Border"},
-          {"TextColor", "CUIPalette.Current.Text2.Border"},
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Text"},
         },
       };
 
@@ -122,6 +125,9 @@ namespace JovianRadiationRework
       {
         FillEmptySpace = new CUIBool2(true, false),
         FitContent = new CUIBool2(false, true),
+        Style = new CUIStyle(){
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+        },
       };
 
       content.Append(ProgressDiv);
@@ -131,7 +137,8 @@ namespace JovianRadiationRework
       {
         if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
         if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
-        content["progress"].Append(new CUITextBlock($"{pi}"));
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Progress.{pi.Name}");
+        content["progress"].Append(setting);
       }
 
 
@@ -149,8 +156,8 @@ namespace JovianRadiationRework
         Padding = new Vector2(4, 4),
         Style = new CUIStyle(){
           {"BackgroundColor", "CUIPalette.Current.Text2.Background"},
-          {"BorderColor", "CUIPalette.Current.Text2.Border"},
-          {"TextColor", "CUIPalette.Current.Text2.Border"},
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+          {"TextColor", "CUIPalette.Current.Text2.Text"},
         },
       };
 
@@ -158,6 +165,9 @@ namespace JovianRadiationRework
       {
         FillEmptySpace = new CUIBool2(true, false),
         FitContent = new CUIBool2(false, true),
+        Style = new CUIStyle(){
+          {"BorderColor", "CUIPalette.Current.Component.Border"},
+        },
       };
 
       content.Append(ModDiv);
@@ -167,7 +177,8 @@ namespace JovianRadiationRework
       {
         if (Attribute.IsDefined(pi, typeof(IgnoreAttribute))) continue;
         if (!TypeCrawler.PrimitiveTypes.ContainsKey(pi.PropertyType)) continue;
-        content["modsettings"].Append(new CUITextBlock($"{pi}"));
+        CUIHorizontalList setting = CUIPrefab.InputWithValidation(pi, $"Modsettings.{pi.Name}");
+        content["modsettings"].Append(setting);
       }
     }
 
@@ -187,8 +198,8 @@ namespace JovianRadiationRework
 
       MainFrame = new CUIFrame()
       {
-        Absolute = new CUINullRect(0, 0, 200, 200),
-        Anchor = CUIAnchor.CenterRight,
+        Relative = new CUINullRect(0, 0, 0.5f, 0.5f),
+        Anchor = CUIAnchor.Center,
         Revealed = false,
       };
 
@@ -199,14 +210,16 @@ namespace JovianRadiationRework
         Absolute = new CUINullRect(h: 20),
         Direction = CUIDirection.Reverse,
         BorderColor = Color.Transparent,
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.H1.Background"},
+          {"BorderColor", "CUIPalette.Current.H1.Border"},
+        }
       };
 
-      MainFrame["header"]["close"] = new CUIButton("X")
+      MainFrame["header"]["close"] = new CUICloseButton()
       {
         Absolute = new CUINullRect(0, 0, 20, 20),
-        MasterColorOpaque = Color.Red,
         AddOnMouseDown = (e) => Opened = !Opened,
-        BorderColor = Color.Transparent,
       };
 
       MainFrame["header"]["caption"] = new CUITextBlock("Radiation Settings")
@@ -218,6 +231,10 @@ namespace JovianRadiationRework
       MainFrame["nav"] = new CUIHorizontalList()
       {
         Absolute = new CUINullRect(h: 20),
+        Style = new CUIStyle(){
+          {"BackgroundColor", "CUIPalette.Current.H2.Background"},
+          {"BorderColor", "CUIPalette.Current.H2.Border"},
+        }
 
       };
 

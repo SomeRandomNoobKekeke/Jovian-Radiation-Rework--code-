@@ -19,48 +19,57 @@ namespace CrabUI_JovianRadiationRework
     internal static List<DebugConsole.Command> AddedCommands = new List<DebugConsole.Command>();
     internal static void AddCommands()
     {
-      AddedCommands.Add(new DebugConsole.Command("cuidebug", "", (string[] args) =>
-      {
-        if (CUIDebugWindow.Main == null)
-        {
-          CUIDebugWindow.Open();
-        }
-        else
-        {
-          CUIDebugWindow.Close();
-        }
-      }));
-
-      AddedCommands.Add(new DebugConsole.Command("cuimg", "", (string[] args) =>
-      {
-        CUIMagnifyingGlass.ToggleEquip();
-      }));
-
-      AddedCommands.Add(new DebugConsole.Command("printsprites", "", (string[] args) =>
-      {
-        foreach (GUIComponentStyle style in GUIStyle.ComponentStyles)
-        {
-          CUI.Log($"{style.Name} {style.Sprites.Count}");
-        }
-      }));
-
-      AddedCommands.Add(new DebugConsole.Command("printkeys", "", (string[] args) =>
-      {
-        CUIDebug.PrintKeys = !CUIDebug.PrintKeys;
-
-        if (CUIDebug.PrintKeys)
-        {
-          var values = typeof(Keys).GetEnumValues();
-          foreach (var v in values)
-          {
-            Log($"{(int)v} {v}");
-          }
-          Log("---------------------------");
-        }
-      }));
+      AddedCommands.Add(new DebugConsole.Command("cuidebug", "", CUIDebug_Command));
+      AddedCommands.Add(new DebugConsole.Command("cuimg", "", CUIMG_Command));
+      AddedCommands.Add(new DebugConsole.Command("printsprites", "", PrintSprites_Command));
+      AddedCommands.Add(new DebugConsole.Command("printkeys", "", PrintSprites_Command));
+      AddedCommands.Add(new DebugConsole.Command("cuipalettedemo", "", PaletteDemo_Command));
 
       DebugConsole.Commands.InsertRange(0, AddedCommands);
     }
+
+    public static void CUIDebug_Command(string[] args)
+    {
+      if (CUIDebugWindow.Main == null)
+      {
+        CUIDebugWindow.Open();
+      }
+      else
+      {
+        CUIDebugWindow.Close();
+      }
+    }
+
+    public static void CUIMG_Command(string[] args) => CUIMagnifyingGlass.ToggleEquip();
+
+    public static void PrintSprites_Command(string[] args)
+    {
+      foreach (GUIComponentStyle style in GUIStyle.ComponentStyles)
+      {
+        CUI.Log($"{style.Name} {style.Sprites.Count}");
+      }
+    }
+
+    public static void PrintKeysCommand(string[] args)
+    {
+      CUIDebug.PrintKeys = !CUIDebug.PrintKeys;
+
+      if (CUIDebug.PrintKeys)
+      {
+        var values = typeof(Keys).GetEnumValues();
+        foreach (var v in values)
+        {
+          Log($"{(int)v} {v}");
+        }
+        Log("---------------------------");
+      }
+    }
+
+    public static void PaletteDemo_Command(string[] args)
+    {
+      try { CUIPalette.PaletteDemo(); } catch (Exception e) { CUI.Warning(e); }
+    }
+
 
     internal static void RemoveCommands()
     {

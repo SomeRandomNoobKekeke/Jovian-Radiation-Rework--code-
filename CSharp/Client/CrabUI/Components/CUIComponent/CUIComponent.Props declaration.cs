@@ -161,11 +161,6 @@ namespace CrabUI_JovianRadiationRework
       get => disabled;
       set => disabled = value;
     }
-    /// <summary>
-    /// In pixels
-    /// </summary>
-    [CUISerializable]
-    public float BorderThickness { get; set; } = 1f;
 
     /// <summary>
     /// Used for text
@@ -177,6 +172,11 @@ namespace CrabUI_JovianRadiationRework
       set => CUIProps.Padding.SetValue(value);
     }
     /// <summary>
+    /// In pixels
+    /// </summary>
+    [CUISerializable]
+    public float BorderThickness { get; set; } = 1f;
+    /// <summary>
     /// Color.Transparent = don't draw
     /// </summary>
     [CUISerializable]
@@ -184,6 +184,15 @@ namespace CrabUI_JovianRadiationRework
     {
       get => CUIProps.BorderColor.Value;
       set => CUIProps.BorderColor.SetValue(value);
+    }
+
+    [CUISerializable]
+    public float OutlineThickness { get; set; } = 1f;
+    [CUISerializable]
+    public Color OutlineColor
+    {
+      get => CUIProps.OutlineColor.Value;
+      set => CUIProps.OutlineColor.SetValue(value);
     }
 
     private void TryResizeToSprite()

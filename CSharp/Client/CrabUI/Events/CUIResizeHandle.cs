@@ -24,8 +24,8 @@ namespace CrabUI_JovianRadiationRework
 
     //TODO unhardcode these colors
     public CUISprite Sprite;
-    public Color BackgroundColor = Color.White;
-    public Color GrabbedColor = Color.Cyan;
+    public Color BackgroundColor => CUIPalette.Current.Handle.Background;
+    public Color GrabbedColor => CUIPalette.Current.HandleGrabbed.Background;
     public Vector2 MemoStaticPoint;
 
 

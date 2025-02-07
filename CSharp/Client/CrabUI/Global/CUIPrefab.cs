@@ -37,7 +37,7 @@ namespace CrabUI_JovianRadiationRework
       return list;
     }
 
-    public static CUIHorizontalList InputWithValidation(Type T, string command)
+    public static CUIHorizontalList InputWithValidation(PropertyInfo pi, string command)
     {
       CUIHorizontalList list = new CUIHorizontalList()
       {
@@ -45,22 +45,24 @@ namespace CrabUI_JovianRadiationRework
         BorderColor = Color.Transparent,
       };
 
+      list["input"] = new CUITextInput()
+      {
+        AbsoluteMin = new CUINullRect(w: 100),
+        Relative = new CUINullRect(w: 0.3f),
+        Command = command,
+        Consumes = command,
+      };
+
       list["label"] = new CUITextBlock()
       {
-        Absolute = new CUINullRect(w: 50),
-        Text = T.Name,
-        TextAlign = CUIAnchor.Center,
+        FillEmptySpace = new CUIBool2(true, false),
+        Text = $"{pi.PropertyType.Name} {pi.Name}",
+        TextAlign = CUIAnchor.CenterLeft,
         Style = new CUIStyle(){
           {"BackgroundColor", "CUIPalette.Current.Text3.Background"},
           {"BorderColor", "CUIPalette.Current.Text3.Border"},
+          {"TextColor", "CUIPalette.Current.Text3.Text"},
         },
-      };
-
-      list["input"] = new CUITextInput()
-      {
-        FillEmptySpace = new CUIBool2(true, false),
-        Command = command,
-        Consumes = command,
       };
 
       return list;

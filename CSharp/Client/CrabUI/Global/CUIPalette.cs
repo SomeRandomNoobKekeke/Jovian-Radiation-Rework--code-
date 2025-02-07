@@ -20,7 +20,6 @@ namespace CrabUI_JovianRadiationRework
   // I'm not an expert in color theory, but at least some order
   public record struct CUIColorPreset(Color Background, Color Border, Color Text);
 
-
   /// <summary>
   /// Contains some predefined values for components, mostly for colors  
   /// CUIPalette.Current is selected palette used by style resolver
@@ -80,58 +79,67 @@ namespace CrabUI_JovianRadiationRework
 
     public string Name = "";
 
-    public CUIColorPreset Component;
-    public CUIColorPreset Frame;
-    public CUIColorPreset Handle;
-    public CUIColorPreset Wrapper;
-    public CUIColorPreset Wrapper2;
-    public CUIColorPreset Borderless;
+    public static CUIColorPreset Unset => new CUIColorPreset(Color.Orange, Color.Red, Color.Red);
 
-    public CUIColorPreset Button;
-    public CUIColorPreset ButtonOn;
-    public CUIColorPreset ButtonHover;
-    public CUIColorPreset ButtonOnHover;
-    public CUIColorPreset ButtonDisabled;
+    //TODO Ok, that's too much, unhardcode these
+    public CUIColorPreset Component = Unset;
+    public CUIColorPreset Frame = Unset;
+    public CUIColorPreset Handle = Unset;
+    public CUIColorPreset HandleGrabbed = Unset;
+    public CUIColorPreset Wrapper = Unset;
+    public CUIColorPreset Wrapper2 = Unset;
+    public CUIColorPreset Borderless = Unset;
 
-    public CUIColorPreset Button2;
-    public CUIColorPreset Button2On;
-    public CUIColorPreset Button2Hover;
-    public CUIColorPreset Button2OnHover;
-    public CUIColorPreset Button2Disabled;
+    public CUIColorPreset H1 = Unset;
+    public CUIColorPreset H2 = Unset;
+    public CUIColorPreset H3 = Unset;
+    public CUIColorPreset H4 = Unset;
 
-    public CUIColorPreset Button3;
-    public CUIColorPreset Button3On;
-    public CUIColorPreset Button3Hover;
-    public CUIColorPreset Button3OnHover;
-    public CUIColorPreset Button3Disabled;
+    public CUIColorPreset Button = Unset;
+    public CUIColorPreset ButtonOn = Unset;
+    public CUIColorPreset ButtonHover = Unset;
+    public CUIColorPreset ButtonOnHover = Unset;
+    public CUIColorPreset ButtonDisabled = Unset;
 
-    public CUIColorPreset DDButton;
-    public CUIColorPreset DDButtonOn;
-    public CUIColorPreset DDButtonHover;
-    public CUIColorPreset DDButtonOnHover;
-    public CUIColorPreset DDButtonDisabled;
-    public CUIColorPreset DDOptionsBox;
-    public CUIColorPreset DDOption;
-    public CUIColorPreset DDOptionHover;
+    public CUIColorPreset Button2 = Unset;
+    public CUIColorPreset Button2On = Unset;
+    public CUIColorPreset Button2Hover = Unset;
+    public CUIColorPreset Button2OnHover = Unset;
+    public CUIColorPreset Button2Disabled = Unset;
 
-    public CUIColorPreset CloseButton;
-    public CUIColorPreset CloseButtonOn;
-    public CUIColorPreset CloseButtonHover;
-    public CUIColorPreset CloseButtonOnHover;
-    public CUIColorPreset CloseButtonDisabled;
+    public CUIColorPreset Button3 = Unset;
+    public CUIColorPreset Button3On = Unset;
+    public CUIColorPreset Button3Hover = Unset;
+    public CUIColorPreset Button3OnHover = Unset;
+    public CUIColorPreset Button3Disabled = Unset;
 
-    public CUIColorPreset Input;
-    public CUIColorPreset InputHighlited;
-    public CUIColorPreset InputValid;
-    public CUIColorPreset InputInvalid;
-    public CUIColorPreset InputCaret;
-    public CUIColorPreset InputSelectionOverlay;
-    public CUIColorPreset Text;
-    public CUIColorPreset Text2;
-    public CUIColorPreset Text3;
+    public CUIColorPreset DDButton = Unset;
+    public CUIColorPreset DDButtonOn = Unset;
+    public CUIColorPreset DDButtonHover = Unset;
+    public CUIColorPreset DDButtonOnHover = Unset;
+    public CUIColorPreset DDButtonDisabled = Unset;
+    public CUIColorPreset DDOptionsBox = Unset;
+    public CUIColorPreset DDOption = Unset;
+    public CUIColorPreset DDOptionHover = Unset;
+
+    public CUIColorPreset CloseButton = Unset;
+    public CUIColorPreset CloseButtonOn = Unset;
+    public CUIColorPreset CloseButtonHover = Unset;
+    public CUIColorPreset CloseButtonOnHover = Unset;
+    public CUIColorPreset CloseButtonDisabled = Unset;
+
+    public CUIColorPreset Input = Unset;
+    public CUIColorPreset InputHighlited = Unset;
+    public CUIColorPreset InputValid = Unset;
+    public CUIColorPreset InputInvalid = Unset;
+    public CUIColorPreset InputCaret = Unset;
+    public CUIColorPreset InputSelectionOverlay = Unset;
+    public CUIColorPreset Text = Unset;
+    public CUIColorPreset Text2 = Unset;
+    public CUIColorPreset Text3 = Unset;
 
     public static CUIPalette Radiation = new CUIPalette() { Name = "Radiation", };
-
+    public static CUIPalette Invisible = new CUIPalette() { Name = "Invisible", };
 
     public static CUIPalette Default => Radiation;
     private static CUIPalette current = Default;
@@ -158,8 +166,12 @@ namespace CrabUI_JovianRadiationRework
       //TODO add code for loading arbitrary palettes
 
       // I can load it like this because it's hardcoded default palette
+      Stopwatch sw = new Stopwatch();
+      sw.Restart();
       Radiation = LoadFrom(Path.Combine(CUI.CUIPalettesPath, "Radiation.xml"));
-      Radiation.SaveTo(Path.Combine(CUI.CUIPalettesPath, "Radiation.xml"));
+      //Radiation.SaveTo(Path.Combine(CUI.CUIPalettesPath, "Radiation.xml"));
+      sw.Stop();
+      //CUI.Info($"Default palette loaded in {sw.ElapsedMilliseconds}ms");
     }
 
     public static CUIPalette LoadFrom(string path)
@@ -181,9 +193,9 @@ namespace CrabUI_JovianRadiationRework
           }
 
           CUIColorPreset preset = new CUIColorPreset(
-            CUIExtensions.ParseColor(e.Attribute("Background").Value.ToString()),
-            CUIExtensions.ParseColor(e.Attribute("Border").Value.ToString()),
-            CUIExtensions.ParseColor(e.Attribute("Text").Value.ToString())
+            CUIExtensions.ParseColor(e.Attribute("Background")?.Value.ToString() ?? "0,0,0,0"),
+            CUIExtensions.ParseColor(e.Attribute("Border")?.Value.ToString() ?? "0,0,0,0"),
+            CUIExtensions.ParseColor(e.Attribute("Text")?.Value.ToString() ?? "0,0,0,0")
           );
 
           fi.SetValue(palette, preset);
@@ -223,6 +235,67 @@ namespace CrabUI_JovianRadiationRework
         CUI.Warning($"Failed to save palette to {path}");
         CUI.Warning(e);
       }
+    }
+
+
+    public static void PaletteDemo()
+    {
+      CUIFrame frame = new CUIFrame()
+      {
+        Absolute = new CUINullRect(0, 0, 500, 500),
+        Anchor = CUIAnchor.Center,
+      };
+
+      frame.Layout = new CUILayoutVerticalList();
+
+      frame["header"] = new CUIHorizontalList()
+      {
+        FitContent = new CUIBool2(false, true),
+        Direction = CUIDirection.Reverse,
+      };
+      frame["header"]["close"] = new CUICloseButton()
+      {
+        Absolute = new CUINullRect(0, 0, 20, 20),
+        AddOnMouseDown = (e) => frame.RemoveSelf(),
+      };
+      frame["content"] = new CUIVerticalList()
+      {
+        FillEmptySpace = new CUIBool2(false, true),
+        Scrollable = true,
+      };
+
+      void AddComponent(Type T)
+      {
+        CUIComponent wrapper = new CUIHorizontalList()
+        {
+          Absolute = new CUINullRect(h: 20),
+          CullChildren = false,
+        };
+
+        wrapper.Append(new CUITextBlock(T.Name)
+        {
+          Absolute = new CUINullRect(w: 130),
+        });
+
+        CUIComponent target = (CUIComponent)Activator.CreateInstance(T);
+        target.FillEmptySpace = new CUIBool2(true, false);
+        wrapper.Append(target);
+
+        frame["content"].Append(wrapper);
+      }
+
+      AddComponent(typeof(CUIComponent));
+      AddComponent(typeof(CUIButton));
+      AddComponent(typeof(CUIToggleButton));
+      AddComponent(typeof(CUIMultiButton));
+      AddComponent(typeof(CUIDropDown));
+      AddComponent(typeof(CUITextBlock));
+      AddComponent(typeof(CUITextInput));
+      AddComponent(typeof(CUIHorizontalList));
+      AddComponent(typeof(CUIVerticalList));
+
+
+      CUI.TopMain.Append(frame);
     }
 
     public override string ToString() => $"CUIPalette {Name}";

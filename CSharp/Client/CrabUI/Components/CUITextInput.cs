@@ -264,11 +264,11 @@ namespace CrabUI_JovianRadiationRework
     {
       if (Focused)
       {
-        Style["BorderColor"] = "CUIPalette.Current.Quaternary.Highlighted";
+        Style["BorderColor"] = "CUIPalette.Current.InputHighlited.Border";
       }
       else
       {
-        Style["BorderColor"] = "CUIPalette.Current.Quaternary.Border";
+        Style["BorderColor"] = "CUIPalette.Current.Input.Border";
       }
 
     }
@@ -302,9 +302,10 @@ namespace CrabUI_JovianRadiationRework
 
       this["TextComponent"] = TextComponent = new CUITextBlock()
       {
-        Text = "text",
+        Text = "",
         Style = new CUIStyle(){
           {"Padding", "[2,2]"},
+          {"TextColor", "CUIPalette.Current.Input.Text"},
         },
       };
 
