@@ -27,11 +27,9 @@ namespace JovianRadiationRework
         Rad_Command(args);
         OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
       }, () => new string[][] { Settings.flatView.Props.Keys.ToArray() }));
-      AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", (string[] args) =>
-      {
-        Rad_Load_Command(args);
-        OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
-      }, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "rad_load [name]", Rad_Load_Command, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
+      AddedCommands.Add(new DebugConsole.Command("rad_delete", "rad_delete [name]", Rad_Delete_Command, () => new string[][] { IOManager.AllPresets().Keys.ToArray() }));
+
       AddedCommands.Add(new DebugConsole.Command("rad_save", "rad_save [name]", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_gui", "opens the gui", Rad_GUI_Command));
@@ -202,6 +200,7 @@ namespace JovianRadiationRework
           Mod.Instance.settingsManager.LoadFrom(targetPath);
           Mod.Instance.settingsManager.SaveTo(IOManager.SettingsFile);
           Mod.Log($"Loaded {Mod.settings.Name}");
+          OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
         }
 
         if (GameMain.IsMultiplayer)
@@ -211,6 +210,7 @@ namespace JovianRadiationRework
             Mod.Instance.settingsManager.JustLoad(targetPath);
             NetManager.Sync(Mod.settings);
             Mod.Log($"Loaded {Mod.settings.Name}");
+            OnSettinsChangedFromConsole?.Invoke(settingsManager.Current);
           }
           else
           {
@@ -238,6 +238,56 @@ namespace JovianRadiationRework
         Mod.Instance.settingsManager.SaveTo(targetPath);
 
         Mod.Log($"Saved to {targetPath}");
+      }
+      catch (Exception e)
+      {
+        Mod.Warning(e);
+      }
+    }
+
+
+    public void Rad_Delete_Command(string[] args)
+    {
+      try
+      {
+        string targetPath = null;
+
+        if (args.Length == 0)
+        {
+          Mod.Log($"delete what?");
+          return;
+        }
+
+        var presets = IOManager.AllPresets();
+
+        if (presets.ContainsKey(args[0]))
+        {
+          targetPath = presets[args[0]];
+        }
+        else
+        {
+          foreach (string key in presets.Keys)
+          {
+            if (String.Equals(key, args[0], StringComparison.OrdinalIgnoreCase))
+            {
+              targetPath = presets[key];
+            }
+          }
+
+        }
+
+        if (targetPath == null)
+        {
+          Mod.Log("Not found");
+          return;
+        }
+
+        if (File.Exists(targetPath))
+        {
+          File.Delete(targetPath);
+          Mod.Log($"{targetPath} deleted");
+        }
+
       }
       catch (Exception e)
       {

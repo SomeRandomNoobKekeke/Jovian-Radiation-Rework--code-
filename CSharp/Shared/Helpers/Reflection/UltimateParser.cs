@@ -16,7 +16,7 @@ namespace JovianRadiationRework
   public static class UltimateParser
   {
     public static Dictionary<Type, Func<string, object>> AditionalParseMethods = new Dictionary<Type, Func<string, object>>{
-      {typeof(Color), s => XMLExtensions.ParseColor(s)},
+      {typeof(Color), s => XMLExtensions.ParseColor(s,false)},
     };
 
     public static object GetDefault(Type type)
