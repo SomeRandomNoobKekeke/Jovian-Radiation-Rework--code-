@@ -167,6 +167,8 @@ namespace JovianRadiationRework
     {
       try
       {
+        if (!Mod.HasPermissions) return;
+
         if (GUI.PauseMenuOpen)
         {
           GUIFrame frame = GUI.PauseMenu;
