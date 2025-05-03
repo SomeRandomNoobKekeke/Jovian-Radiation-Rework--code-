@@ -17,7 +17,7 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public static bool HasPermissions => GameMain.Client.IsServerOwner || GameMain.Client.HasPermission(ClientPermissions.All);
+    public static bool HasPermissions => GameMain.IsSingleplayer || GameMain.Client.IsServerOwner || GameMain.Client.HasPermission(ClientPermissions.All);
 
     public SettingsUI UI;
 
