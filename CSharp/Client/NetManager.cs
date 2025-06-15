@@ -41,7 +41,6 @@ namespace JovianRadiationRework
       IReadMessage inMsg = args[0] as IReadMessage;
       Client client = args[1] as Client;
       Mod.Instance.settingsManager.Decode(inMsg);
-      Mod.Instance.UI.SyncSettings(Mod.Instance.settingsManager.Current);
     }
   }
 }

@@ -32,7 +32,6 @@ namespace JovianRadiationRework
 
       AddedCommands.Add(new DebugConsole.Command("rad_save", "rad_save [name]", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "rad_amount [value]", Rad_Amount_Command));
-      AddedCommands.Add(new DebugConsole.Command("rad_gui", "opens the gui", Rad_GUI_Command));
 
       if (Debug)
       {
@@ -325,19 +324,6 @@ namespace JovianRadiationRework
       catch (Exception e)
       {
         Mod.Warning(e);
-      }
-    }
-
-    public void Rad_GUI_Command(string[] args)
-    {
-      try
-      {
-        if (Mod.Instance == null) return;
-        Mod.Instance.UI.OpenSettingsFrame();
-      }
-      catch (Exception e)
-      {
-        Mod.Error(e);
       }
     }
   }
