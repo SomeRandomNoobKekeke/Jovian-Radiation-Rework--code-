@@ -25,7 +25,7 @@ namespace JovianRadiationRework
     {
       [HarmonyPostfix]
       [HarmonyPatch("DrawBack")]
-      public static void Level_DrawBack_Replace(GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam, Level __instance)
+      public static void Level_DrawBack_Postfix(GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam, Level __instance)
       {
         if (settings.Mod.UseVanillaRadiation) return;
         float time = (float)(Timing.TotalTime / 50.0f);

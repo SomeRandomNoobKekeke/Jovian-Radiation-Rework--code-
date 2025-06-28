@@ -21,7 +21,6 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-
     [HarmonyPatch(typeof(Radiation))]
     public class RadiationPatch
     {
@@ -38,160 +37,166 @@ namespace JovianRadiationRework
 
 
 
+      /// <summary>
+      /// 
+      /// </summary>
       [HarmonyPrefix]
       [HarmonyPatch("OnStep")]
       public static bool Radiation_OnStep_Replace(Radiation __instance, float steps = 1)
       {
-        if (settings.Mod.UseVanillaRadiation)
-        {
-          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
-          return true;
-        }
+        return true;
 
-        Radiation _ = __instance;
+        // if (settings.Mod.UseVanillaRadiation)
+        // {
+        //   SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+        //   return true;
+        // }
 
-        if (!_.Enabled)
-        {
-          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
-          return false;
-        }
-        if (steps <= 0)
-        {
-          SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
-          return false;
-        }
+        // Radiation _ = __instance;
 
-        float percentageCovered = _.Amount / _.Map.Width;
-        float speedMult = Math.Clamp(1 - (1 - settings.Mod.Progress.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered, 0, 1);
+        // if (!_.Enabled)
+        // {
+        //   SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+        //   return false;
+        // }
+        // if (steps <= 0)
+        // {
+        //   SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+        //   return false;
+        // }
 
-        Info($"map.width {_.Map.Width} Amount {_.Amount} speedMult {speedMult}");
+        // float percentageCovered = _.Amount / _.Map.Width;
+        // float speedMult = Math.Clamp(1 - (1 - settings.Mod.Progress.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered, 0, 1);
 
-        float increaseAmount = Math.Max(0, _.Params.RadiationStep * speedMult * steps);
+        // Info($"map.width {_.Map.Width} Amount {_.Amount} speedMult {speedMult}");
 
-        if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
-        {
-          increaseAmount = _.Params.MaxRadiation - _.Amount;
-        }
+        // float increaseAmount = Math.Max(0, _.Params.RadiationStep * speedMult * steps);
 
-        Info($"Radiation.Amount += {increaseAmount}");
+        // if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
+        // {
+        //   increaseAmount = _.Params.MaxRadiation - _.Amount;
+        // }
 
-        _.IncreaseRadiation(increaseAmount);
+        // Info($"Radiation.Amount += {increaseAmount}");
 
-        int amountOfOutposts = _.Map.Locations.Count(location => location.Type.HasOutpost && !location.IsCriticallyRadiated());
+        // _.IncreaseRadiation(increaseAmount);
 
-        foreach (Location location in _.Map.Locations.Where(_.Contains))
-        {
-          if (location.IsGateBetweenBiomes)
-          {
-            location.Connections.ForEach(c => c.Locked = false);
-            //continue;
-          }
+        // int amountOfOutposts = _.Map.Locations.Count(location => location.Type.HasOutpost && !location.IsCriticallyRadiated());
 
-          if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
+        // foreach (Location location in _.Map.Locations.Where(_.Contains))
+        // {
+        //   if (location.IsGateBetweenBiomes)
+        //   {
+        //     location.Connections.ForEach(c => c.Locked = false);
+        //     //continue;
+        //   }
 
-          if (settings.Mod.Progress.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
-          {
-            // Don't advance on nearby locations to avoid buggy behavior
-            if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
-          }
+        //   if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-          bool wasCritical = location.IsCriticallyRadiated();
+        //   if (settings.Mod.Progress.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
+        //   {
+        //     // Don't advance on nearby locations to avoid buggy behavior
+        //     if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
+        //   }
 
-          location.TurnsInRadiation++;
+        //   bool wasCritical = location.IsCriticallyRadiated();
 
-          if (location.Type.HasOutpost && !wasCritical && location.IsCriticallyRadiated())
-          {
-            location.ClearMissions();
-            amountOfOutposts--;
-          }
-        }
+        //   location.TurnsInRadiation++;
 
-        SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
-        return false;
+        //   if (location.Type.HasOutpost && !wasCritical && location.IsCriticallyRadiated())
+        //   {
+        //     location.ClearMissions();
+        //     amountOfOutposts--;
+        //   }
+        // }
+
+        // SetMetadata("CurrentLocationIrradiation", CurrentLocationRadiationAmount());
+        // return false;
       }
 
       [HarmonyPrefix]
       [HarmonyPatch("UpdateRadiation")]
       public static bool Radiation_UpdateRadiation_Replace(Radiation __instance, float deltaTime)
       {
-        Stopwatch sw = new Stopwatch();
+        return true;
+        // Stopwatch sw = new Stopwatch();
 
-        if (settings.Mod.UseVanillaRadiation) return true;
-        Radiation _ = __instance;
+        // if (settings.Mod.UseVanillaRadiation) return true;
+        // Radiation _ = __instance;
 
-        //SetCampaignMetadata();
+        // //SetCampaignMetadata();
 
-        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
+        // if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
 
-        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
+        // if (GameMain.NetworkMember is { IsClient: true }) { return false; }
 
-        if (_.radiationTimer > 0)
-        {
-          _.radiationTimer -= deltaTime;
-          return false;
-        }
+        // if (_.radiationTimer > 0)
+        // {
+        //   _.radiationTimer -= deltaTime;
+        //   return false;
+        // }
 
-        sw.Restart();
+        // sw.Restart();
 
-        Mod.Instance.electronicsDamager.DamageItems();
+        // Mod.Instance.electronicsDamager.DamageItems();
 
-        if (_.radiationAffliction == null)
-        {
-          float radiationStrengthChange = AfflictionPrefab.RadiationSickness.Effects.FirstOrDefault()?.StrengthChange ?? 0.0f;
-          _.radiationAffliction = new Affliction(
-              AfflictionPrefab.RadiationSickness,
-              (_.Params.RadiationDamageAmount - radiationStrengthChange) * _.Params.RadiationDamageDelay);
-        }
+        // if (_.radiationAffliction == null)
+        // {
+        //   float radiationStrengthChange = AfflictionPrefab.RadiationSickness.Effects.FirstOrDefault()?.StrengthChange ?? 0.0f;
+        //   _.radiationAffliction = new Affliction(
+        //       AfflictionPrefab.RadiationSickness,
+        //       (_.Params.RadiationDamageAmount - radiationStrengthChange) * _.Params.RadiationDamageDelay);
+        // }
 
-        _.radiationTimer = _.Params.RadiationDamageDelay;
+        // _.radiationTimer = _.Params.RadiationDamageDelay;
 
-        foreach (Character character in Character.CharacterList)
-        {
-          if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
+        // foreach (Character character in Character.CharacterList)
+        // {
+        //   if (!character.IsOnPlayerTeam || character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-          float radiationAmount = Math.Max(0, EntityRadiationAmount(character)) * settings.Mod.RadiationDamage;
+        //   float radiationAmount = Math.Max(0, EntityRadiationAmount(character)) * settings.Mod.RadiationDamage;
 
 
-          // Reduce damage in sub
-          if (character.CurrentHull != null)
-          {
-            float gapSize = 0;
-            foreach (Gap g in character.CurrentHull.ConnectedGaps)
-            {
-              if (g.linkedTo.Count == 1) gapSize += g.Open;
-            }
+        //   // Reduce damage in sub
+        //   if (character.CurrentHull != null)
+        //   {
+        //     float gapSize = 0;
+        //     foreach (Gap g in character.CurrentHull.ConnectedGaps)
+        //     {
+        //       if (g.linkedTo.Count == 1) gapSize += g.Open;
+        //     }
 
-            gapSize = Math.Clamp(gapSize, 0, 1);
+        //     gapSize = Math.Clamp(gapSize, 0, 1);
 
-            float mult = Math.Clamp(1 - (1 - gapSize) * settings.Mod.FractionOfRadiationBlockedInSub, 0, 1);
+        //     float mult = Math.Clamp(1 - (1 - gapSize) * settings.Mod.FractionOfRadiationBlockedInSub, 0, 1);
 
-            radiationAmount *= mult;
-            //Info($"{character}{character?.Info.Name} gap mult {mult}");
-          }
+        //     radiationAmount *= mult;
+        //     //Info($"{character}{character?.Info.Name} gap mult {mult}");
+        //   }
 
-          if (character.IsHuskInfected)
-          {
-            radiationAmount = Math.Max(0, radiationAmount - settings.Mod.HuskRadiationResistance * settings.Vanilla.RadiationDamageDelay);
-          }
+        //   if (character.IsHuskInfected)
+        //   {
+        //     radiationAmount = Math.Max(0, radiationAmount - settings.Mod.HuskRadiationResistance * settings.Vanilla.RadiationDamageDelay);
+        //   }
 
-          if (radiationAmount > 0)
-          {
-            var limb = character.AnimController.MainLimb;
-            AttackResult attackResult = limb.AddDamage(
-              limb.SimPosition,
-              AfflictionPrefab.RadiationSickness.Instantiate(radiationAmount).ToEnumerable(),
-              playSound: false
-            );
+        //   if (radiationAmount > 0)
+        //   {
+        //     var limb = character.AnimController.MainLimb;
+        //     AttackResult attackResult = limb.AddDamage(
+        //       limb.SimPosition,
+        //       AfflictionPrefab.RadiationSickness.Instantiate(radiationAmount).ToEnumerable(),
+        //       playSound: false
+        //     );
 
-            // CharacterHealth.ApplyAffliction is simpler but it ignores gear
-            character.CharacterHealth.ApplyDamage(limb, attackResult);
-          }
-        }
+        //     // CharacterHealth.ApplyAffliction is simpler but it ignores gear
+        //     character.CharacterHealth.ApplyDamage(limb, attackResult);
+        //   }
+        // }
 
-        sw.Stop();
-        Info($"Rad update took: {sw.ElapsedTicks * TicksToMs}ms");
+        // sw.Stop();
+        // Info($"Rad update took: {sw.Elapsed.TotalMilliseconds} ms");
 
-        return false;
+        // return false;
       }
     }
 

@@ -31,7 +31,6 @@ namespace JovianRadiationRework
           settingsManager.LoadFrom(IOManager.DefaultPreset);
         }
         settingsManager.SaveTo(IOManager.SettingsFile);
-        UI.SyncSettings(settingsManager.Current);
       }
 
       if (GameMain.IsMultiplayer)
