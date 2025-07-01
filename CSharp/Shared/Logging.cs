@@ -2,69 +2,98 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using System.Diagnostics;
 
 using Barotrauma;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using System.IO;
 
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+  public partial class Mod
   {
-    public static string WrapInColor(object o, string cl)
+    /// <summary>
+    /// $"‖color:{color}‖{msg}‖end‖"
+    /// </summary>
+    public static string WrapInColor(object msg, string color)
+      => $"‖color:{color}‖{msg}‖end‖";
+
+    /// <summary>
+    /// Serializes the array.  
+    /// Obsolete. Use IEnumerable.Print instead
+    /// </summary>
+    public static string ArrayToString(IEnumerable<object> array)
     {
-      return $"‖color:{cl}‖{o}‖end‖";
+      return $"[{String.Join(", ", array.Select(o => o.ToString()))}]";
     }
 
-    public static void Log(object msg, Color? cl = null)
+    public static void LogArray(IEnumerable<object> array, Color? color = null)
     {
-      cl ??= Color.Cyan;
-      LuaCsLogger.LogMessage($"{msg ?? "null"}", cl * 0.8f, cl);
+      Log(ArrayToString(array), color);
     }
 
-    public static void Warning(object msg, Color? cl = null)
+    /// <summary>
+    /// Prints a message to console
+    /// </summary>
+    public static void Log(object msg, Color? color = null)
     {
-      cl ??= Color.Yellow;
-      LuaCsLogger.LogMessage($"{msg ?? "null"}", cl * 0.8f, cl);
+      color ??= Color.Cyan;
+      LuaCsLogger.LogMessage($"{msg ?? "null"}", color * 0.8f, color);
+    }
+    public static void Warning(object msg) => Log(msg, Color.Yellow);
+    public static void Error(object msg) => Log(msg, Color.Red);
+
+    private static Dictionary<string, int> Traced = new();
+    public static void AddTracer(string key, int i = 1) => Traced[key] = i;
+    public static bool Trace(string key)
+    {
+      if (Traced.ContainsKey(key))
+      {
+        Traced[key]--;
+        if (Traced[key] <= 0) Traced.Remove(key);
+        return true;
+      }
+      return false;
     }
 
+    public static void Point([CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
+    {
+      var fi = new FileInfo(source);
+      Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Magenta);
+    }
+
+    public static void PrintStackTrace()
+    {
+      StackTrace st = new StackTrace(true);
+      for (int i = 0; i < st.FrameCount; i++)
+      {
+        StackFrame sf = st.GetFrame(i);
+        if (sf.GetMethod().DeclaringType is null)
+        {
+          Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+          break;
+        }
+        Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+      }
+    }
+
+
+    /// <summary>
+    /// xd
+    /// </summary>
+    /// <param name="source"> This should be injected by compiler, don't set </param>
+    public static string GetCallerFolderPath([CallerFilePath] string source = "") => Path.GetDirectoryName(source);
+
+    /// <summary>
+    /// Prints debug message with source path
+    /// </summary>
     public static void Info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
-      if (Instance?.Debug == true)
-      {
-        var fi = new FileInfo(source);
+      var fi = new FileInfo(source);
 
-        Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Cyan * 0.5f);
-        Log(msg, Color.Cyan);
-      }
-    }
-
-    public static void Error(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
-    {
-      if (Instance?.Debug == true)
-      {
-        var fi = new FileInfo(source);
-
-        Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Orange * 0.5f);
-        Log(msg, Color.Orange);
-      }
-    }
-
-    public static bool Assert(bool ok, string msg)
-    {
-      if (!ok) Error(msg);
-      return ok;
-    }
-
-    public static void MemoryUsage(object msg)
-    {
-      if (Instance?.Debug == true)
-      {
-        Log($"Memory Usage ({msg}): {LuaCsPerformanceCounter.MemoryUsage}", Color.Lime);
-      }
+      Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Yellow * 0.5f);
+      Log(msg, Color.Yellow);
     }
   }
 }
