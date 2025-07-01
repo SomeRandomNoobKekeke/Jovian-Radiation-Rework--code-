@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     public void Initialize()
     {
       PatchAll();
+      AddCommands();
 
       Hint hint = new Hint("123");
     }
@@ -26,6 +27,10 @@ namespace JovianRadiationRework
     }
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
-    public void Dispose() { }
+    public void Dispose()
+    {
+      Harmony.UnpatchSelf();
+      RemoveCommands();
+    }
   }
 }

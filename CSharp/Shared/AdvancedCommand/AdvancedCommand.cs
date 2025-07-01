@@ -12,21 +12,52 @@ namespace JovianRadiationRework
   public class AdvancedCommand : DebugConsole.Command
   {
     public bool HasCustomAutocomplete => Hints is not null;
-    public Hint Hints;
+    public Hints Hints;
 
     public string AutoComplete(string command, int increment = 1)
     {
       string[] splitCommand = ToolBox.SplitCommand(command);
       string[] args = splitCommand.Skip(1).ToArray();
 
-      Mod.LogArray(splitCommand);
-      Mod.LogArray(args);
+      bool shouldStep = command.Last() == ' ';
 
-      return command;
+
+
+      List<Hints> hints = new();
+      hints.Add(Hints);
+
+      string Pack()
+        => $"{splitCommand[0]} {string.Join(' ', hints.Skip(1).Select(h => (h as Hint).Name))}";
+
+      for (int i = 0; i < args.Length - 1; i++)
+      {
+        Hint hint = hints[i].FindClosest(args[i]);
+
+        if (hint is null) return Pack();
+        hints.Add(hint);
+      }
+
+      Hint autocompleted = hints.Last().FindClosest(args.LastOrDefault());
+
+      if (shouldStep)
+      {
+        hints.Add(autocompleted);
+
+        Hint next = autocompleted.First();
+        if (next is not null) hints.Add(next);
+      }
+      else
+      {
+        hints.Add(hints.Last().Next(autocompleted));
+      }
+
+      Mod.LogArray(hints.Skip(1).Select(h => (h as Hint).Name));
+
+      return Pack();
     }
 
 
-    public AdvancedCommand(string name, string help, Action<string[]> onExecute, Hint hints = null, Func<string[][]> getValidArgs = null, bool isCheat = false) : base(name, help, onExecute, getValidArgs, isCheat)
+    public AdvancedCommand(string name, string help, Action<string[]> onExecute, Hints hints = null, Func<string[][]> getValidArgs = null, bool isCheat = false) : base(name, help, onExecute, getValidArgs, isCheat)
     {
       Hints = hints;
     }

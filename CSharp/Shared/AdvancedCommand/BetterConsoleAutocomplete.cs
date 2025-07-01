@@ -25,8 +25,10 @@ namespace JovianRadiationRework
       );
     }
 
-    public static bool DebugConsole_AutoComplete_Prefix(ref string __result, string command, int increment = 1)
+    public static bool DebugConsole_AutoComplete_Prefix(ref string __result, ref bool __runOriginal, string command, int increment = 1)
     {
+      if (!__runOriginal) return true;
+
       string[] splitCommand = ToolBox.SplitCommand(command);
       string[] args = splitCommand.Skip(1).ToArray();
 
@@ -36,8 +38,16 @@ namespace JovianRadiationRework
 
         if (matchingCommand is AdvancedCommand ac && ac.HasCustomAutocomplete)
         {
-          __result = ac.AutoComplete(command, increment);
-          return false;
+          try
+          {
+            __result = ac.AutoComplete(command, increment);
+            return false;
+          }
+          catch (Exception e)
+          {
+            Mod.Warning(e.Message);//TODO this should be info
+            return true;
+          }
         }
         else
         {
@@ -45,13 +55,11 @@ namespace JovianRadiationRework
         }
       }
 
-      return false;
+      return true;
     }
 
     public static void DebugConsole_AutoComplete_Postfix(ref string __result, string command, int increment = 1)
     {
-      Mod.Log($"command: [{command}], increment: [{increment}]");
-      Mod.Log(__result);
     }
 
   }
