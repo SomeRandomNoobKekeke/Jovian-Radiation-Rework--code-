@@ -18,11 +18,6 @@ namespace JovianRadiationRework
         original: typeof(DebugConsole).GetMethod("AutoComplete", AccessTools.all),
         prefix: new HarmonyMethod(typeof(BetterConsoleAutocomplete).GetMethod("DebugConsole_AutoComplete_Prefix"))
       );
-
-      harmony.Patch(
-        original: typeof(DebugConsole).GetMethod("AutoComplete", AccessTools.all),
-        postfix: new HarmonyMethod(typeof(BetterConsoleAutocomplete).GetMethod("DebugConsole_AutoComplete_Postfix"))
-      );
     }
 
     public static bool DebugConsole_AutoComplete_Prefix(ref string __result, ref bool __runOriginal, string command, int increment = 1)
@@ -45,7 +40,7 @@ namespace JovianRadiationRework
           }
           catch (Exception e)
           {
-            Mod.Warning(e.Message);//TODO this should be info
+            Mod.Warning($"Couldn't autocomplete command: [{e.Message}]");//TODO this should be info
             return true;
           }
         }
@@ -57,10 +52,5 @@ namespace JovianRadiationRework
 
       return true;
     }
-
-    public static void DebugConsole_AutoComplete_Postfix(ref string __result, string command, int increment = 1)
-    {
-    }
-
   }
 }

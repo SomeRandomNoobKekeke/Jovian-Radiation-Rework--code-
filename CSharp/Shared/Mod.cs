@@ -7,6 +7,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
+using ResuscitationKit;
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
@@ -17,8 +18,9 @@ namespace JovianRadiationRework
     {
       PatchAll();
       AddCommands();
+      UTestCommands.AddCommands();
 
-      Hint hint = new Hint("123");
+      UTestPack.RunRecursive();
     }
 
     public void PatchAll()
@@ -31,6 +33,7 @@ namespace JovianRadiationRework
     {
       Harmony.UnpatchSelf();
       RemoveCommands();
+      UTestCommands.RemoveCommands();
     }
   }
 }

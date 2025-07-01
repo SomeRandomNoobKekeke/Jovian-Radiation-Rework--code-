@@ -51,8 +51,6 @@ namespace JovianRadiationRework
         hints.Add(hints.Last().Next(autocompleted));
       }
 
-      Mod.LogArray(hints.Skip(1).Select(h => (h as Hint).Name));
-
       return Pack();
     }
 
