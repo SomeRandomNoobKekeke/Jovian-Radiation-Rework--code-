@@ -37,12 +37,17 @@ namespace JovianRadiationRework
     }
 
 
-
+    /// <summary>
+    /// Logic is this:  
+    /// if there's more than 1 arg it will try to repair middle args first, 
+    /// if it couldn't then it'll quit early  
+    /// If last arg is incomplete it'll try to autocomplete  
+    /// else If line ends in ' ' then it'll add first hint from the next level  
+    /// else it'll cycle on this level
+    /// </summary>
     public string AutoComplete(string fullString, int increment = 1)
     {
       if (Hints is null) return fullString;
-
-
 
       string[] splitCommand = ToolBox.SplitCommand(fullString);
       string[] args = splitCommand.Skip(1).ToArray();
