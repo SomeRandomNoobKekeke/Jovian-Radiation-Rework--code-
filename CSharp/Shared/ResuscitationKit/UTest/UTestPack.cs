@@ -9,6 +9,8 @@ namespace ResuscitationKit
 {
   public class UTestPack
   {
+    public enum UTestPackState { AllPassed, SomePassed, AllFailed }
+
     public static bool IsTestGenerator(MethodInfo mi)
       => mi.ReturnType == typeof(UTest) && mi.GetParameters().Length == 0;
 
@@ -31,9 +33,20 @@ namespace ResuscitationKit
       if (!T.IsAssignableTo(typeof(UTestPack)))
         throw new ArgumentException($"[{T}] is not a UTestPack");
 
-      UTestPack pack = Activator.CreateInstance(T) as UTestPack;
-
-      foreach (UTest test in pack.Tests) test?.Run();
+      UTestPack pack = null;
+      try
+      {
+        pack = Activator.CreateInstance(T) as UTestPack;
+        foreach (UTest test in pack.Tests) test?.Run();
+      }
+      catch (Exception e)
+      {
+        UTestLogger.Warning($"{T.Name} failed: [{e.Message}]");
+        if (e.InnerException is not null)
+        {
+          UTestLogger.Warning($"-> [{e.InnerException.Message}]");
+        }
+      }
 
       return pack;
     }
@@ -47,12 +60,23 @@ namespace ResuscitationKit
       UTestExplorer.TestTree.RunRecursive((test) =>
       {
         if (test == typeof(UTestPack)) return; // bruh
-        UTestPack.Run(test).Log();
+        UTestPack.Run(test)?.Log();
       }, T);
     }
 
     public List<UTest> Tests = new();
     public int PassedCount => Tests.Count(test => test.State);
+    public UTestPackState State
+    {
+      get
+      {
+        int passed = PassedCount;
+        if (Tests.Count == 0) return UTestPackState.AllPassed;
+        if (passed == Tests.Count) return UTestPackState.AllPassed;
+        if (passed == 0) return UTestPackState.AllFailed;
+        return UTestPackState.SomePassed;
+      }
+    }
 
     public virtual void CreateTests()
     {

@@ -27,7 +27,8 @@ namespace ResuscitationKit
     public UTest(object realValue, object expect, [CallerArgumentExpression("realValue")] string expression = "") : this(() => realValue, expect, expression) { }
     public UTest(Func<object> method, object expect, [CallerArgumentExpression("method")] string expression = "")
     {
-      if (method is null) throw new ArgumentNullException(nameof(method));
+      ArgumentNullException.ThrowIfNull(method);
+
       Method = method;
 
       Expected = expect is UTestResult ? expect as UTestResult : new UTestResult(expect);

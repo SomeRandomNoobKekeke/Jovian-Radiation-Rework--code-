@@ -8,16 +8,28 @@ using Microsoft.Xna.Framework;
 
 namespace ResuscitationKit
 {
+  // useless class that is referenced from all over the place
   public class UTestLogger
   {
     public static Color SuccessColor = Color.Lime;
+    public static Color NotGreatColor = Color.Orange;
     public static Color FailureColor = Color.Red;
     public static string InnerTextColor = "128,255,255";
     public static float ColorContrast = 0.75f;
     public static string Line = "-------------------------------------------------------------";
-    public static Color StateColor(bool state) => state ?
+    public static Color UTestStateColor(bool state) => state ?
       Color.Lerp(Color.White, SuccessColor, ColorContrast) :
       Color.Lerp(Color.White, FailureColor, ColorContrast);
+
+    public static Color UTestPackStateColor(UTestPack.UTestPackState state)
+    {
+      return state switch
+      {
+        UTestPack.UTestPackState.AllPassed => Color.Lerp(Color.White, SuccessColor, ColorContrast),
+        UTestPack.UTestPackState.SomePassed => Color.Lerp(Color.White, NotGreatColor, ColorContrast),
+        UTestPack.UTestPackState.AllFailed => Color.Lerp(Color.White, FailureColor, ColorContrast),
+      };
+    }
 
     public static string WrapInColor(object msg, string color)
       => $"‖color:{color}‖{msg}‖end‖";
@@ -34,13 +46,15 @@ namespace ResuscitationKit
 
     public static void LogTest(UTest test)
     {
-      Log(test, StateColor(test.State));
+      Log(test, UTestStateColor(test.State));
     }
 
     public static void LogPack(UTestPack pack)
     {
+      Color cl = UTestPackStateColor(pack.State);
+
       Log(Line);
-      Log($"UTestPack {pack.GetType()} [{pack.PassedCount}/{pack.Tests.Count}]:");
+      Log($"UTestPack {pack.GetType()} [{pack.PassedCount}/{pack.Tests.Count}]:", cl);
 
       foreach (UTest test in pack.Tests)
       {

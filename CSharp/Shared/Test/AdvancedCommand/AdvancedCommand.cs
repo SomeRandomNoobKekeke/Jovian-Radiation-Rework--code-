@@ -80,5 +80,17 @@ namespace JovianRadiationRework
         Tests.Add(new UTest(TestCommand.AutoComplete("bruh ko 3"), "bruh ko ko3"));
       }
     }
+
+    public class RepairTheMiddleTest : AdvancedCommandTest
+    {
+      public override void CreateTests()
+      {
+        Tests.Add(new UTest(TestCommand.AutoComplete("bruh k 2"), "bruh ko ko2"));
+        Tests.Add(new UTest(TestCommand.AutoComplete("bruh k k"), "bruh ko ko1"));
+        Tests.Add(new UTest(TestCommand.AutoComplete("bruh k 3"), "bruh ko ko3"));
+        Tests.Add(new UTest(TestCommand.AutoComplete("bruh u 2"), "bruh ju ju2"));
+        Tests.Add(new UTest(TestCommand.AutoComplete("bruh j j"), "bruh ju ju1"));
+      }
+    }
   }
 }

@@ -14,44 +14,98 @@ namespace JovianRadiationRework
     public bool HasCustomAutocomplete => Hints is not null;
     public Hints Hints;
 
-    public string AutoComplete(string command, int increment = 1)
+    public class TreeClimber
     {
-      string[] splitCommand = ToolBox.SplitCommand(command);
-      string[] args = splitCommand.Skip(1).ToArray();
-
-      bool shouldStep = command.Last() == ' ';
-
-
-
-      List<Hints> hints = new();
-      hints.Add(Hints);
-
-      string Pack()
-        => $"{splitCommand[0]} {string.Join(' ', hints.Skip(1).Select(h => (h as Hint).Name))}";
-
-      for (int i = 0; i < args.Length - 1; i++)
+      public Hints Current;
+      public void AttachTo(Hints node) => Current = node;
+      public Hint TryMoveTo(string bruh)
       {
-        Hint hint = hints[i].FindClosest(args[i]);
+        if (Current is null)
+        {
+          throw new Exception($"Can't climb to [{bruh}], climber not attached");
+        }
 
-        if (hint is null) return Pack();
-        hints.Add(hint);
+        Hint hint = Current.FindClosest(bruh);
+
+        if (hint is not null)
+        {
+          Current = hint;
+        }
+
+        return hint;
+      }
+    }
+
+
+
+    public string AutoComplete(string fullString, int increment = 1)
+    {
+      if (Hints is null) return fullString;
+
+
+
+      string[] splitCommand = ToolBox.SplitCommand(fullString);
+      string[] args = splitCommand.Skip(1).ToArray();
+      bool shouldStep = fullString.Last() == ' ';
+      string commandName = splitCommand[0];
+
+      if (args.Length == 0)
+      {
+        return shouldStep ? $"{commandName} {Hints.First()}" : commandName;
       }
 
-      Hint autocompleted = hints.Last().FindClosest(args.LastOrDefault());
+      List<Hint> hints = new List<Hint>();
 
-      if (shouldStep)
+      string Result()
+        => $"{commandName} {string.Join(' ', hints.Select(h => (h as Hint).Name))}";
+
+      // Repair middle args
+      if (args.Length > 1)
       {
-        hints.Add(autocompleted);
+        TreeClimber climber = new TreeClimber();
+        climber.AttachTo(this.Hints);
 
-        Hint next = autocompleted.First();
-        if (next is not null) hints.Add(next);
+
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+          Hint hint = climber.TryMoveTo(args[i]);
+
+          if (hint is null) return Result();
+
+          hints.Add(hint);
+        }
+      }
+
+      Hints lastHint = hints.LastOrDefault() ?? this.Hints;
+      Hint directFind = lastHint.GetChild(args.Last());
+
+      if (directFind is not null)
+      {
+        if (shouldStep)
+        {
+          hints.Add(directFind);
+
+          if (directFind.HasChildren)
+          {
+            hints.Add(directFind.First());
+          }
+        }
+        else
+        {
+          hints.Add(lastHint.Next(directFind));
+        }
       }
       else
       {
-        hints.Add(hints.Last().Next(autocompleted));
+        Hint autocompleted = lastHint.FindClosest(args.Last());
+        if (autocompleted is not null)
+        {
+          hints.Add(autocompleted);
+        }
       }
 
-      return Pack();
+
+      return Result();
     }
 
 

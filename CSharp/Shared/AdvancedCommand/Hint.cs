@@ -13,10 +13,12 @@ namespace JovianRadiationRework
   {
     public Hint[] Children { get; private set; }
 
+    public bool HasChildren => Children.Length != 0;
+
     public Hint FindClosest(string name)
     {
       if (Children.Length == 0) return null;
-      if (string.IsNullOrEmpty(name)) return Children.First();
+      if (string.IsNullOrEmpty(name)) return null;
 
       string lowName = name.ToLower();
 
