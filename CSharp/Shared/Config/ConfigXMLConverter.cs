@@ -12,9 +12,8 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  public class Config
+  public class ConfigXMLConverter
   {
 
   }
-
 }

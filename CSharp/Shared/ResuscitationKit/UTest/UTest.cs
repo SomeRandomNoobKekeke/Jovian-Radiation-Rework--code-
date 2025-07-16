@@ -17,6 +17,7 @@ namespace ResuscitationKit
     public string Name { get; set; } = "Unnamed";
     public bool State => Result is not null && Result.Equals(Expected);
 
+    //TODO add list UTestResult
     public UTest Run()
     {
       try { Result = new UTestResult(Method()); }

@@ -1,0 +1,85 @@
+using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+using System.IO;
+
+using Barotrauma;
+
+namespace JovianRadiationRework
+{
+  public struct ConfigEntry
+  {
+    public PropertyInfo Property;
+    public object Target;
+    public ConfigEntry(PropertyInfo property, object target)
+    {
+      Property = property;
+      Target = target;
+    }
+    public override string ToString() => $"{Target.GetType().Name}.{Property.Name}";
+  }
+
+  public class ConfigTraverse
+  {
+    public static BindingFlags PublicInstance = BindingFlags.Public | BindingFlags.Instance;
+
+    public static IEnumerable<ConfigEntry> Depth(object config)
+    {
+      if (config is null) yield break;
+
+      foreach (PropertyInfo pi in config.GetType().GetProperties(PublicInstance))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig nestedConfig = pi.GetValue(config) as IConfig;
+          foreach (ConfigEntry entry in Breadth(nestedConfig))
+          {
+            yield return entry;
+          }
+        }
+      }
+
+      foreach (PropertyInfo pi in config.GetType().GetProperties(PublicInstance))
+      {
+        if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          yield return new ConfigEntry(pi, config);
+        }
+      }
+
+      yield break;
+    }
+
+    public static IEnumerable<ConfigEntry> Breadth(object config)
+    {
+      if (config is null) yield break;
+
+      foreach (PropertyInfo pi in config.GetType().GetProperties(PublicInstance))
+      {
+        if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          yield return new ConfigEntry(pi, config);
+        }
+      }
+
+      foreach (PropertyInfo pi in config.GetType().GetProperties(PublicInstance))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig nestedConfig = pi.GetValue(config) as IConfig;
+          foreach (ConfigEntry entry in Breadth(nestedConfig))
+          {
+            yield return entry;
+          }
+        }
+      }
+
+      yield break;
+    }
+  }
+}

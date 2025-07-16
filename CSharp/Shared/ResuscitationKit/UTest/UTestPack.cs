@@ -91,7 +91,18 @@ namespace ResuscitationKit
       }
     }
 
-    public UTestPack() { CreateTests(); }
+    public UTestPack()
+    {
+      try
+      {
+        CreateTests();
+      }
+      catch (Exception e)
+      {
+        UTestLogger.Warning($"Failed to CreateTests for {this.GetType()}:");
+        UTestLogger.Warning(e);
+      }
+    }
 
     public override string ToString()
     {
