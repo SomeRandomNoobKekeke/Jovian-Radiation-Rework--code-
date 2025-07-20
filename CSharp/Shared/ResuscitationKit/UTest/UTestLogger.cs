@@ -31,6 +31,8 @@ namespace ResuscitationKit
       };
     }
 
+
+
     public static string WrapInColor(object msg, string color)
       => $"‖color:{color}‖{msg}‖end‖";
 

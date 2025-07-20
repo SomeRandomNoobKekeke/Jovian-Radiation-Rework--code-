@@ -42,7 +42,8 @@ namespace ResuscitationKit
         UTestExplorer.TestTree.RunRecursive((test) =>
         {
           if (test == typeof(UTestPack)) return; // bruh
-          UTestPack.Run(test).Log();
+          UTestPack pack = UTestPack.Run(test);
+          if (pack.Tests.Count != 0) pack.Log();
         }, start);
       }
       catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); };

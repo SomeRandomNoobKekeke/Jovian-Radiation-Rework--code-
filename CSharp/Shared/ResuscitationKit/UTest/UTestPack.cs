@@ -33,19 +33,16 @@ namespace ResuscitationKit
       if (!T.IsAssignableTo(typeof(UTestPack)))
         throw new ArgumentException($"[{T}] is not a UTestPack");
 
-      UTestPack pack = null;
+      UTestPack pack = Activator.CreateInstance(T) as UTestPack;
+
       try
       {
-        pack = Activator.CreateInstance(T) as UTestPack;
-        foreach (UTest test in pack.Tests) test?.Run();
+        pack.CreateTests();
       }
       catch (Exception e)
       {
-        UTestLogger.Warning($"{T.Name} failed: [{e.Message}]");
-        if (e.InnerException is not null)
-        {
-          UTestLogger.Warning($"-> [{e.InnerException.Message}]");
-        }
+        UTestLogger.Warning($"Failed to CreateTests for {T}:");
+        UTestLogger.Warning(e);
       }
 
       return pack;
@@ -88,19 +85,6 @@ namespace ResuscitationKit
           test.Name ??= GetNameFromMethodInfo(mi);
           Tests.Add(test);
         }
-      }
-    }
-
-    public UTestPack()
-    {
-      try
-      {
-        CreateTests();
-      }
-      catch (Exception e)
-      {
-        UTestLogger.Warning($"Failed to CreateTests for {this.GetType()}:");
-        UTestLogger.Warning(e);
       }
     }
 

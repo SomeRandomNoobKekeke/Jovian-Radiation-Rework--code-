@@ -6,9 +6,10 @@ using System.Diagnostics;
 
 namespace ResuscitationKit
 {
-  public class UTestResult
+  public class UTestResult : UTestResultBase
   {
-    public virtual object Result { get; set; }
+    private object result;
+    public override object Result { get => result; set => result = value; }
 
     public override bool Equals(object obj)
     {
