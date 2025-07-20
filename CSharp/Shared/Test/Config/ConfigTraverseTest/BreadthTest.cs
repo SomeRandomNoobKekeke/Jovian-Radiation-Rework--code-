@@ -30,18 +30,38 @@ namespace JovianRadiationRework
           if (!countTest.State) return;
 
           Tests.Add(new USetTest(
-            entries.Slice(0, 4),
+            entries.Slice(0, 5),
             new HashSet<object>()
             {
               new ConfigEntry(TestConfig,"IntProp"),
-              new ConfigEntry(TestConfig,"IntProp"),
-              new ConfigEntry(TestConfig,"IntProp"),
-              new ConfigEntry(TestConfig,"IntProp"),
+              new ConfigEntry(TestConfig,"FloatProp"),
+              new ConfigEntry(TestConfig,"StringProp"),
+              new ConfigEntry(TestConfig,"NullStringProp"),
+              new ConfigEntry(TestConfig,"ShouldNotBeDugInto"),
             }
           ));
 
+          Tests.Add(new USetTest(
+            entries.Slice(5, 4),
+            new HashSet<object>()
+            {
+              new ConfigEntry(TestConfig.NestedConfigB,"IntProp"),
+              new ConfigEntry(TestConfig.NestedConfigB,"FloatProp"),
+              new ConfigEntry(TestConfig.NestedConfigB,"StringProp"),
+              new ConfigEntry(TestConfig.NestedConfigB,"NullStringProp"),
+            }
+          ));
 
-
+          Tests.Add(new USetTest(
+            entries.Slice(9, 4),
+            new HashSet<object>()
+            {
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"IntProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"FloatProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"StringProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"NullStringProp"),
+            }
+          ));
         }
       }
     }
