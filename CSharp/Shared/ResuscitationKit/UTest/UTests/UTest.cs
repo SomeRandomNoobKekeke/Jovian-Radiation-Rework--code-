@@ -12,15 +12,24 @@ namespace ResuscitationKit
     public static int TooLongForAName = 50;
     public static string VeryLongExpressionWarning = "Very long expression";
     public UTestResultBase Expected;
-    public UTestResultBase Result { get; private set; }
-    public string Name { get; set; } = "Unnamed";
+    public UTestResultBase Result;
+    public string Name = "Unnamed";
     public bool State => Result is not null && Result.Equals(Expected);
-    public string DetailsOnFail { get; set; }
+    public string DetailsOnFail;
 
     public virtual void Adapt(object realValue, object expect)
     {
-      Result = realValue is UTestResultBase ? realValue as UTestResultBase : new UTestResult(expect);
-      Expected = expect is UTestResultBase ? expect as UTestResultBase : new UTestResult(expect);
+      Result = realValue switch
+      {
+        UTestResultBase => realValue as UTestResultBase,
+        _ => new UTestResult(realValue),
+      };
+
+      Expected = expect switch
+      {
+        UTestResultBase => expect as UTestResultBase,
+        _ => new UTestResult(realValue),
+      };
     }
 
     public UTest(object realValue, object expect, [CallerArgumentExpression("realValue")] string expression = "")
@@ -29,8 +38,14 @@ namespace ResuscitationKit
     {
       ArgumentNullException.ThrowIfNull(method);
 
-      try { Init(method.Invoke(), expect, expression); }
-      catch (Exception e) { Init(new UTestError(e), expect, expression); }
+      try
+      {
+        Init(method.Invoke(), expect, expression);
+      }
+      catch (Exception e)
+      {
+        Init(new UTestError(e), expect, expression);
+      }
     }
 
     private void Init(object realValue, object expect, string expression)

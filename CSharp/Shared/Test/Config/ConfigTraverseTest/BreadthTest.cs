@@ -29,10 +29,9 @@ namespace JovianRadiationRework
 
           if (!countTest.State) return;
 
-          //TODO USetTest?
-          Tests.Add(new UTest(
+          Tests.Add(new USetTest(
             entries.Slice(0, 4),
-            new HashSet<ConfigEntry>()
+            new HashSet<object>()
             {
               new ConfigEntry(TestConfig,"IntProp"),
               new ConfigEntry(TestConfig,"IntProp"),

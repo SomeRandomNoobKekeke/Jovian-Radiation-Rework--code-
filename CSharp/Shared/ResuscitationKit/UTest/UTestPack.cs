@@ -12,7 +12,7 @@ namespace ResuscitationKit
     public enum UTestPackState { AllPassed, SomePassed, AllFailed }
 
     public static bool IsTestGenerator(MethodInfo mi)
-      => mi.ReturnType == typeof(UTest) && mi.GetParameters().Length == 0;
+      => mi.ReturnType.IsAssignableTo(typeof(UTest)) && mi.GetParameters().Length == 0;
 
     public static string GetNameFromMethodInfo(MethodInfo mi)
       => $"{mi.DeclaringType.Name}.{mi.Name}";
