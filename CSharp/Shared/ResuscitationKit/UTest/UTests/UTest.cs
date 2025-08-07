@@ -54,7 +54,18 @@ namespace ResuscitationKit
       Adapt(realValue, expect);
     }
 
-    public override string ToString() => $"[{UTestLogger.AsText(Name)}] {(State ? "Passed" : "Failed")} | expected: [{UTestLogger.AsText(Expected)}] got: [{UTestLogger.AsText(Result)}]{(!State && DetailsOnFail is not null ? $"({DetailsOnFail})" : "")}";
+    public override string ToString()
+    {
+      if (State)
+      {
+        return $"[{UTestLogger.AsText(Name)}] Passed | match: [{UTestLogger.AsText(Result)}]";
+      }
+      else
+      {
+        return $"[{UTestLogger.AsText(Name)}] Failed | expected: [{UTestLogger.AsText(Expected)}] got: [{UTestLogger.AsText(Result)}]{(DetailsOnFail is not null ? $"({DetailsOnFail})" : "")}";
+      }
+
+    }
 
     public void Log() => UTestLogger.LogTest(this);
   }

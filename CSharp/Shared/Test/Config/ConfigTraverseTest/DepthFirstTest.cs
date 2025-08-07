@@ -17,11 +17,11 @@ namespace JovianRadiationRework
   {
     public partial class ConfigTraverseTest : ConfigTest
     {
-      public class BreadthTest : ConfigTraverseTest
+      public class DepthFirstTest : ConfigTraverseTest
       {
         public override void CreateTests()
         {
-          List<ConfigEntry> entries = ConfigTraverse.Simple(TestConfig).ToList();
+          List<ConfigEntry> entries = ConfigTraverse.DepthFirst(TestConfig).ToList();
 
           UTest countTest = new UTest(entries.Count, 13) { DetailsOnFail = entries.ToText("\n", "\n"), };
 
@@ -30,19 +30,18 @@ namespace JovianRadiationRework
           if (!countTest.State) return;
 
           Tests.Add(new USetTest(
-            entries.Slice(0, 5),
+            entries.Slice(0, 4),
             new HashSet<object>()
             {
-              new ConfigEntry(TestConfig,"IntProp"),
-              new ConfigEntry(TestConfig,"FloatProp"),
-              new ConfigEntry(TestConfig,"StringProp"),
-              new ConfigEntry(TestConfig,"NullStringProp"),
-              new ConfigEntry(TestConfig,"ShouldNotBeDugInto"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"IntProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"FloatProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"StringProp"),
+              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"NullStringProp"),
             }
           ));
 
           Tests.Add(new USetTest(
-            entries.Slice(5, 4),
+            entries.Slice(4, 4),
             new HashSet<object>()
             {
               new ConfigEntry(TestConfig.NestedConfigB,"IntProp"),
@@ -53,13 +52,14 @@ namespace JovianRadiationRework
           ));
 
           Tests.Add(new USetTest(
-            entries.Slice(9, 4),
+            entries.Slice(8, 5),
             new HashSet<object>()
             {
-              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"IntProp"),
-              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"FloatProp"),
-              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"StringProp"),
-              new ConfigEntry(TestConfig.NestedConfigB.NestedConfigC,"NullStringProp"),
+              new ConfigEntry(TestConfig,"IntProp"),
+              new ConfigEntry(TestConfig,"FloatProp"),
+              new ConfigEntry(TestConfig,"StringProp"),
+              new ConfigEntry(TestConfig,"NullStringProp"),
+              new ConfigEntry(TestConfig,"ShouldNotBeDugInto"),
             }
           ));
         }
