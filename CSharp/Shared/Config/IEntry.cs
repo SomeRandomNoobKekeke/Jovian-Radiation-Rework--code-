@@ -7,9 +7,9 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  public interface IConfig : IEntry
+  public interface IEntry
   {
-    ConfigEntry Get(string propName)
-      => new ConfigEntry(this, propName);
+    public ConfigEntry Get(string propName)
+      => new ConfigEntry();
   }
 }

@@ -21,6 +21,8 @@ namespace JovianRadiationRework
       {
         public override void CreateTests()
         {
+          ExampleConfigs.ConfigA TestConfig = new ExampleConfigs.ConfigA();
+
           List<ConfigEntry> entries = ConfigTraverse.PropsFirst(TestConfig).ToList();
 
           UTest countTest = new UTest(entries.Count, 13) { DetailsOnFail = entries.ToText("\n", "\n"), };

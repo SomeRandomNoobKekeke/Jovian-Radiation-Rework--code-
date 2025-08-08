@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  public class ConfigTraverse
+  public static class ConfigTraverse
   {
     public static BindingFlags PublicInstance = BindingFlags.Public | BindingFlags.Instance;
 

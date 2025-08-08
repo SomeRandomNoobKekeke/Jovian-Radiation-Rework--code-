@@ -15,10 +15,8 @@ namespace JovianRadiationRework
 {
   public partial class ConfigTest : UTestPack
   {
-    public partial class ConfigTraverseTest : ConfigTest
+    public partial class ExampleConfigs
     {
-      public static ConfigA TestConfig = new ConfigA();
-
       public class EmptyConfig : IConfig { }
 
       public class ShouldNotBeDugInto

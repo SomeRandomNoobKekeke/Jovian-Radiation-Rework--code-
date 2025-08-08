@@ -13,12 +13,20 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-
-
-  public struct ConfigEntry
+  public struct ConfigEntry : IEntry
   {
     public PropertyInfo Property;
     public object Target;
+    public object Value => Property?.GetValue(Target);
+
+    public ConfigEntry Get(string propName)
+      => new ConfigEntry(Target, propName);
+
+    public ConfigEntry()
+    {
+      Property = null;
+      Target = null;
+    }
     public ConfigEntry(PropertyInfo property, object target)
     {
       Property = property;
@@ -26,8 +34,8 @@ namespace JovianRadiationRework
     }
     public ConfigEntry(object target, string propName)
     {
-      Property = target.GetType().GetProperty(propName);
       Target = target;
+      Property = target?.GetType().GetProperty(propName);
     }
     public override string ToString() => $"{Target.GetType().Name}.{Property.Name}";
   }

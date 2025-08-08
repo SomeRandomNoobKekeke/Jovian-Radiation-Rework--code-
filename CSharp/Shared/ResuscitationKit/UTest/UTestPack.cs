@@ -57,7 +57,7 @@ namespace ResuscitationKit
       UTestExplorer.TestTree.RunRecursive((test) =>
       {
         if (test == typeof(UTestPack)) return; // bruh
-        UTestPack.Run(test)?.Log();
+        UTestPack.Run(test)?.Log(); // TODO why log is here?
       }, T);
     }
 
