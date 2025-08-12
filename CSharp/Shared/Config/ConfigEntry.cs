@@ -22,12 +22,9 @@ namespace JovianRadiationRework
     public object Value
     {
       get => Property?.GetValue(Target);
-      set => Property?.SetValue(Target, value);
+      set { if (Valid) Property.SetValue(Target, value); }
     }
     public bool Valid => Property is not null && Target is not null;
-
-    public ConfigEntry Get(string propName) => new ConfigEntry(Target, propName);
-
 
     public ConfigEntry()
     {
