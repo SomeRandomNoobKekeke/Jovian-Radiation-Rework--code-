@@ -21,14 +21,14 @@ namespace JovianRadiationRework
 
       public class ShouldNotBeDugInto
       {
-        public int IntProp { get; set; }
-        public float FloatProp { get; set; }
+        public int IntProp { get; set; } = 0;
+        public float FloatProp { get; set; } = 1.0f;
       }
 
       public class ConfigA : IConfig
       {
-        public int IntProp { get; set; }
-        public float FloatProp { get; set; }
+        public int IntProp { get; set; } = 2;
+        public float FloatProp { get; set; } = 3.0f;
         public string StringProp { get; set; } = "bruh";
         public string NullStringProp { get; set; }
         public ShouldNotBeDugInto ShouldNotBeDugInto { get; set; } = new();
@@ -39,8 +39,8 @@ namespace JovianRadiationRework
 
       public class ConfigB : IConfig
       {
-        public int IntProp { get; set; }
-        public float FloatProp { get; set; }
+        public int IntProp { get; set; } = 4;
+        public float FloatProp { get; set; } = 5.0f;
         public string StringProp { get; set; } = "bruh";
         public string NullStringProp { get; set; }
         public ConfigC NestedConfigC { get; set; } = new();
@@ -50,8 +50,8 @@ namespace JovianRadiationRework
 
       public class ConfigC : IConfig
       {
-        public int IntProp { get; set; }
-        public float FloatProp { get; set; }
+        public int IntProp { get; set; } = 6;
+        public float FloatProp { get; set; } = 7.0f;
         public string StringProp { get; set; } = "bruh";
         public string NullStringProp { get; set; }
       }

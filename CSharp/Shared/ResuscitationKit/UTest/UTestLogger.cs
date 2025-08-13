@@ -31,6 +31,21 @@ namespace ResuscitationKit
       };
     }
 
+    public static void PrintStackTrace()
+    {
+      StackTrace st = new StackTrace(true);
+      for (int i = 0; i < st.FrameCount; i++)
+      {
+        StackFrame sf = st.GetFrame(i);
+        if (sf.GetMethod().DeclaringType is null)
+        {
+          Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+          break;
+        }
+        Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+      }
+    }
+
 
 
     public static string WrapInColor(object msg, string color)

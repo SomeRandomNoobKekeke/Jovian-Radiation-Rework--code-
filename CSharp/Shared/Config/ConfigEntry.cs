@@ -13,35 +13,36 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  public struct ConfigEntry
+  public struct ConfigEntry : IPropsContainer
   {
     public static ConfigEntry Empty = new ConfigEntry();
+
+    public ConfigEntry this[string key] { get => Get(key); }
+    public ConfigEntry Get(string propName, params string[] deeperProps)
+    {
+      ConfigEntry entry = new ConfigEntry(Value, propName);
+
+      foreach (string prop in deeperProps) entry = entry.Get(prop);
+      return entry;
+    }
 
     public PropertyInfo Property;
     public object Target;
     public object Value
     {
       get => Property?.GetValue(Target);
-      set { if (Valid) Property.SetValue(Target, value); }
+      set { if (IsValid) Property.SetValue(Target, value); }
     }
-    public bool Valid => Property is not null && Target is not null;
+    public bool IsValid => Property is not null && Target is not null;
 
-    public ConfigEntry()
-    {
-      Property = null;
-      Target = null;
-    }
-    public ConfigEntry(PropertyInfo property, object target)
-    {
-      Property = property;
-      Target = target;
-    }
+    public ConfigEntry() => (Target, Property) = (null, null);
+    public ConfigEntry(object target, PropertyInfo property) => (Target, Property) = (target, property);
     public ConfigEntry(object target, string propName)
     {
       Target = target;
       Property = target?.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
     }
-    public override string ToString() => $"{Target.GetType().Name}.{Property.Name}";
+    public override string ToString() => $"{Target?.GetType().Name}.{Property?.Name}";
   }
 
   // cringe

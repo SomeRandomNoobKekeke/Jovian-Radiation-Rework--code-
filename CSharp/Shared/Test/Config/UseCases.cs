@@ -19,12 +19,15 @@ namespace JovianRadiationRework
     {
       public override void CreateTests()
       {
-        IConfig TestConfig = new ExampleConfigs.ConfigA();
+        // try
+        // {
+        //   ExampleConfigs.ConfigA config = new ExampleConfigs.ConfigA();
+        //   Mod.Log(config.Get("IntProp", "bebebe", "jujuju"));
 
-
-
-
-        UTestLogger.Log(TestConfig["NestedConfigB"]);
+        //   config.IntProp = 2;
+        //   Tests.Add(new UTest(config.Get("IntProp").Value, config.IntProp));
+        // }
+        // catch (Exception e) { Mod.Log(e); }
 
 
       }

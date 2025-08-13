@@ -28,7 +28,7 @@ namespace ResuscitationKit
       Expected = expect switch
       {
         UTestResultBase => expect as UTestResultBase,
-        _ => new UTestResult(realValue),
+        _ => new UTestResult(expect),
       };
     }
 

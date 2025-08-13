@@ -26,7 +26,7 @@ namespace JovianRadiationRework
       {
         if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
         {
-          yield return new ConfigEntry(pi, config);
+          yield return new ConfigEntry(config, pi);
         }
       }
 
@@ -63,7 +63,7 @@ namespace JovianRadiationRework
       {
         if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
         {
-          yield return new ConfigEntry(pi, config);
+          yield return new ConfigEntry(config, pi);
         }
       }
     }

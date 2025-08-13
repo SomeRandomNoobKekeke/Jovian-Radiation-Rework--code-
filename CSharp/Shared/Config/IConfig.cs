@@ -11,20 +11,18 @@ namespace JovianRadiationRework
   /// Marker interface  
   /// It's required to detect nested configs without digging into complex types
   /// </summary>
-  public interface IConfig
+  public interface IConfig : IPropsContainer
   {
-    ConfigEntry this[string key]
-    {
-      get => new ConfigEntry(this, key);
-      set
-      {
-        PropertyInfo pi = this.GetType().GetProperty(key, BindingFlags.Instance | BindingFlags.Public);
-        if (pi is null) return;
-        pi.SetValue(this, value);
-      }
-    }
+    public ConfigEntry this[string key] { get => new ConfigEntry(this, key); }
 
+    public PropertyInfo[] Props
+      => this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
+    public IEnumerable<ConfigEntry> Entries
+      => Props.Select(pi => new ConfigEntry(this, pi));
+
+    public IEnumerable<string> PropNames
+      => Props.Select(pi => pi.Name);
   }
 
 
@@ -34,6 +32,12 @@ namespace JovianRadiationRework
   /// </summary>
   public static class IConfigExtensions
   {
-    public static ConfigEntry Get(this IConfig config, string propName) => new ConfigEntry(config, propName);
+    public static ConfigEntry Get(this IConfig config, string propName, params string[] deeperProps)
+    {
+      ConfigEntry entry = new ConfigEntry(config, propName);
+      foreach (string prop in deeperProps) entry = entry[prop];
+      return entry;
+    }
+
   }
 }
