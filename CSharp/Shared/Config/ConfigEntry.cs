@@ -45,11 +45,24 @@ namespace JovianRadiationRework
     public override string ToString() => $"{Target?.GetType().Name}.{Property?.Name}";
   }
 
-  // cringe
   public static class ConfigEntryExtensions
   {
     public static string ToText(this IEnumerable<ConfigEntry> collection, string separator = ", ", string edge = "")
       => $"[{edge}{String.Join(separator, collection.Select(ce => ce.ToString()))}{edge}]";
+
+    public static string ToText(this Dictionary<string, ConfigEntry> flat)
+    {
+      StringBuilder sb = new StringBuilder();
+
+      sb.Append("{\n");
+      foreach (string key in flat.Keys)
+      {
+        sb.Append($"    {key}: [{flat[key].Value}],\n");
+      }
+      sb.Append("}");
+
+      return sb.ToString();
+    }
   }
 
 

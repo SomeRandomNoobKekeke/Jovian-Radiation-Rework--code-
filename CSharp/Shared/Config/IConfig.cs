@@ -51,6 +51,37 @@ namespace JovianRadiationRework
       }
     }
 
+    public Dictionary<string, ConfigEntry> Flat
+    {
+      get
+      {
+        Dictionary<string, ConfigEntry> flat = new();
+
+        void scanPropsRec(IConfig config, string path)
+        {
+          foreach (PropertyInfo pi in config.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+          {
+            if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+            {
+              IConfig nestedConfig = pi.GetValue(config) as IConfig;
+              if (nestedConfig is null) continue;
+              scanPropsRec(nestedConfig, path + pi.Name);
+            }
+            else
+            {
+              flat[path + pi.Name] = new ConfigEntry(config, pi);
+            }
+          }
+        }
+
+        scanPropsRec(this, "");
+        return flat;
+      }
+    }
+
+    public Dictionary<string, object> FlatValues
+      => Flat.ToDictionary(kp => kp.Key, kp => kp.Value.Value);
+
   }
 
 
@@ -71,7 +102,7 @@ namespace JovianRadiationRework
     public static IEnumerable<ConfigEntry> GetEntries(this IConfig config) => config.Entries;
     public static IEnumerable<string> GetPropNames(this IConfig config) => config.PropNames;
     public static IEnumerable<ConfigEntry> GetPropsRec(this IConfig config) => config.PropsRec;
-
-
+    public static Dictionary<string, ConfigEntry> GetFlat(this IConfig config) => config.Flat;
+    public static Dictionary<string, object> GetFlatValues(this IConfig config) => config.FlatValues;
   }
 }
