@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  public struct ConfigEntry : IPropsContainer
+  public struct ConfigEntry
   {
     public static ConfigEntry Empty = new ConfigEntry();
 

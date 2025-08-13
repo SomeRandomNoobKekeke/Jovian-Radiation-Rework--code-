@@ -17,13 +17,13 @@ namespace JovianRadiationRework
   {
     public partial class ConfigTraverseTest : ConfigTest
     {
-      public class PropsFirstTest : ConfigTraverseTest
+      public class GetPropsRecTest : ConfigTraverseTest
       {
         public override void CreateTests()
         {
           ExampleConfigs.ConfigA TestConfig = new ExampleConfigs.ConfigA();
 
-          List<ConfigEntry> entries = ConfigTraverse.PropsFirst(TestConfig).ToList();
+          List<ConfigEntry> entries = TestConfig.GetPropsRec().ToList();
 
           UTest countTest = new UTest(entries.Count, 13) { DetailsOnFail = entries.ToText("\n", "\n"), };
 
