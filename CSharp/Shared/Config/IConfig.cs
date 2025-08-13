@@ -13,7 +13,7 @@ namespace JovianRadiationRework
   /// </summary>
   public interface IConfig
   {
-    public ConfigEntry this[string key] { get => new ConfigEntry(this, key); }
+    public ConfigEntry this[string key] { get => IConfigExtensions.Get(this, key); }
 
     public PropertyInfo[] Props
       => this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -93,10 +93,24 @@ namespace JovianRadiationRework
   /// </summary>
   public static class IConfigExtensions
   {
-    public static ConfigEntry Get(this IConfig config, string propName, params string[] deeperProps)
+    public static ConfigEntry Get(this IConfig config, params string[] propPaths)
     {
-      ConfigEntry entry = new ConfigEntry(config, propName);
-      foreach (string prop in deeperProps) entry = entry[prop];
+      List<string> names = new List<string>();
+
+      if (propPaths is not null)
+      {
+        foreach (string path in propPaths)
+        {
+          if (path is null) names.Add(null);
+          else names.AddRange(path.Split('.'));
+        }
+      }
+
+      if (names.Count == 0) return ConfigEntry.Empty;
+
+      ConfigEntry entry = new ConfigEntry(config, names.First());
+      foreach (string prop in names.Skip(1)) entry = entry[prop];
+
       return entry;
     }
 

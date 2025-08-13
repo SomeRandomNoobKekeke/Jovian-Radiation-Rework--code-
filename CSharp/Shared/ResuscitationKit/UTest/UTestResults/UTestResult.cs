@@ -14,11 +14,11 @@ namespace ResuscitationKit
     public override bool Equals(object obj)
     {
       if (obj is not UTestResult other) return false;
-      return Result.Equals(other.Result);
+      return Object.Equals(Result, other.Result);
     }
 
     public UTestResult(object result) => Result = result;
 
-    public override string ToString() => Result.ToString();
+    public override string ToString() => Result?.ToString();
   }
 }

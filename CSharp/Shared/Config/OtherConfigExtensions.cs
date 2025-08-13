@@ -13,6 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
+  //TODO should be somewhere else
   public static class OtherConfigExtensions
   {
     public static string ToText(this Dictionary<string, object> flat)

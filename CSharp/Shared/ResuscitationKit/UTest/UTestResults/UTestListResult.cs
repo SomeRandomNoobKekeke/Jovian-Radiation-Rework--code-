@@ -23,6 +23,6 @@ namespace ResuscitationKit
 
     public UTestListResult(List<object> values) => Values = values;
 
-    public override string ToString() => $"[{String.Join(", ", Values.Select(o => o?.ToString()))}]";
+    public override string ToString() => $"[{String.Join(", ", Values?.Select(o => o?.ToString()))}]";
   }
 }

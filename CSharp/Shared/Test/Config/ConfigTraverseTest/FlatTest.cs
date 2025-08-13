@@ -32,6 +32,11 @@ namespace JovianRadiationRework
             TestConfig.GetFlatValues().Values,
             TestConfig.GetPropsRec().Select(ce => ce.Value)
           ));
+
+          Tests.Add(new UListTest(
+            TestConfig.GetFlat().Keys.Select(propPath => TestConfig.Get(propPath).Value),
+            TestConfig.GetFlatValues().Values
+          ));
         }
       }
     }

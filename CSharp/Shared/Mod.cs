@@ -22,7 +22,7 @@ namespace JovianRadiationRework
 
       try
       {
-        UTestPack.RunRecursive<ConfigTest.ConfigTraverseTest.FlatTestTest>();
+        UTestPack.RunRecursive<ConfigTest.ConfigTraverseTest.GetTest>();
       }
       catch (Exception e) { Mod.Log(e); }
     }

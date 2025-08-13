@@ -18,11 +18,24 @@ namespace JovianRadiationRework
     public static ConfigEntry Empty = new ConfigEntry();
 
     public ConfigEntry this[string key] { get => Get(key); }
-    public ConfigEntry Get(string propName, params string[] deeperProps)
+    public ConfigEntry Get(params string[] propPaths)
     {
-      ConfigEntry entry = new ConfigEntry(Value, propName);
+      List<string> names = new List<string>();
 
-      foreach (string prop in deeperProps) entry = entry.Get(prop);
+      if (propPaths is not null)
+      {
+        foreach (string path in propPaths)
+        {
+          if (path is null) names.Add(null);
+          else names.AddRange(path.Split('.'));
+        }
+      }
+
+      if (names.Count == 0) return ConfigEntry.Empty;
+
+      ConfigEntry entry = new ConfigEntry(Value, names.First());
+      foreach (string prop in names.Skip(1)) entry = entry[prop];
+
       return entry;
     }
 
@@ -40,7 +53,14 @@ namespace JovianRadiationRework
     public ConfigEntry(object target, string propName)
     {
       Target = target;
-      Property = target?.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+      if (propName is not null)
+      {
+        Property = target?.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+      }
+      else
+      {
+        Property = null;
+      }
     }
     public override string ToString() => $"{Target?.GetType().Name}.{Property?.Name}[{Value}]";
   }

@@ -13,6 +13,8 @@ namespace ResuscitationKit
 
     public static bool IsTestGenerator(MethodInfo mi)
       => mi.ReturnType.IsAssignableTo(typeof(UTest)) && mi.GetParameters().Length == 0;
+    public static bool IsTestCreator(MethodInfo mi)
+      => mi.Name.StartsWith("Create") && mi.Name != "CreateTests";
 
     public static string GetNameFromMethodInfo(MethodInfo mi)
       => $"{mi.DeclaringType.Name}.{mi.Name}";
@@ -79,11 +81,21 @@ namespace ResuscitationKit
     {
       foreach (MethodInfo mi in this.GetType().GetMethods())
       {
-        if (mi.DeclaringType == this.GetType() && IsTestGenerator(mi))
+        if (mi.DeclaringType == this.GetType())
         {
-          UTest test = mi.Invoke(mi.IsStatic ? null : this, null) as UTest;
-          test.Name ??= GetNameFromMethodInfo(mi);
-          Tests.Add(test);
+          if (IsTestGenerator(mi))
+          {
+            UTest test = mi.Invoke(mi.IsStatic ? null : this, null) as UTest;
+            test.Name ??= GetNameFromMethodInfo(mi);
+            Tests.Add(test);
+            continue;
+          }
+
+          if (IsTestCreator(mi))
+          {
+            mi.Invoke(mi.IsStatic ? null : this, null);
+            continue;
+          }
         }
       }
     }

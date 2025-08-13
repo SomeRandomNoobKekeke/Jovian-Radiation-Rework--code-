@@ -23,6 +23,6 @@ namespace ResuscitationKit
 
     public UTestSetResult(HashSet<object> values) => Values = values;
 
-    public override string ToString() => $"[{String.Join(", ", Values.Select(o => o?.ToString()))}]";
+    public override string ToString() => $"[{String.Join(", ", Values?.Select(o => o?.ToString()))}]";
   }
 }
