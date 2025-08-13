@@ -57,24 +57,26 @@ namespace JovianRadiationRework
       {
         Dictionary<string, ConfigEntry> flat = new();
 
-        void scanPropsRec(IConfig config, string path)
+        void scanPropsRec(IConfig config, string path = null)
         {
           foreach (PropertyInfo pi in config.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
           {
+            string newPath = path is null ? pi.Name : String.Join('.', path, pi.Name);
+
             if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
             {
               IConfig nestedConfig = pi.GetValue(config) as IConfig;
               if (nestedConfig is null) continue;
-              scanPropsRec(nestedConfig, path + pi.Name);
+              scanPropsRec(nestedConfig, newPath);
             }
             else
             {
-              flat[path + pi.Name] = new ConfigEntry(config, pi);
+              flat[newPath] = new ConfigEntry(config, pi);
             }
           }
         }
 
-        scanPropsRec(this, "");
+        scanPropsRec(this);
         return flat;
       }
     }

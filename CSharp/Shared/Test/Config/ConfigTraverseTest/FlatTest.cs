@@ -23,7 +23,15 @@ namespace JovianRadiationRework
         {
           ExampleConfigs.ConfigA TestConfig = new ExampleConfigs.ConfigA();
 
-          Mod.Log(TestConfig.GetFlat().ToText());
+          Tests.Add(new UListTest(
+            TestConfig.GetFlat().Values,
+            TestConfig.GetPropsRec()
+          ));
+
+          Tests.Add(new UListTest(
+            TestConfig.GetFlatValues().Values,
+            TestConfig.GetPropsRec().Select(ce => ce.Value)
+          ));
         }
       }
     }

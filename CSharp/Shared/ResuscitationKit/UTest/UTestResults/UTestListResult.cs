@@ -6,22 +6,22 @@ using System.Diagnostics;
 
 namespace ResuscitationKit
 {
-  public class UTestSetResult : UTestResultBase
+  public class UTestListResult : UTestResultBase
   {
-    private HashSet<object> Values;
-    public override object Result { get => Values; set => Values = value as HashSet<object>; }
+    private List<object> Values;
+    public override object Result { get => Values; set => Values = value as List<object>; }
 
     public override bool Equals(object obj)
     {
-      if (obj is not UTestSetResult other) return false;
+      if (obj is not UTestListResult other) return false;
       if (Values is not null && other.Values is not null)
       {
-        return Values.SetEquals(other.Values);
+        return Values.SequenceEqual(other.Values);
       }
       return Values == other.Values;
     }
 
-    public UTestSetResult(HashSet<object> values) => Values = values;
+    public UTestListResult(List<object> values) => Values = values;
 
     public override string ToString() => $"[{String.Join(", ", Values.Select(o => o?.ToString()))}]";
   }

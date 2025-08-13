@@ -20,7 +20,11 @@ namespace JovianRadiationRework
       AddCommands();
       UTestCommands.AddCommands();
 
-      UTestPack.RunRecursive<ConfigTest.ConfigTraverseTest.FlatTestTest>();
+      try
+      {
+        UTestPack.RunRecursive<ConfigTest.ConfigTraverseTest.FlatTestTest>();
+      }
+      catch (Exception e) { Mod.Log(e); }
     }
 
     public void PatchAll()

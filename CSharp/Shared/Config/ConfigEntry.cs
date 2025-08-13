@@ -42,7 +42,7 @@ namespace JovianRadiationRework
       Target = target;
       Property = target?.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
     }
-    public override string ToString() => $"{Target?.GetType().Name}.{Property?.Name}";
+    public override string ToString() => $"{Target?.GetType().Name}.{Property?.Name}[{Value}]";
   }
 
   public static class ConfigEntryExtensions
