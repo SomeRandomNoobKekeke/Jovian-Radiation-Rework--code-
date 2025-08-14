@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using Barotrauma;
+using System.Xml;
+using System.Xml.Linq;
+using System.IO;
 
 namespace JovianRadiationRework
 {
@@ -84,6 +87,84 @@ namespace JovianRadiationRework
     public Dictionary<string, object> FlatValues
       => Flat.ToDictionary(kp => kp.Key, kp => kp.Value.Value);
 
+    public string ToText()
+      => OtherConfigExtensions.ToText(FlatValues);
+
+
+
+
+    public XElement ToXML()
+    {
+      XElement element = new XElement(this.GetType().Name);
+
+      foreach (PropertyInfo pi in Props)
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig subConfig = pi.GetValue(this) as IConfig;
+          if (subConfig is null) continue;
+          element.Add(subConfig.ToXML());
+        }
+      }
+
+      foreach (PropertyInfo pi in Props)
+      {
+        if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          element.Add(XMLParser.Serialize(pi.GetValue(this), pi.Name));
+        }
+      }
+
+      return element;
+    }
+
+
+
+    public void FromXML(XElement element)
+    {
+      foreach (XElement child in element.Elements())
+      {
+        PropertyInfo pi = this.GetType().GetProperty(child.Name.ToString(), BindingFlags.Public | BindingFlags.Instance);
+        if (pi is null) continue;
+
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig subConfig = (IConfig)pi.GetValue(this);
+          if (subConfig is null)
+          {
+            subConfig = (IConfig)Activator.CreateInstance(pi.PropertyType);
+            pi.SetValue(this, subConfig);
+          }
+
+          subConfig.FromXML(child);
+        }
+        else
+        {
+          pi.SetValue(this, XMLParser.Parse(child, pi.PropertyType));
+        }
+      }
+    }
+
+    public void Save(string path)
+    {
+      XDocument xdoc = new XDocument();
+      xdoc.Add(this.ToXML());
+      xdoc.Save(path);
+    }
+
+    public bool Load(string path)
+    {
+      if (!File.Exists(path)) return false;
+      XDocument xdoc = XDocument.Load(path);
+      this.FromXML(xdoc.Root);
+      return true;
+    }
+
+
+    public bool IsEqual(IConfig other)
+      => Compare(other).Equals;
+    public IConfigCompareResult Compare(IConfig other)
+      => new IConfigCompareResult(this, other);
   }
 
 
@@ -120,5 +201,10 @@ namespace JovianRadiationRework
     public static IEnumerable<ConfigEntry> GetPropsRec(this IConfig config) => config.PropsRec;
     public static Dictionary<string, ConfigEntry> GetFlat(this IConfig config) => config.Flat;
     public static Dictionary<string, object> GetFlatValues(this IConfig config) => config.FlatValues;
+    public static string ToText(this IConfig config) => config.ToText();
+    public static XElement ToXML(this IConfig config) => config.ToXML();
+    public static void FromXML(this IConfig config, XElement xml) => config.FromXML(xml);
+    public static bool IsEqual(this IConfig config, IConfig other) => config.IsEqual(other);
+    public static IConfigCompareResult Compare(this IConfig config, IConfig other) => config.Compare(other);
   }
 }

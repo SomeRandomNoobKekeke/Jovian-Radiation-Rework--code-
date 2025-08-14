@@ -16,19 +16,22 @@ namespace JovianRadiationRework
   //TODO should be somewhere else
   public static class OtherConfigExtensions
   {
-    public static string ToText(this Dictionary<string, object> flat)
+    public static string ToText(this Dictionary<string, object> dict)
     {
       StringBuilder sb = new StringBuilder();
 
       sb.Append("{\n");
-      foreach (string key in flat.Keys)
+      foreach (string key in dict.Keys)
       {
-        sb.Append($"    {key}: [{flat[key]}],\n");
+        sb.Append($"    {key}: [{dict[key]}],\n");
       }
       sb.Append("}");
 
       return sb.ToString();
     }
+
+    public static string ToText(this IEnumerable<object> arr)
+      => $"[\n{String.Join(",\n", arr.Select(ce => ce.ToString()))}\n]";
 
 
   }
