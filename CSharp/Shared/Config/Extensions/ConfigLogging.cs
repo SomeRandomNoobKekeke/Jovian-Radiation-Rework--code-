@@ -13,8 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
-  //TODO should be somewhere else
-  public static class OtherConfigExtensions
+  public static class ConfigLogging
   {
     public static string ToText(this Dictionary<string, object> dict)
     {
@@ -32,6 +31,8 @@ namespace JovianRadiationRework
 
     public static string ToText(this IEnumerable<object> arr)
       => $"[\n{String.Join(",\n", arr.Select(ce => ce.ToString()))}\n]";
+
+
 
 
   }

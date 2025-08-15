@@ -19,9 +19,7 @@ namespace JovianRadiationRework
     {
       public override void CreateTests()
       {
-        ExampleConfigs.ConfigA TestConfig = new ExampleConfigs.ConfigA();
-
-        Mod.Log(TestConfig.ToXML());
+        // ExampleConfigs.ConfigA TestConfig = new ExampleConfigs.ConfigA();
       }
     }
 

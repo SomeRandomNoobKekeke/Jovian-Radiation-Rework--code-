@@ -1,0 +1,77 @@
+using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using Barotrauma;
+using System.Xml;
+using System.Xml.Linq;
+using System.IO;
+
+namespace JovianRadiationRework
+{
+  public static class ConfigSerialization
+  {
+    public static bool IsEqual(Object configA, Object configB)
+      => Compare(configA, configB).Equals;
+    public static ConfigCompareResult Compare(Object configA, Object configB)
+      => new ConfigCompareResult(configA, configB);
+
+    public static string ToText(object config)
+      => ConfigLogging.ToText(ConfigTraverse.GetFlatValues(config));
+
+    public static XElement ToXML(object config)
+    {
+      XElement element = new XElement(config.GetType().Name);
+
+      PropertyInfo[] props = ConfigTraverse.GetProps(config);
+
+      foreach (PropertyInfo pi in props)
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig subConfig = pi.GetValue(config) as IConfig;
+          if (subConfig is null) continue;
+          element.Add(ToXML(subConfig));
+        }
+      }
+
+      foreach (PropertyInfo pi in props)
+      {
+        if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          element.Add(XMLParser.Serialize(pi.GetValue(config), pi.Name));
+        }
+      }
+
+      return element;
+    }
+
+
+
+    public static void FromXML(object config, XElement element)
+    {
+      foreach (XElement child in element.Elements())
+      {
+        PropertyInfo pi = config.GetType().GetProperty(child.Name.ToString(), BindingFlags.Public | BindingFlags.Instance);
+        if (pi is null) continue;
+
+        if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+        {
+          IConfig subConfig = (IConfig)pi.GetValue(config);
+          if (subConfig is null)
+          {
+            subConfig = (IConfig)Activator.CreateInstance(pi.PropertyType);
+            pi.SetValue(config, subConfig);
+          }
+
+          FromXML(subConfig, child);
+        }
+        else
+        {
+          pi.SetValue(config, XMLParser.Parse(child, pi.PropertyType));
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ namespace JovianRadiationRework
   {
     public partial class ConfigTraverseTest : ConfigTest
     {
-      public class FlatTestTest : ConfigTraverseTest
+      public class FlatTest : ConfigTraverseTest
       {
         public override void CreateTests()
         {

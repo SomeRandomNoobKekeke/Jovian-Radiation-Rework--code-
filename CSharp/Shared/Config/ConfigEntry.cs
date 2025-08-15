@@ -77,7 +77,7 @@ namespace JovianRadiationRework
       sb.Append("{\n");
       foreach (string key in flat.Keys)
       {
-        sb.Append($"    {key}: [{flat[key].Value}],\n");
+        sb.Append($"    {key}: [{flat[key]}],\n");
       }
       sb.Append("}");
 

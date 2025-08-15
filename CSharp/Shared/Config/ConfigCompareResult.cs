@@ -11,22 +11,22 @@ using System.Text;
 
 namespace JovianRadiationRework
 {
-  public class IConfigCompareResult
+  public class ConfigCompareResult
   {
-    public IConfig ConfigA;
-    public IConfig ConfigB;
+    public object ConfigA;
+    public object ConfigB;
     public List<string> OnlyInA = new();
     public List<string> OnlyInB = new();
     public Dictionary<string, Tuple<object, object>> Different = new();
     public bool Equals;
 
-    public IConfigCompareResult(IConfig A, IConfig B)
+    public ConfigCompareResult(object A, object B)
     {
       ConfigA = A;
       ConfigB = B;
 
-      Dictionary<string, object> flatA = A.FlatValues;
-      Dictionary<string, object> flatB = B.FlatValues;
+      Dictionary<string, object> flatA = ConfigTraverse.GetFlatValues(A);
+      Dictionary<string, object> flatB = ConfigTraverse.GetFlatValues(B);
 
       OnlyInA = flatA.Keys.Except(flatB.Keys).ToList();
       OnlyInB = flatB.Keys.Except(flatA.Keys).ToList();
