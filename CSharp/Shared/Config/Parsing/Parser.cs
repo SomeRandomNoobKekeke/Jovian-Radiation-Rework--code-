@@ -18,12 +18,33 @@ namespace JovianRadiationRework
   /// </summary>
   public static class Parser
   {
-    public static object DefaultFor(Type T) => Activator.CreateInstance(T);
+    /// <summary>
+    /// Null is serialized into this, so you could distinguish null and empty string
+    /// </summary>
+    public static string NullTerm = "{{null}}";
+    public static bool Verbose = true;
+    public static object DefaultFor(Type T)
+    {
+      try
+      {
+        return Activator.CreateInstance(T);
+      }
+      catch (Exception e)
+      {
+        if (Verbose)
+        {
+          Mod.Warning($"Also failed to CreateInstance of type [{T}] because: [{e.Message}], setting it to null");
+        }
+        return null;
+      }
+    }
+
 
     public static T Parse<T>(string raw) => (T)Parse(raw, typeof(T));
-    public static object Parse(string raw, Type T, bool verbose = true)
+    public static object Parse(string raw, Type T)
     {
       if (raw == null) return null;
+      if (raw == NullTerm) return null;
       if (T == typeof(string)) return raw;
 
       if (T.IsPrimitive)
@@ -40,12 +61,11 @@ namespace JovianRadiationRework
         }
         catch (Exception e)
         {
-          if (verbose)
+          if (Verbose)
           {
             Mod.Warning($"Parser failed to parse [{raw}] into primitive type [{T}]");
-            return DefaultFor(T);
           }
-          else throw;
+          return DefaultFor(T);
         }
       }
 
@@ -57,12 +77,11 @@ namespace JovianRadiationRework
         }
         catch (Exception e)
         {
-          if (verbose)
+          if (Verbose)
           {
             Mod.Warning($"Parser failed to parse [{raw}] into Enum [{T}]");
-            return DefaultFor(T);
           }
-          else throw;
+          return DefaultFor(T);
         }
       }
 
@@ -84,7 +103,10 @@ namespace JovianRadiationRework
 
         if (parse == null)
         {
-          Mod.Warning($"Parser can't parse [{raw}] into [{T}] because it doesn't have the Parse method");
+          if (Verbose)
+          {
+            Mod.Warning($"Parser can't parse [{raw}] into [{T}] because it doesn't have the Parse method");
+          }
           return DefaultFor(T);
         }
 
@@ -94,21 +116,20 @@ namespace JovianRadiationRework
         }
         catch (Exception e)
         {
-          if (verbose)
+          if (Verbose)
           {
             Mod.Warning($"Parser failed to parse [{raw}] into [{T}]");
-            return DefaultFor(T);
           }
-          else throw;
+          return DefaultFor(T);
         }
       }
 
       return DefaultFor(T);
     }
 
-    public static string Serialize(object o, bool verbose = true)
+    public static string Serialize(object o)
     {
-      if (o is null) return "";
+      if (o is null) return NullTerm;
       if (o.GetType() == typeof(string)) return (string)o;
 
 
@@ -121,8 +142,7 @@ namespace JovianRadiationRework
       }
       catch (Exception e)
       {
-        if (verbose) Mod.Warning($"Parser failed to serialize object of [{o.GetType()}] type");
-        else throw;
+        if (Verbose) Mod.Warning($"Parser failed to serialize object of [{o.GetType()}] type");
       }
 
       return result;

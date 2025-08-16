@@ -23,6 +23,9 @@ namespace JovianRadiationRework
       {
         public int IntProp { get; set; } = 0;
         public float FloatProp { get; set; } = 1.0f;
+
+        public override bool Equals(object obj) => obj is ShouldNotBeDugInto;
+        public override string ToString() => "ShouldNotBeDugInto";
       }
 
       public class ConfigA : IConfig

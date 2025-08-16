@@ -48,21 +48,31 @@ namespace JovianRadiationRework
     {
       StringBuilder sb = new StringBuilder();
 
-      sb.Append($"---------------- [ Compare result: {Equals}] ----------------\n");
+      sb.Append($"----------------- [ Compare result: {Equals}] -----------------\n");
       if (OnlyInA.Count > 0)
       {
-        sb.Append($"---------------- [only in A] ----------------\n");
-        sb.Append(OnlyInA.ToText());
+        sb.Append($"------------------------ [ Only in A ] ------------------------\n");
+        foreach (string key in OnlyInA)
+        {
+          sb.Append($"{key}\n");
+        }
       }
       if (OnlyInB.Count > 0)
       {
-        sb.Append($"---------------- [only in B] ----------------\n");
-        sb.Append(OnlyInB.ToText());
+        sb.Append($"------------------------ [ Only in B ] ------------------------\n");
+        foreach (string key in OnlyInB)
+        {
+          sb.Append($"{key}\n");
+        }
       }
       if (Different.Count > 0)
       {
-        sb.Append($"---------------- [Different] ----------------\n");
-        sb.Append(Different.ToDictionary(kp => kp.Key, kp => kp.Value.ToString() as object).ToText());
+        sb.Append($"------------------------ [ Different ] ------------------------\n");
+
+        foreach (string key in Different.Keys)
+        {
+          sb.Append($"{key} [ {ConfigLogging.ExpressiveToString(Different[key].Item1)} / {ConfigLogging.ExpressiveToString(Different[key].Item2)} ]");
+        }
       }
 
       return sb.ToString();

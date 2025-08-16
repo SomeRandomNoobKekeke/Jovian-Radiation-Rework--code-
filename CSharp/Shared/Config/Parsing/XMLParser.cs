@@ -33,7 +33,7 @@ namespace JovianRadiationRework
 
     public static XElement Serialize(object o, string name)
     {
-      if (o is null) return new XElement(name);
+      if (o is null) return new XElement(name, Parser.Serialize(o));
 
       MethodInfo toxml = o.GetType().GetMethod("ToXml", BindingFlags.Public | BindingFlags.Instance);
       if (toxml != null) return (XElement)toxml.Invoke(o, new object[] { });
