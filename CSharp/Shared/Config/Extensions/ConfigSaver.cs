@@ -19,62 +19,120 @@ namespace JovianRadiationRework
       GameMain.LuaCs.PluginPackageManager.TryGetPackageForPlugin<PluginType>(out ContentPackage package);
       return package;
     }
-    public static string ModPath<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Dir;
+    public static string ModDir<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Dir;
     public static string ModVersion<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().ModVersion;
     public static string ModName<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Name;
 
+
+    public static bool Verbose = true;
+    public static bool SaveOnQuit { get; set; } = true;
     public static bool SaveEveryRound { get; set; } = true;
     public static string SavePath { get; set; }
+    public static bool ShouldSaveInMultiplayer { get; set; } = true;
+    public static bool ShouldSave =>
+      GameMain.IsSingleplayer ||
+      LuaCsSetup.IsServer ||
+      LuaCsSetup.IsClient && ShouldSaveInMultiplayer;
 
-    public static bool Save()
+    public static string DefaultSavePathFor(object config)
+      => Path.Combine(BarotraumaPath, "ModSettings", "Configs", $"{config.GetType().Namespace}_{config.GetType().Name}.xml");
+
+    public static void EnsureDefaultDirectories()
     {
-      // if (CurrentConfig is null) return false;
-      // if (SavePath is null) return false;
-      // if (!File.Exists(path)) return false;
+      if (!Directory.Exists(Path.Combine(BarotraumaPath, "ModSettings")))
+      {
+        Directory.CreateDirectory(Path.Combine(BarotraumaPath, "ModSettings"));
+      }
 
-      // XDocument xdoc = XDocument.Load(path);
-      // ConfigSerialization.FromXML(CurrentConfig, xdoc.Root);
+      if (!Directory.Exists(Path.Combine(BarotraumaPath, "ModSettings", "Configs")))
+      {
+        Directory.CreateDirectory(Path.Combine(BarotraumaPath, "ModSettings", "Configs"));
+      }
+    }
+
+    public static bool SafeSave() => _Save(true);
+    public static bool TrySave() => _Save(false);
+    public static bool Save() => _Save(Verbose);
+    public static bool _Save(bool verbose)
+    {
+      if (!ShouldSave) return false;
+
+      if (string.IsNullOrEmpty(SavePath))
+      {
+        if (verbose) Mod.Warning($"-- Can't save config, SavePath is empty");
+        return false;
+      }
+      if (CurrentConfig is null)
+      {
+        if (verbose) Mod.Warning($"-- Can't save config, CurrentConfig is null");
+        return false;
+      }
+
+      try
+      {
+        XDocument xdoc = new XDocument();
+        xdoc.Add(ConfigSerialization.ToXML(CurrentConfig));
+        xdoc.Save(SavePath);
+      }
+      catch (Exception e)
+      {
+        if (verbose) Mod.Warning($"-- Can't save config, {e.Message}");
+        return false;
+      }
 
       return true;
     }
 
-    public static bool Load()
-    {
-      if (CurrentConfig is null) return false;
-      if (string.IsNullOrEmpty(SavePath)) return false;
-      if (!File.Exists(SavePath)) return false;
+    public static bool SafeLoad() => _Load(true);
+    public static bool TryLoad() => _Load(false);
+    public static bool Load() => _Load(Verbose);
 
-      XDocument xdoc = XDocument.Load(SavePath);
-      ConfigSerialization.FromXML(CurrentConfig, xdoc.Root);
+    private static bool _Load(bool verbose)
+    {
+      if (string.IsNullOrEmpty(SavePath))
+      {
+        if (verbose) Mod.Warning($"-- Can't load config, SavePath is empty");
+        return false;
+      }
+      if (CurrentConfig is null)
+      {
+        if (verbose) Mod.Warning($"-- Can't load config, CurrentConfig is null");
+        return false;
+      }
+      if (!File.Exists(SavePath))
+      {
+        if (verbose) Mod.Warning($"-- Can't load config, file doesn't exist");
+        return false;
+      }
+
+      try
+      {
+        XDocument xdoc = XDocument.Load(SavePath);
+        ConfigSerialization.FromXML(CurrentConfig, xdoc.Root);
+      }
+      catch (Exception e)
+      {
+        if (verbose) Mod.Warning($"-- Can't load config, {e.Message}");
+        return false;
+      }
 
       return true;
     }
-
-    // public void Save(string path)
-    // {
-    //   XDocument xdoc = new XDocument();
-    //   xdoc.Add(this.ToXML());
-    //   xdoc.Save(path);
-    // }
-
-    // public bool Load(string path)
-    // {
-    //   if (!File.Exists(path)) return false;
-    //   XDocument xdoc = XDocument.Load(path);
-    //   this.FromXML(xdoc.Root);
-    //   return true;
-    // }
 
     public static object CurrentConfig { get; set; }
-    public static void Use(object config)
+
+    // public static void Use(Type configType, string path = null)
+    //   => Use(Activator.CreateInstance(configType), path);
+    public static void Use(object config, string path = null)
     {
       ArgumentNullException.ThrowIfNull(config);
+      EnsureDefaultDirectories();
 
       CurrentConfig = config;
 
       GameMain.LuaCs.Hook.Add("stop", (object[] args) =>
       {
-        Save();
+        if (SaveOnQuit) Save();
         return null;
       });
 
@@ -84,6 +142,9 @@ namespace JovianRadiationRework
         return null;
       });
 
+      SavePath = path ?? DefaultSavePathFor(config);
+
+      TryLoad(); Save();
     }
 
   }

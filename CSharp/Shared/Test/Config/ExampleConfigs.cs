@@ -26,6 +26,7 @@ namespace JovianRadiationRework
 
         public override bool Equals(object obj) => obj is ShouldNotBeDugInto;
         public override string ToString() => "ShouldNotBeDugInto";
+        public static ShouldNotBeDugInto Parse(string raw) => new ShouldNotBeDugInto();
       }
 
       public class ConfigA : IConfig

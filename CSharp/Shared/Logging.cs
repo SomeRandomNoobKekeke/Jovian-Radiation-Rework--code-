@@ -24,7 +24,7 @@ namespace JovianRadiationRework
     /// Obsolete. Use IEnumerable.Print instead
     /// </summary>
     public static string ArrayToString(IEnumerable<object> array)
-      => $"[{String.Join(", ", array.Select(o => o.ToString()))}]";
+      => $"[{String.Join(", ", array.Select(o => o?.ToString()))}]";
 
     public static void LogArray(IEnumerable<object> array, Color? color = null)
       => Print(ArrayToString(array), color);
