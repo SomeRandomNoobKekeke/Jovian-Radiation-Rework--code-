@@ -63,7 +63,7 @@ namespace JovianRadiationRework
         {
           if (Verbose)
           {
-            Mod.Warning($"-- Parser failed to parse [{raw}] into primitive type [{T}]");
+            Mod.Warning($"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}]");
           }
           return DefaultFor(T);
         }
@@ -79,7 +79,7 @@ namespace JovianRadiationRework
         {
           if (Verbose)
           {
-            Mod.Warning($"-- Parser failed to parse [{raw}] into Enum [{T}]");
+            Mod.Warning($"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}]");
           }
           return DefaultFor(T);
         }
@@ -105,7 +105,7 @@ namespace JovianRadiationRework
         {
           if (Verbose)
           {
-            Mod.Warning($"-- Parser can't parse [{raw}] into [{T}] because it doesn't have the Parse method");
+            Mod.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method");
           }
           return DefaultFor(T);
         }
@@ -118,7 +118,7 @@ namespace JovianRadiationRework
         {
           if (Verbose)
           {
-            Mod.Warning($"-- Parser failed to parse [{raw}] into [{T}]");
+            Mod.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}]");
           }
           return DefaultFor(T);
         }
@@ -142,7 +142,7 @@ namespace JovianRadiationRework
       }
       catch (Exception e)
       {
-        if (Verbose) Mod.Warning($"-- Parser failed to serialize object of [{o.GetType()}] type");
+        if (Verbose) Mod.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
       }
 
       return result;

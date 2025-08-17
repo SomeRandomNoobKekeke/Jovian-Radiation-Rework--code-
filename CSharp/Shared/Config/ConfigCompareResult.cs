@@ -48,7 +48,9 @@ namespace JovianRadiationRework
     {
       StringBuilder sb = new StringBuilder();
 
-      sb.Append($"----------------- [ Compare result: {Equals}] -----------------\n");
+
+
+      sb.Append($"----------------- [ Compare result: {Mod.WrapInColor((Equals ? "Match" : "Don't match"), Equals ? "lime" : "orange")}] -----------------\n");
       if (OnlyInA.Count > 0)
       {
         sb.Append($"------------------------ [ Only in A ] ------------------------\n");
@@ -71,7 +73,7 @@ namespace JovianRadiationRework
 
         foreach (string key in Different.Keys)
         {
-          sb.Append($"{key} [ {ConfigLogging.ExpressiveToString(Different[key].Item1)} / {ConfigLogging.ExpressiveToString(Different[key].Item2)} ]");
+          sb.Append($"{key} [ {Mod.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {Mod.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]");
         }
       }
 

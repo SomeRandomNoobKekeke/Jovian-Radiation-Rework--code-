@@ -121,8 +121,6 @@ namespace JovianRadiationRework
 
     public static object CurrentConfig { get; set; }
 
-    // public static void Use(Type configType, string path = null)
-    //   => Use(Activator.CreateInstance(configType), path);
     public static void Use(object config, string path = null)
     {
       ArgumentNullException.ThrowIfNull(config);

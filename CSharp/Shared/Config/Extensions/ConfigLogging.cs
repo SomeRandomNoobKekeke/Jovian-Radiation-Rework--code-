@@ -32,15 +32,5 @@ namespace JovianRadiationRework
     public static string ToText(this IEnumerable<object> arr)
       => $"[\n{String.Join(",\n", arr.Select(ce => ce.ToString()))}\n]";
 
-    public static string ExpressiveToString(object obj)
-    {
-      if (obj is null) return "[null]";
-      if (obj == "") return "[empty string]";
-      return obj.ToString();
-    }
-
-
   }
-
-
 }
