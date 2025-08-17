@@ -26,15 +26,10 @@ namespace JovianRadiationRework
 
         config1.FromXML(config1.ToXML());
 
-        Mod.Log(config1.ToXML());
-        Mod.Log(config2.ToXML());
-
         Tests.Add(new UTest(config1.IsEqual(config2), true));
 
         Tests.Add(new UThrowTest(() => ConfigSerialization.ToXML(null), new ArgumentNullException("bla bla"), "ToXML"));
         Tests.Add(new UThrowTest(() => ConfigSerialization.FromXML(null, config1.ToXML()), null, "FromXML"));
-
-        Mod.Log(config1.Compare(config2));
       }
     }
 

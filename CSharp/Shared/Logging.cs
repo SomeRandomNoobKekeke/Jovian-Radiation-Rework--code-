@@ -27,7 +27,7 @@ namespace JovianRadiationRework
       => $"[{String.Join(", ", array.Select(o => o.ToString()))}]";
 
     public static void LogArray(IEnumerable<object> array, Color? color = null)
-      => Log(ArrayToString(array), color);
+      => Print(ArrayToString(array), color);
 
     /// <summary>
     /// Prints a message to console
@@ -43,13 +43,14 @@ namespace JovianRadiationRework
         LuaCsLogger.LogMessage(ArrayToString(args), Color.Cyan * 0.8f, Color.Cyan);
       }
     }
+
     public static void Print(object msg, Color? color = null)
     {
       color ??= Color.Cyan;
       LuaCsLogger.LogMessage($"{msg ?? "null"}", color * 0.8f, color);
     }
-    public static void Warning(object msg) => Log(msg, Color.Yellow);
-    public static void Error(object msg) => Log(msg, Color.Red);
+    public static void Warning(object msg) => Print(msg, Color.Yellow);
+    public static void Error(object msg) => Print(msg, Color.Red);
 
     private static Dictionary<string, int> Traced = new();
     public static void AddTracer(string key, int i = 1) => Traced[key] = i;
@@ -67,7 +68,7 @@ namespace JovianRadiationRework
     public static void Point([CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
       var fi = new FileInfo(source);
-      Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Magenta);
+      Print($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Magenta);
     }
 
     public static void PrintStackTrace()
@@ -78,10 +79,10 @@ namespace JovianRadiationRework
         StackFrame sf = st.GetFrame(i);
         if (sf.GetMethod().DeclaringType is null)
         {
-          Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+          LuaCsLogger.LogMessage($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}", Color.Cyan * 0.8f, Color.Cyan);
           break;
         }
-        Log($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}");
+        LuaCsLogger.LogMessage($"-> {sf.GetMethod().DeclaringType?.Name}.{sf.GetMethod()}", Color.Cyan * 0.8f, Color.Cyan);
       }
     }
 
@@ -99,8 +100,8 @@ namespace JovianRadiationRework
     {
       var fi = new FileInfo(source);
 
-      Log($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Yellow * 0.5f);
-      Log(msg, Color.Yellow);
+      Print($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", Color.Yellow * 0.5f);
+      Print(msg, Color.Yellow);
     }
   }
 }
