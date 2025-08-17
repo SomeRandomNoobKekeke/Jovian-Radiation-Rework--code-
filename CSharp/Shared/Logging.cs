@@ -24,19 +24,26 @@ namespace JovianRadiationRework
     /// Obsolete. Use IEnumerable.Print instead
     /// </summary>
     public static string ArrayToString(IEnumerable<object> array)
-    {
-      return $"[{String.Join(", ", array.Select(o => o.ToString()))}]";
-    }
+      => $"[{String.Join(", ", array.Select(o => o.ToString()))}]";
 
     public static void LogArray(IEnumerable<object> array, Color? color = null)
-    {
-      Log(ArrayToString(array), color);
-    }
+      => Log(ArrayToString(array), color);
 
     /// <summary>
     /// Prints a message to console
     /// </summary>
-    public static void Log(object msg, Color? color = null)
+    public static void Log(params object[] args)
+    {
+      if (args.Length == 1)
+      {
+        LuaCsLogger.LogMessage($"{args[0] ?? "null"}", Color.Cyan * 0.8f, Color.Cyan);
+      }
+      if (args.Length > 1)
+      {
+        LuaCsLogger.LogMessage(ArrayToString(args), Color.Cyan * 0.8f, Color.Cyan);
+      }
+    }
+    public static void Print(object msg, Color? color = null)
     {
       color ??= Color.Cyan;
       LuaCsLogger.LogMessage($"{msg ?? "null"}", color * 0.8f, color);

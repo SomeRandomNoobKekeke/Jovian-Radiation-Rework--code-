@@ -22,6 +22,9 @@ namespace JovianRadiationRework
 
     public static XElement ToXML(object config)
     {
+      // i think it's ok to throw here because you're supposed to use it as extension method on an instance
+      ArgumentNullException.ThrowIfNull(config);
+
       XElement element = new XElement(config.GetType().Name);
 
       PropertyInfo[] props = ConfigTraverse.GetProps(config);
@@ -49,8 +52,10 @@ namespace JovianRadiationRework
 
 
 
-    public static void FromXML(object config, XElement element)
+    public static object FromXML(object config, XElement element)
     {
+      if (config is null) return null;
+
       foreach (XElement child in element.Elements())
       {
         PropertyInfo pi = config.GetType().GetProperty(child.Name.ToString(), BindingFlags.Public | BindingFlags.Instance);
@@ -72,6 +77,8 @@ namespace JovianRadiationRework
           pi.SetValue(config, XMLParser.Parse(child, pi.PropertyType));
         }
       }
+
+      return config;
     }
   }
 }

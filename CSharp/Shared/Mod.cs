@@ -20,11 +20,10 @@ namespace JovianRadiationRework
       AddCommands();
       UTestCommands.AddCommands();
 
-      try
-      {
-        UTestPack.RunRecursive<ConfigTest.SerializationTest>();
-      }
-      catch (Exception e) { Mod.Log(e); }
+      ConfigSaver.Use(new ConfigTest.ExampleConfigs.ConfigA());
+
+
+      UTestPack.RunRecursive<ConfigTest.SerializationTest>();
     }
 
     public void PatchAll()

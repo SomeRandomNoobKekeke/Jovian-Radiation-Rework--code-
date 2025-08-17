@@ -17,20 +17,7 @@ namespace JovianRadiationRework
   {
     public ConfigEntry this[string key] { get => IConfigExtensions.Get(this, key); }
 
-    // public void Save(string path)
-    // {
-    //   XDocument xdoc = new XDocument();
-    //   xdoc.Add(this.ToXML());
-    //   xdoc.Save(path);
-    // }
 
-    // public bool Load(string path)
-    // {
-    //   if (!File.Exists(path)) return false;
-    //   XDocument xdoc = XDocument.Load(path);
-    //   this.FromXML(xdoc.Root);
-    //   return true;
-    // }
   }
 
 

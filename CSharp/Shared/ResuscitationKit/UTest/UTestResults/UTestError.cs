@@ -20,7 +20,7 @@ namespace ResuscitationKit
       if (obj is not UTestError other) return false;
       if (Error is not null && other.Error is not null)
       {
-        return Error.GetType() == other.GetType();
+        return Error.GetType() == other.Error.GetType();
       }
       return Error == other.Error;
     }
