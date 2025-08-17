@@ -53,7 +53,7 @@ namespace JovianRadiationRework
     public static bool SafeSave() => _Save(true);
     public static bool TrySave() => _Save(false);
     public static bool Save() => _Save(Verbose);
-    public static bool _Save(bool verbose)
+    private static bool _Save(bool verbose)
     {
       if (!ShouldSave) return false;
 
