@@ -22,7 +22,7 @@ namespace JovianRadiationRework
       sb.Append("{\n");
       foreach (string key in dict.Keys)
       {
-        sb.Append($"    {key}: [{dict[key]}],\n");
+        sb.Append($"    {key}: [{Mod.WrapInColor(dict[key], "white")}],\n");
       }
       sb.Append("}");
 

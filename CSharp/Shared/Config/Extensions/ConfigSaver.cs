@@ -127,14 +127,15 @@ namespace JovianRadiationRework
       EnsureDefaultDirectories();
 
       CurrentConfig = config;
+      string id = $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
 
-      GameMain.LuaCs.Hook.Add("stop", (object[] args) =>
+      GameMain.LuaCs.Hook.Add("stop", $"save {id} on quit", (object[] args) =>
       {
         if (SaveOnQuit) Save();
         return null;
       });
 
-      GameMain.LuaCs.Hook.Add("roundEnd", (object[] args) =>
+      GameMain.LuaCs.Hook.Add("roundEnd", $"save {id} on round end", (object[] args) =>
       {
         if (SaveEveryRound) Save();
         return null;

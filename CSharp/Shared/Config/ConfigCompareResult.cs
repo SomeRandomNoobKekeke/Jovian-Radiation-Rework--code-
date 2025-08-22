@@ -73,7 +73,7 @@ namespace JovianRadiationRework
 
         foreach (string key in Different.Keys)
         {
-          sb.Append($"{key} [ {Mod.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {Mod.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]");
+          sb.Append($"{key} [ {Mod.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {Mod.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]\n");
         }
       }
 

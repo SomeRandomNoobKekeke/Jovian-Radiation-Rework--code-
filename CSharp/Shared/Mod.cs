@@ -14,14 +14,19 @@ namespace JovianRadiationRework
   {
     public static Harmony Harmony = new Harmony("JovianRadiationRework");
 
+    public static ConfigTest.ExampleConfigs.ConfigA Config = new();
+
     public void Initialize()
     {
       PatchAll();
       AddCommands();
       UTestCommands.AddCommands();
 
+      // ConfigNetworking.Use(Config);
+      // ConfigCommands.Use(Config, "be");
 
-      UTestPack.RunRecursive<ConfigTest.ConfigSaverTest>();
+
+      UTestPack.RunRecursive<ConfigTest.NetEncoderTest>();
     }
 
     public void PatchAll()

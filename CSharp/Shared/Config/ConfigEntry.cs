@@ -13,6 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
+  //TODO should it really be structure?
   public struct ConfigEntry
   {
     public static ConfigEntry Empty = new ConfigEntry();
@@ -46,6 +47,8 @@ namespace JovianRadiationRework
       get => Property?.GetValue(Target);
       set { if (IsValid) Property.SetValue(Target, value); }
     }
+
+    public void SetValue(object newValue) => Value = newValue;
     public bool IsValid => Property is not null && Target is not null;
 
     public ConfigEntry() => (Target, Property) = (null, null);

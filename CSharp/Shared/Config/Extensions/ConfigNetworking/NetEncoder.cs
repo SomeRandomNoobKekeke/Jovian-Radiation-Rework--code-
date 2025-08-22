@@ -17,7 +17,7 @@ namespace JovianRadiationRework
     {
       foreach (ConfigEntry entry in ConfigTraverse.GetFlat(config).Values)
       {
-        NetParser.Encode(msg, entry.Value);
+        NetParser.Encode(msg, entry);
       }
     }
 

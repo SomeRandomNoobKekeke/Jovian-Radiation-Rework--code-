@@ -17,68 +17,77 @@ namespace JovianRadiationRework
   {
     public static bool Verbose = true;
 
-    public static void Encode(IWriteMessage msg, object data)
+    public static Dictionary<Type, Action<IWriteMessage, object>> EncodeTable = new()
     {
-      switch (data)
+      [typeof(bool)] = (IWriteMessage msg, object data) => msg.WriteBoolean((bool)data),
+      [typeof(byte)] = (IWriteMessage msg, object data) => msg.WriteByte((byte)data),
+      [typeof(UInt16)] = (IWriteMessage msg, object data) => msg.WriteUInt16((UInt16)data),
+      [typeof(Int16)] = (IWriteMessage msg, object data) => msg.WriteInt16((Int16)data),
+      [typeof(UInt32)] = (IWriteMessage msg, object data) => msg.WriteUInt32((UInt32)data),
+      [typeof(Int32)] = (IWriteMessage msg, object data) => msg.WriteInt32((Int32)data),
+      [typeof(UInt64)] = (IWriteMessage msg, object data) => msg.WriteUInt64((UInt64)data),
+      [typeof(Int64)] = (IWriteMessage msg, object data) => msg.WriteInt64((Int64)data),
+      [typeof(Single)] = (IWriteMessage msg, object data) => msg.WriteSingle((Single)data),
+      [typeof(Double)] = (IWriteMessage msg, object data) => msg.WriteDouble((Double)data),
+      [typeof(string)] = (IWriteMessage msg, object data) => msg.WriteString((string)data),
+      [typeof(Identifier)] = (IWriteMessage msg, object data) => msg.WriteIdentifier((Identifier)data),
+      [typeof(Color)] = (IWriteMessage msg, object data) => msg.WriteColorR8G8B8A8((Color)data),
+    };
+
+    public static void Encode(IWriteMessage msg, ConfigEntry entry)
+      => Encode(msg, entry.Value, entry.Property.PropertyType);
+    public static void Encode(IWriteMessage msg, object data, Type dataType)
+    {
+      if (EncodeTable.ContainsKey(dataType))
       {
-        case bool: msg.WriteBoolean((bool)data); break;
-        case byte: msg.WriteByte((byte)data); break;
-        case Int16: msg.WriteInt16((Int16)data); break;
-        case UInt16: msg.WriteUInt16((UInt16)data); break;
-        case Int32: msg.WriteInt32((Int32)data); break;
-        case UInt32: msg.WriteUInt32((UInt32)data); break;
-        case Int64: msg.WriteInt64((Int64)data); break;
-        case UInt64: msg.WriteUInt64((UInt64)data); break;
-        case Single: msg.WriteSingle((Single)data); break;
-        case Double: msg.WriteDouble((Double)data); break;
-        case Color: msg.WriteColorR8G8B8A8((Color)data); break;
-        case string: msg.WriteString((string)data); break;
-        case Identifier: msg.WriteIdentifier((Identifier)data); break;
-        default:
-          if (!data.GetType().IsPrimitive)
-          {
-            MethodInfo encode = data.GetType().GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Static);
-            if (encode is not null)
-            {
-              try
-              {
-                encode.Invoke(null, new object[] { msg, data });
-              }
-              catch (Exception e)
-              {
-                if (Verbose)
-                {
-                  Mod.Warning($"-- NetParser couldn't encode [{data.GetType()}] into IWriteMessage because [{e.Message}]");
-                }
-              }
-              return;
-            }
-
-            encode = data.GetType().GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
-
-            if (encode is not null)
-            {
-              try
-              {
-                encode.Invoke(data, new object[] { msg });
-              }
-              catch (Exception e)
-              {
-                if (Verbose)
-                {
-                  Mod.Warning($"-- NetParser couldn't encode [{data.GetType()}] into IWriteMessage because [{e.Message}]");
-                }
-              }
-              return;
-            }
-
-            if (Verbose)
-            {
-              Mod.Warning($"-- NetParser couldn't encode [{data.GetType()}] into IWriteMessage because it doesn't have {Mod.WrapInColor("public static void NetEncode(IWriteMessage msg, {data.GetType()} data)", "white")} method");
-            }
-          }
-          break;
+        EncodeTable[dataType](msg, data);
       }
+      else
+      {
+        if (!dataType.IsPrimitive)
+        {
+          MethodInfo encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Static);
+          if (encode is not null)
+          {
+            try
+            {
+              encode.Invoke(null, new object[] { msg, data });
+            }
+            catch (Exception e)
+            {
+              if (Verbose)
+              {
+                Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]");
+              }
+            }
+            return;
+          }
+
+          encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
+
+          if (encode is not null)
+          {
+            try
+            {
+              encode.Invoke(data, new object[] { msg });
+            }
+            catch (Exception e)
+            {
+              if (Verbose)
+              {
+                Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]");
+              }
+            }
+            return;
+          }
+
+          if (Verbose)
+          {
+            Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {Mod.WrapInColor($"public static void NetEncode(IWriteMessage msg, {dataType} data)", "white")} method");
+          }
+        }
+      }
+
     }
 
     public static Dictionary<Type, Func<IReadMessage, object>> DecodeTable = new()
@@ -96,7 +105,6 @@ namespace JovianRadiationRework
       [typeof(string)] = (IReadMessage msg) => msg.ReadString(),
       [typeof(Identifier)] = (IReadMessage msg) => msg.ReadIdentifier(),
       [typeof(Color)] = (IReadMessage msg) => msg.ReadColorR8G8B8A8(),
-      [typeof(bool)] = (IReadMessage msg) => msg.ReadBoolean(),
     };
 
     public static object Decode<T>(IReadMessage msg) => Decode(msg, typeof(T));
@@ -135,7 +143,7 @@ namespace JovianRadiationRework
 
         if (Verbose)
         {
-          Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {Mod.WrapInColor("public static object NetDecode(IReadMessage msg)", "white")} method");
+          Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {Mod.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method");
         }
         return T.IsPrimitive ? Activator.CreateInstance(T) : null;
       }

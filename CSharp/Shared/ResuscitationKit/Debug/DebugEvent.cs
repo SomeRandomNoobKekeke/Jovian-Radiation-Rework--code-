@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Diagnostics;
 namespace ResuscitationKit
 {
-  //TODO custom checks
   public class DebugEventCore
   {
     protected virtual DebugStateContainer state { get; set; } = new DebugStateContainer();

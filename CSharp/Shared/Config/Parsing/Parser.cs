@@ -27,13 +27,14 @@ namespace JovianRadiationRework
     {
       try
       {
+        if (T == typeof(string)) return null;
         return Activator.CreateInstance(T);
       }
       catch (Exception e)
       {
         if (Verbose)
         {
-          Mod.Warning($"-- Also failed to CreateInstance of type [{T}] because: [{e.Message}], setting it to null");
+          Mod.Warning($"-- Failed to CreateInstance of type [{T}] because: [{e.Message}], setting it to null");
         }
         return null;
       }
