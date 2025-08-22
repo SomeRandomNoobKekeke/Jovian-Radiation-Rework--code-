@@ -27,7 +27,7 @@ namespace JovianRadiationRework
     {
       try
       {
-        if (T == typeof(string)) return null;
+        if (T == typeof(string)) return null;//HACK
         return Activator.CreateInstance(T);
       }
       catch (Exception e)

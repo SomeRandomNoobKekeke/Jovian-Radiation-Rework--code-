@@ -64,7 +64,7 @@ namespace ResuscitationKit
     }
 
     public List<UTest> Tests = new();
-    public int PassedCount => Tests.Count(test => test.State);
+    public int PassedCount => Tests.Count(test => test.Passed);
     public UTestPackState State
     {
       get

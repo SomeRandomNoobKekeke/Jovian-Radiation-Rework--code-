@@ -29,7 +29,7 @@ namespace JovianRadiationRework
 
           Tests.Add(countTest);
 
-          if (!countTest.State) return;
+          if (!countTest.Passed) return;
 
           Tests.Add(new USetTest(
             entries.Slice(0, 5),

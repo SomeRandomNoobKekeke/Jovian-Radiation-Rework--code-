@@ -11,45 +11,72 @@ using System.IO;
 using Barotrauma;
 using ResuscitationKit;
 using Barotrauma.Networking;
+using System.Threading.Tasks;
 
 namespace JovianRadiationRework
 {
   public partial class ConfigTest : UTestPack
   {
-    //TODO net tests require entire utest rework
+    // TODO net tests require entire utest rework
+    // there should be new base class UNetTestPack and test tree should be resolved differently
+    // this test is just hardcoded for now
     public class NetEncoderTest : ConfigTest
     {
 
-
+#if SERVER
       public void CreateServerTests()
       {
+        GameMain.LuaCs.Networking.Receive("NetEncoderTest", (object[] args) =>
+        {
+          ExampleConfigs.ConfigA config = new ExampleConfigs.ConfigA();
 
+          IReadMessage inMsg = args[0] as IReadMessage;
+          Client client = args[1] as Client;
+
+          NetEncoder.Decode(inMsg, config);
+
+          IWriteMessage outMsg = GameMain.LuaCs.Networking.Start("NetEncoderTest");
+          NetEncoder.Encode(outMsg, config);
+          GameMain.LuaCs.Networking.Send(outMsg);
+        });
       }
+#endif
 
+#if CLIENT
       public void CreateClientTests()
       {
-        ReadWriteMessage msg0 = new ReadWriteMessage();
-        msg0.WriteInt32(32);
+        UTest isMultiplayer = new UTest(GameMain.IsSingleplayer, false);
+        Tests.Add(isMultiplayer);
 
-        Tests.Add(new UTest(msg0.ReadInt32(), 32));
+        if (!isMultiplayer.Passed)return;
 
+        ExampleConfigs.ConfigA config = ExampleConfigs.ConfigA.Filled;
+        
 
-        ExampleConfigs.ConfigA configa = new ExampleConfigs.ConfigA();
-        ExampleConfigs.ConfigA configb = new ExampleConfigs.ConfigA();
-        ConfigComparison.Clear(configb);
-
-        ReadWriteMessage msg = new ReadWriteMessage();
-
-        NetEncoder.Encode(msg, configa);
-        NetEncoder.Decode(msg, configb);
-
-        Tests.Add(new UTest(ConfigSerialization.IsEqual(configa, configb), true));
-
-        if (!Tests[0].State)
+        GameMain.LuaCs.Networking.Receive("NetEncoderTest", (object[] args) =>
         {
-          Mod.Log(ConfigComparison.Compare(configa, configb));
+          ExampleConfigs.ConfigA configb = new ExampleConfigs.ConfigA();
+
+          IReadMessage inMsg = args[0] as IReadMessage;
+          NetEncoder.Decode(inMsg, configb);
+
+          Mod.Log(configb);
+          Mod.Log(config.Compare(configb));
+        });
+
+        IWriteMessage outMsg = GameMain.LuaCs.Networking.Start("NetEncoderTest");
+        NetEncoder.Encode(outMsg, config);
+        GameMain.LuaCs.Networking.Send(outMsg);
+
+        Task.Delay(100).Wait();
+        if (config is null)
+        {
+          Mod.Log($"no response from the server");
         }
       }
+#endif
+
+
     }
 
 

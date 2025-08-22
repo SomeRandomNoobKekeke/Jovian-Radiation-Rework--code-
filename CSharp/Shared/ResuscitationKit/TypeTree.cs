@@ -12,6 +12,7 @@ namespace ResuscitationKit
     public Type RootType;
     public TypeTreeNode RootNode => Nodes[RootType];
     public Dictionary<Type, TypeTreeNode> Nodes = new();
+    //TODO what if there's name conflict? mb add full name?
     public Dictionary<string, Type> TypeByName = new();
 
     public void RunRecursive(Action<Type> action, Type start = null)

@@ -38,6 +38,12 @@ namespace JovianRadiationRework
       => Encode(msg, entry.Value, entry.Property.PropertyType);
     public static void Encode(IWriteMessage msg, object data, Type dataType)
     {
+      //HACK
+      if (dataType == typeof(string) && data is null)
+      {
+        data = Parser.NullTerm;
+      }
+
       if (EncodeTable.ContainsKey(dataType))
       {
         EncodeTable[dataType](msg, data);
@@ -112,14 +118,27 @@ namespace JovianRadiationRework
     {
       if (DecodeTable.ContainsKey(T))
       {
-        try { return DecodeTable[T](msg); }
+        try
+        {
+          //HACK
+          if (T == typeof(string))
+          {
+            string s = msg.ReadString();
+            if (s == Parser.NullTerm) return null;
+            return s;
+          }
+          else
+          {
+            return DecodeTable[T](msg);
+          }
+        }
         catch (Exception e)
         {
           if (Verbose)
           {
             Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]");
           }
-          return T.IsPrimitive ? Activator.CreateInstance(T) : null;
+          return Parser.DefaultFor(T);
         }
       }
       else
@@ -137,7 +156,7 @@ namespace JovianRadiationRework
             {
               Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]");
             }
-            return T.IsPrimitive ? Activator.CreateInstance(T) : null;
+            return Parser.DefaultFor(T);
           }
         }
 
@@ -145,7 +164,7 @@ namespace JovianRadiationRework
         {
           Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {Mod.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method");
         }
-        return T.IsPrimitive ? Activator.CreateInstance(T) : null;
+        return Parser.DefaultFor(T);
       }
     }
 

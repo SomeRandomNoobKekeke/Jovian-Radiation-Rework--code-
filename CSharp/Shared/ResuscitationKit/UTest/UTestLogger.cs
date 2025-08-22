@@ -63,7 +63,7 @@ namespace ResuscitationKit
 
     public static void LogTest(UTest test)
     {
-      Log(test, UTestStateColor(test.State));
+      Log(test, UTestStateColor(test.Passed));
     }
 
     public static void LogPack(UTestPack pack)

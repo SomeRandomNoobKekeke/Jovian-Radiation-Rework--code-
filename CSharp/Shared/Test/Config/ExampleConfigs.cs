@@ -31,6 +31,20 @@ namespace JovianRadiationRework
 
       public class ConfigA : IConfig
       {
+        public static ConfigA Create => new ConfigA();
+        public static ConfigA Filled => new ConfigA()
+        {
+          IntProp = 1234124,
+          FloatProp = 0.234123412f,
+          StringProp = "werfekwrofiek",
+          NestedConfigB = new ConfigB()
+          {
+            IntProp = 1234124,
+            FloatProp = 0.234123412f,
+            StringProp = "werfekwrofiek",
+          },
+        };
+
         public int IntProp { get; set; } = 2;
         public float FloatProp { get; set; } = 3.0f;
         public string StringProp { get; set; } = "bruh";

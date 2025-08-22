@@ -41,7 +41,6 @@ namespace JovianRadiationRework
     public static void Receive(object[] args)
     {
       IReadMessage inMsg = args[0] as IReadMessage;
-      Client client = args[1] as Client;
       NetEncoder.Decode(inMsg, CurrentConfig);
     }
 #endif

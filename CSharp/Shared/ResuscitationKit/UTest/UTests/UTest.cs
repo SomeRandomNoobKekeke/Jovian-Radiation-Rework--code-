@@ -14,7 +14,7 @@ namespace ResuscitationKit
     public UTestResultBase Expected;
     public UTestResultBase Result;
     public string Name = "Unnamed";
-    public bool State => Result is not null && Result.Equals(Expected);
+    public bool Passed => Result is not null && Result.Equals(Expected);
     public string DetailsOnFail;
 
     public virtual void Adapt(object realValue, object expect)
@@ -56,7 +56,7 @@ namespace ResuscitationKit
 
     public override string ToString()
     {
-      if (State)
+      if (Passed)
       {
         return $"[{UTestLogger.AsText(Name)}] Passed | match: [{UTestLogger.AsText(Result)}]";
       }
