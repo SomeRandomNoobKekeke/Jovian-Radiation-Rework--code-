@@ -26,7 +26,7 @@ namespace JovianRadiationRework
       // ConfigCommands.Use(Config, "be");
 
 
-      UTestPack.RunRecursive<ConfigTest.NetEncoderTest>();
+      UTestPack.RunRecursive<ConfigTest.UseCasesTest>();
     }
 
     public void PatchAll()

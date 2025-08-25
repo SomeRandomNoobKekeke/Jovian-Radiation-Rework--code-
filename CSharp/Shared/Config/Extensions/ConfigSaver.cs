@@ -12,17 +12,7 @@ namespace JovianRadiationRework
 {
   public static class ConfigSaver
   {
-    public static string BarotraumaPath => Path.GetFullPath("./");
-
-    public static ContentPackage ModPackage<PluginType>() where PluginType : IAssemblyPlugin
-    {
-      GameMain.LuaCs.PluginPackageManager.TryGetPackageForPlugin<PluginType>(out ContentPackage package);
-      return package;
-    }
-    public static string ModDir<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Dir;
-    public static string ModVersion<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().ModVersion;
-    public static string ModName<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Name;
-
+    public static object CurrentConfig { get; set; }
 
     public static bool Verbose = true;
     public static bool SaveOnQuit { get; set; } = true;
@@ -36,6 +26,40 @@ namespace JovianRadiationRework
 
     public static string DefaultSavePathFor(object config)
       => Path.Combine(BarotraumaPath, "ModSettings", "Configs", $"{config.GetType().Namespace}_{config.GetType().Name}.xml");
+
+    public static void Use(object config, string path = null)
+    {
+      ArgumentNullException.ThrowIfNull(config);
+      EnsureDefaultDirectories();
+
+      CurrentConfig = config;
+      string id = $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
+
+      InstallHooks(id);
+
+      SavePath = path ?? DefaultSavePathFor(config);
+
+      TryLoad(); Save();
+    }
+
+    private static bool HooksInstalled;
+    public static void InstallHooks(string id)
+    {
+      if (HooksInstalled) return;
+      HooksInstalled = true;
+
+      GameMain.LuaCs.Hook.Add("stop", $"save {id} on quit", (object[] args) =>
+      {
+        if (SaveOnQuit) Save();
+        return null;
+      });
+
+      GameMain.LuaCs.Hook.Add("roundEnd", $"save {id} on round end", (object[] args) =>
+      {
+        if (SaveEveryRound) Save();
+        return null;
+      });
+    }
 
     public static void EnsureDefaultDirectories()
     {
@@ -119,32 +143,7 @@ namespace JovianRadiationRework
       return true;
     }
 
-    public static object CurrentConfig { get; set; }
 
-    public static void Use(object config, string path = null)
-    {
-      ArgumentNullException.ThrowIfNull(config);
-      EnsureDefaultDirectories();
-
-      CurrentConfig = config;
-      string id = $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
-
-      GameMain.LuaCs.Hook.Add("stop", $"save {id} on quit", (object[] args) =>
-      {
-        if (SaveOnQuit) Save();
-        return null;
-      });
-
-      GameMain.LuaCs.Hook.Add("roundEnd", $"save {id} on round end", (object[] args) =>
-      {
-        if (SaveEveryRound) Save();
-        return null;
-      });
-
-      SavePath = path ?? DefaultSavePathFor(config);
-
-      TryLoad(); Save();
-    }
 
   }
 }

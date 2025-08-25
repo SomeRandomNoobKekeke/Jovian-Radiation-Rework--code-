@@ -12,11 +12,6 @@ namespace JovianRadiationRework
 {
   public static class ConfigSerialization
   {
-    public static bool IsEqual(Object configA, Object configB)
-      => Compare(configA, configB).Equals;
-    public static ConfigCompareResult Compare(Object configA, Object configB)
-      => new ConfigCompareResult(configA, configB);
-
     public static string ToText(object config)
       => ConfigLogging.ToText(ConfigTraverse.GetFlatValues(config));
 

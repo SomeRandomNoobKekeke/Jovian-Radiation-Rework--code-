@@ -15,7 +15,15 @@ namespace JovianRadiationRework
   /// </summary>
   public interface IConfig
   {
+    public static IConfig Current
+    {
+      get => ConfigManager.Curent as IConfig;
+      set => ConfigManager.Curent = value;
+    }
+
     public ConfigEntry this[string key] { get => IConfigExtensions.Get(this, key); }
+
+
 
 
   }
@@ -38,8 +46,8 @@ namespace JovianRadiationRework
 
 
     // ConfigSerialization
-    public static bool IsEqual(this IConfig config, Object other) => ConfigSerialization.IsEqual(config, other);
-    public static ConfigCompareResult Compare(this IConfig config, Object configB) => ConfigSerialization.Compare(config, configB);
+    public static bool IsEqual(this IConfig config, Object other) => ConfigComparison.IsEqual(config, other);
+    public static ConfigCompareResult Compare(this IConfig config, Object configB) => ConfigComparison.Compare(config, configB);
     public static string ToText(this IConfig config) => ConfigSerialization.ToText(config);
     public static XElement ToXML(this IConfig config) => ConfigSerialization.ToXML(config);
     public static void FromXML(this IConfig config, XElement element) => ConfigSerialization.FromXML(config, element);
