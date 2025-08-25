@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace ResuscitationKit
+namespace JovianRadiationRework
 {
   /// <summary>
   /// Why??? The problem is that Debug class is supposed to be partial and i can't define it in multiple namespaces

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 
 using Barotrauma;
-using ResuscitationKit;
+
 
 namespace JovianRadiationRework
 {

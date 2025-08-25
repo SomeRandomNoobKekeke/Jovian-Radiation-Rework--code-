@@ -16,13 +16,5 @@ namespace JovianRadiationRework
       => Compare(configA, configB).Equals;
     public static ConfigCompareResult Compare(Object configA, Object configB)
       => new ConfigCompareResult(configA, configB);
-
-    public static void Clear(object config)
-    {
-      foreach (ConfigEntry entry in ConfigTraverse.GetFlat(config).Values)
-      {
-        entry.SetValue(Parser.DefaultFor(entry.Property.PropertyType));
-      }
-    }
   }
 }

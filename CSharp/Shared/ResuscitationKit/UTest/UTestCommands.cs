@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 using Barotrauma;
-namespace ResuscitationKit
+namespace JovianRadiationRework
 {
   public class UTestCommands
   {

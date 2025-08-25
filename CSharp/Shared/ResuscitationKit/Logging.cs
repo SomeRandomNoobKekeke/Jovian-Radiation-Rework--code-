@@ -9,7 +9,7 @@ using Barotrauma;
 using Microsoft.Xna.Framework;
 using System.IO;
 
-namespace ResuscitationKit
+namespace JovianRadiationRework
 {
   public class Logging
   {

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 
 using Barotrauma;
-using ResuscitationKit;
+
 using System.Xml;
 using System.Xml.Linq;
 

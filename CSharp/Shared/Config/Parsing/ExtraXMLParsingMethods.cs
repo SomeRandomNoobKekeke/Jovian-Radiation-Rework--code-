@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
+  //TODO idk, seems redundant
   public static class ExtraXMLParsingMethods
   {
     public static Dictionary<Type, MethodInfo> Parse = new()

@@ -7,7 +7,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using ResuscitationKit;
+
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin

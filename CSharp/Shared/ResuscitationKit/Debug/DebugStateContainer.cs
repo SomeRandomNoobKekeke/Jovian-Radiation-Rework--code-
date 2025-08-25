@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Diagnostics;
 
 
-namespace ResuscitationKit
+namespace JovianRadiationRework
 {
   public class DebugStateContainer
   {

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text;
 
-namespace ResuscitationKit
+namespace JovianRadiationRework
 {
   public class UTestPack
   {

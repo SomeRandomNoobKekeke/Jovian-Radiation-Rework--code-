@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 
 using Barotrauma;
-using ResuscitationKit;
+
 
 namespace JovianRadiationRework
 {
