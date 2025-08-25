@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 
 using Barotrauma;
+using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
@@ -31,6 +32,24 @@ namespace JovianRadiationRework
 
     public static string ToText(this IEnumerable<object> arr)
       => $"[\n{String.Join(",\n", arr.Select(ce => ce.ToString()))}\n]";
+
+    public static void Log(params object[] args)
+    {
+      if (args.Length == 1)
+      {
+        LuaCsLogger.LogMessage($"{args[0] ?? "null"}", Color.Cyan * 0.8f, Color.Cyan);
+      }
+      if (args.Length > 1)
+      {
+        LuaCsLogger.LogMessage($"[{String.Join(", ", args.Select(o => o?.ToString()))}]", Color.Cyan * 0.8f, Color.Cyan);
+      }
+    }
+
+    public static void DebugLog(params object[] args)
+    {
+      if (!ConfigManager.Debug) return;
+      Log(args);
+    }
 
   }
 }

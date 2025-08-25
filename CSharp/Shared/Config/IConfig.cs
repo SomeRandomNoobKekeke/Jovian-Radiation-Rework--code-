@@ -17,15 +17,17 @@ namespace JovianRadiationRework
   {
     public static IConfig Current
     {
-      get => ConfigManager.Curent as IConfig;
-      set => ConfigManager.Curent = value;
+      get => ConfigManager.CurrentConfig as IConfig;
+      set => ConfigManager.CurrentConfig = value;
+    }
+
+    public static string SavePath
+    {
+      get => ConfigManager.SavePath;
+      set => ConfigManager.SavePath = value;
     }
 
     public ConfigEntry this[string key] { get => IConfigExtensions.Get(this, key); }
-
-
-
-
   }
 
 
@@ -35,6 +37,10 @@ namespace JovianRadiationRework
   /// </summary>
   public static class IConfigExtensions
   {
+    public static void SetAsCurrent(this IConfig config) => IConfig.Current = config;
+    public static void SetSavePath(this IConfig config, string path) => IConfig.SavePath = path;
+    public static string GetSavePath(this IConfig config) => IConfig.SavePath;
+
     // ConfigTraverse
     public static PropertyInfo[] GetProps(this IConfig config) => ConfigTraverse.GetProps(config);
     public static IEnumerable<string> GetPropNames(this IConfig config) => ConfigTraverse.GetPropNames(config);
@@ -51,5 +57,9 @@ namespace JovianRadiationRework
     public static string ToText(this IConfig config) => ConfigSerialization.ToText(config);
     public static XElement ToXML(this IConfig config) => ConfigSerialization.ToXML(config);
     public static void FromXML(this IConfig config, XElement element) => ConfigSerialization.FromXML(config, element);
+
+
+    public static ConfigSaver.ConfigSaverResult Save(this IConfig config, string path = null) => ConfigSaver.Save(path);
+    public static ConfigSaver.ConfigSaverResult Load(this IConfig config, string path = null) => ConfigSaver.Load(path);
   }
 }

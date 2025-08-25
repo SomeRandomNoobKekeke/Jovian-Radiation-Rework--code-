@@ -12,135 +12,122 @@ namespace JovianRadiationRework
 {
   public static class ConfigSaver
   {
-    public static object CurrentConfig { get; set; }
+    public enum ConfigSaverResult
+    {
+      Ok, FileNotFound, ConfigIsNull, NotSupposedTo, Error
+    }
 
-    public static bool Verbose = true;
-    public static bool SaveOnQuit { get; set; } = true;
-    public static bool SaveEveryRound { get; set; } = true;
-    public static string SavePath { get; set; }
-    public static bool ShouldSaveInMultiplayer { get; set; } = true;
     public static bool ShouldSave =>
       GameMain.IsSingleplayer ||
       LuaCsSetup.IsServer ||
-      LuaCsSetup.IsClient && ShouldSaveInMultiplayer;
+      LuaCsSetup.IsClient && ConfigManager.ShouldSaveInMultiplayer;
+
+    public static bool ShouldLoad =>
+      GameMain.IsSingleplayer ||
+      LuaCsSetup.IsServer ||
+      LuaCsSetup.IsClient && ConfigManager.ShouldSaveInMultiplayer;
 
     public static string DefaultSavePathFor(object config)
-      => Path.Combine(BarotraumaPath, "ModSettings", "Configs", $"{config.GetType().Namespace}_{config.GetType().Name}.xml");
+      => Path.Combine(Utils.BarotraumaPath, "ModSettings", "Configs", $"{config.GetType().Namespace}_{config.GetType().Name}.xml");
 
-    public static void Use(object config, string path = null)
+    public static void Init()
     {
-      ArgumentNullException.ThrowIfNull(config);
       EnsureDefaultDirectories();
-
-      CurrentConfig = config;
-      string id = $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
-
-      InstallHooks(id);
-
-      SavePath = path ?? DefaultSavePathFor(config);
-
-      TryLoad(); Save();
+      InstallHooks();
     }
 
-    private static bool HooksInstalled;
-    public static void InstallHooks(string id)
+    public static void InstallHooks()
     {
-      if (HooksInstalled) return;
-      HooksInstalled = true;
+      if (Utils.AlreadyDone()) return;
 
-      GameMain.LuaCs.Hook.Add("stop", $"save {id} on quit", (object[] args) =>
+      GameMain.LuaCs.Hook.Add("stop", $"save {Utils.ModHookId} config on quit", (object[] args) =>
       {
-        if (SaveOnQuit) Save();
+        if (ConfigManager.SaveOnQuit) Save();
         return null;
       });
 
-      GameMain.LuaCs.Hook.Add("roundEnd", $"save {id} on round end", (object[] args) =>
+      GameMain.LuaCs.Hook.Add("roundEnd", $"save {Utils.ModHookId} config on round end", (object[] args) =>
       {
-        if (SaveEveryRound) Save();
+        if (ConfigManager.SaveEveryRound) Save();
         return null;
       });
     }
 
     public static void EnsureDefaultDirectories()
     {
-      if (!Directory.Exists(Path.Combine(BarotraumaPath, "ModSettings")))
+      if (!Directory.Exists(Path.Combine(Utils.BarotraumaPath, "ModSettings")))
       {
-        Directory.CreateDirectory(Path.Combine(BarotraumaPath, "ModSettings"));
+        Directory.CreateDirectory(Path.Combine(Utils.BarotraumaPath, "ModSettings"));
       }
 
-      if (!Directory.Exists(Path.Combine(BarotraumaPath, "ModSettings", "Configs")))
+      if (!Directory.Exists(Path.Combine(Utils.BarotraumaPath, "ModSettings", "Configs")))
       {
-        Directory.CreateDirectory(Path.Combine(BarotraumaPath, "ModSettings", "Configs"));
+        Directory.CreateDirectory(Path.Combine(Utils.BarotraumaPath, "ModSettings", "Configs"));
       }
     }
 
-    public static bool SafeSave() => _Save(true);
-    public static bool TrySave() => _Save(false);
-    public static bool Save() => _Save(Verbose);
-    private static bool _Save(bool verbose)
-    {
-      if (!ShouldSave) return false;
 
-      if (string.IsNullOrEmpty(SavePath))
+    public static ConfigSaverResult Save(string path = null)
+    {
+      if (!ShouldSave)
       {
-        if (verbose) Mod.Warning($"-- Can't save config, SavePath is empty");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't save config, NotSupposedTo");
+        return ConfigSaverResult.NotSupposedTo;
       }
-      if (CurrentConfig is null)
+      if (ConfigManager.CurrentConfig is null)
       {
-        if (verbose) Mod.Warning($"-- Can't save config, CurrentConfig is null");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't save config, ConfigIsNull");
+        return ConfigSaverResult.ConfigIsNull;
       }
 
       try
       {
         XDocument xdoc = new XDocument();
-        xdoc.Add(ConfigSerialization.ToXML(CurrentConfig));
-        xdoc.Save(SavePath);
+        xdoc.Add(ConfigSerialization.ToXML(ConfigManager.CurrentConfig));
+        xdoc.Save(path ?? ConfigManager.SavePath);
       }
       catch (Exception e)
       {
-        if (verbose) Mod.Warning($"-- Can't save config, {e.Message}");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't save config, {e.Message}");
+        return ConfigSaverResult.Error;
       }
 
-      return true;
+      return ConfigSaverResult.Ok;
     }
 
-    public static bool SafeLoad() => _Load(true);
-    public static bool TryLoad() => _Load(false);
-    public static bool Load() => _Load(Verbose);
 
-    private static bool _Load(bool verbose)
+    public static ConfigSaverResult Load(string path = null)
     {
-      if (string.IsNullOrEmpty(SavePath))
+      if (!ShouldLoad)
       {
-        if (verbose) Mod.Warning($"-- Can't load config, SavePath is empty");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't load config, NotSupposedTo");
+        return ConfigSaverResult.NotSupposedTo;
       }
-      if (CurrentConfig is null)
+
+      if (ConfigManager.CurrentConfig is null)
       {
-        if (verbose) Mod.Warning($"-- Can't load config, CurrentConfig is null");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't load config, ConfigIsNull");
+        return ConfigSaverResult.ConfigIsNull;
       }
-      if (!File.Exists(SavePath))
+
+      if (!File.Exists(path ?? ConfigManager.SavePath))
       {
-        if (verbose) Mod.Warning($"-- Can't load config, file doesn't exist");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't load config, FileNotFound [{path ?? ConfigManager.SavePath}]");
+        return ConfigSaverResult.FileNotFound;
       }
 
       try
       {
-        XDocument xdoc = XDocument.Load(SavePath);
-        ConfigSerialization.FromXML(CurrentConfig, xdoc.Root);
+        XDocument xdoc = XDocument.Load(path ?? ConfigManager.SavePath);
+        ConfigSerialization.FromXML(ConfigManager.CurrentConfig, xdoc.Root);
       }
       catch (Exception e)
       {
-        if (verbose) Mod.Warning($"-- Can't load config, {e.Message}");
-        return false;
+        ConfigLogging.DebugLog($"-- Can't load config, {e.Message}");
+        return ConfigSaverResult.Error;
       }
 
-      return true;
+      return ConfigSaverResult.Ok;
     }
 
 

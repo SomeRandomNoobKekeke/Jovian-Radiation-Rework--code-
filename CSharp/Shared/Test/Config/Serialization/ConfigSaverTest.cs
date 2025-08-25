@@ -23,21 +23,23 @@ namespace JovianRadiationRework
       {
         ConfigTest.ExampleConfigs.ConfigA config = new ExampleConfigs.ConfigA();
 
-        ConfigSaver.Use(config, Path.Combine(ConfigSaver.ModDir<Mod>(), "Ignore", "ConfigSaverTest.xml"));
+        config.SetAsCurrent();
+        config.SetSavePath(Path.Combine(Utils.ModDir<Mod>(), "Ignore", "ConfigSaverTest.xml"));
 
         config.IntProp = 101;
 
-        ConfigSaver.Save();
+        config.Save();
         config.IntProp = 202;
-        ConfigSaver.Load();
+        config.Load();
 
         Tests.Add(new UTest(config.IntProp, 101));
 
-        ConfigSaver.Use(config);
+        config.SetSavePath(null);
+
         config.IntProp = 55;
-        ConfigSaver.Save();
+        config.Save();
         config.IntProp = 66;
-        ConfigSaver.Load();
+        config.Load();
 
         Tests.Add(new UTest(config.IntProp, 55));
       }
