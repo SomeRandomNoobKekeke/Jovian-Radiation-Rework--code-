@@ -12,8 +12,8 @@ namespace JovianRadiationRework
     public Type RootType;
     public TypeTreeNode RootNode => Nodes[RootType];
     public Dictionary<Type, TypeTreeNode> Nodes = new();
-    //TODO what if there's name conflict? mb add full name?
     public Dictionary<string, Type> TypeByName = new();
+    public Dictionary<string, Type> TypeByPath = new();
 
     public void RunRecursive(Action<Type> action, Type start = null)
     {
@@ -91,6 +91,7 @@ namespace JovianRadiationRework
       foreach (TypeTreeNode node in Nodes.Values)
       {
         TypeByName[node.Type.Name] = node.Type;
+        TypeByPath[string.Join('.', node.Path.Select(n => n.Name))] = node.Type;
       }
     }
   }
@@ -112,6 +113,28 @@ namespace JovianRadiationRework
             yield return deepChild;
           }
         }
+      }
+    }
+
+    public bool IsLeave => Children.Count == 0;
+    public List<Type> Path
+    {
+      get
+      {
+        List<Type> path = new List<Type>();
+
+        TypeTreeNode node = this;
+        path.Add(node.Type);
+
+        while (node.Parent is not null)
+        {
+          node = node.Parent;
+          path.Add(node.Type);
+        }
+
+        path.Reverse();
+
+        return path;
       }
     }
 

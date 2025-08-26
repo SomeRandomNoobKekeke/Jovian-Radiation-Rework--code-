@@ -11,8 +11,8 @@ namespace JovianRadiationRework
   {
     public static TypeTree TestTree = new TypeTree(typeof(UTestPack));
     public static IEnumerable<string> TestNames
-      => TestTree.RootNode.DeepChildren.Select(node => node.Type.Name);
-    public static Dictionary<string, Type> TestByName => TestTree.TypeByName;
+      => TestTree.TypeByPath.Keys;
+    public static Dictionary<string, Type> TestByName => TestTree.TypeByPath;
 
     public static void PrintAllTests()
     {
