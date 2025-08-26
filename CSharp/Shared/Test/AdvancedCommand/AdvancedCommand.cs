@@ -13,7 +13,7 @@ namespace JovianRadiationRework
   public class AdvancedCommandTest : UTestPack
   {
     public static AdvancedCommand TestCommand = new AdvancedCommand("bruh", "", (string[] args) => { },
-      new Hints(
+      new Hint(
         new Hint("ko",
           new Hint("ko1"),
           new Hint("ko2"),

@@ -12,32 +12,63 @@ namespace JovianRadiationRework
 {
   public static class ConfigManager
   {
-    public static bool Debug { get; set; } = false;
-    private static string savePath; public static string SavePath
+    public static string ConfigID => CurrentConfig is null ?
+      null : $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
+
+    public static object CurrentConfig
     {
-      get => savePath ?? ConfigSaver.DefaultSavePathFor(CurrentConfig);
-      set => savePath = value;
+      get => _currentConfig;
+      set
+      {
+        _currentConfig = value;
+        ConfigSaver.Init();
+        ConfigNetworking.Init();
+        ConfigCommands.UpdateCommand();
+      }
     }
+
+    public static string SavePath
+    {
+      get => _savePath ?? ConfigSaver.DefaultSavePathFor(CurrentConfig);
+      set
+      {
+        _savePath = value;
+        ConfigSaver.Init();
+      }
+    }
+
+    public static string CommandName
+    {
+      get => _commandName;
+      set
+      {
+        _commandName = value;
+        ConfigCommands.UpdateCommand();
+      }
+    }
+
+    public static bool UseAdvancedCommand
+    {
+      get => _useAdvancedCommand;
+      set
+      {
+        _useAdvancedCommand = value;
+        ConfigCommands.UpdateCommand();
+      }
+    }
+
+    public static bool AutoSetup { get; set; } = true;
+
     public static bool SaveOnQuit { get; set; } = true;
     public static bool SaveEveryRound { get; set; } = true;
     public static bool ShouldSaveInMultiplayer { get; set; } = true;
-    private static object currentConfig; public static object CurrentConfig
-    {
-      get => currentConfig;
-      set { currentConfig = value; Use(value); }
-    }
 
-    public static void Load(string path = "")
-    {
-      ConfigSaver.Load();
-      ConfigSaver.Save();
-    }
-
-    private static void Use(object config)
-    {
-      ConfigSaver.Init();
-    }
+    public static bool Debug { get; set; } = false;
 
 
+    private static object _currentConfig;
+    private static string _savePath;
+    private static string _commandName;
+    private static bool _useAdvancedCommand;
   }
 }

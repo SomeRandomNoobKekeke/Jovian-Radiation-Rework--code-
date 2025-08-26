@@ -4,25 +4,17 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using System.IO;
 
 using Barotrauma;
-
+using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class ConfigTest : UTestPack
+  public partial class Mod : IAssemblyPlugin
   {
-    public class UseCasesTest : ConfigTest
+    public void Experiment()
     {
-      public override void CreateTests()
-      {
-
-      }
+      Mod.Log($"{Utils.ModHookId}.AutoComplete");
     }
-
-
   }
 }

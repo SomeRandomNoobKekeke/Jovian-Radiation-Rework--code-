@@ -6,18 +6,20 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 
 using Barotrauma;
+using HarmonyLib;
+using MoonSharp.Interpreter;
 
 namespace JovianRadiationRework
 {
   public class AdvancedCommand : DebugConsole.Command
   {
     public bool HasCustomAutocomplete => Hints is not null;
-    public Hints Hints;
+    public Hint Hints;
 
     public class TreeClimber
     {
-      public Hints Current;
-      public void AttachTo(Hints node) => Current = node;
+      public Hint Current;
+      public void AttachTo(Hint node) => Current = node;
       public Hint TryMoveTo(string bruh)
       {
         if (Current is null)
@@ -81,7 +83,7 @@ namespace JovianRadiationRework
         }
       }
 
-      Hints lastHint = hints.LastOrDefault() ?? this.Hints;
+      Hint lastHint = hints.LastOrDefault() ?? this.Hints;
       Hint directFind = lastHint.GetChild(args.Last());
 
       if (directFind is not null)
@@ -113,8 +115,49 @@ namespace JovianRadiationRework
       return Result();
     }
 
+    public static void SetupHooks()
+    {
+      if (Utils.AlreadyDone()) return;
 
-    public AdvancedCommand(string name, string help, Action<string[]> onExecute, Hints hints = null, Func<string[][]> getValidArgs = null, bool isCheat = false) : base(name, help, onExecute, getValidArgs, isCheat)
+      GameMain.LuaCs.Hook.Patch(Utils.ModHookId + ".AutoComplete",
+        typeof(DebugConsole).GetMethod("AutoComplete", AccessTools.all),
+        DebugConsole_AutoComplete_Prefix
+      );
+    }
+
+    public static DynValue DebugConsole_AutoComplete_Prefix(object instance, LuaCsHook.ParameterTable ptable)
+    {
+      if (ptable.PreventExecution) return null;
+
+      string command = (string)ptable["command"];
+      int increment = (int)ptable["increment"];
+
+      string[] splitCommand = ToolBox.SplitCommand(command);
+      string[] args = splitCommand.Skip(1).ToArray();
+
+      if (args.Length > 0 || (splitCommand.Length > 0 && command.Last() == ' '))
+      {
+        DebugConsole.Command matchingCommand = DebugConsole.commands.Find(c => c.Names.Contains(splitCommand[0].ToIdentifier()));
+
+        if (matchingCommand is AdvancedCommand ac && ac.HasCustomAutocomplete)
+        {
+          try
+          {
+            ptable.ReturnValue = ac.AutoComplete(command, increment);
+          }
+          catch (Exception e)
+          {
+            Mod.Warning($"Couldn't autocomplete command: [{e.Message}]");
+          }
+          ptable.PreventExecution = true; return null;
+        }
+      }
+
+      ptable.PreventExecution = false; return null;
+    }
+
+
+    public AdvancedCommand(string name, string help, Action<string[]> onExecute, Hint hints = null, Func<string[][]> getValidArgs = null, bool isCheat = false) : base(name, help, onExecute, getValidArgs, isCheat)
     {
       Hints = hints;
     }

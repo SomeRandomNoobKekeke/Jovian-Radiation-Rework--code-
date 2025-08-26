@@ -22,18 +22,17 @@ namespace JovianRadiationRework
       LuaCsSetup.IsServer ||
       LuaCsSetup.IsClient && ConfigManager.ShouldSaveInMultiplayer;
 
-    public static bool ShouldLoad =>
-      GameMain.IsSingleplayer ||
-      LuaCsSetup.IsServer ||
-      LuaCsSetup.IsClient && ConfigManager.ShouldSaveInMultiplayer;
+    public static bool ShouldLoad => true;
 
     public static string DefaultSavePathFor(object config)
-      => Path.Combine(Utils.BarotraumaPath, "ModSettings", "Configs", $"{config.GetType().Namespace}_{config.GetType().Name}.xml");
+      => Path.Combine(Utils.BarotraumaPath, "ModSettings", "Configs", $"{ConfigManager.ConfigID}.xml");
 
     public static void Init()
     {
       EnsureDefaultDirectories();
       InstallHooks();
+
+      if (ConfigManager.AutoSetup) LoadSave();
     }
 
     public static void InstallHooks()
@@ -55,6 +54,8 @@ namespace JovianRadiationRework
 
     public static void EnsureDefaultDirectories()
     {
+      if (Utils.AlreadyDone()) return;
+
       if (!Directory.Exists(Path.Combine(Utils.BarotraumaPath, "ModSettings")))
       {
         Directory.CreateDirectory(Path.Combine(Utils.BarotraumaPath, "ModSettings"));
@@ -66,6 +67,12 @@ namespace JovianRadiationRework
       }
     }
 
+    public static ConfigSaverResult LoadSave(string path = null)
+    {
+      ConfigSaverResult result = Load(path);
+      Save(path);
+      return result;
+    }
 
     public static ConfigSaverResult Save(string path = null)
     {

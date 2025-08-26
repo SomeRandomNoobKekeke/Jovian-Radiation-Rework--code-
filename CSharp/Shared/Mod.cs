@@ -22,16 +22,20 @@ namespace JovianRadiationRework
       AddCommands();
       UTestCommands.AddCommands();
 
-      // ConfigNetworking.Use(Config);
-      // ConfigCommands.Use(Config, "be");
 
+      Config.SetAsCurrent();
+      ConfigManager.CommandName = "bruh";
+      ConfigManager.UseAdvancedCommand = true;
+
+
+      Experiment();
 
       UTestPack.RunRecursive<ConfigTest.UseCasesTest>();
     }
 
     public void PatchAll()
     {
-      BetterConsoleAutocomplete.Patch(Harmony);
+
     }
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }

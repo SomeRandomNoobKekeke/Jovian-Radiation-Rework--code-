@@ -75,5 +75,45 @@ namespace JovianRadiationRework
 
       return config;
     }
+
+    public static Func<string[][]> ToHints(object config)
+    {
+      if (config is null) return () => new string[][] { };
+      return () => new string[][] { ConfigTraverse.GetFlat(config).Keys.ToArray() };
+    }
+
+    public static Hint ToAdvancedHints(object config)
+    {
+      Hint root = new Hint();
+
+      if (config is null) return root;
+
+      void scanHintsRec(Type T, Hint node)
+      {
+        PropertyInfo[] props = T.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+        foreach (PropertyInfo pi in props)
+        {
+          if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+          {
+            Hint subNode = new Hint(pi.Name);
+            node.Children.Add(subNode);
+            scanHintsRec(pi.PropertyType, subNode);
+          }
+        }
+
+        foreach (PropertyInfo pi in props)
+        {
+          if (!pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+          {
+            node.Children.Add(new Hint(pi.Name));
+          }
+        }
+      }
+
+      scanHintsRec(config.GetType(), root);
+
+      return root;
+    }
   }
 }

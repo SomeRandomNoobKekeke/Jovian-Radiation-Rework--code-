@@ -12,20 +12,23 @@ namespace JovianRadiationRework
 {
   public static partial class ConfigNetworking
   {
-    public static object CurrentConfig;
-    public static string NetHeader;
+    public static string NetHeader => ConfigManager.ConfigID ?? Utils.ModHookId;
 
-    public static void InstallNetHooks()
+    public static void Init()
     {
+      if (!GameMain.IsMultiplayer) return;
+
 #if CLIENT
       GameMain.LuaCs.Networking.Receive(NetHeader + "_sync", Receive);
 #elif SERVER
       GameMain.LuaCs.Networking.Receive(NetHeader + "_ask", Give);
       GameMain.LuaCs.Networking.Receive(NetHeader + "_sync", Receive);
 #endif
+
+      if (ConfigManager.AutoSetup) NetSync();
     }
 
-    public static void Init()
+    public static void NetSync()
     {
 #if CLIENT
       Ask();
@@ -33,17 +36,5 @@ namespace JovianRadiationRework
       Broadcast();
 #endif
     }
-
-    public static void Use(object config)
-    {
-      CurrentConfig = config;
-      NetHeader = $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
-
-      if (!GameMain.IsMultiplayer) return;
-
-      InstallNetHooks();
-      Init();
-    }
-
   }
 }

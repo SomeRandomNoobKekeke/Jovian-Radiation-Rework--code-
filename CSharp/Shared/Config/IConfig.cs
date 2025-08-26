@@ -61,5 +61,8 @@ namespace JovianRadiationRework
 
     public static ConfigSaver.ConfigSaverResult Save(this IConfig config, string path = null) => ConfigSaver.Save(path);
     public static ConfigSaver.ConfigSaverResult Load(this IConfig config, string path = null) => ConfigSaver.Load(path);
+
+
+    public static void NetSync(this IConfig config) => ConfigNetworking.NetSync();
   }
 }

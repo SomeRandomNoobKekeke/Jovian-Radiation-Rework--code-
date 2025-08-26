@@ -26,7 +26,7 @@ namespace JovianRadiationRework
       }
 
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(NetHeader + "_sync");
-      NetEncoder.Encode(outMsg, CurrentConfig);
+      NetEncoder.Encode(outMsg, ConfigManager.CurrentConfig);
       GameMain.LuaCs.Networking.Send(outMsg);
 
       return true;
@@ -41,7 +41,7 @@ namespace JovianRadiationRework
     public static void Receive(object[] args)
     {
       IReadMessage inMsg = args[0] as IReadMessage;
-      NetEncoder.Decode(inMsg, CurrentConfig);
+      NetEncoder.Decode(inMsg, ConfigManager.CurrentConfig);
     }
 #endif
 
@@ -55,7 +55,7 @@ namespace JovianRadiationRework
       Client client = args[1] as Client;
 
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(NetHeader + "_sync");
-      NetEncoder.Encode(outMsg, CurrentConfig);
+      NetEncoder.Encode(outMsg, ConfigManager.CurrentConfig);
       GameMain.LuaCs.Networking.Send(outMsg, client.Connection);
     }
 
@@ -69,14 +69,14 @@ namespace JovianRadiationRework
         return;
       }
 
-      NetEncoder.Decode(inMsg, CurrentConfig);
+      NetEncoder.Decode(inMsg, ConfigManager.CurrentConfig);
       Broadcast();
     }
 
     public static void Broadcast()
     {
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(NetHeader + "_sync");
-      NetEncoder.Encode(outMsg, CurrentConfig);
+      NetEncoder.Encode(outMsg, ConfigManager.CurrentConfig);
       GameMain.LuaCs.Networking.Send(outMsg);
     }
 #endif
