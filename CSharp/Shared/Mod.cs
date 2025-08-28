@@ -25,12 +25,10 @@ namespace JovianRadiationRework
 
       Config.SetAsCurrent();
       ConfigManager.CommandName = "bruh";
-      ConfigManager.UseAdvancedCommand = true;
 
 
       Experiment();
-
-      UTestPack.RunRecursive<ConfigTest.UseCasesTest>();
+      Investigate();
     }
 
     public void PatchAll()

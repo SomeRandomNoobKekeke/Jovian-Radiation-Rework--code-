@@ -10,11 +10,8 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+  public static class RadiationDebug
   {
-    public void Experiment()
-    {
-
-    }
+    public static DebugGate<string, object> bruh = new() { State = true };
   }
 }

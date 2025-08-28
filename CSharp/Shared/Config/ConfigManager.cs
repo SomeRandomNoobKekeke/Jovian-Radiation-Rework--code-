@@ -15,6 +15,7 @@ namespace JovianRadiationRework
     public static string ConfigID => CurrentConfig is null ?
       null : $"{CurrentConfig.GetType().Namespace}_{CurrentConfig.GetType().Name}";
 
+    private static object _currentConfig;
     public static object CurrentConfig
     {
       get => _currentConfig;
@@ -27,6 +28,7 @@ namespace JovianRadiationRework
       }
     }
 
+    private static string _savePath;
     public static string SavePath
     {
       get => _savePath ?? ConfigSaver.DefaultSavePathFor(CurrentConfig);
@@ -37,6 +39,7 @@ namespace JovianRadiationRework
       }
     }
 
+    private static string _commandName;
     public static string CommandName
     {
       get => _commandName;
@@ -47,6 +50,8 @@ namespace JovianRadiationRework
       }
     }
 
+
+    private static bool _useAdvancedCommand;
     public static bool UseAdvancedCommand
     {
       get => _useAdvancedCommand;
@@ -66,9 +71,6 @@ namespace JovianRadiationRework
     public static bool Debug { get; set; } = false;
 
 
-    private static object _currentConfig;
-    private static string _savePath;
-    private static string _commandName;
-    private static bool _useAdvancedCommand;
+
   }
 }

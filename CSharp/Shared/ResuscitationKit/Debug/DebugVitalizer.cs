@@ -14,8 +14,8 @@ namespace JovianRadiationRework
   {
     public static bool IsDebugAggregator(FieldInfo fi)
       => fi.FieldType.Name.StartsWith("DebugAggregator");
-    public static bool IsDebugEvent(FieldInfo fi)
-      => fi.FieldType.Name.StartsWith("DebugEvent");
+    public static bool IsDebugGate(FieldInfo fi)
+      => fi.FieldType.Name.StartsWith("DebugGate");
 
     public static void VitalizeMe()
       => Vitalize((new StackTrace()).GetFrame(1).GetMethod().DeclaringType);
@@ -28,7 +28,7 @@ namespace JovianRadiationRework
         {
           (fi.FieldType.GetField("Install").GetValue(fi.GetValue(null)) as Delegate).DynamicInvoke(fi.GetValue(null));
         }
-        else if (IsDebugEvent(fi))
+        else if (IsDebugGate(fi))
         {
           if (fi.GetValue(null) is null)
           {

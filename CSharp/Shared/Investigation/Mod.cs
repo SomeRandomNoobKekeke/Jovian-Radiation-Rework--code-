@@ -12,9 +12,11 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public void Experiment()
+    public void Investigate()
     {
+      RadiationPatches.PatchSharedRadiation();
 
+      RadiationDebug.bruh.Add((s, o) => Mod.Log($"{s}: [{o}]"));
     }
   }
 }
