@@ -16,7 +16,6 @@ namespace JovianRadiationRework
     {
       RadiationPatches.PatchSharedRadiation();
 
-      RadiationDebug.bruh.Add((s, o) => Mod.Log($"{s}: [{o}]"));
     }
   }
 }
