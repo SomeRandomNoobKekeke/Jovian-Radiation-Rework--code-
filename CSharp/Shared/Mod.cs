@@ -14,7 +14,7 @@ namespace JovianRadiationRework
   {
     public static Harmony Harmony = new Harmony("JovianRadiationRework");
 
-    public static ConfigTest.ExampleConfigs.ConfigA Config = new();
+
 
     public void Initialize()
     {
@@ -22,18 +22,13 @@ namespace JovianRadiationRework
       AddCommands();
       UTestCommands.AddCommands();
 
-
-      Config.SetAsCurrent();
-      ConfigManager.CommandName = "bruh";
-
-
       Experiment();
-      Investigate();
+
     }
 
     public void PatchAll()
     {
-
+      RadiationPatches.PatchSharedRadiation(Harmony);
     }
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
