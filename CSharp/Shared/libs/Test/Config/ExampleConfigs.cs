@@ -13,6 +13,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
+  [UTestCategory("internal")]
   public partial class ConfigTest : UTestPack
   {
     public partial class ExampleConfigs

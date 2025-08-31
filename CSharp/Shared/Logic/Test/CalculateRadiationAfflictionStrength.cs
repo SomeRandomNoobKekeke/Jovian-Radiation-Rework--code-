@@ -13,17 +13,19 @@ namespace JovianRadiationRework
 {
   public class CalculateRadiationAfflictionStrengthTest : UTestPack
   {
-    public class CalculateRadiationAfflictionStrengthVanillaTest : CalculateRadiationAfflictionStrengthTest
+
+  }
+
+  [UTestSubPackOf(typeof(CalculateRadiationAfflictionStrengthTest))]
+  public class CalculateRadiationAfflictionStrengthVanillaTest : UTestPack
+  {
+
+    public void CreateVanillaTests()
     {
-
-      public void CreateVanillaTests()
-      {
-        Tests.Add(new UTest(
-          CalculateRadiationAfflictionStrength.DepthInRadiation(new Vector2(150, 0), 200), 50.0f
-        ));
-      }
+      Tests.Add(new UTest(
+        CalculateRadiationAfflictionStrength.DepthInRadiation(new Vector2(150, 0), 200), 50.0f
+      ));
     }
-
   }
 
 }

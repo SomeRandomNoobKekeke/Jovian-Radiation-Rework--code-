@@ -10,6 +10,7 @@ using Barotrauma;
 
 namespace JovianRadiationRework
 {
+  [UTestCategory("internal")]
   public class AdvancedCommandTest : UTestPack
   {
     public static AdvancedCommand TestCommand = new AdvancedCommand("bruh", "", (string[] args) => { },

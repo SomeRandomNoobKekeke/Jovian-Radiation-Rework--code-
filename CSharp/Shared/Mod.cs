@@ -22,8 +22,9 @@ namespace JovianRadiationRework
       AddCommands();
       UTestCommands.AddCommands();
 
-      Experiment();
+      // UTestExplorer.ScanCategory("internal");
 
+      Experiment();
     }
 
     public void PatchAll()

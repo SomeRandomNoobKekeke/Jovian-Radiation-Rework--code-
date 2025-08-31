@@ -7,7 +7,7 @@ using System.Text;
 
 namespace JovianRadiationRework
 {
-  public class UTestPack
+  public abstract class UTestPack
   {
     public enum UTestPackState { AllPassed, SomePassed, AllFailed }
 

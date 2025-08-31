@@ -22,23 +22,24 @@ namespace JovianRadiationRework
     public static int depth = 0;
     public static void UTest_Command(string[] args)
     {
-      if (args.Length == 0)
-      {
-        UTestExplorer.PrintAllTests();
-        return;
-      }
-
-      Type start = String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase) ?
-        UTestExplorer.TestTree.RootType : UTestExplorer.TestByName.GetValueOrDefault(args[0]);
-
-      if (start is null)
-      {
-        UTestLogger.Warning($"Can't find [{args[0]}] test");
-        return;
-      }
-
       try
       {
+        if (args.Length == 0)
+        {
+          UTestExplorer.PrintAllTests();
+          return;
+        }
+
+        Type start = String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase) ?
+          UTestExplorer.TestTree.RootType : UTestExplorer.TestByName.GetValueOrDefault(args[0]);
+
+        if (start is null)
+        {
+          UTestLogger.Warning($"Can't find [{args[0]}] test");
+          return;
+        }
+
+
         UTestExplorer.TestTree.RunRecursive((test) =>
         {
           if (test == typeof(UTestPack)) return; // bruh
