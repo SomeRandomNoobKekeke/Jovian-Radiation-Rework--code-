@@ -23,6 +23,7 @@ namespace JovianRadiationRework
       UTestCommands.AddCommands();
 
       // UTestExplorer.ScanCategory("internal");
+      UTestPack.RunRecursive<DebugTest>();
 
       Experiment();
     }
