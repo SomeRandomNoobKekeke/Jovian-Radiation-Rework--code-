@@ -91,11 +91,13 @@ namespace JovianRadiationRework
 
       foreach (Character character in Character.CharacterList)
       {
-        DamageCharacters.Vanilla(_, character);
+        DamageCharacters.Vanilla(new RadiationProxy(_), new CharacterProxy(character));
       }
 
       return false;
     }
+
+
   }
 
 }
