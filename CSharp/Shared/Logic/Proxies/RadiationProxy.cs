@@ -24,6 +24,7 @@ namespace JovianRadiationRework
   {
     public bool Enabled { get; }
     public float Amount { get; set; }
+    public ILevel Level { get; }
     public IRadiationParams Params { get; }
     public float DepthInRadiation(IEntity entity);
     public float DepthInRadiation(ILocation location);
@@ -33,7 +34,7 @@ namespace JovianRadiationRework
   {
     public float Amount { get => radiation.Amount; set => radiation.Amount = value; }
     public bool Enabled => radiation.Enabled;
-
+    public ILevel Level => new LevelProxy(Barotrauma.Level.Loaded);
     public IRadiationParams Params { get; }
 
     public float DepthInRadiation(ILocation location)
@@ -49,7 +50,7 @@ namespace JovianRadiationRework
     {
       if (!Enabled) { return 0; }
 
-      if (new LevelProxy(Level.Loaded) is { Type: LevelData.LevelType.LocationConnection, StartLocation: { } startLocation, EndLocation: { } endLocation } level)
+      if (this.Level is { Type: LevelData.LevelType.LocationConnection, StartLocation: { } startLocation, EndLocation: { } endLocation } level)
       {
         // Approximate how far between the level start and end points the entity is on the map
         float distanceNormalized = MathHelper.Clamp((entity.WorldPosition.X - level.StartPosition.X) / (level.EndPosition.X - level.StartPosition.X), 0.0f, 1.0f);

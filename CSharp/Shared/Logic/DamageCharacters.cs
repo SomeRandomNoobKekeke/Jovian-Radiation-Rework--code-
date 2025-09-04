@@ -38,9 +38,11 @@ namespace JovianRadiationRework
         if (growthPotentialInBracket > 0)
         {
           addedStrength = Math.Min(addedStrength, growthPotentialInBracket);
-          character.CharacterHealth.ApplyAffliction(
-              character.AnimController?.MainLimb,
-              afflictionPrefab.Instantiate(addedStrength));
+          // this goes too deep
+          // character.CharacterHealth.ApplyAffliction(
+          //     character.AnimController?.MainLimb,
+          //     afflictionPrefab.Instantiate(addedStrength));
+          character.ApplyAfflictionToMainLimb(afflictionPrefab.Instantiate(addedStrength));
         }
       }
     }
