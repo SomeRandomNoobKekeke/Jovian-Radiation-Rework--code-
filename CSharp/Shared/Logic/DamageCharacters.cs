@@ -13,7 +13,7 @@ namespace JovianRadiationRework
   public static class DamageCharacters
   {
     // https://github.com/SomeRandomNoobKekeke/Barotrauma-clean-Harmony-patches/blob/main/CSharp/Shared/SharedSource/Map/Map/Radiation.cs#L110-L137
-    public static void Vanilla(IRadiation _, ICharacter character)
+    public static void Vanilla(Radiation _, Character character)
     {
       if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { return; }
 
@@ -38,11 +38,9 @@ namespace JovianRadiationRework
         if (growthPotentialInBracket > 0)
         {
           addedStrength = Math.Min(addedStrength, growthPotentialInBracket);
-          // this goes too deep
-          // character.CharacterHealth.ApplyAffliction(
-          //     character.AnimController?.MainLimb,
-          //     afflictionPrefab.Instantiate(addedStrength));
-          character.ApplyAfflictionToMainLimb(afflictionPrefab.Instantiate(addedStrength));
+          character.CharacterHealth.ApplyAffliction(
+              character.AnimController?.MainLimb,
+              afflictionPrefab.Instantiate(addedStrength));
         }
       }
     }
