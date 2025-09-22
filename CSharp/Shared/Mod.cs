@@ -7,6 +7,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
+using BaroJunk;
 
 namespace JovianRadiationRework
 {
@@ -18,26 +19,24 @@ namespace JovianRadiationRework
 
     public void Initialize()
     {
-      PatchAll();
-      AddCommands();
-      UTestCommands.AddCommands();
 
-      // UTestExplorer.ScanCategory("internal");
-      UTestPack.RunRecursive<DebugTest>();
+      UTestCommands.AddCommands();
+      PatchAll();
+
+      // UTestPack.RunRecursive<DebugTest>();
 
       Experiment();
     }
 
     public void PatchAll()
     {
-      RadiationPatches.PatchSharedRadiation(Harmony);
+      // RadiationPatches.PatchSharedRadiation(Harmony);
     }
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
     public void Dispose()
     {
       Harmony.UnpatchSelf();
-      RemoveCommands();
       UTestCommands.RemoveCommands();
     }
   }
