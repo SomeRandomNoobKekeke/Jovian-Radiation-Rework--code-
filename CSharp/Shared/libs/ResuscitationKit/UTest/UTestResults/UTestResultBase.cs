@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public abstract class UTestResultBase
   {

@@ -10,7 +10,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using System.IO;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
 
   /// <summary>
@@ -22,31 +22,19 @@ namespace JovianRadiationRework
     /// Null is serialized into this, so you could distinguish null and empty string
     /// </summary>
     public static string NullTerm = "{{null}}";
-    public static bool Verbose = true;
     public static object DefaultFor(Type T)
     {
-      try
-      {
-        if (T == typeof(string)) return null;//HACK
-        return Activator.CreateInstance(T);
-      }
-      catch (Exception e)
-      {
-        if (Verbose)
-        {
-          Mod.Warning($"-- Failed to CreateInstance of type [{T}] because: [{e.Message}], setting it to null");
-        }
-        return null;
-      }
+      if (T == typeof(string)) return null;//HACK
+      return Activator.CreateInstance(T);
     }
 
 
-    public static T Parse<T>(string raw) => (T)Parse(raw, typeof(T));
-    public static object Parse(string raw, Type T)
+    public static SimpleResult Parse<T>(string raw) => Parse(raw, typeof(T));
+    public static SimpleResult Parse(string raw, Type T)
     {
-      if (raw == null) return null;
-      if (raw == NullTerm) return null;
-      if (T == typeof(string)) return raw;
+      if (raw == null) return SimpleResult.Success(null);
+      if (raw == NullTerm) return SimpleResult.Success(null);
+      if (T == typeof(string)) return SimpleResult.Success(raw);
 
       if (T.IsPrimitive)
       {
@@ -58,15 +46,19 @@ namespace JovianRadiationRework
 
         try
         {
-          return parse.Invoke(null, new object[] { raw });
+          return SimpleResult.Success(
+            parse.Invoke(null, new object[] { raw })
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            Mod.Warning($"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.InnerException?.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
@@ -74,15 +66,19 @@ namespace JovianRadiationRework
       {
         try
         {
-          return Enum.Parse(T, raw);
+          return SimpleResult.Success(
+            Enum.Parse(T, raw)
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            Mod.Warning($"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.InnerException?.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
@@ -104,28 +100,35 @@ namespace JovianRadiationRework
 
         if (parse == null)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            Mod.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method",
+            Result = DefaultFor(T),
+          };
         }
 
         try
         {
-          return parse.Invoke(null, new object[] { raw });
+          return SimpleResult.Success(
+            parse.Invoke(null, new object[] { raw })
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            Mod.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.InnerException?.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
-      return DefaultFor(T);
+      return SimpleResult.Success(
+        DefaultFor(T)
+      );
     }
 
     public static string Serialize(object o)
@@ -143,7 +146,8 @@ namespace JovianRadiationRework
       }
       catch (Exception e)
       {
-        if (Verbose) Mod.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
+        //TODO this is cringe
+        // if (Verbose) IConfig.Logger.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
       }
 
       return result;

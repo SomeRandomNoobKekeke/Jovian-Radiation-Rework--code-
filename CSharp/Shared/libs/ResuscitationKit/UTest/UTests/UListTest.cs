@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class UListTest : UTest
   {

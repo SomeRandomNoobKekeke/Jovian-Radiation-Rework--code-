@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class UTestListResult : UTestResultBase
   {
@@ -23,6 +23,6 @@ namespace JovianRadiationRework
 
     public UTestListResult(List<object> values) => Values = values;
 
-    public override string ToString() => $"[{String.Join(", ", Values?.Select(o => o?.ToString()))}]";
+    public override string ToString() => $"[\n    {String.Join(",\n    ", Values?.Select(o => o?.ToString()))}\n]";
   }
 }

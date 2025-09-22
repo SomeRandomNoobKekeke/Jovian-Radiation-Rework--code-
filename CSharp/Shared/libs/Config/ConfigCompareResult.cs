@@ -9,24 +9,24 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class ConfigCompareResult
   {
-    public object ConfigA;
-    public object ConfigB;
+    public IConfig ConfigA;
+    public IConfig ConfigB;
     public List<string> OnlyInA = new();
     public List<string> OnlyInB = new();
     public Dictionary<string, Tuple<object, object>> Different = new();
     public bool Equals;
 
-    public ConfigCompareResult(object A, object B)
+    public ConfigCompareResult(IConfig A, IConfig B)
     {
       ConfigA = A;
       ConfigB = B;
 
-      Dictionary<string, object> flatA = ConfigTraverse.GetFlatValues(A);
-      Dictionary<string, object> flatB = ConfigTraverse.GetFlatValues(B);
+      Dictionary<string, object> flatA = ConfigA.GetFlatValues();
+      Dictionary<string, object> flatB = ConfigB.GetFlatValues();
 
       OnlyInA = flatA.Keys.Except(flatB.Keys).ToList();
       OnlyInB = flatB.Keys.Except(flatA.Keys).ToList();
@@ -50,7 +50,7 @@ namespace JovianRadiationRework
 
 
 
-      sb.Append($"----------------- [ Compare result: {Mod.WrapInColor((Equals ? "Match" : "Don't match"), Equals ? "lime" : "orange")}] -----------------\n");
+      sb.Append($"----------------- [ Compare result: {ConfigLogger.WrapInColor((Equals ? "Match" : "Don't match"), Equals ? "lime" : "orange")}] -----------------\n");
       if (OnlyInA.Count > 0)
       {
         sb.Append($"------------------------ [ Only in A ] ------------------------\n");
@@ -73,7 +73,7 @@ namespace JovianRadiationRework
 
         foreach (string key in Different.Keys)
         {
-          sb.Append($"{key} [ {Mod.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {Mod.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]\n");
+          sb.Append($"{key} [ {ConfigLogger.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {ConfigLogger.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]\n");
         }
       }
 

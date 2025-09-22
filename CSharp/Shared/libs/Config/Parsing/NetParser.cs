@@ -11,12 +11,10 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Barotrauma.Networking;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class NetParser
   {
-    public static bool Verbose = true;
-
     public static Dictionary<Type, Action<IWriteMessage, object>> EncodeTable = new()
     {
       [typeof(bool)] = (IWriteMessage msg, object data) => msg.WriteBoolean((bool)data),
@@ -34,9 +32,9 @@ namespace JovianRadiationRework
       [typeof(Color)] = (IWriteMessage msg, object data) => msg.WriteColorR8G8B8A8((Color)data),
     };
 
-    public static void Encode(IWriteMessage msg, ConfigEntry entry)
-      => Encode(msg, entry.Value, entry.Property.PropertyType);
-    public static void Encode(IWriteMessage msg, object data, Type dataType)
+    public static SimpleResult Encode(IWriteMessage msg, ConfigEntry entry)
+      => Encode(msg, entry.Value, entry.Type);
+    public static SimpleResult Encode(IWriteMessage msg, object data, Type dataType)
     {
       //HACK
       if (dataType == typeof(string) && data is null)
@@ -52,23 +50,23 @@ namespace JovianRadiationRework
       {
         if (!dataType.IsPrimitive)
         {
+          //Static
           MethodInfo encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Static);
           if (encode is not null)
           {
             try
             {
               encode.Invoke(null, new object[] { msg, data });
+              return SimpleResult.Success();
             }
             catch (Exception e)
             {
-              if (Verbose)
-              {
-                Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]");
-              }
+              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]", e);
             }
-            return;
           }
 
+          //instance
+          // TODO think about putting it in a method
           encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
 
           if (encode is not null)
@@ -76,24 +74,20 @@ namespace JovianRadiationRework
             try
             {
               encode.Invoke(data, new object[] { msg });
+              return SimpleResult.Success();
             }
             catch (Exception e)
             {
-              if (Verbose)
-              {
-                Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]");
-              }
+              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]", e);
             }
-            return;
           }
 
-          if (Verbose)
-          {
-            Mod.Warning($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {Mod.WrapInColor($"public static void NetEncode(IWriteMessage msg, {dataType} data)", "white")} method");
-          }
+
+          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {ConfigLogger.WrapInColor($"public static void NetEncode(IWriteMessage msg, {dataType} data)", "white")} method");
         }
       }
 
+      return SimpleResult.Failure();
     }
 
     public static Dictionary<Type, Func<IReadMessage, object>> DecodeTable = new()
@@ -113,8 +107,8 @@ namespace JovianRadiationRework
       [typeof(Color)] = (IReadMessage msg) => msg.ReadColorR8G8B8A8(),
     };
 
-    public static object Decode<T>(IReadMessage msg) => Decode(msg, typeof(T));
-    public static object Decode(IReadMessage msg, Type T)
+    public static SimpleResult Decode<T>(IReadMessage msg) => Decode(msg, typeof(T));
+    public static SimpleResult Decode(IReadMessage msg, Type T)
     {
       if (DecodeTable.ContainsKey(T))
       {
@@ -124,21 +118,23 @@ namespace JovianRadiationRework
           if (T == typeof(string))
           {
             string s = msg.ReadString();
-            if (s == Parser.NullTerm) return null;
-            return s;
+            if (s == Parser.NullTerm) return SimpleResult.Success(null);
+            return SimpleResult.Success(s);
           }
           else
           {
-            return DecodeTable[T](msg);
+            return SimpleResult.Success(DecodeTable[T](msg));
           }
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]");
-          }
-          return Parser.DefaultFor(T);
+            Ok = false,
+            Result = Parser.DefaultFor(T),
+            Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
+            Exception = e,
+          };
         }
       }
       else
@@ -148,23 +144,26 @@ namespace JovianRadiationRework
         {
           try
           {
-            return decode.Invoke(null, new object[] { msg });
+            return SimpleResult.Success(decode.Invoke(null, new object[] { msg }));
           }
           catch (Exception e)
           {
-            if (Verbose)
+            return new SimpleResult()
             {
-              Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]");
-            }
-            return Parser.DefaultFor(T);
+              Ok = false,
+              Result = Parser.DefaultFor(T),
+              Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
+              Exception = e,
+            };
           }
         }
 
-        if (Verbose)
+        return new SimpleResult()
         {
-          Mod.Warning($"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {Mod.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method");
-        }
-        return Parser.DefaultFor(T);
+          Ok = false,
+          Result = Parser.DefaultFor(T),
+          Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {ConfigLogger.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method",
+        };
       }
     }
 

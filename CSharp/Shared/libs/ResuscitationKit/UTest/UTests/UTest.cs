@@ -5,11 +5,14 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class UTest
   {
-    public static int TooLongForAName = 50;
+    /// <summary>
+    /// Actually just annoying feature, if expression is unreadable you should set it manually
+    /// </summary>
+    public static int TooLongForAName = 300;
     public static string VeryLongExpressionWarning = "Very long expression";
     public UTestResultBase Expected;
     public UTestResultBase Result;

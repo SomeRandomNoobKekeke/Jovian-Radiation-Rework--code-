@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
-  public abstract class UTestPack
+  public class UTestPack
   {
-    public enum UTestPackState { AllPassed, SomePassed, AllFailed }
+    public enum UTestPackState { AllPassed, SomePassed, AllFailed, Error }
 
     public static bool IsTestGenerator(MethodInfo mi)
       => mi.ReturnType.IsAssignableTo(typeof(UTest)) && mi.GetParameters().Length == 0;
@@ -19,49 +19,7 @@ namespace JovianRadiationRework
     public static string GetNameFromMethodInfo(MethodInfo mi)
       => $"{mi.DeclaringType.Name}.{mi.Name}";
 
-    public static UTestPack Run(string name)
-    {
-      if (!UTestExplorer.TestByName.ContainsKey(name))
-      {
-        UTestLogger.Warning($"No such test");
-        return null;
-      }
 
-      return Run(UTestExplorer.TestByName[name]);
-    }
-    public static UTestPack Run<T>() => Run(typeof(T));
-    public static UTestPack Run(Type T)
-    {
-      if (!T.IsAssignableTo(typeof(UTestPack)))
-        throw new ArgumentException($"[{T}] is not a UTestPack");
-
-      UTestPack pack = Activator.CreateInstance(T) as UTestPack;
-
-      try
-      {
-        pack.CreateTests();
-      }
-      catch (Exception e)
-      {
-        UTestLogger.Warning($"Failed to CreateTests for {T}:");
-        UTestLogger.Warning(e);
-      }
-
-      return pack;
-    }
-
-    //FIXME i'm cringe
-    public static void RunRecursive<T>() => RunRecursive(typeof(T));
-    public static void RunRecursive(Type T = null)
-    {
-      T ??= typeof(UTestPack);
-
-      UTestExplorer.TestTree.RunRecursive((test) =>
-      {
-        if (test == typeof(UTestPack)) return; // bruh
-        UTestPack.Run(test)?.Log(); // TODO why log is here?
-      }, T);
-    }
 
     public List<UTest> Tests = new();
     public int PassedCount => Tests.Count(test => test.Passed);
@@ -69,12 +27,26 @@ namespace JovianRadiationRework
     {
       get
       {
+        if (Error is not null) return UTestPackState.Error;
         int passed = PassedCount;
         if (Tests.Count == 0) return UTestPackState.AllPassed;
         if (passed == Tests.Count) return UTestPackState.AllPassed;
         if (passed == 0) return UTestPackState.AllFailed;
         return UTestPackState.SomePassed;
       }
+    }
+
+    // HACK
+    /// <summary>
+    /// Set in test runner
+    /// </summary>
+    public Exception Error { get; set; }
+    public bool NotEmpty => Error != null || Tests.Count > 0;
+
+    public UTest AddTest(UTest test)
+    {
+      Tests.Add(test);
+      return test;
     }
 
     public virtual void CreateTests()
@@ -100,8 +72,11 @@ namespace JovianRadiationRework
       }
     }
 
+    //TODO ???
     public override string ToString()
     {
+      if (Error is not null) return Error.ToString();
+
       StringBuilder sb = new StringBuilder();
 
       sb.Append($"UTestPack {this.GetType()} [{PassedCount}/{Tests.Count}]:\n");
@@ -113,6 +88,12 @@ namespace JovianRadiationRework
       return sb.ToString();
     }
 
-    public void Log() => UTestLogger.LogPack(this);
+    //HACK
+    public void Log() { if (NotEmpty) UTestLogger.LogPack(this); }
+  }
+
+  public static class UTestPackExtentions
+  {
+    public static void Log(this List<UTestPack> packs) => packs.ForEach(pack => pack.Log());
   }
 }

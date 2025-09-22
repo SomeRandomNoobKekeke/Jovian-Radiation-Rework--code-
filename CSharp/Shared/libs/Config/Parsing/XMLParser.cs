@@ -12,24 +12,26 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class XMLParser
   {
-    public static T Parse<T>(XElement element) => (T)Parse(element, typeof(T));
-    public static object Parse(XElement element, Type T)
+    //TODO it shouldn't throw
+    public static SimpleResult Parse(XElement element, Type T)
     {
       MethodInfo fromxml = T.GetMethod("FromXML", BindingFlags.Public | BindingFlags.Instance);
-      if (fromxml != null) return fromxml.Invoke(null, new object[] { element });
+      if (fromxml != null) return SimpleResult.Success(fromxml.Invoke(null, new object[] { element }));
 
       if (ExtraXMLParsingMethods.Parse.ContainsKey(T))
       {
-        return ExtraXMLParsingMethods.Parse[T].Invoke(null, new object[] { element });
+        return SimpleResult.Success(ExtraXMLParsingMethods.Parse[T].Invoke(null, new object[] { element }));
       }
 
-      return Parser.Parse(element.Value, T);
+      return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
     }
 
+    public static XElement Serialize(IConfigEntry entry)
+      => Serialize(entry.Value, entry.Name);
 
     public static XElement Serialize(object o, string name)
     {

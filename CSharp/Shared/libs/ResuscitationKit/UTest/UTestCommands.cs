@@ -4,11 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 using Barotrauma;
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class UTestCommands
   {
     public static List<DebugConsole.Command> AddedCommands = new List<DebugConsole.Command>();
+    //TODO what if multiple mods have this command?
     public static void AddCommands()
     {
       AddedCommands.Add(new DebugConsole.Command("utest", "", UTest_Command, UTest_Hints));
@@ -39,15 +40,15 @@ namespace JovianRadiationRework
           return;
         }
 
+        List<UTestPack> results = UTestRunner.RunRecursive(start);
 
-        UTestExplorer.TestTree.RunRecursive((test) =>
+        foreach (UTestPack pack in results)
         {
-          if (test == typeof(UTestPack)) return; // bruh
-          UTestPack pack = UTestPack.Run(test);
-          if (pack.Tests.Count != 0) pack.Log();
-        }, start);
+          if (pack.NotEmpty) pack.Log();
+        }
       }
-      catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); };
+      catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); }
+      ;
     }
 
     public static void RemoveCommands()

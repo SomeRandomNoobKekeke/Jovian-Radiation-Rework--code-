@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class TypeTree
   {

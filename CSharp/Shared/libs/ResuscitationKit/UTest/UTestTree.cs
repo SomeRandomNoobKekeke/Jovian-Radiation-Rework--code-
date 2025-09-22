@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class UTestTreeNode
   {
@@ -106,6 +106,7 @@ namespace JovianRadiationRework
       foreach (Type T in assembly.GetTypes())
       {
         if (T.IsAbstract) continue;
+        if (T == typeof(UTestPack)) continue;
 
         if (T.IsAssignableTo(typeof(UTestPack)))
         {

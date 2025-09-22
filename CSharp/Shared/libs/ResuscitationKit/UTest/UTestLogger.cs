@@ -6,7 +6,7 @@ using System.Diagnostics;
 using Barotrauma;
 using Microsoft.Xna.Framework;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   // useless class that is referenced from all over the place
   public class UTestLogger
@@ -28,6 +28,7 @@ namespace JovianRadiationRework
         UTestPack.UTestPackState.AllPassed => Color.Lerp(Color.White, SuccessColor, ColorContrast),
         UTestPack.UTestPackState.SomePassed => Color.Lerp(Color.White, NotGreatColor, ColorContrast),
         UTestPack.UTestPackState.AllFailed => Color.Lerp(Color.White, FailureColor, ColorContrast),
+        UTestPack.UTestPackState.Error => Color.Lerp(Color.White, FailureColor, ColorContrast),
       };
     }
 
@@ -72,6 +73,11 @@ namespace JovianRadiationRework
 
       Log(Line);
       Log($"UTestPack {pack.GetType()} [{pack.PassedCount}/{pack.Tests.Count}]:", cl);
+
+      if (pack.Error is not null)
+      {
+        Log($"Error: [{pack.Error.Message}]", cl);
+      }
 
       foreach (UTest test in pack.Tests)
       {

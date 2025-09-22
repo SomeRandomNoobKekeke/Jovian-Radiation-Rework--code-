@@ -8,7 +8,7 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class ExtraParsingMethods
   {
