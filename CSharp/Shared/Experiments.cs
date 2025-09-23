@@ -8,7 +8,6 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using System.IO;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace JovianRadiationRework
 {

@@ -1,0 +1,68 @@
+using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Linq;
+
+using Barotrauma;
+using HarmonyLib;
+
+using Barotrauma.Extensions;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Voronoi2;
+
+
+namespace JovianRadiationRework
+{
+
+  public static class RadiationPatch
+  {
+
+    public static void PatchSharedRadiation(Harmony harmony)
+    {
+      harmony.Patch(
+        original: typeof(Radiation).GetMethod("OnStep", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(RadiationPatch).GetMethod("Radiation_OnStep_Replace"))
+      );
+
+      harmony.Patch(
+        original: typeof(Radiation).GetMethod("UpdateRadiation", AccessTools.all),
+        prefix: new HarmonyMethod(typeof(RadiationPatch).GetMethod("Radiation_UpdateRadiation_Replace"))
+      );
+    }
+
+    // https://github.com/evilfactory/LuaCsForBarotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Map/Map/Radiation.cs#L47
+    public static bool Radiation_OnStep_Replace(Radiation __instance, float steps = 1)
+    {
+      #region VanillaCode
+      Radiation _ = __instance;
+
+      Mod.LogicContainer.RadiationMover.MoveRadiation(_, steps);
+      Mod.LogicContainer.LocationTransformer.TransformLocations(_);
+
+      return false;
+      #endregion
+    }
+
+
+    // https://github.com/evilfactory/LuaCsForBarotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Map/Map/Radiation.cs#L97
+    public static bool Radiation_UpdateRadiation_Replace(Radiation __instance, float deltaTime)
+    {
+      #region VanillaCode
+      Radiation _ = __instance;
+
+      Mod.LogicContainer.RadiationUpdater.UpdateRadiation(_, deltaTime);
+
+      return false;
+      #endregion
+    }
+
+
+  }
+
+}
