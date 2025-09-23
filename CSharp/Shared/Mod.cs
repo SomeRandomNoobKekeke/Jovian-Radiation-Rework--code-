@@ -16,8 +16,9 @@ namespace JovianRadiationRework
     public static Harmony Harmony = new Harmony("JovianRadiationRework");
     public static Logger Logger = new Logger();
 
-    public static LogicContainer LogicContainer = new LogicContainer();
 
+    public static ModelManager ModelManager = new ModelManager();
+    public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
     {
 

@@ -41,7 +41,7 @@ namespace JovianRadiationRework
 
       Map _ = __instance;
 
-      float steps = Mod.LogicContainer.WorldProgressStepsCalculator.CalculateSteps(transitionType, roundDuration);
+      float steps = Mod.CurrentModel.WorldProgressStepsCalculator.CalculateSteps(transitionType, roundDuration);
 
       for (int i = 0; i < steps; i++)
       {
@@ -59,7 +59,7 @@ namespace JovianRadiationRework
       }
 
 
-      steps = Mod.LogicContainer.RadiationStepsCalculator.CalculateSteps(transitionType, roundDuration);
+      steps = Mod.CurrentModel.RadiationStepsCalculator.CalculateSteps(transitionType, roundDuration);
 
       _.Radiation?.OnStep(steps);
 

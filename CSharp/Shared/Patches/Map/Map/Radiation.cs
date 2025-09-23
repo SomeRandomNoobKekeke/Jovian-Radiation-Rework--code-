@@ -42,8 +42,8 @@ namespace JovianRadiationRework
       #region VanillaCode
       Radiation _ = __instance;
 
-      Mod.LogicContainer.RadiationMover.MoveRadiation(_, steps);
-      Mod.LogicContainer.LocationTransformer.TransformLocations(_);
+      Mod.CurrentModel.RadiationMover.MoveRadiation(_, steps);
+      Mod.CurrentModel.LocationTransformer.TransformLocations(_);
 
       return false;
       #endregion
@@ -56,7 +56,7 @@ namespace JovianRadiationRework
       #region VanillaCode
       Radiation _ = __instance;
 
-      Mod.LogicContainer.RadiationUpdater.UpdateRadiation(_, deltaTime);
+      Mod.CurrentModel.RadiationUpdater.UpdateRadiation(_, deltaTime);
 
       return false;
       #endregion

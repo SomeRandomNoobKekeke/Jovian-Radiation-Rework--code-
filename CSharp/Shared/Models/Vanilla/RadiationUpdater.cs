@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public class VanillaRadiationUpdater : IRadiationUpdater
   {
-    public void UpdateRadiation(Radiation __instance, float deltaTime)
+    public void UpdateRadiation(Radiation _, float deltaTime)
     {
       if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
 
@@ -39,8 +39,8 @@ namespace JovianRadiationRework
       {
         if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-        float depthInRadiation = Mod.LogicContainer.RadAmountCalculator.CalculateAmount(__instance, character);
-        Mod.LogicContainer.CharacterDamager.DamageCharacter(character, depthInRadiation, _);
+        float depthInRadiation = Mod.CurrentModel.RadAmountCalculator.CalculateAmount(_, character);
+        Mod.CurrentModel.CharacterDamager.DamageCharacter(character, depthInRadiation, _);
       }
     }
 
