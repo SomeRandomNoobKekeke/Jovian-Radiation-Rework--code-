@@ -19,33 +19,34 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public class VanillaRadiationUpdater : IRadiationUpdater
+
+  public partial class VanillaRadiationModel
   {
-    public void UpdateRadiation(Radiation _, float deltaTime)
+    public class VanillaRadiationUpdater : IRadiationUpdater
     {
-      if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
-
-      if (GameMain.NetworkMember is { IsClient: true }) { return; }
-
-      if (_.radiationTimer > 0)
+      public void UpdateRadiation(Radiation _, float deltaTime)
       {
-        _.radiationTimer -= deltaTime;
-        return;
+        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
+
+        if (GameMain.NetworkMember is { IsClient: true }) { return; }
+
+        if (_.radiationTimer > 0)
+        {
+          _.radiationTimer -= deltaTime;
+          return;
+        }
+
+        _.radiationTimer = _.Params.RadiationDamageDelay;
+
+        foreach (Character character in Character.CharacterList)
+        {
+          if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
+
+          float depthInRadiation = Mod.CurrentModel.RadAmountCalculator.CalculateAmount(_, character);
+          Mod.CurrentModel.CharacterDamager.DamageCharacter(character, depthInRadiation, _);
+        }
       }
 
-      _.radiationTimer = _.Params.RadiationDamageDelay;
-
-      foreach (Character character in Character.CharacterList)
-      {
-        if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
-
-        float depthInRadiation = Mod.CurrentModel.RadAmountCalculator.CalculateAmount(_, character);
-        Mod.CurrentModel.CharacterDamager.DamageCharacter(character, depthInRadiation, _);
-      }
     }
-
   }
-
-
-
 }

@@ -19,14 +19,14 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public class VanillaRadAmountCalculator : IRadAmountCalculator
+  public partial class VanillaRadiationModel
   {
-    public float CalculateAmount(Radiation _, Entity entity)
+    public class VanillaRadAmountCalculator : IRadAmountCalculator
     {
-      return _.DepthInRadiation(entity);
+      public float CalculateAmount(Radiation _, Entity entity)
+      {
+        return _.DepthInRadiation(entity);
+      }
     }
   }
-
-
-
 }

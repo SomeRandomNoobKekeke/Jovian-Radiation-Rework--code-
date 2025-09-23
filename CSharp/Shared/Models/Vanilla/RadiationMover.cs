@@ -19,24 +19,24 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public class VanillaRadiationMover : IRadiationMover
+  public partial class VanillaRadiationModel
   {
-    public void MoveRadiation(Radiation _, float steps)
+    public class VanillaRadiationMover : IRadiationMover
     {
-      if (!_.Enabled) return;
-      if (steps <= 0) return;
-
-      float increaseAmount = _.Params.RadiationStep * steps;
-
-      if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
+      public void MoveRadiation(Radiation _, float steps)
       {
-        increaseAmount = _.Params.MaxRadiation - _.Amount;
-      }
+        if (!_.Enabled) return;
+        if (steps <= 0) return;
 
-      _.IncreaseRadiation(increaseAmount);
+        float increaseAmount = _.Params.RadiationStep * steps;
+
+        if (_.Params.MaxRadiation > 0 && _.Params.MaxRadiation < _.Amount + increaseAmount)
+        {
+          increaseAmount = _.Params.MaxRadiation - _.Amount;
+        }
+
+        _.IncreaseRadiation(increaseAmount);
+      }
     }
   }
-
-
-
 }

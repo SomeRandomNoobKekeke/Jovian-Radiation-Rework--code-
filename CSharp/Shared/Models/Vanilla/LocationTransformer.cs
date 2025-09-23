@@ -19,40 +19,44 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public class VanillaLocationTransformer : ILocationTransformer
+  public partial class VanillaRadiationModel
   {
-    public void TransformLocations(Radiation _)
+    public class VanillaLocationTransformer : ILocationTransformer
     {
-      int amountOfOutposts = _.Map.Locations.Count(location => location.Type.HasOutpost && !location.IsCriticallyRadiated());
-
-      foreach (Location location in _.Map.Locations.Where(l => _.DepthInRadiation(l) > 0))
+      public void TransformLocations(Radiation _)
       {
-        if (location.IsGateBetweenBiomes)
+        int amountOfOutposts = _.Map.Locations.Count(location => location.Type.HasOutpost && !location.IsCriticallyRadiated());
+
+        foreach (Location location in _.Map.Locations.Where(l => _.DepthInRadiation(l) > 0))
         {
-          location.Connections.ForEach(c => c.Locked = false);
-          continue;
-        }
+          if (location.IsGateBetweenBiomes)
+          {
+            location.Connections.ForEach(c => c.Locked = false);
+            continue;
+          }
 
-        if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
+          if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-        if (_.Map.CurrentLocation is { } currLocation)
-        {
-          // Don't advance on nearby locations to avoid buggy behavior
-          if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
-        }
+          if (_.Map.CurrentLocation is { } currLocation)
+          {
+            // Don't advance on nearby locations to avoid buggy behavior
+            if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }
+          }
 
-        bool wasCritical = location.IsCriticallyRadiated();
+          bool wasCritical = location.IsCriticallyRadiated();
 
-        location.TurnsInRadiation++;
+          location.TurnsInRadiation++;
 
-        if (location.Type.HasOutpost && !wasCritical && location.IsCriticallyRadiated())
-        {
-          location.ClearMissions();
-          amountOfOutposts--;
+          if (location.Type.HasOutpost && !wasCritical && location.IsCriticallyRadiated())
+          {
+            location.ClearMissions();
+            amountOfOutposts--;
+          }
         }
       }
     }
   }
+
 
 
 

@@ -19,24 +19,24 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public class VanillaStepsCalculator : IStepsCalculator
+  public partial class VanillaRadiationModel
   {
-    public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration)
+    public class VanillaStepsCalculator : IStepsCalculator
     {
-      //one step per 10 minutes of play time
-      int steps = (int)Math.Floor(roundDuration / (60.0f * 10.0f));
-      if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
-          transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+      public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration)
       {
-        //at least one step when progressing to the next location, regardless of how long the round took
-        steps = Math.Max(1, steps);
-      }
-      steps = Math.Min(steps, 5);
+        //one step per 10 minutes of play time
+        int steps = (int)Math.Floor(roundDuration / (60.0f * 10.0f));
+        if (transitionType == CampaignMode.TransitionType.ProgressToNextLocation ||
+            transitionType == CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+        {
+          //at least one step when progressing to the next location, regardless of how long the round took
+          steps = Math.Max(1, steps);
+        }
+        steps = Math.Min(steps, 5);
 
-      return steps;
+        return steps;
+      }
     }
   }
-
-
-
 }

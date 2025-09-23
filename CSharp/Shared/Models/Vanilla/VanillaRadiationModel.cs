@@ -8,12 +8,9 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 
-
-
-
 namespace JovianRadiationRework
 {
-  public class VanillaRadiationModel : RadiationModel
+  public partial class VanillaRadiationModel : RadiationModel
   {
     public override IStepsCalculator WorldProgressStepsCalculator { get; set; } = new VanillaStepsCalculator();
     public override IStepsCalculator RadiationStepsCalculator { get; set; } = new VanillaStepsCalculator();
