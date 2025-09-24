@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public partial class VanillaRadiationModel
   {
-    public class VanillaRadAmountCalculator : IRadAmountCalculator
+    public class VanillaEntityRadAmountCalculator : IEntityRadAmountCalculator
     {
       public float CalculateAmount(Radiation _, Entity entity)
       {

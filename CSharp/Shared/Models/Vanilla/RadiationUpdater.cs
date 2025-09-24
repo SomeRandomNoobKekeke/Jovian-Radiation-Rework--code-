@@ -42,7 +42,7 @@ namespace JovianRadiationRework
         {
           if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
 
-          float depthInRadiation = Mod.CurrentModel.RadAmountCalculator.CalculateAmount(_, character);
+          float depthInRadiation = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(_, character);
           Mod.CurrentModel.CharacterDamager.DamageCharacter(character, depthInRadiation, _);
         }
       }

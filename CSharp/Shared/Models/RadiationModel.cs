@@ -45,7 +45,7 @@ namespace JovianRadiationRework
     public virtual ILocationTransformer LocationTransformer { get; set; }
     public virtual ICharacterDamager CharacterDamager { get; set; }
     public virtual IRadiationUpdater RadiationUpdater { get; set; }
-    public virtual IRadAmountCalculator RadAmountCalculator { get; set; }
+    public virtual IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
 
 

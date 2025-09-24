@@ -30,9 +30,10 @@ namespace JovianRadiationRework
       // UTestPack.RunRecursive<DebugTest>();
 
       Experiment();
-      ModelManager.EnableModel(typeof(AmbientLightModel));
+      // ModelManager.EnableModel(typeof(AmbientLightModel));
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
+      Logger.Log(CurrentModel);
     }
 
     public void PatchAll()

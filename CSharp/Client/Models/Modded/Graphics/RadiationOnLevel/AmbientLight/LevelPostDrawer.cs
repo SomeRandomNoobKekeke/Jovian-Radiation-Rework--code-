@@ -16,7 +16,7 @@ namespace JovianRadiationRework
 {
   public partial class AmbientLightModel : RadiationModel
   {
-    public class LevelPostDrawerAspect : ILevelPostDrawer
+    public class AmbientLightLevelPostDrawer : ILevelPostDrawer
     {
       public AmbientLightModel Model { get; set; }
 
@@ -31,7 +31,7 @@ namespace JovianRadiationRework
           radiation,
           new Vector2(
             cam.Position.X,
-            cam.Position.Y //TODO it's probably inverted, need to check it
+            cam.Position.Y
           )) * Model.Settings.RadiationToAmbienceBrightness,
           0, Model.Settings.MaxAmbienceBrightness
         );

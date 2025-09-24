@@ -53,7 +53,7 @@ namespace JovianRadiationRework
     public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
-  public interface IRadAmountCalculator : IModelAspect
+  public interface IEntityRadAmountCalculator : IModelAspect
   {
     public float CalculateAmount(Radiation _, Entity entity);
   }

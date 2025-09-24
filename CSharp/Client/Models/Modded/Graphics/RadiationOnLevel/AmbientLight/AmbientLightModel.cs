@@ -23,7 +23,7 @@ namespace JovianRadiationRework
     }
 
 
-    public override ILevelPostDrawer LevelPostDrawer { get; set; } = new LevelPostDrawerAspect();
+    public override ILevelPostDrawer LevelPostDrawer { get; set; } = new AmbientLightLevelPostDrawer();
   }
 
 

@@ -13,7 +13,7 @@ namespace JovianRadiationRework
   public class ModelLayer
   {
     public RadiationModel Model { get; set; }
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;//HACK temporary
 
     public ModelLayer(RadiationModel model) => Model = model;
   }

@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     {
       new VanillaRadiationModel(),
       new AmbientLightModel(),
+      new DepthBasedDamageModel(),
     };
 
     public static RadiationModel Base => new VanillaRadiationModel();
