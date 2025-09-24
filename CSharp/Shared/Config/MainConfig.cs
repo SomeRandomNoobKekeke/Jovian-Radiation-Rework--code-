@@ -14,17 +14,8 @@ namespace JovianRadiationRework
   public class MainConfig : IConfig
   {
     public AmbientLightModel.AmbientLightSettings AmbientLightSettings { get; set; }
+    public DepthBasedDamageModel.DepthBasedDamageSettings DepthBasedDamageSettings { get; set; }
 
-    //HACK Temporary 
-    public IConfig ConfigByType(Type T)
-    {
-      if (T == typeof(AmbientLightModel.AmbientLightSettings))
-      {
-        return this.AmbientLightSettings;
-      }
-
-      return null;
-    }
 
 
     public MainConfig()
