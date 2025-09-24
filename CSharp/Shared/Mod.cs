@@ -25,6 +25,7 @@ namespace JovianRadiationRework
     {
 
       UTestCommands.AddCommands();
+      AddCommands();
       PatchAll();
 
       // UTestPack.RunRecursive<DebugTest>();
@@ -44,11 +45,13 @@ namespace JovianRadiationRework
     }
     public partial void PatchProjSpecific();
 
+
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
     public void Dispose()
     {
       Harmony.UnpatchSelf();
+      RemoveCommands();
       UTestCommands.RemoveCommands();
     }
   }
