@@ -20,6 +20,7 @@ namespace JovianRadiationRework
     public override IRadiationUpdater RadiationUpdater { get; set; } = new VanillaRadiationUpdater();
     public override IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; } = new VanillaEntityRadAmountCalculator();
     public override IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; } = new VanillaWorldPosRadAmountCalculator();
+    public override IMonsterSpawner MonsterSpawner { get; set; } = new VanillaMonsterSpawner();
   }
 
 

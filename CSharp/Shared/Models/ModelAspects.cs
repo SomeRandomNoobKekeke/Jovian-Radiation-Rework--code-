@@ -63,7 +63,10 @@ namespace JovianRadiationRework
     public float CalculateAmount(Radiation _, Vector2 pos);
   }
 
-
+  public interface IMonsterSpawner : IModelAspect
+  {
+    public void SpawnMonsters(MonsterEvent _);
+  }
 
 
 

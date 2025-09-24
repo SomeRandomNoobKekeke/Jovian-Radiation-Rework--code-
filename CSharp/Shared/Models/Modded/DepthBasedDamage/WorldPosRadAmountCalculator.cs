@@ -44,7 +44,7 @@ namespace JovianRadiationRework
           );
         }
 
-        if (Level.Loaded.Type == LevelData.LevelType.Outpost)
+        if (Level.Loaded is { Type: LevelData.LevelType.Outpost })
         {
           float RelativeDepth = (Level.Loaded.StartPosition.Y - pos.Y) * Physics.DisplayToRealWorldRatio;
 

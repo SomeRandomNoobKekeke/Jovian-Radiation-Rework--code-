@@ -47,7 +47,7 @@ namespace JovianRadiationRework
     public virtual IRadiationUpdater RadiationUpdater { get; set; }
     public virtual IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
-
+    public virtual IMonsterSpawner MonsterSpawner { get; set; }
 
     //TODO optimize
     public void Combine(RadiationModel other)

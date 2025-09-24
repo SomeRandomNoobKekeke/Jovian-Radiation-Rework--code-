@@ -15,7 +15,7 @@ namespace JovianRadiationRework
   {
     public AmbientLightModel.AmbientLightSettings AmbientLightSettings { get; set; }
     public DepthBasedDamageModel.DepthBasedDamageSettings DepthBasedDamageSettings { get; set; }
-
+    public ProgressiveMonsterSpawningModel.ProgressiveMonsterSpawningSettings ProgressiveMonsterSpawningSettings { get; set; }
 
 
     public MainConfig()
