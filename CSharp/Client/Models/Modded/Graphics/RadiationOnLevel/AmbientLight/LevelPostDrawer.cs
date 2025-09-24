@@ -19,7 +19,6 @@ namespace JovianRadiationRework
     public class LevelPostDrawerAspect : ILevelPostDrawer
     {
       public AmbientLightModel Model { get; set; }
-      public void AcceptModel(RadiationModel model) => this.Model = model as AmbientLightModel;
 
       public void Draw(Level _, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam)
       {
