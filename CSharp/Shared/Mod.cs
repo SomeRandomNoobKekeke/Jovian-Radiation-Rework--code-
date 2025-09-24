@@ -1,3 +1,4 @@
+global using BaroJunk;
 using System;
 using System.Reflection;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using BaroJunk;
+
 
 namespace JovianRadiationRework
 {
@@ -18,6 +19,7 @@ namespace JovianRadiationRework
 
 
     public static ModelManager ModelManager = new ModelManager();
+    public static MainConfig Config { get; set; } = new MainConfig();
     public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
     {
@@ -28,6 +30,8 @@ namespace JovianRadiationRework
       // UTestPack.RunRecursive<DebugTest>();
 
       Experiment();
+      ModelManager.EnableModel(typeof(AmbientLightModel));
+
       Logger.Log($"{ModInfo.AssemblyName} compiled");
     }
 
@@ -35,7 +39,10 @@ namespace JovianRadiationRework
     {
       MapPatch.PatchSharedMap(Harmony);
       RadiationPatch.PatchSharedRadiation(Harmony);
+      PatchProjSpecific();
     }
+    public partial void PatchProjSpecific();
+
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
     public void Dispose()

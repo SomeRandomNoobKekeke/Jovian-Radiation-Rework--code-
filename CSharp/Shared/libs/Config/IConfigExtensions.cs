@@ -43,7 +43,9 @@ namespace BaroJunk
     public static bool EqualsTo(this IConfig config, IConfig other) => config.EqualsTo(other);
     public static ConfigCompareResult CompareTo(this IConfig config, IConfig other) => config.CompareTo(other);
     public static void Clear(this IConfig config) => config.Clear();
-
+    public static void Restore(this IConfig config) => config.Restore();
+    public static void Copy(this IConfig config) => config.Copy();
+    public static void CopyTo(this IConfig config, IConfig other) => config.CopyTo(other);
   }
 
 }

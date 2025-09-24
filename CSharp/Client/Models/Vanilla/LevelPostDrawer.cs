@@ -15,20 +15,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Voronoi2;
-
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace JovianRadiationRework
 {
   public partial class VanillaRadiationModel
   {
-    public class VanillaRadAmountCalculator : IRadAmountCalculator
+    public class VanillaLevelPostDrawer : ILevelPostDrawer
     {
-      public float CalculateAmount(Radiation _, Entity entity)
+      public void Draw(Level _, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam)
       {
-        return Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-          _,
-          new Vector2(entity.WorldPosition.X, entity.WorldPosition.Y)
-        );
+        // nothing
       }
     }
   }

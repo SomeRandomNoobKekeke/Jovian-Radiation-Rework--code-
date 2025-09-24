@@ -20,7 +20,7 @@ using Voronoi2;
 namespace JovianRadiationRework
 {
 
-  public static class RadiationPatch
+  public partial class RadiationPatch
   {
 
     public static void PatchSharedRadiation(Harmony harmony)

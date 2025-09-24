@@ -19,34 +19,47 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public interface IStepsCalculator
+  public interface IModelAspect
+  {
+    public void AcceptModel(RadiationModel model) { }
+  }
+
+  public partial interface IStepsCalculator : IModelAspect
   {
     public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration);
   }
-  public interface IRadiationMover
+  public interface IRadiationMover : IModelAspect
   {
     public void MoveRadiation(Radiation _, float steps);
   }
 
-  public interface ILocationTransformer
+  public interface ILocationTransformer : IModelAspect
   {
     public void TransformLocations(Radiation _);
   }
 
-  public interface ICharacterDamager
+  public interface ICharacterDamager : IModelAspect
   {
     public void DamageCharacter(Character character, float depthInRadiation, Radiation _);
   }
 
-  public interface IRadiationUpdater
+  public interface IRadiationUpdater : IModelAspect
   {
-    public void UpdateRadiation(Radiation __instance, float deltaTime);
+    public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
-  public interface IRadAmountCalculator
+  public interface IRadAmountCalculator : IModelAspect
   {
-    public float CalculateAmount(Radiation __instance, Entity entity);
+    public float CalculateAmount(Radiation _, Entity entity);
   }
+
+  public interface IWorldPosRadAmountCalculator : IModelAspect
+  {
+    public float CalculateAmount(Radiation _, Vector2 pos);
+  }
+
+
+
 
 
 }

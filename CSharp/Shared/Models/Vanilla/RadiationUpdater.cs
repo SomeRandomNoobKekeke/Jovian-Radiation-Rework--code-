@@ -36,7 +36,7 @@ namespace JovianRadiationRework
           return;
         }
 
-        _.radiationTimer = _.Params.RadiationDamageDelay;
+        _.radiationTimer = 1.0f;
 
         foreach (Character character in Character.CharacterList)
         {
