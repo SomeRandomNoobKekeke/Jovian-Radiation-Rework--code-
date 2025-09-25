@@ -43,6 +43,7 @@ namespace JovianRadiationRework
     public virtual IStepsCalculator RadiationStepsCalculator { get; set; }
     public virtual IRadiationMover RadiationMover { get; set; }
     public virtual ILocationTransformer LocationTransformer { get; set; }
+    public virtual ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; }
     public virtual ICharacterDamager CharacterDamager { get; set; }
     public virtual IRadiationUpdater RadiationUpdater { get; set; }
     public virtual IRadUpdateCondition RadUpdateCondition { get; set; }

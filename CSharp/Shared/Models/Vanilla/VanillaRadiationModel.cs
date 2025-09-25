@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     public override IStepsCalculator RadiationStepsCalculator { get; set; } = new VanillaStepsCalculator();
     public override IRadiationMover RadiationMover { get; set; } = new VanillaRadiationMover();
     public override ILocationTransformer LocationTransformer { get; set; } = new VanillaLocationTransformer();
+    public override ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; } = new VanillaLocationIsCriticallyRadiated();
     public override ICharacterDamager CharacterDamager { get; set; } = new VanillaCharacterDamager();
     public override IRadiationUpdater RadiationUpdater { get; set; } = new VanillaRadiationUpdater();
     public override IRadUpdateCondition RadUpdateCondition { get; set; } = new VanillaRadUpdateCondition();

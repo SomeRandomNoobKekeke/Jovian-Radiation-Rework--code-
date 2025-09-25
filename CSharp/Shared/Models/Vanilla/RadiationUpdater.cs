@@ -26,6 +26,7 @@ namespace JovianRadiationRework
     {
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
+        //FIXME this is wrong, every damager should have its own update timer
         if (!Mod.CurrentModel.RadUpdateCondition.ShouldUpdate(_, deltaTime)) return;
 
         foreach (Character character in Character.CharacterList)

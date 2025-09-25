@@ -42,6 +42,7 @@ namespace JovianRadiationRework
       MapPatch.PatchSharedMap(Harmony);
       RadiationPatch.PatchSharedRadiation(Harmony);
       MonsterEventPatch.PatchSharedMonsterEvent(Harmony);
+      LocationPatch.PatchSharedLocation(Harmony);
       PatchProjSpecific();
     }
     public partial void PatchProjSpecific();

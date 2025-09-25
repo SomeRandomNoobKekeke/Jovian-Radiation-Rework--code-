@@ -43,6 +43,11 @@ namespace JovianRadiationRework
     public void TransformLocations(Radiation _);
   }
 
+  public interface ILocationIsCriticallyRadiated : IModelAspect
+  {
+    public bool IsIt(Location _);
+  }
+
   public interface ICharacterDamager : IModelAspect
   {
     public void DamageCharacter(Character character, float depthInRadiation, Radiation _);

@@ -18,6 +18,7 @@ namespace JovianRadiationRework
     public ProgressiveMonsterSpawningModel.ProgressiveMonsterSpawningSettings ProgressiveMonsterSpawningSettings { get; set; }
 
     public ProgressiveCharacterDamagerModel.ProgressiveCharacterDamagerSettings ProgressiveCharacterDamagerSettings { get; set; }
+    public SmoothLocationTransformerModel.SmoothLocationTransformerSettings SmoothLocationTransformerSettings { get; set; }
 
 
     public MainConfig()
