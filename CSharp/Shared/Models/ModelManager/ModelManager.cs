@@ -12,14 +12,8 @@ namespace JovianRadiationRework
 {
   public class ModelManager
   {
-    public LayerCatalog Layers = new()
-    {
-      new VanillaRadiationModel(),
-      new AmbientLightModel(),
-      new DepthBasedDamageModel(),
-      new ProgressiveMonsterSpawningModel(),
-      new ProgressiveCharacterDamagerModel(),
-    };
+    public LayerCatalog Layers;
+
 
     public static RadiationModel Base => new VanillaRadiationModel();
     public RadiationModel Current { get; set; } = Base;
@@ -45,8 +39,9 @@ namespace JovianRadiationRework
       }
     }
 
-    public ModelManager()
+    public ModelManager(IEnumerable<RadiationModel> models)
     {
+      Layers = LayerCatalog.FromModels(models);
       Recombine();
     }
   }

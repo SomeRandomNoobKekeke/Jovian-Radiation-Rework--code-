@@ -16,6 +16,16 @@ namespace JovianRadiationRework
     public Dictionary<Type, ModelLayer> LayerByType = new();
     public List<ModelLayer> LayersInOrder = new();
 
+    public static LayerCatalog FromModels(IEnumerable<RadiationModel> models)
+    {
+      LayerCatalog catalog = new LayerCatalog();
+      foreach (RadiationModel model in models)
+      {
+        catalog.Add(model);
+      }
+      return catalog;
+    }
+
     public void Add(RadiationModel model)
     {
       if (LayerByType.ContainsKey(model.GetType()))

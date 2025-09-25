@@ -18,7 +18,16 @@ namespace JovianRadiationRework
     public static Logger Logger = new Logger();
 
 
-    public static ModelManager ModelManager = new ModelManager();
+    public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
+      new VanillaRadiationModel(),
+      new AmbientLightModel(),
+      new DepthBasedDamageModel(),
+      new ProgressiveMonsterSpawningModel(),
+      new ProgressiveCharacterDamagerModel(),
+      new SmoothLocationTransformerModel(),
+      new SmoothRadiationProgressModel(),
+    });
+
     public static MainConfig Config { get; set; } = new MainConfig();
     public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
