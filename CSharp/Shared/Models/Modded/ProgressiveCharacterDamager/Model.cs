@@ -22,7 +22,7 @@ namespace JovianRadiationRework
     public ProgressiveCharacterDamagerSettings Settings => Mod.Config.ProgressiveCharacterDamagerSettings;
 
     public override ICharacterDamager CharacterDamager { get; set; } = new ProgressiveCharacterDamager();
-    public override IRadiationUpdater RadiationUpdater { get; set; } = new ProgressiveRadiationUpdater();
+    public override IRadUpdateCondition RadUpdateCondition { get; set; } = new ProgressiveRadUpdateCondition();
   }
 
 

@@ -26,17 +26,7 @@ namespace JovianRadiationRework
     {
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
-        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
-
-        if (GameMain.NetworkMember is { IsClient: true }) { return; }
-
-        if (_.radiationTimer > 0)
-        {
-          _.radiationTimer -= deltaTime;
-          return;
-        }
-
-        _.radiationTimer = _.Params.RadiationDamageDelay;
+        if (!Mod.CurrentModel.RadUpdateCondition.ShouldUpdate(_, deltaTime)) return;
 
         foreach (Character character in Character.CharacterList)
         {

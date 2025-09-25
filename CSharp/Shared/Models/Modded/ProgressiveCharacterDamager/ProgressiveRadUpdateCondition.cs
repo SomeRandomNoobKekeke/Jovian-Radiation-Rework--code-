@@ -22,31 +22,24 @@ namespace JovianRadiationRework
 
   public partial class ProgressiveCharacterDamagerModel
   {
-    public class ProgressiveRadiationUpdater : IRadiationUpdater
+    public class ProgressiveRadUpdateCondition : IRadUpdateCondition
     {
       public ProgressiveCharacterDamagerModel Model { get; set; }
 
-      public void UpdateRadiation(Radiation _, float deltaTime)
+      public bool ShouldUpdate(Radiation _, float deltaTime)
       {
-        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
+        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
 
-        if (GameMain.NetworkMember is { IsClient: true }) { return; }
+        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
 
         if (_.radiationTimer > 0)
         {
           _.radiationTimer -= deltaTime;
-          return;
+          return false;
         }
 
         _.radiationTimer = Model.Settings.DamageInterval;
-
-        foreach (Character character in Character.CharacterList)
-        {
-          if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
-
-          float radAmount = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(_, character);
-          Mod.CurrentModel.CharacterDamager.DamageCharacter(character, radAmount, _);
-        }
+        return true;
       }
 
     }
