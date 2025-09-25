@@ -20,10 +20,12 @@ using Voronoi2;
 namespace JovianRadiationRework
 {
 
-  public partial class VanillaRadiationModel
+  public partial class ProgressiveCharacterDamagerModel
   {
-    public class VanillaRadiationUpdater : IRadiationUpdater
+    public class ProgressiveRadiationUpdater : IRadiationUpdater
     {
+      public ProgressiveCharacterDamagerModel Model { get; set; }
+
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
         if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return; }
@@ -36,7 +38,7 @@ namespace JovianRadiationRework
           return;
         }
 
-        _.radiationTimer = _.Params.RadiationDamageDelay;
+        _.radiationTimer = Model.Settings.DamageInterval;
 
         foreach (Character character in Character.CharacterList)
         {

@@ -23,9 +23,9 @@ namespace JovianRadiationRework
   {
     public class VanillaCharacterDamager : ICharacterDamager
     {
-      public void DamageCharacter(Character character, float depthInRadiation, Radiation _)
+      public void DamageCharacter(Character character, float radAmount, Radiation _)
       {
-        if (depthInRadiation > 0)
+        if (radAmount > 0)
         {
           AfflictionPrefab afflictionPrefab;
           // Get the related affliction (if necessary, fall back to the traditional radiation sickness for slightly better backwards compatibility)
@@ -40,7 +40,7 @@ namespace JovianRadiationRework
           addedStrength *= _.Params.RadiationDamageDelay;
 
           // The JovianRadiation affliction has brackets of 25 strength determined by the multiplier (1x = 0-25, 2x = 25-50 etc.)
-          int multiplier = (int)Math.Ceiling(depthInRadiation / _.Params.RadiationEffectMultipliedPerPixelDistance);
+          int multiplier = (int)Math.Ceiling(radAmount / _.Params.RadiationEffectMultipliedPerPixelDistance);
           float growthPotentialInBracket = (multiplier * 25) - currentAfflictionStrength;
           if (growthPotentialInBracket > 0)
           {

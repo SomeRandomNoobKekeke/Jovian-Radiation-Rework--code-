@@ -17,6 +17,8 @@ namespace JovianRadiationRework
     public DepthBasedDamageModel.DepthBasedDamageSettings DepthBasedDamageSettings { get; set; }
     public ProgressiveMonsterSpawningModel.ProgressiveMonsterSpawningSettings ProgressiveMonsterSpawningSettings { get; set; }
 
+    public ProgressiveCharacterDamagerModel.ProgressiveCharacterDamagerSettings ProgressiveCharacterDamagerSettings { get; set; }
+
 
     public MainConfig()
     {
