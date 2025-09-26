@@ -23,7 +23,8 @@ namespace JovianRadiationRework
   {
     public class SmoothRadiationMover : IRadiationMover
     {
-      public SmoothRadiationProgressModel Model { get; set; }
+      public SettingsProvider<ModelSettings> Model { get; set; }
+
       public void MoveRadiation(Radiation _, float steps)
       {
         if (!_.Enabled) return;

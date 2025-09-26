@@ -19,7 +19,9 @@ namespace JovianRadiationRework
 
     public ProgressiveCharacterDamagerModel.ProgressiveCharacterDamagerSettings ProgressiveCharacterDamagerSettings { get; set; }
     public SmoothLocationTransformerModel.SmoothLocationTransformerSettings SmoothLocationTransformerSettings { get; set; }
-    public SmoothRadiationProgressModel.SmoothRadiationProgressSettings SmoothRadiationProgressSettings { get; set; }
+    public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
+
+
 
 
     public MainConfig()

@@ -7,18 +7,22 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using System.IO;
+
+using Barotrauma.Extensions;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+  public interface SettingsProvider<T>
   {
-
-
-
-    public void Experiment()
-    {
-
-    }
+    public T Settings { get; }
   }
+
+
+
 }
