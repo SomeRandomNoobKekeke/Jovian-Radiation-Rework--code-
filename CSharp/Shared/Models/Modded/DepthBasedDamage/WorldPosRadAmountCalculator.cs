@@ -31,7 +31,7 @@ namespace JovianRadiationRework
 
         if (Level.Loaded is { Type: LevelData.LevelType.LocationConnection, StartLocation: { } startLocation, EndLocation: { } endLocation } level)
         {
-          float distanceNormalized = MathHelper.Clamp((pos.X - level.StartPosition.X) / (level.EndPosition.X - level.StartPosition.X), 0.0f, 1.0f);
+          float distanceNormalized = (pos.X - level.StartPosition.X) / (level.EndPosition.X - level.StartPosition.X);
 
           float MapX = startLocation.MapPosition.X + (endLocation.MapPosition.X - startLocation.MapPosition.X) * distanceNormalized;
 
