@@ -39,27 +39,23 @@ namespace JovianRadiationRework
     // https://github.com/evilfactory/LuaCsForBarotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Map/Map/Radiation.cs#L47
     public static bool Radiation_OnStep_Replace(Radiation __instance, float steps = 1)
     {
-      #region VanillaCode
       Radiation _ = __instance;
 
       Mod.CurrentModel.RadiationMover.MoveRadiation(_, steps);
       Mod.CurrentModel.LocationTransformer.TransformLocations(_);
 
       return false;
-      #endregion
     }
 
 
     // https://github.com/evilfactory/LuaCsForBarotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Map/Map/Radiation.cs#L97
     public static bool Radiation_UpdateRadiation_Replace(Radiation __instance, float deltaTime)
     {
-      #region VanillaCode
       Radiation _ = __instance;
 
       Mod.CurrentModel.RadiationUpdater.UpdateRadiation(_, deltaTime);
 
       return false;
-      #endregion
     }
 
 
