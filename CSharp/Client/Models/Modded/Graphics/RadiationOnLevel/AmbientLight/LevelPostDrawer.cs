@@ -25,7 +25,7 @@ namespace JovianRadiationRework
         Radiation radiation = (GameMain.GameSession?.GameMode as CampaignMode)?.Map?.Radiation;
         if (radiation is null) return;
 
-        float time = (float)(Timing.TotalTime / 50.0f);
+
 
         float brightness = Math.Clamp(Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
           radiation,
@@ -35,6 +35,10 @@ namespace JovianRadiationRework
           )) * Settings.RadiationToAmbienceBrightness,
           0, Settings.MaxAmbienceBrightness
         );
+
+
+
+        float time = (float)(Timing.TotalTime / Settings.PerlinNoiseFrequency);
 
         float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * Settings.AmbienceNoiseAmplitude;
 

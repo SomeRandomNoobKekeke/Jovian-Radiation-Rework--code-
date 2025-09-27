@@ -20,6 +20,7 @@ namespace JovianRadiationRework
       public float MaxAmbienceBrightness { get; set; } = 1.0f;
       public float AmbienceNoiseAmplitude { get; set; } = 0.5f;
       public Color ActualColor { get; set; } = new Color(0, 0, 255);
+      public float PerlinNoiseFrequency { get; set; } = 30.0f;
     }
 
 
