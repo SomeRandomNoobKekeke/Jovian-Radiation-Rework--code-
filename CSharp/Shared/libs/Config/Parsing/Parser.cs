@@ -55,7 +55,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message} - {e.InnerException?.Message}]",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -75,7 +75,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message} - {e.InnerException?.Message}]",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -119,7 +119,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message} - {e.InnerException?.Message}]",
             Exception = e,
             Result = DefaultFor(T),
           };

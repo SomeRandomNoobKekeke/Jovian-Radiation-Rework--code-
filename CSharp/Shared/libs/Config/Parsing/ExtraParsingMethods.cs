@@ -12,14 +12,20 @@ namespace BaroJunk
 {
   public static class ExtraParsingMethods
   {
+    //FIXME why MethodInfo? why not Func?
     public static Dictionary<Type, MethodInfo> Parse = new()
     {
       [typeof(Vector2)] = typeof(ExtraParsingMethods).GetMethod("ParseVector2"),
+      [typeof(Color)] = typeof(ExtraParsingMethods).GetMethod("ParseColor"),
     };
     public static Dictionary<Type, MethodInfo> Serialize = new()
     {
       [typeof(Vector2)] = typeof(ExtraParsingMethods).GetMethod("Vector2ToString"),
+      [typeof(Color)] = typeof(ExtraParsingMethods).GetMethod("ColorToString"),
     };
+
+    public static string ColorToString(Color cl) => XMLExtensions.ColorToString(cl);
+    public static Color ParseColor(string raw) => XMLExtensions.ParseColor(raw);
 
     public static string Vector2ToString(Vector2 v) => $"[{v.X},{v.Y}]";
     public static Vector2 ParseVector2(string raw)
