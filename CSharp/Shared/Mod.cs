@@ -57,6 +57,8 @@ namespace JovianRadiationRework
 
       ModelManager.ScanModels();
 
+      Config.Settings().CommandName = "rad";
+
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       Logger.Log(CurrentModel);
     }
