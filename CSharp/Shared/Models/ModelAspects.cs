@@ -21,10 +21,12 @@ namespace JovianRadiationRework
 {
   public interface IModelAspect
   {
-    public void AcceptModel(RadiationModel model)
-      => this.GetType()
-         .GetProperty("Model", BindingFlags.Instance | BindingFlags.Public)
-         ?.SetValue(this, model);
+    public void AcceptSettings(IConfig settings)
+      => SettingsProp?.SetValue(this, settings);
+
+    public PropertyInfo SettingsProp
+      => this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+          .FirstOrDefault(pi => pi.PropertyType.IsAssignableTo(typeof(IConfig)));
   }
 
   public partial interface IStepsCalculator : IModelAspect

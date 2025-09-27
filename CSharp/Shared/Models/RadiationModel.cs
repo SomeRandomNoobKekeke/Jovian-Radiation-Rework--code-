@@ -13,31 +13,43 @@ using System.Text;
 
 namespace JovianRadiationRework
 {
+
+  /// <summary>
+  /// It's just a collection of aspect implementations
+  /// It should populate itself
+  /// </summary>
   public partial class RadiationModel
   {
-    public List<string> AspectNames = new();
+    public IEnumerable<PropertyInfo> AspectProps =>
+      this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+      .Where(pi => pi.PropertyType.IsAssignableTo(typeof(IModelAspect)));
+
+    public IEnumerable<IModelAspect> Aspects
+      => AspectProps.Select(pi => pi.GetValue(this) as IModelAspect)
+        .Where(aspect => aspect is not null);
+
+    public IEnumerable<string> AspectNames => AspectProps.Select(pi => pi.Name);
+    public bool IsComplete => AspectProps.All(pi => pi.GetValue(this) is not null);
+
+    public Dictionary<Type, Type> AspectImplementations
+      => this.GetType().GetNestedTypes()
+        .Where(T => T.IsAssignableTo(typeof(IModelAspect)))
+        .ToDictionary(
+          T => T.GetInterfaces().First(i => i.IsAssignableTo(typeof(IModelAspect))),
+          T => T
+        );
+    public Type SettingsType => this.GetType().GetNestedTypes().FirstOrDefault(T => T.IsAssignableTo(typeof(IConfig)));
 
     public IModelAspect GetAspect(string name)
-      => this.GetType()
-        .GetProperty(name, BindingFlags.Public | BindingFlags.Instance)
-        .GetValue(this) as IModelAspect;
+       => this.GetType()
+          .GetProperty(name, BindingFlags.Public | BindingFlags.Instance)
+          .GetValue(this) as IModelAspect;
 
     public void SetAspect(string name, IModelAspect value)
       => this.GetType()
-        .GetProperty(name, BindingFlags.Public | BindingFlags.Instance)
-        .SetValue(this, value);
+         .GetProperty(name, BindingFlags.Public | BindingFlags.Instance)
+         .SetValue(this, value);
 
-    public IEnumerable<IModelAspect> Aspects =>
-      AspectNames.Select(name => GetAspect(name));
-
-    //Cursed
-    // public IModelAspect this[string name]
-    // {
-    //   get => GetAspect(name);
-    //   set => SetAspect(name, value);
-    // }
-
-    public bool IsComplete => !Aspects.Any(aspect => aspect is null);
 
     public virtual IStepsCalculator WorldProgressStepsCalculator { get; set; }
     public virtual IStepsCalculator RadiationStepsCalculator { get; set; }
@@ -51,6 +63,7 @@ namespace JovianRadiationRework
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public virtual IMonsterSpawner MonsterSpawner { get; set; }
 
+
     //TODO optimize
     public void Combine(RadiationModel other)
     {
@@ -63,27 +76,42 @@ namespace JovianRadiationRework
       }
     }
 
-    //TODO wait, why is it instance method?
-    private void ScanAspects()
-    {
-      AspectNames = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
-        .Where(pi => pi.PropertyType.IsAssignableTo(typeof(IModelAspect)))
-        .Select(pi => pi.Name)
-        .ToList();
-    }
 
-    private void Vitalize()
+
+    /// <summary>
+    /// It's sneaky and dishonest to the consumer, but it lets me minimize boilerplate code 
+    /// and i think it's ok as long as i'm not getting confused 
+    /// 
+    /// So basically it finds all IModelAspect props, all IModelAspect implementation inner classes, 
+    /// settings class
+    /// And then dynamically creates all instances  
+    /// </summary>
+    private void Initialize()
     {
-      foreach (IModelAspect aspect in Aspects)
+      Dictionary<Type, Type> ImplementationClasses = AspectImplementations;
+
+      // ---------- Achtung! link to a static singleton ----------
+      IConfig settings = Mod.Config.GetSubSettings(SettingsType);
+      // ---------- Achtung! link to a static singleton ----------
+
+      foreach (PropertyInfo pi in AspectProps)
       {
-        aspect?.AcceptModel(this);
+        Type implementationType = ImplementationClasses.GetValueOrDefault(pi.PropertyType);
+        if (implementationType is null) continue;
+
+        IModelAspect implementation = Activator.CreateInstance(
+          implementationType
+        ) as IModelAspect;
+
+        implementation.AcceptSettings(settings);
+
+        pi.SetValue(this, implementation);
       }
     }
 
     public RadiationModel()
     {
-      ScanAspects();
-      Vitalize();
+      Initialize();
     }
 
     public override string ToString()

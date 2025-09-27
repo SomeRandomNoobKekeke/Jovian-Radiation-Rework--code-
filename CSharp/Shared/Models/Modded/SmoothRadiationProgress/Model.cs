@@ -10,7 +10,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class SmoothRadiationProgressModel : RadiationModel, SettingsProvider<SmoothRadiationProgressModel.ModelSettings>
+  public partial class SmoothRadiationProgressModel : RadiationModel
   {
     public partial class ModelSettings : IConfig
     {
@@ -18,9 +18,7 @@ namespace JovianRadiationRework
       public float RadiationSpeed { get; set; } = 20.0f;
     }
 
-    public ModelSettings Settings => Mod.Config.SmoothRadiationProgressSettings;
-
-    public override IRadiationMover RadiationMover { get; set; } = new SmoothRadiationMover();
+    public override IRadiationMover RadiationMover { get; set; }
   }
 
 

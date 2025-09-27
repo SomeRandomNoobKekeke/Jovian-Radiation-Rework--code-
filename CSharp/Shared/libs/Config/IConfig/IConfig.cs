@@ -47,7 +47,11 @@ namespace BaroJunk
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
 
-
+    //TODO where should it be?
+    public IEnumerable<IConfig> SubConfigs
+      => EntryAccess.GetAllEntriesRec(this)
+      .Where(entry => entry.IsConfig)
+      .Select(entry => entry.Value as IConfig);
 
 
     object IConfigEntry.Value { get => this; set { /*bruh*/ } }
@@ -72,6 +76,8 @@ namespace BaroJunk
     public Dictionary<string, ConfigEntry> GetAllFlat() => EntryAccess.GetAllFlat(this);
     public Dictionary<string, object> GetFlatValues() => EntryAccess.GetFlatValues(this);
     public Dictionary<string, object> GetAllFlatValues() => EntryAccess.GetAllFlatValues(this);
+
+
   }
 
 

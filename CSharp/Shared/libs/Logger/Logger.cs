@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Barotrauma;
 using Microsoft.Xna.Framework;
 using System.IO;
+using System.Text;
 
 namespace BaroJunk
 {
@@ -26,8 +27,22 @@ namespace BaroJunk
 
     public static string WrapInColor(object msg, string color)
       => $"‖color:{color}‖{msg}‖end‖";
-    public string ArrayToString(IEnumerable<object> array)
+    public static string IEnumerableToString(IEnumerable<object> array)
       => $"[{String.Join(", ", array.Select(o => o?.ToString()))}]";
+
+    public static string IDictionaryToString(System.Collections.IDictionary dict)
+    {
+      StringBuilder sb = new StringBuilder();
+
+      sb.Append("{\n");
+      foreach (System.Collections.DictionaryEntry entry in dict)
+      {
+        sb.Append($"    {entry.Key}: [{WrapInColor(entry.Value, "white")}],\n");
+      }
+      sb.Append("} ");
+
+      return sb.ToString();
+    }
 
     public Color LogColor { get; set; } = Color.Cyan;
     public Color WarningColor { get; set; } = Color.Yellow;

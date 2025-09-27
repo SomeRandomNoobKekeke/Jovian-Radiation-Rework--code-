@@ -15,7 +15,10 @@ namespace JovianRadiationRework
   public partial class Mod : IAssemblyPlugin
   {
     public static Harmony Harmony = new Harmony("JovianRadiationRework");
-    public static Logger Logger = new Logger();
+    public static Logger Logger = new Logger()
+    {
+      PrintFilePath = false,
+    };
 
 
     public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
@@ -28,7 +31,15 @@ namespace JovianRadiationRework
       new SmoothRadiationProgressModel(),
     });
 
-    public static MainConfig Config { get; set; } = new MainConfig();
+    private static MainConfig config; public static MainConfig Config
+    {
+      get
+      {
+        config ??= new MainConfig();
+        return config;
+      }
+    }
+
     public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
     {

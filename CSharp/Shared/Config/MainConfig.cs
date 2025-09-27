@@ -22,11 +22,16 @@ namespace JovianRadiationRework
     public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
 
 
+    public List<IConfig> SubSettings = new();
+
+    public IConfig GetSubSettings(Type T)
+      => SubSettings.FirstOrDefault(config => config.Type == T);
 
 
     public MainConfig()
     {
       this.Restore();
+      SubSettings = this.GetSubConfigs().ToList();
     }
   }
 }

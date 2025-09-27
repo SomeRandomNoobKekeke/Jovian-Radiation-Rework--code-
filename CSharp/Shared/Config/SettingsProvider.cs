@@ -18,10 +18,21 @@ using System.Xml.Linq;
 
 namespace JovianRadiationRework
 {
-  public interface SettingsProvider<T>
-  {
-    public T Settings { get; }
-  }
+  // public interface ISettingsProvider<T>
+  // {
+  //   public T Settings { get; }
+  // }
+
+  // public class SettingsProvider<T>
+  // {
+  //   public Func<T> Getter { get; private set; }
+  //   public T Settings => Getter();
+  //   public SettingsProvider(Func<T> getter)
+  //   {
+  //     ArgumentNullException.ThrowIfNull(getter);
+  //     Getter = getter;
+  //   }
+  // }
 
 
 
