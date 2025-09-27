@@ -16,13 +16,13 @@ namespace BaroJunk
   {
     public string ToText()
     {
-      Dictionary<string, ConfigEntry> flat = GetAllFlat();
+      Dictionary<string, ConfigEntry> flat = GetFlat();
       StringBuilder sb = new StringBuilder();
 
       sb.Append("{\n");
       foreach (string key in flat.Keys)
       {
-        sb.Append($"    {key}: [{ConfigLogger.WrapInColor(flat[key], "white")}],\n");
+        sb.Append($"    {key}: [{ConfigLogger.WrapInColor(flat[key].Value, "white")}],\n");
       }
       sb.Append("}");
 
