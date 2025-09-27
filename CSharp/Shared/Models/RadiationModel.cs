@@ -82,9 +82,8 @@ namespace JovianRadiationRework
     /// It's sneaky and dishonest to the consumer, but it lets me minimize boilerplate code 
     /// and i think it's ok as long as i'm not getting confused 
     /// 
-    /// So basically it finds all IModelAspect props, all IModelAspect implementation inner classes, 
-    /// settings class
-    /// And then dynamically creates all instances  
+    /// All IModelAspect props in the model are initialized with new instances of aspect implementation classes from withing the model
+    /// Then instace of Model settings is grabbed from Mod.Config and passed to aspect implementations
     /// </summary>
     private void Initialize()
     {
