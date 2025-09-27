@@ -47,7 +47,7 @@ namespace JovianRadiationRework
           }
         }
 
-        Mod.Logger.Log($"Radiation amount: {GameMain.GameSession.Map.Radiation.Amount}/{GameMain.GameSession.Map?.Width}");
+        Mod.Logger.Log($"Rad front: [{GameMain.GameSession.Map.Radiation.Amount}] Current location: [{Level.Loaded.StartLocation.MapPosition.X}-{Level.Loaded.EndLocation.MapPosition.X}] Map width: [{GameMain.GameSession.Map?.Width}]");
       }));
     }
 
