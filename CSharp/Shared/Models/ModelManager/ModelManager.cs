@@ -12,7 +12,7 @@ namespace JovianRadiationRework
 {
   public class ModelManager
   {
-    public LayerCatalog Layers;
+    public LayerCatalog Layers = new LayerCatalog();
 
 
     public static RadiationModel Base => new VanillaRadiationModel();
@@ -39,10 +39,36 @@ namespace JovianRadiationRework
       }
     }
 
-    public ModelManager(IEnumerable<RadiationModel> models)
+    public void ScanModels()
+    {
+      List<Type> modelTypes = new();
+
+      foreach (Type T in Assembly.GetCallingAssembly().GetTypes())
+      {
+        if (T.IsAssignableTo(typeof(RadiationModel)))
+        {
+          modelTypes.Add(T);
+        }
+      }
+
+      modelTypes.Remove(typeof(RadiationModel));
+
+      Layers = LayerCatalog.FromModels(
+        modelTypes.Select(T => Activator.CreateInstance(T) as RadiationModel)
+      );
+      Recombine();
+    }
+
+    public void PopulateWith(IEnumerable<RadiationModel> models)
     {
       Layers = LayerCatalog.FromModels(models);
       Recombine();
+    }
+
+    public ModelManager() { }
+    public ModelManager(IEnumerable<RadiationModel> models)
+    {
+      PopulateWith(models);
     }
   }
 

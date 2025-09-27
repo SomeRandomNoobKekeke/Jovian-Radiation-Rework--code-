@@ -21,16 +21,17 @@ namespace JovianRadiationRework
     };
 
 
-    public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
-      new VanillaRadiationModel(),
-      new AmbientLightModel(),
-      new DepthBasedDamageModel(),
-      new ProgressiveMonsterSpawningModel(),
-      new ProgressiveCharacterDamagerModel(),
-      new SmoothLocationTransformerModel(),
-      new SmoothRadiationProgressModel(),
-      new DamageToElectronicsModel(),
-    });
+    public static ModelManager ModelManager = new ModelManager();
+    // public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
+    //   new VanillaRadiationModel(),
+    //   new AmbientLightModel(),
+    //   new DepthBasedDamageModel(),
+    //   new ProgressiveMonsterSpawningModel(),
+    //   new ProgressiveCharacterDamagerModel(),
+    //   new SmoothLocationTransformerModel(),
+    //   new SmoothRadiationProgressModel(),
+    //   new DamageToElectronicsModel(),
+    // });
 
     private static MainConfig config; public static MainConfig Config
     {
@@ -53,7 +54,8 @@ namespace JovianRadiationRework
       // UTestPack.RunRecursive<DebugTest>();
 
       Experiment();
-      // ModelManager.EnableModel(typeof(AmbientLightModel));
+
+      ModelManager.ScanModels();
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       Logger.Log(CurrentModel);
