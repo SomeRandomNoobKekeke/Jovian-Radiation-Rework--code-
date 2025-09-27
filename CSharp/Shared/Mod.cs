@@ -91,7 +91,12 @@ namespace JovianRadiationRework
         return null;
       });
 
-      Mod.CurrentModel.LifeCycleHooks.OnLoad();
+
+      GameMain.LuaCs.Hook.Add("loaded", "JRR", (object[] args) =>
+      {
+        Mod.CurrentModel.LifeCycleHooks.OnLoad();
+        return null;
+      });
     }
 
 
