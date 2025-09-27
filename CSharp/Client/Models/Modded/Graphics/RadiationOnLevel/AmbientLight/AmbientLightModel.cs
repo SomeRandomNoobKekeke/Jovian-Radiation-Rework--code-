@@ -14,7 +14,7 @@ namespace JovianRadiationRework
 {
   public partial class AmbientLightModel
   {
-    public partial class AmbientLightSettings : IConfig
+    public partial class ModelSettings : IConfig
     {
       public float RadiationToAmbienceBrightness { get; set; } = 0.02f;
       public float MaxAmbienceBrightness { get; set; } = 1.0f;
@@ -23,7 +23,7 @@ namespace JovianRadiationRework
     }
 
 
-    public override ILevelPostDrawer LevelPostDrawer { get; set; } = new AmbientLightLevelPostDrawer();
+    public override ILevelPostDrawer LevelPostDrawer { get; set; }
   }
 
 

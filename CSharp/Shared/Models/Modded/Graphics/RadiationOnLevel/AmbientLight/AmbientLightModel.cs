@@ -12,12 +12,10 @@ namespace JovianRadiationRework
 {
   public partial class AmbientLightModel : RadiationModel
   {
-    public partial class AmbientLightSettings : IConfig
+    public partial class ModelSettings : IConfig
     {
 
     }
-
-    public AmbientLightSettings Settings => Mod.Config.AmbientLightSettings;
   }
 
 

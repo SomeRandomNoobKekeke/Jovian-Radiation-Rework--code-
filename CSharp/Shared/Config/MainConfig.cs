@@ -13,12 +13,12 @@ namespace JovianRadiationRework
 {
   public class MainConfig : IConfig
   {
-    public AmbientLightModel.AmbientLightSettings AmbientLightSettings { get; set; }
-    public DepthBasedDamageModel.DepthBasedDamageSettings DepthBasedDamageSettings { get; set; }
-    public ProgressiveMonsterSpawningModel.ProgressiveMonsterSpawningSettings ProgressiveMonsterSpawningSettings { get; set; }
+    public AmbientLightModel.ModelSettings AmbientLightSettings { get; set; }
+    public DepthBasedDamageModel.ModelSettings DepthBasedDamageSettings { get; set; }
+    public ProgressiveMonsterSpawningModel.ModelSettings ProgressiveMonsterSpawningSettings { get; set; }
 
-    public ProgressiveCharacterDamagerModel.ProgressiveCharacterDamagerSettings ProgressiveCharacterDamagerSettings { get; set; }
-    public SmoothLocationTransformerModel.SmoothLocationTransformerSettings SmoothLocationTransformerSettings { get; set; }
+    public ProgressiveCharacterDamagerModel.ModelSettings ProgressiveCharacterDamagerSettings { get; set; }
+    public SmoothLocationTransformerModel.ModelSettings SmoothLocationTransformerSettings { get; set; }
     public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
 
 

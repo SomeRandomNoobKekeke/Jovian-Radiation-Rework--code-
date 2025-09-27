@@ -12,14 +12,12 @@ namespace JovianRadiationRework
 {
   public partial class DepthBasedDamageModel : RadiationModel
   {
-    public partial class DepthBasedDamageSettings : IConfig
+    public partial class ModelSettings : IConfig
     {
       public float WaterRadiationBlockPerMeter { get; set; } = 0.6f;
     }
 
-    public DepthBasedDamageSettings Settings => Mod.Config.DepthBasedDamageSettings;
-
-    public override IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; } = new DepthBasedWorldPosRadAmountCalculator();
+    public override IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
   }
 
 

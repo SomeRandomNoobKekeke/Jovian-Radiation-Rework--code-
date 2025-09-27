@@ -18,7 +18,7 @@ namespace JovianRadiationRework
   {
     public class AmbientLightLevelPostDrawer : ILevelPostDrawer
     {
-      public AmbientLightModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
 
       public void Draw(Level _, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam)
       {
@@ -32,13 +32,13 @@ namespace JovianRadiationRework
           new Vector2(
             cam.Position.X,
             cam.Position.Y
-          )) * Model.Settings.RadiationToAmbienceBrightness,
-          0, Model.Settings.MaxAmbienceBrightness
+          )) * Settings.RadiationToAmbienceBrightness,
+          0, Settings.MaxAmbienceBrightness
         );
 
-        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * Model.Settings.AmbienceNoiseAmplitude;
+        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * Settings.AmbienceNoiseAmplitude;
 
-        GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(Model.Settings.ActualColor.Multiply(rad));
+        GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(Settings.ActualColor.Multiply(rad));
       }
     }
   }

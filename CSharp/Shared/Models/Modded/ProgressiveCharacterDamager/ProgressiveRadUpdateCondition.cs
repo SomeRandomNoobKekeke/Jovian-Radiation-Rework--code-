@@ -24,7 +24,7 @@ namespace JovianRadiationRework
   {
     public class ProgressiveRadUpdateCondition : IRadUpdateCondition
     {
-      public ProgressiveCharacterDamagerModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
 
       public bool ShouldUpdate(Radiation _, float deltaTime)
       {
@@ -38,7 +38,7 @@ namespace JovianRadiationRework
           return false;
         }
 
-        _.radiationTimer = Model.Settings.DamageInterval;
+        _.radiationTimer = Settings.DamageInterval;
         return true;
       }
 

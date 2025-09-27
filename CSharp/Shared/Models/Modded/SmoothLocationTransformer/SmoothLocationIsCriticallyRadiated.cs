@@ -23,14 +23,14 @@ namespace JovianRadiationRework
   {
     public class SmoothLocationIsCriticallyRadiated : ILocationIsCriticallyRadiated
     {
-      public SmoothLocationTransformerModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
 
       public bool IsIt(Location _)
       {
         if (GameMain.GameSession?.Map?.Radiation != null)
         {
           return Math.Max(0, GameMain.GameSession.Map.Radiation.Amount - _.MapPosition.X) >
-            Model.Settings.CriticalOutpostRadiationAmount;
+            Settings.CriticalOutpostRadiationAmount;
         }
 
         return false;

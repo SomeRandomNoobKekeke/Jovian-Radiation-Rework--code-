@@ -12,17 +12,15 @@ namespace JovianRadiationRework
 {
   public partial class SmoothLocationTransformerModel : RadiationModel
   {
-    public partial class SmoothLocationTransformerSettings : IConfig
+    public partial class ModelSettings : IConfig
     {
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
       public float CriticalOutpostRadiationAmount { get; set; } = 0.0f;
 
     }
 
-    public SmoothLocationTransformerSettings Settings => Mod.Config.SmoothLocationTransformerSettings;
-
-    public override ILocationTransformer LocationTransformer { get; set; } = new SmoothLocationTransformer();
-    public override ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; } = new SmoothLocationIsCriticallyRadiated();
+    public override ILocationTransformer LocationTransformer { get; set; }
+    public override ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; }
   }
 
 

@@ -23,7 +23,7 @@ namespace JovianRadiationRework
   {
     public class SmoothLocationTransformer : ILocationTransformer
     {
-      public SmoothLocationTransformerModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
 
       public void TransformLocations(Radiation _)
       {
@@ -39,7 +39,7 @@ namespace JovianRadiationRework
 
           if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
 
-          if (Model.Settings.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
+          if (Settings.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
           {
             // Don't advance on nearby locations to avoid buggy behavior
             if (currLocation == location || currLocation.Connections.Any(lc => lc.OtherLocation(currLocation) == location)) { continue; }

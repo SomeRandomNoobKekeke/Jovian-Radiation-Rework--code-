@@ -15,7 +15,7 @@ namespace JovianRadiationRework
     public partial class ModelSettings : IConfig
     {
       public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 0.5f;
-      public float RadiationSpeed { get; set; } = 20.0f;
+      public float RadiationSpeed { get; set; } = 100.0f;
     }
 
     public override IRadiationMover RadiationMover { get; set; }

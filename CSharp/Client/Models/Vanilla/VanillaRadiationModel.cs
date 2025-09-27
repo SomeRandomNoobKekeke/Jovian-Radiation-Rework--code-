@@ -12,7 +12,7 @@ namespace JovianRadiationRework
 {
   public partial class VanillaRadiationModel : RadiationModel
   {
-    public override ILevelPostDrawer LevelPostDrawer { get; set; } = new VanillaLevelPostDrawer();
+    public override ILevelPostDrawer LevelPostDrawer { get; set; }
   }
 
 

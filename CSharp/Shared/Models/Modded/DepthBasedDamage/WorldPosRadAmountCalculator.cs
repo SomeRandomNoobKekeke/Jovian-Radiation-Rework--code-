@@ -23,7 +23,7 @@ namespace JovianRadiationRework
   {
     public class DepthBasedWorldPosRadAmountCalculator : IWorldPosRadAmountCalculator
     {
-      public DepthBasedDamageModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
 
       public float CalculateAmount(Radiation _, Vector2 pos)
       {
@@ -40,7 +40,7 @@ namespace JovianRadiationRework
           return Math.Max(0,
             GameMain.GameSession.Map.Radiation.Amount
             - MapX
-            - RelativeDepth * Model.Settings.WaterRadiationBlockPerMeter
+            - RelativeDepth * Settings.WaterRadiationBlockPerMeter
           );
         }
 
@@ -51,7 +51,7 @@ namespace JovianRadiationRework
           return Math.Max(0,
             GameMain.GameSession.Map.Radiation.Amount
             - GameMain.GameSession.Map.CurrentLocation.MapPosition.X
-            - RelativeDepth * Model.Settings.WaterRadiationBlockPerMeter
+            - RelativeDepth * Settings.WaterRadiationBlockPerMeter
           );
         }
 

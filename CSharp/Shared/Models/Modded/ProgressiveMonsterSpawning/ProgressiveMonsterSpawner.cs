@@ -23,20 +23,20 @@ namespace JovianRadiationRework
   {
     public class ProgressiveMonsterSpawner : IMonsterSpawner
     {
-      public ProgressiveMonsterSpawningModel Model { get; set; }
+      public ModelSettings Settings { get; set; }
       public void SpawnMonsters(MonsterEvent _)
       {
         //TODO use event spawn position
         float currentLocationRadiationAmount = Utils.CurrentLocationRadiationAmount();
 
-        if (Model.Settings.TooMuchEvenForMonsters > 0 && currentLocationRadiationAmount > Model.Settings.TooMuchEvenForMonsters)
+        if (Settings.TooMuchEvenForMonsters > 0 && currentLocationRadiationAmount > Settings.TooMuchEvenForMonsters)
         {
           return;
         }
 
 
-        float mult = 1 + currentLocationRadiationAmount * Model.Settings.RadiationToMonstersMult;
-        mult = Math.Clamp(mult, 0, Model.Settings.MaxRadiationToMonstersMult);
+        float mult = 1 + currentLocationRadiationAmount * Settings.RadiationToMonstersMult;
+        mult = Math.Clamp(mult, 0, Settings.MaxRadiationToMonstersMult);
 
         int MinAmount = (int)Math.Round(_.MinAmount * mult);
         int MaxAmount = (int)Math.Round(_.MaxAmount * mult);
