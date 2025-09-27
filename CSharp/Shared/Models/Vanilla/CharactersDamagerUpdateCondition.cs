@@ -22,7 +22,7 @@ namespace JovianRadiationRework
 
   public partial class VanillaRadiationModel
   {
-    public class VanillaRadUpdateCondition : IRadUpdateCondition
+    public class VanillaCharactersDamagerUpdateCondition : ICharactersDamagerUpdateCondition
     {
       public bool ShouldUpdate(Radiation _, float deltaTime)
       {

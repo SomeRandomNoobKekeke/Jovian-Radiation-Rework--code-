@@ -20,7 +20,7 @@ namespace JovianRadiationRework
     }
 
     public override ICharacterDamager CharacterDamager { get; set; }
-    public override IRadUpdateCondition RadUpdateCondition { get; set; }
+    public override ICharactersDamagerUpdateCondition CharactersDamagerUpdateCondition { get; set; }
   }
 
 

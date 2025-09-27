@@ -26,18 +26,9 @@ namespace JovianRadiationRework
     {
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
-        //FIXME this is wrong, every damager should have its own update timer
-        if (!Mod.CurrentModel.RadUpdateCondition.ShouldUpdate(_, deltaTime)) return;
-
-        foreach (Character character in Character.CharacterList)
-        {
-          if (character.IsDead || character.Removed || !(character.CharacterHealth is { } health)) { continue; }
-
-          float radAmount = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(_, character);
-          Mod.CurrentModel.CharacterDamager.DamageCharacter(character, radAmount, _);
-        }
+        Mod.CurrentModel.ElectronicsDamager?.DamageElectronics(_, deltaTime);
+        Mod.CurrentModel.CharactersDamager.DamageCharacter(_, deltaTime);
       }
-
     }
   }
 }

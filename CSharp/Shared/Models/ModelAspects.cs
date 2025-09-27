@@ -53,12 +53,22 @@ namespace JovianRadiationRework
     public void DamageCharacter(Character character, float depthInRadiation, Radiation _);
   }
 
+  public interface ICharactersDamager : IModelAspect
+  {
+    public void DamageCharacter(Radiation _, float deltaTime);
+  }
+
+  public interface IElectronicsDamager : IModelAspect
+  {
+    public void DamageElectronics(Radiation _, float deltaTime);
+  }
+
   public interface IRadiationUpdater : IModelAspect
   {
     public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
-  public interface IRadUpdateCondition : IModelAspect
+  public interface ICharactersDamagerUpdateCondition : IModelAspect
   {
     public bool ShouldUpdate(Radiation _, float deltaTime);
   }

@@ -22,7 +22,7 @@ namespace JovianRadiationRework
 
   public partial class ProgressiveCharacterDamagerModel
   {
-    public class ProgressiveRadUpdateCondition : IRadUpdateCondition
+    public class ProgressiveCharactersDamagerUpdateCondition : ICharactersDamagerUpdateCondition
     {
       public ModelSettings Settings { get; set; }
 

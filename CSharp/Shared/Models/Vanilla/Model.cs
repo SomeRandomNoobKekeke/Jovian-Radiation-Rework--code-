@@ -18,8 +18,9 @@ namespace JovianRadiationRework
     public override ILocationTransformer LocationTransformer { get; set; }
     public override ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; }
     public override ICharacterDamager CharacterDamager { get; set; }
+    public override ICharactersDamager CharactersDamager { get; set; }
     public override IRadiationUpdater RadiationUpdater { get; set; }
-    public override IRadUpdateCondition RadUpdateCondition { get; set; }
+    public override ICharactersDamagerUpdateCondition CharactersDamagerUpdateCondition { get; set; }
     public override IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public override IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public override IMonsterSpawner MonsterSpawner { get; set; }
