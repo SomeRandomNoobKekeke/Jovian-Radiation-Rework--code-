@@ -95,16 +95,21 @@ namespace JovianRadiationRework
 
       foreach (PropertyInfo pi in AspectProps)
       {
-        Type implementationType = ImplementationClasses.GetValueOrDefault(pi.PropertyType);
-        if (implementationType is null) continue;
+        IModelAspect implementation = pi.GetValue(this) as IModelAspect;
 
-        IModelAspect implementation = Activator.CreateInstance(
-          implementationType
-        ) as IModelAspect;
+        if (pi.GetValue(this) is null)
+        {
+          Type implementationType = ImplementationClasses.GetValueOrDefault(pi.PropertyType);
+          if (implementationType is null) continue;
+
+          implementation = Activator.CreateInstance(
+            implementationType
+          ) as IModelAspect;
+
+          pi.SetValue(this, implementation);
+        }
 
         implementation.AcceptSettings(settings);
-
-        pi.SetValue(this, implementation);
       }
     }
 
