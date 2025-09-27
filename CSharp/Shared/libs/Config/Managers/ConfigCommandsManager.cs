@@ -75,13 +75,13 @@ namespace BaroJunk
         return;
       }
 
-      var flat = Config.GetFlat();
+      IConfigEntry entry = Config.Get(args[0]);
 
       if (args.Length == 1)
       {
-        if (flat.ContainsKey(args[0]))
+        if (entry.IsValid)
         {
-          Config.Logger.Log(flat[args[0]].Value);
+          Config.Logger.Log(entry.Value);
         }
         else
         {
@@ -92,7 +92,7 @@ namespace BaroJunk
 
       if (args.Length > 1)
       {
-        if (!flat.ContainsKey(args[0]))
+        if (!entry.IsValid)
         {
           Config.Logger.Warning("No such prop");
           return;
@@ -100,10 +100,10 @@ namespace BaroJunk
 
         try
         {
-          SimpleResult result = Parser.Parse(args[1], flat[args[0]].Type);
+          SimpleResult result = Parser.Parse(args[1], entry.Type);
           if (result.Ok)
           {
-            flat[args[0]].Value = result.Result;
+            entry.Value = result.Result;
             if (GameMain.IsMultiplayer) Config.Sync();
           }
           else
