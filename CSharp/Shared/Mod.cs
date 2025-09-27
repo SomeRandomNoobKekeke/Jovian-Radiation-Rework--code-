@@ -29,6 +29,7 @@ namespace JovianRadiationRework
       new ProgressiveCharacterDamagerModel(),
       new SmoothLocationTransformerModel(),
       new SmoothRadiationProgressModel(),
+      new DamageToElectronicsModel(),
     });
 
     private static MainConfig config; public static MainConfig Config
@@ -47,6 +48,7 @@ namespace JovianRadiationRework
       UTestCommands.AddCommands();
       AddCommands();
       PatchAll();
+      SetupHooks();
 
       // UTestPack.RunRecursive<DebugTest>();
 
@@ -66,6 +68,29 @@ namespace JovianRadiationRework
       PatchProjSpecific();
     }
     public partial void PatchProjSpecific();
+
+    public void SetupHooks()
+    {
+      GameMain.LuaCs.Hook.Add("roundStart", "JRR", (object[] args) =>
+      {
+        Mod.CurrentModel.LifeCycleHooks.OnRoundStart();
+        return null;
+      });
+
+      GameMain.LuaCs.Hook.Add("roundEnd", "JRR", (object[] args) =>
+      {
+        Mod.CurrentModel.LifeCycleHooks.OnRoundEnd();
+        return null;
+      });
+
+      GameMain.LuaCs.Hook.Add("roundStart", "JRR", (object[] args) =>
+      {
+        Mod.CurrentModel.LifeCycleHooks.OnRoundStart();
+        return null;
+      });
+
+      Mod.CurrentModel.LifeCycleHooks.OnLoad();
+    }
 
 
     public void OnLoadCompleted() { }

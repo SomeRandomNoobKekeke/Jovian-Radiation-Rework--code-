@@ -29,6 +29,15 @@ namespace JovianRadiationRework
           .FirstOrDefault(pi => pi.PropertyType.IsAssignableTo(typeof(IConfig)));
   }
 
+  public interface ILifeCycleHooks : IModelAspect
+  {
+    public void OnLoad() { }
+    public void OnRoundStart() { }
+    public void OnRoundEnd() { }
+    public void OnSaveAndQuit() { }
+    public void OnQuit() { }
+  }
+
   public partial interface IStepsCalculator : IModelAspect
   {
     public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration);
@@ -61,6 +70,8 @@ namespace JovianRadiationRework
   public interface IElectronicsDamager : IModelAspect
   {
     public void DamageElectronics(Radiation _, float deltaTime);
+    public void ScanItems();
+    public void ForgetItems();
   }
 
   public interface IRadiationUpdater : IModelAspect

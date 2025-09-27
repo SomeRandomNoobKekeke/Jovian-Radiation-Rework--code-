@@ -20,12 +20,18 @@ namespace JovianRadiationRework
     public ProgressiveCharacterDamagerModel.ModelSettings ProgressiveCharacterDamagerSettings { get; set; }
     public SmoothLocationTransformerModel.ModelSettings SmoothLocationTransformerSettings { get; set; }
     public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
+    public DamageToElectronicsModel.ModelSettings DamageToElectronicsSettings { get; set; }
 
 
     public List<IConfig> SubSettings = new();
 
     public IConfig GetSubSettings(Type T)
-      => SubSettings.FirstOrDefault(config => config.Type == T);
+    {
+      if (T is null) return null;
+      IConfig settings = SubSettings.FirstOrDefault(config => config.Type == T);
+      if (settings is null) throw new Exception($"[{T.DeclaringType.Name}.{T.Name}] not found in MainConfig");
+      return settings;
+    }
 
 
     public MainConfig()

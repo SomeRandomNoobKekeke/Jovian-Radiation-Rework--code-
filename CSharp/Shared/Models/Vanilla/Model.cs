@@ -12,6 +12,7 @@ namespace JovianRadiationRework
 {
   public partial class VanillaRadiationModel : RadiationModel
   {
+    public override ILifeCycleHooks LifeCycleHooks { get; set; }
     public override IStepsCalculator WorldProgressStepsCalculator { get; set; }
     public override IStepsCalculator RadiationStepsCalculator { get; set; }
     public override IRadiationMover RadiationMover { get; set; }

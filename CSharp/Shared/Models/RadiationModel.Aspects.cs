@@ -15,6 +15,7 @@ namespace JovianRadiationRework
 {
   public partial class RadiationModel
   {
+    public virtual ILifeCycleHooks LifeCycleHooks { get; set; }
     public virtual IStepsCalculator WorldProgressStepsCalculator { get; set; }
     public virtual IStepsCalculator RadiationStepsCalculator { get; set; }
     public virtual IRadiationMover RadiationMover { get; set; }
