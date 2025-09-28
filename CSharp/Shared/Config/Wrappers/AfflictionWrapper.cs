@@ -15,6 +15,24 @@ namespace JovianRadiationRework
     public AfflictionPrefab AfflictionPrefab { get; set; }
 
     public AfflictionWrapper(AfflictionPrefab afflictionPrefab) => AfflictionPrefab = afflictionPrefab;
+
+    public static AfflictionWrapper Parse(string raw)
+    {
+      AfflictionPrefab prefab = AfflictionPrefab.RadiationSickness;
+
+      try
+      {
+        prefab = AfflictionPrefab.Prefabs[raw];
+      }
+      catch (Exception e)
+      {
+        Mod.Logger.Warning($"failed to find [{raw}] in AfflictionPrefabs, backing to RadiationSickness");
+      }
+
+      return new AfflictionWrapper(prefab);
+    }
+
+    public override string ToString() => AfflictionPrefab.Identifier.Value;
   }
 
 

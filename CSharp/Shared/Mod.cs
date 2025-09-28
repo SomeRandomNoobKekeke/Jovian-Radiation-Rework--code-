@@ -51,8 +51,6 @@ namespace JovianRadiationRework
       PatchAll();
       SetupHooks();
 
-      // UTestPack.RunRecursive<DebugTest>();
-
       Experiment();
 
       ModelManager.ScanModels();
@@ -65,6 +63,9 @@ namespace JovianRadiationRework
       };
       config.OnConfigUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
+      Config.Settings().AutoSave = true;
+      Config.Settings().NetSync = true;
+
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       Logger.Log(CurrentModel);
     }
@@ -75,7 +76,7 @@ namespace JovianRadiationRework
       RadiationPatch.PatchSharedRadiation(Harmony);
       MonsterEventPatch.PatchSharedMonsterEvent(Harmony);
       LocationPatch.PatchSharedLocation(Harmony);
-      // CampaignModePatch.PatchSharedCampaignMode(Harmony);
+      CampaignModePatch.PatchSharedCampaignMode(Harmony);
       PatchProjSpecific();
     }
     public partial void PatchProjSpecific();
