@@ -11,14 +11,14 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public class LayerCatalog : IEnumerable
+  public class ModelCatalog : IEnumerable
   {
-    public Dictionary<Type, ModelLayer> LayerByType = new();
-    public List<ModelLayer> LayersInOrder = new();
+    public Dictionary<Type, RadiationModel> ModelByType = new();
+    public List<RadiationModel> ModelsInOrder = new();
 
-    public static LayerCatalog FromModels(IEnumerable<RadiationModel> models)
+    public static ModelCatalog FromModels(IEnumerable<RadiationModel> models)
     {
-      LayerCatalog catalog = new LayerCatalog();
+      ModelCatalog catalog = new ModelCatalog();
       foreach (RadiationModel model in models)
       {
         catalog.Add(model);
@@ -28,14 +28,14 @@ namespace JovianRadiationRework
 
     public void Add(RadiationModel model)
     {
-      if (LayerByType.ContainsKey(model.GetType()))
+      if (ModelByType.ContainsKey(model.GetType()))
         throw new ArgumentException($"{model.GetType()} already in the catalog");
 
-      LayerByType[model.GetType()] = new ModelLayer(model);
-      LayersInOrder.Add(LayerByType[model.GetType()]);
+      ModelByType[model.GetType()] = model;
+      ModelsInOrder.Add(model);
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => LayersInOrder.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => ModelsInOrder.GetEnumerator();
   }
 
 

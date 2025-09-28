@@ -13,19 +13,18 @@ namespace JovianRadiationRework
 {
   public class ModelManager
   {
-    public LayerCatalog Layers = new LayerCatalog();
+    public ModelCatalog Models = new ModelCatalog();
 
 
     public static RadiationModel Base => new VanillaRadiationModel();
     public RadiationModel Current { get; set; } = Base;
 
-    public RadiationModel ModelByType(Type T)
-      => Layers.LayerByType.GetValueOrDefault(T)?.Model;
+    public RadiationModel ModelByType(Type T) => Models.ModelByType.GetValueOrDefault(T);
     public void EnableModel(Type T)
     {
-      ModelLayer layer = Layers.LayerByType.GetValueOrDefault(T);
-      if (layer is null) throw new ArgumentException($"Tried to enable missing model [{T.Name}]");
-      layer.Enabled = true;
+      RadiationModel model = Models.ModelByType.GetValueOrDefault(T);
+      if (model is null) throw new ArgumentException($"Tried to enable missing model [{T.Name}]");
+      model.Enabled = true;
       Recombine();
     }
 
@@ -34,9 +33,9 @@ namespace JovianRadiationRework
     {
       Current = Base;
 
-      foreach (ModelLayer layer in Layers)
+      foreach (RadiationModel model in Models)
       {
-        if (layer.Enabled) Current.Combine(layer.Model);
+        if (model.Enabled) Current.Combine(model);
       }
     }
 
@@ -64,7 +63,7 @@ namespace JovianRadiationRework
         catch (Exception e) { Mod.Logger.Error(e); }
       }
 
-      Layers = LayerCatalog.FromModels(models);
+      Models = ModelCatalog.FromModels(models);
       Recombine();
       DumpModels();
     }
@@ -73,16 +72,16 @@ namespace JovianRadiationRework
     {
       using (StreamWriter outputFile = new StreamWriter(Path.Combine(ModInfo.ModDir<Mod>(), path)))
       {
-        foreach (ModelLayer layer in Layers)
+        foreach (RadiationModel model in Models)
         {
-          outputFile.WriteLine(layer.Model.GetType().Name);
+          outputFile.WriteLine(model.GetType().Name);
         }
       }
     }
 
     public void PopulateWith(IEnumerable<RadiationModel> models)
     {
-      Layers = LayerCatalog.FromModels(models);
+      Models = ModelCatalog.FromModels(models);
       Recombine();
     }
 

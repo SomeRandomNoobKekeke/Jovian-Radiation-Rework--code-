@@ -63,6 +63,8 @@ namespace JovianRadiationRework
       }
     }
 
+    public bool Enabled { get; set; } = true;
+
 
 
     /// <summary>
