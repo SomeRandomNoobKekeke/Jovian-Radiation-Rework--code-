@@ -43,8 +43,6 @@ namespace JovianRadiationRework
 
       public override void DamageHuman(Character character, float radAmount, Radiation _)
       {
-        Mod.Logger.Log($"{character} {radAmount}");
-
         float dps = radAmount * Settings.RadAmountToDPS;
         float damage = dps * Settings.DamageInterval;
 

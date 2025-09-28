@@ -36,19 +36,23 @@ namespace JovianRadiationRework
         }
       }
 
+      /// <summary>
+      /// i don't mutate Radiation.radiationTimer because multiple damagers would conflict with each other
+      /// </summary>
+      public float updateTimer;
       public virtual bool ShouldDamage(Radiation _, float deltaTime)
       {
         if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
 
         if (GameMain.NetworkMember is { IsClient: true }) { return false; }
 
-        if (_.radiationTimer > 0)
+        if (updateTimer > 0)
         {
-          _.radiationTimer -= deltaTime;
+          updateTimer -= deltaTime;
           return false;
         }
 
-        _.radiationTimer = _.Params.RadiationDamageDelay;
+        updateTimer = _.Params.RadiationDamageDelay;
         return true;
       }
 
