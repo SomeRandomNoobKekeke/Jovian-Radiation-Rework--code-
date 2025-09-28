@@ -14,8 +14,35 @@ namespace BaroJunk
 {
   public partial interface IConfig
   {
+    //TODO put it somewhere else
+    //Also lol, i didn't know XmlWriter can write to stringbuilder
+    public static string Beautify(XDocument doc)
+    {
+      StringBuilder sb = new StringBuilder();
+      XmlWriterSettings settings = new XmlWriterSettings
+      {
+        Indent = true,
+        IndentChars = "    ",
+        NewLineChars = "\r\n",
+        NewLineHandling = NewLineHandling.Replace,
+        OmitXmlDeclaration = true
+      };
+      using (XmlWriter writer = XmlWriter.Create(sb, settings))
+      {
+        doc.Save(writer);
+      }
+      return sb.ToString();
+    }
+
     public string ToText()
     {
+      if (Settings.ShouldPrintAsXML)
+      {
+        XDocument xdoc = new XDocument();
+        xdoc.Add(ToXML());
+        return Beautify(xdoc);
+      }
+
       Dictionary<string, ConfigEntry> flat = GetFlat();
       StringBuilder sb = new StringBuilder();
 

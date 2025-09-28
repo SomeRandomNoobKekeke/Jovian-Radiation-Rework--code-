@@ -58,6 +58,7 @@ namespace JovianRadiationRework
       ModelManager.ScanModels();
 
       Config.Settings().CommandName = "rad";
+      // config.Settings().ShouldPrintAsXML = true;
       Config.OnPropChanged((s, o) =>
       {
         Mod.Logger.Log($"set [{s}] [{o}]");
