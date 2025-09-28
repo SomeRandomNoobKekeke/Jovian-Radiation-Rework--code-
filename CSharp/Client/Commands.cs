@@ -21,6 +21,34 @@ namespace JovianRadiationRework
     {
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
+      AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
+      () => new string[][] { RadiationParamsAccess.Instance.Props.Append("reset").ToArray() }));
+    }
+
+    public static void Rad_Vanilla_Command(string[] args)
+    {
+      if (args.Length == 0)
+      {
+        Mod.Logger.Log(RadiationParamsAccess.Instance);
+        return;
+      }
+
+      if (String.Equals(args[0], "reset", StringComparison.OrdinalIgnoreCase))
+      {
+        RadiationParamsAccess.Instance.Reset();
+        Mod.Logger.Log(RadiationParamsAccess.Instance);
+        return;
+      }
+
+      if (args.Length > 1)
+      {
+        RadiationParamsAccess.Instance.Set(args[0], args[1]);
+      }
+
+      if (args.Length > 0)
+      {
+        Mod.Logger.Log(RadiationParamsAccess.Instance.Get(args[0]));
+      }
     }
 
     public static void Rad_PrintModel_Command(string[] args)

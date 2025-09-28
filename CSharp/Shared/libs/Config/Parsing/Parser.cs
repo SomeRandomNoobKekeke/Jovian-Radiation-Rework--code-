@@ -13,6 +13,7 @@ using System.IO;
 namespace BaroJunk
 {
 
+  //TODO parser should be in an instace class in a separate package 
   /// <summary>
   /// Parse primitive types, can be extended with ExtraParsingMethods
   /// </summary>
