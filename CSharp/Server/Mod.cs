@@ -13,14 +13,7 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public partial void PatchProjSpecific()
-    {
-
-    }
-
-    public partial void AddCommandsProjSpecific()
-    {
-
-    }
+    public partial void PatchProjSpecific() { }
+    public partial void AddCommandsProjSpecific() { }
   }
 }

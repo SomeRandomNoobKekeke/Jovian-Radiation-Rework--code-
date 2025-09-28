@@ -35,7 +35,7 @@ namespace JovianRadiationRework
 
           float MapX = startLocation.MapPosition.X + (endLocation.MapPosition.X - startLocation.MapPosition.X) * distanceNormalized;
 
-          float RelativeDepth = (level.StartPosition.Y - pos.Y) * Physics.DisplayToRealWorldRatio;
+          float RelativeDepth = (Math.Max(level.StartPosition.Y, level.EndPosition.Y) - pos.Y) * Physics.DisplayToRealWorldRatio;
 
           return Math.Max(0,
             GameMain.GameSession.Map.Radiation.Amount

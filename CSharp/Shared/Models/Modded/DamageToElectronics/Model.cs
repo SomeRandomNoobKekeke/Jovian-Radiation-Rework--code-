@@ -15,8 +15,8 @@ namespace JovianRadiationRework
     public partial class ModelSettings : IConfig
     {
       public float DamageInterval { get; set; } = 1.0f;
-      public float Damage { get; set; } = 1.0f;
-      public float MaxDamage { get; set; } = 10.0f;
+      public float RadAmountToDPS { get; set; } = 1.0f;
+      public float MaxDPS { get; set; } = 10.0f;
     }
 
     public override IElectronicsDamager ElectronicsDamager { get; set; }

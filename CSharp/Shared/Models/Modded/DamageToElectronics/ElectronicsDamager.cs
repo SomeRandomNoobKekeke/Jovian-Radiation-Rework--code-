@@ -54,10 +54,12 @@ namespace JovianRadiationRework
 
         if (Submarine.MainSub == null) return;
 
-        float damage = Math.Max(0, Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(
+        float radAmount = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(
           _, Submarine.MainSub
-        )) * Settings.Damage;
-        damage = Math.Clamp(damage, 0, Settings.MaxDamage);
+        );
+
+        float dps = Math.Clamp(radAmount * Settings.RadAmountToDPS, 0, Settings.MaxDPS);
+        float damage = dps * Settings.DamageInterval;
 
         foreach (Item i in Damagable)
         {
