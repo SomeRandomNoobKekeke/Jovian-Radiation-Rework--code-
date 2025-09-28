@@ -22,7 +22,7 @@ namespace JovianRadiationRework
     public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
     public DamageToElectronicsModel.ModelSettings DamageToElectronicsSettings { get; set; }
     public AdvanceOnSaveAndQuitModel.ModelSettings AdvanceOnSaveAndQuitSettings { get; set; }
-
+    public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
 
 
 
