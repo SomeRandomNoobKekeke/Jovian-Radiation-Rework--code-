@@ -28,5 +28,6 @@ namespace JovianRadiationRework
     public virtual IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public virtual IMonsterSpawner MonsterSpawner { get; set; }
+    public virtual ISaveAndQuitHandler SaveAndQuitHandler { get; set; }
   }
 }

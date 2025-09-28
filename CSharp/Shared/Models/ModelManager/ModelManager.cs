@@ -54,9 +54,17 @@ namespace JovianRadiationRework
 
       modelTypes.Remove(typeof(RadiationModel));
 
-      Layers = LayerCatalog.FromModels(
-        modelTypes.Select(T => Activator.CreateInstance(T) as RadiationModel)
-      );
+      List<RadiationModel> models = new List<RadiationModel>();
+      foreach (Type T in modelTypes)
+      {
+        try
+        {
+          models.Add(Activator.CreateInstance(T) as RadiationModel);
+        }
+        catch (Exception e) { Mod.Logger.Error(e); }
+      }
+
+      Layers = LayerCatalog.FromModels(models);
       Recombine();
       DumpModels();
     }

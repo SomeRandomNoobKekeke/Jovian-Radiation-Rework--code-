@@ -93,7 +93,10 @@ namespace JovianRadiationRework
   {
     public void SpawnMonsters(MonsterEvent _);
   }
-
+  public interface ISaveAndQuitHandler : IModelAspect
+  {
+    public void HandleSaveAndQuit(CampaignMode _);
+  }
 
 
 }

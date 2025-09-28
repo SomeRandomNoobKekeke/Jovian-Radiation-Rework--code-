@@ -21,6 +21,9 @@ namespace JovianRadiationRework
     public SmoothLocationTransformerModel.ModelSettings SmoothLocationTransformerSettings { get; set; }
     public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
     public DamageToElectronicsModel.ModelSettings DamageToElectronicsSettings { get; set; }
+    public AdvanceOnSaveAndQuitModel.ModelSettings AdvanceOnSaveAndQuitSettings { get; set; }
+
+
 
 
     public List<IConfig> SubSettings = new();
