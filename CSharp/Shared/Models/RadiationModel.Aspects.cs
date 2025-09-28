@@ -21,11 +21,10 @@ namespace JovianRadiationRework
     public virtual IRadiationMover RadiationMover { get; set; }
     public virtual ILocationTransformer LocationTransformer { get; set; }
     public virtual ILocationIsCriticallyRadiated LocationIsCriticallyRadiated { get; set; }
-    public virtual ICharacterDamager CharacterDamager { get; set; }
-    public virtual ICharactersDamager CharactersDamager { get; set; }
+    public virtual IHumanDamager HumanDamager { get; set; }
+    public virtual IMonsterDamager MonsterDamager { get; set; }
     public virtual IElectronicsDamager ElectronicsDamager { get; set; }
     public virtual IRadiationUpdater RadiationUpdater { get; set; }
-    public virtual ICharactersDamagerUpdateCondition CharactersDamagerUpdateCondition { get; set; }
     public virtual IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public virtual IMonsterSpawner MonsterSpawner { get; set; }

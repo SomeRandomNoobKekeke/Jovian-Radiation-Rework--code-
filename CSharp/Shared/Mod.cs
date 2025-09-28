@@ -27,7 +27,7 @@ namespace JovianRadiationRework
     //   new AmbientLightModel(),
     //   new DepthBasedDamageModel(),
     //   new ProgressiveMonsterSpawningModel(),
-    //   new ProgressiveCharacterDamagerModel(),
+    //   new SmoothCharacterDamager(),
     //   new SmoothLocationTransformerModel(),
     //   new SmoothRadiationProgressModel(),
     //   new DamageToElectronicsModel(),

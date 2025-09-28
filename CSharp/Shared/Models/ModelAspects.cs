@@ -57,14 +57,14 @@ namespace JovianRadiationRework
     public bool IsIt(Location _);
   }
 
-  public interface ICharacterDamager : IModelAspect
+  public interface IHumanDamager : IModelAspect
   {
-    public void DamageCharacter(Character character, float depthInRadiation, Radiation _);
+    public void DamageHumans(Radiation _, float deltaTime);
   }
 
-  public interface ICharactersDamager : IModelAspect
+  public interface IMonsterDamager : IModelAspect
   {
-    public void DamageCharacters(Radiation _, float deltaTime);
+    public void DamageMonsters(Radiation _, float deltaTime);
   }
 
   public interface IElectronicsDamager : IModelAspect
@@ -77,11 +77,6 @@ namespace JovianRadiationRework
   public interface IRadiationUpdater : IModelAspect
   {
     public void UpdateRadiation(Radiation _, float deltaTime);
-  }
-
-  public interface ICharactersDamagerUpdateCondition : IModelAspect
-  {
-    public bool ShouldUpdate(Radiation _, float deltaTime);
   }
 
   public interface IEntityRadAmountCalculator : IModelAspect

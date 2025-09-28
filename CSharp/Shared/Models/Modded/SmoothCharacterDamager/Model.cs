@@ -10,7 +10,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class ProgressiveCharacterDamagerModel : RadiationModel
+  public partial class SmoothCharacterDamager : RadiationModel
   {
     public partial class ModelSettings : IConfig
     {
@@ -19,8 +19,7 @@ namespace JovianRadiationRework
       public AfflictionWrapper Affliction { get; set; } = new AfflictionWrapper(AfflictionPrefab.Bleeding);
     }
 
-    public override ICharacterDamager CharacterDamager { get; set; }
-    public override ICharactersDamagerUpdateCondition CharactersDamagerUpdateCondition { get; set; }
+    public override IHumanDamager HumanDamager { get; set; }
   }
 
 

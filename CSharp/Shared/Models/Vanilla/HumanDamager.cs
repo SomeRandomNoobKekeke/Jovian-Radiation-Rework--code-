@@ -21,9 +21,38 @@ namespace JovianRadiationRework
 {
   public partial class VanillaRadiationModel
   {
-    public class VanillaCharacterDamager : ICharacterDamager
+    public class VanillaHumanDamager : IHumanDamager
     {
-      public void DamageCharacter(Character character, float radAmount, Radiation _)
+      public void DamageHumans(Radiation _, float deltaTime)
+      {
+        if (!ShouldDamage(_, deltaTime)) return;
+
+        foreach (Character character in Character.CharacterList)
+        {
+          if (character.IsDead || character.Removed || !character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
+
+          float radAmount = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(_, character);
+          DamageHuman(character, radAmount, _);
+        }
+      }
+
+      public virtual bool ShouldDamage(Radiation _, float deltaTime)
+      {
+        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
+
+        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
+
+        if (_.radiationTimer > 0)
+        {
+          _.radiationTimer -= deltaTime;
+          return false;
+        }
+
+        _.radiationTimer = _.Params.RadiationDamageDelay;
+        return true;
+      }
+
+      public virtual void DamageHuman(Character character, float radAmount, Radiation _)
       {
         if (radAmount > 0)
         {

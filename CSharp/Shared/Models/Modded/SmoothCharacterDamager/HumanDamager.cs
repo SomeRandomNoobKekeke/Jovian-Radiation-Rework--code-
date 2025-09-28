@@ -19,14 +19,32 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class ProgressiveCharacterDamagerModel
+  public partial class SmoothCharacterDamager
   {
-    public class ProgressiveCharacterDamager : ICharacterDamager
+    public class SmoothHumanDamager : VanillaRadiationModel.VanillaHumanDamager
     {
       public ModelSettings Settings { get; set; }
 
-      public void DamageCharacter(Character character, float radAmount, Radiation _)
+      public override bool ShouldDamage(Radiation _, float deltaTime)
       {
+        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
+
+        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
+
+        if (_.radiationTimer > 0)
+        {
+          _.radiationTimer -= deltaTime;
+          return false;
+        }
+
+        _.radiationTimer = Settings.DamageInterval;
+        return true;
+      }
+
+      public override void DamageHuman(Character character, float radAmount, Radiation _)
+      {
+        Mod.Logger.Log($"{character} {radAmount}");
+
         float dps = radAmount * Settings.RadAmountToDPS;
         float damage = dps * Settings.DamageInterval;
 

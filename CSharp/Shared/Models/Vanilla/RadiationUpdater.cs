@@ -27,7 +27,8 @@ namespace JovianRadiationRework
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
         Mod.CurrentModel.ElectronicsDamager?.DamageElectronics(_, deltaTime);
-        Mod.CurrentModel.CharactersDamager.DamageCharacters(_, deltaTime);
+        Mod.CurrentModel.HumanDamager.DamageHumans(_, deltaTime);
+        Mod.CurrentModel.MonsterDamager.DamageMonsters(_, deltaTime);
       }
     }
   }
