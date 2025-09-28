@@ -37,7 +37,12 @@ namespace BaroJunk
     private void Initialize()
     {
       Config.Settings.SavePath ??= DefaultSavePathFor(Config);
-      Config.LoadSave(Config.Settings.SavePath);
+
+      if (Config.Settings.LoadOnInit)
+      {
+        Config.LoadSave(Config.Settings.SavePath);
+      }
+
 
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) =>
       {

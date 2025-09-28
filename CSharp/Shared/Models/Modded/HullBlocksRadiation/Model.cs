@@ -14,7 +14,7 @@ namespace JovianRadiationRework
   {
     public class ModelSettings : IConfig
     {
-      public float FractionOfRadiationBlockedInSub { get; set; } = 1.0f;
+      public float FractionOfRadiationBlockedInSub { get; set; } = 0.0f;
     }
 
     public override IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }

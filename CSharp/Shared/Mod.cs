@@ -63,6 +63,7 @@ namespace JovianRadiationRework
       };
       config.OnConfigUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
+      Config.Settings().LoadOnInit = false;
       Config.Settings().AutoSave = true;
       Config.Settings().NetSync = true;
 
