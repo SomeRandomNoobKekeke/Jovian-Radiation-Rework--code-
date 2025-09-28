@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Text.Json;
 
 namespace BaroJunk
 {
@@ -36,23 +37,40 @@ namespace BaroJunk
 
     public string ToText()
     {
-      if (Settings.ShouldPrintAsXML)
+      if (Settings.PrintAsXML)
       {
         XDocument xdoc = new XDocument();
         xdoc.Add(ToXML());
         return Beautify(xdoc);
       }
 
-      Dictionary<string, ConfigEntry> flat = GetFlat();
       StringBuilder sb = new StringBuilder();
 
-      sb.Append("{\n");
-      foreach (string key in flat.Keys)
+      void ToTextRec(string offset, IConfig config)
       {
-        sb.Append($"    {key}: [{ConfigLogger.WrapInColor(flat[key].Value, "white")}],\n");
-      }
-      sb.Append("}");
+        foreach (IConfigEntry entry in config.Entries)
+        {
+          if (entry.IsConfig)
+          {
+            IConfig subConfig = entry.Value as IConfig;
+            if (subConfig is null) continue;
+            sb.Append($"{offset}{entry.Name}:\n");
+            ToTextRec($"{offset}       |", subConfig);
+            sb.Append($"{offset}        \n");
+          }
+        }
 
+        foreach (IConfigEntry entry in config.Entries)
+        {
+          if (!entry.IsConfig)
+          {
+            sb.Append($"{offset}{entry.Name}: {ConfigLogger.WrapInColor(entry.Value, "white")}\n");
+          }
+        }
+      }
+
+      ToTextRec("", this);
+      sb.Remove(sb.Length - 1, 1);
       return sb.ToString();
     }
 

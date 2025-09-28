@@ -14,6 +14,7 @@ namespace JovianRadiationRework
   public class ModelCatalog : IEnumerable
   {
     public Dictionary<Type, RadiationModel> ModelByType = new();
+    public Dictionary<string, RadiationModel> ModelByName = new();
     public List<RadiationModel> ModelsInOrder = new();
 
     public static ModelCatalog FromModels(IEnumerable<RadiationModel> models)
@@ -32,6 +33,7 @@ namespace JovianRadiationRework
         throw new ArgumentException($"{model.GetType()} already in the catalog");
 
       ModelByType[model.GetType()] = model;
+      ModelByName[model.GetType().Name] = model;
       ModelsInOrder.Add(model);
     }
 

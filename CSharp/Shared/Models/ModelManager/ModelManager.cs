@@ -20,11 +20,20 @@ namespace JovianRadiationRework
     public RadiationModel Current { get; set; } = Base;
 
     public RadiationModel ModelByType(Type T) => Models.ModelByType.GetValueOrDefault(T);
-    public void EnableModel(Type T)
+
+    public void SetModelState(Type T, bool state)
     {
       RadiationModel model = Models.ModelByType.GetValueOrDefault(T);
-      if (model is null) throw new ArgumentException($"Tried to enable missing model [{T.Name}]");
-      model.Enabled = true;
+      if (model is null) throw new ArgumentException($"Can't set state of a missing model [{T.Name}]");
+      model.Enabled = state;
+      Recombine();
+    }
+
+    public void SetModelState(string name, bool state)
+    {
+      RadiationModel model = Models.ModelByName.GetValueOrDefault(name);
+      if (model is null) throw new ArgumentException($"Can't set state of a missing model [{name}]");
+      model.Enabled = state;
       Recombine();
     }
 

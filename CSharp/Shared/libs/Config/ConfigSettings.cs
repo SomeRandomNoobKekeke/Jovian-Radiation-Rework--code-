@@ -38,6 +38,6 @@ namespace BaroJunk
     public bool SaveOnQuit { get; set; } = true;
     public bool SaveEveryRound { get; set; } = true;
     public string SavePath { get; set; } = null;
-    public bool ShouldPrintAsXML { get; set; } = false;
+    public bool PrintAsXML { get; set; } = false;
   }
 }

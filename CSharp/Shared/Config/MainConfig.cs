@@ -13,6 +13,7 @@ namespace JovianRadiationRework
 {
   public class MainConfig : IConfig
   {
+    public EnabledModels EnabledModels { get; set; }
     public AmbientLightModel.ModelSettings AmbientLightSettings { get; set; }
     public DepthBasedDamageModel.ModelSettings DepthBasedDamageSettings { get; set; }
     public ProgressiveMonsterSpawningModel.ModelSettings ProgressiveMonsterSpawningSettings { get; set; }
@@ -41,6 +42,16 @@ namespace JovianRadiationRework
     {
       this.Restore();
       SubSettings = this.GetSubConfigs().ToList();
+
+      //TODO make IConfig deeply reactive
+      #region Cringe
+      this.OnPropChanged((path, state) =>
+      {
+        if (!path.StartsWith("EnabledModels")) return;
+        path = path.Remove(0, "EnabledModels.".Length);
+        EnabledModels.RaiseModelToggled(path, (bool)state);
+      });
+      #endregion
     }
   }
 }
