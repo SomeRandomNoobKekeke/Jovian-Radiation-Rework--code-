@@ -37,6 +37,17 @@ namespace JovianRadiationRework
       Recombine();
     }
 
+    public void SyncModelStates(EnabledModels enabled)
+    {
+      foreach (IConfigEntry entry in enabled.GetEntries())
+      {
+        RadiationModel model = Models.ModelByName.GetValueOrDefault(entry.Name);
+        if (model is null) throw new ArgumentException($"Can't sync state of a missing model [{entry.Name}]");
+        model.Enabled = (bool)entry.Value;
+      }
+      Recombine();
+    }
+
 
     public void Recombine()
     {
