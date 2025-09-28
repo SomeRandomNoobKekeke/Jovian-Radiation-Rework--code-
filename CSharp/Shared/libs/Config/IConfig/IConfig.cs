@@ -46,6 +46,7 @@ namespace BaroJunk
     }
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
+    public void OnConfigUpdated(Action action) => Mixin.Model.OnConfigUpdated(action);
 
     //TODO where should it be?
     public IEnumerable<IConfig> SubConfigs

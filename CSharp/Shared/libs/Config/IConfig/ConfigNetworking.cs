@@ -32,6 +32,7 @@ namespace BaroJunk
       {
         entry.Value = NetParser.Decode(msg, entry.Type).Result;
       }
+      this.Mixin.Model.RaiseOnConfigUpdated();
     }
 
     //TODO uncringe

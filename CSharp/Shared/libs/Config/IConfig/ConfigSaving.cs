@@ -53,6 +53,7 @@ namespace BaroJunk
       {
         XDocument xdoc = Facades.IOFacade.LoadXDoc(path);
         this.FromXML(xdoc.Root);
+        this.Mixin.Model.RaiseOnConfigUpdated();
       }
       catch (Exception e)
       {

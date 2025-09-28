@@ -19,6 +19,10 @@ namespace BaroJunk
     public void RaiseOnPropChanged(string key, object value) => PropChanged?.Invoke(key, value);
     public void OnPropChanged(Action<string, object> action) => PropChanged += action;
 
+    public event Action ConfigUpdated;
+    public void RaiseOnConfigUpdated() => ConfigUpdated?.Invoke();
+    public void OnConfigUpdated(Action action) => ConfigUpdated += action;
+
 
     public object Value { get => this; set {/*bruh*/ } }
     public IConfigEntry Get(string entryPath) => Proxies.ContainsKey(entryPath) ? Proxies[entryPath] : ConfigEntry.Empty;

@@ -19,7 +19,11 @@ namespace BaroJunk
 
     public static void OnPropChanged(this IConfig config, Action<string, object> action)
       => config.OnPropChanged(action);
+    public static void OnConfigUpdated(this IConfig config, Action action)
+      => config.OnConfigUpdated(action);
     public static void EnableAutoSaving(this IConfig config) => config.Settings.AutoSave = true;
+
+
 
 
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);
@@ -37,8 +41,7 @@ namespace BaroJunk
     public static SimpleResult LoadSave(this IConfig config, string path) => config.LoadSave(path);
     public static SimpleResult Save(this IConfig config, string path) => config.Save(path);
     public static SimpleResult Load(this IConfig config, string path) => config.Load(path);
-
-
+    public static SimpleResult Sync(this IConfig config) => config.Sync();
 
 
     public static bool EqualsTo(this IConfig config, IConfig other) => config.EqualsTo(other);
