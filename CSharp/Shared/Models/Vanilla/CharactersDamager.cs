@@ -23,7 +23,7 @@ namespace JovianRadiationRework
   {
     public class VanillaCharactersDamager : ICharactersDamager
     {
-      public void DamageCharacter(Radiation _, float deltaTime)
+      public void DamageCharacters(Radiation _, float deltaTime)
       {
         if (!Mod.CurrentModel.CharactersDamagerUpdateCondition.ShouldUpdate(_, deltaTime)) return;
 

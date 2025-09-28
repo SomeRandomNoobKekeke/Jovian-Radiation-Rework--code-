@@ -7,6 +7,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
+using System.IO;
 
 namespace JovianRadiationRework
 {
@@ -57,6 +58,18 @@ namespace JovianRadiationRework
         modelTypes.Select(T => Activator.CreateInstance(T) as RadiationModel)
       );
       Recombine();
+      DumpModels();
+    }
+
+    public void DumpModels(string path = "Ignore/models.txt")
+    {
+      using (StreamWriter outputFile = new StreamWriter(Path.Combine(ModInfo.ModDir<Mod>(), path)))
+      {
+        foreach (ModelLayer layer in Layers)
+        {
+          outputFile.WriteLine(layer.Model.GetType().Name);
+        }
+      }
     }
 
     public void PopulateWith(IEnumerable<RadiationModel> models)

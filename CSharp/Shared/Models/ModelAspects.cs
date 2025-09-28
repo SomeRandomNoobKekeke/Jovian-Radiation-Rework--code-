@@ -64,7 +64,7 @@ namespace JovianRadiationRework
 
   public interface ICharactersDamager : IModelAspect
   {
-    public void DamageCharacter(Radiation _, float deltaTime);
+    public void DamageCharacters(Radiation _, float deltaTime);
   }
 
   public interface IElectronicsDamager : IModelAspect
