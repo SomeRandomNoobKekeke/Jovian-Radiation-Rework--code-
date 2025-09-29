@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     {
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
       public float CriticalOutpostRadiationAmount { get; set; } = 0.0f;
+      public int MinimumOutpostAmount { get; set; } = 3;
 
     }
 

@@ -37,7 +37,7 @@ namespace JovianRadiationRework
             // continue;
           }
 
-          if (amountOfOutposts <= _.Params.MinimumOutpostAmount) { break; }
+          if (amountOfOutposts <= Settings.MinimumOutpostAmount) { break; }
 
           if (Settings.KeepSurroundingOutpostsAlive && _.Map.CurrentLocation is { } currLocation)
           {

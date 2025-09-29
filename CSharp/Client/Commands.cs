@@ -22,7 +22,41 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
-      () => new string[][] { RadiationParamsAccess.Instance.Props.Append("reset").ToArray() }));
+        () => new string[][] { RadiationParamsAccess.Instance.Props.Append("reset").ToArray() }
+      ));
+      AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
+        () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
+      ));
+    }
+
+    public static void Campaign_Metadata_Command(string[] args)
+    {
+      if (args.Length == 0)
+      {
+        Mod.Logger.Log(Logger.IDictionaryToString(CampaignMetadataAccess.Data));
+        return;
+      }
+
+      if (args.Length > 1)
+      {
+        if (!DoIHavePermissions())
+        {
+          Mod.Logger.Log($"You don't have permissions");
+          return;
+        }
+
+        CampaignMetadataAccess.Set(args[0], args[1]);
+
+        if (GameMain.IsMultiplayer)
+        {
+          GameMain.Client.SendConsoleCommand($"campaign_metadata {args[0]} {args[1]}");
+        }
+      }
+
+      if (args.Length > 0)
+      {
+        Mod.Logger.Log(CampaignMetadataAccess.Get(args[0]));
+      }
     }
 
     public static void Rad_Vanilla_Command(string[] args)
@@ -33,16 +67,28 @@ namespace JovianRadiationRework
         return;
       }
 
-      if (String.Equals(args[0], "reset", StringComparison.OrdinalIgnoreCase))
-      {
-        RadiationParamsAccess.Instance.Reset();
-        Mod.Logger.Log(RadiationParamsAccess.Instance);
-        return;
-      }
 
       if (args.Length > 1)
       {
+        if (!DoIHavePermissions())
+        {
+          Mod.Logger.Log($"You don't have permissions");
+          return;
+        }
+
+        if (String.Equals(args[0], "reset", StringComparison.OrdinalIgnoreCase))
+        {
+          RadiationParamsAccess.Instance.Reset();
+          Mod.Logger.Log(RadiationParamsAccess.Instance);
+          return;
+        }
+
         RadiationParamsAccess.Instance.Set(args[0], args[1]);
+
+        if (GameMain.IsMultiplayer)
+        {
+          GameMain.Client.SendConsoleCommand($"rad_vanilla {args[0]} {args[1]}");
+        }
       }
 
       if (args.Length > 0)
@@ -68,18 +114,22 @@ namespace JovianRadiationRework
           return;
         }
 
-        if (GameMain.IsMultiplayer)
-        {
-          GameMain.Client.SendConsoleCommand($"rad_amount {args[0]}");
-        }
-
         if (float.TryParse(args[0], out float amount))
         {
           GameMain.GameSession.Map.Radiation.Amount = amount;
+          Mod.CurrentModel.MetadataSetter?.SetMetadata();
+          //TODO should i do full Radiation.OnStep here?
+
+          if (GameMain.IsMultiplayer)
+          {
+            GameMain.Client.SendConsoleCommand($"rad_amount {args[0]}");
+          }
         }
+
+
       }
 
-      Mod.Logger.Log($"Rad front: [{GameMain.GameSession.Map.Radiation.Amount}] Current location: [{Level.Loaded.StartLocation.MapPosition.X}-{Level.Loaded.EndLocation.MapPosition.X}] Map width: [{GameMain.GameSession.Map?.Width}]");
+      Mod.Logger.Log($"Rad front: [{GameMain.GameSession.Map.Radiation.Amount}] Current location: [{Level.Loaded.StartLocation.MapPosition.X}{(Level.Loaded.EndLocation is null ? "" : $"-{Level.Loaded.EndLocation.MapPosition.X}")}] Map width: [{GameMain.GameSession.Map?.Width}]");
     }
 
   }

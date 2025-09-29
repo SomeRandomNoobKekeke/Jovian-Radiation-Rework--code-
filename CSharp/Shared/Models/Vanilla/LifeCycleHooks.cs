@@ -26,6 +26,7 @@ namespace JovianRadiationRework
       public void OnLoad()
       {
         Mod.CurrentModel.ElectronicsDamager?.ScanItems();
+        Mod.CurrentModel.MetadataSetter?.SetMetadata();
       }
 
       public void OnRoundStart()

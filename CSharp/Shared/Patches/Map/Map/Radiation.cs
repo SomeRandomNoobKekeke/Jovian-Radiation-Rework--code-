@@ -43,6 +43,7 @@ namespace JovianRadiationRework
 
       Mod.CurrentModel.RadiationMover.MoveRadiation(_, steps);
       Mod.CurrentModel.LocationTransformer.TransformLocations(_);
+      Mod.CurrentModel.MetadataSetter?.SetMetadata();
 
       return false;
     }

@@ -98,5 +98,10 @@ namespace JovianRadiationRework
     public void HandleSaveAndQuit(CampaignMode _);
   }
 
+  public interface IMetadataSetter : IModelAspect
+  {
+    public void SetMetadata();
+  }
+
 
 }
