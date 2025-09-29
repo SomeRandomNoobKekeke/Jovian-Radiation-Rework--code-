@@ -31,7 +31,14 @@ namespace JovianRadiationRework
 
     public static void Level_DrawBack_Postfix(Level __instance, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam)
     {
-      Mod.CurrentModel.LevelPostDrawer?.Draw(__instance, graphics, spriteBatch, cam);
+      try
+      {
+        Mod.CurrentModel.LevelPostDrawer?.Draw(__instance, graphics, spriteBatch, cam);
+      }
+      catch (Exception e)
+      {
+        Mod.Logger.Error(e);
+      }
     }
 
   }

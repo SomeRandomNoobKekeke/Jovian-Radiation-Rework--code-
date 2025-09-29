@@ -17,12 +17,15 @@ namespace BaroJunk
 
       DebugConsole.Commands.InsertRange(0, AddedCommands);
 
+#if CLIENT
       //TODO sneaky sneaky
       string lastCommand = ModStorage.Get<string>("lastUtestCommand");
       if (!string.IsNullOrEmpty(lastCommand))
       {
         DebugConsole.ExecuteCommand(lastCommand);
       }
+#endif
+
     }
 
     //TODO remove hidden test from hints
@@ -36,7 +39,9 @@ namespace BaroJunk
       {
         if (args.Length == 0)
         {
+#if CLIENT
           ModStorage.Set("lastUtestCommand", null);
+#endif
           UTestExplorer.PrintAllTests();
           return;
         }
@@ -54,13 +59,18 @@ namespace BaroJunk
 
         if (String.Equals(args[0], "none", StringComparison.OrdinalIgnoreCase))
         {
+#if CLIENT
           ModStorage.Set("lastUtestCommand", null);
+#endif
           return;
         }
 
         if (String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase))
         {
+#if CLIENT
           ModStorage.Set("lastUtestCommand", "utest all");
+#endif
+
           foreach (Type T in UTestExplorer.TestTree.Roots.Select(root => root.Type))
           {
             RunTestPack(T);
@@ -76,7 +86,10 @@ namespace BaroJunk
           return;
         }
 
+#if CLIENT
         ModStorage.Set("lastUtestCommand", $"utest {args[0]}");
+#endif
+
         RunTestPack(start);
       }
       catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); }

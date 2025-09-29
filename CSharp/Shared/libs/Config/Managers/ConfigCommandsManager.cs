@@ -34,6 +34,11 @@ namespace BaroJunk
       if (name is null) return;
 
       Command = new DebugConsole.Command(CommandName, "", EditConfig_VanillaCommand, Config.ToHints());
+
+#if CLIENT
+      Command.RelayToServer = false; // ЪУЪУЪУЪУЪУ
+#endif
+
       Config.Facades.ConsoleFacade.Insert(Command);
     }
 

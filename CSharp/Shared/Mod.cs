@@ -14,6 +14,7 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public static Mod Instance;
     public static Harmony Harmony = new Harmony("JovianRadiationRework");
     public static Logger Logger = new Logger()
     {
@@ -45,7 +46,7 @@ namespace JovianRadiationRework
     public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
     {
-
+      Instance = this;
       UTestCommands.AddCommands();
       AddCommands();
       PatchAll();
@@ -63,7 +64,7 @@ namespace JovianRadiationRework
       };
       config.OnConfigUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
-      Config.Settings().LoadOnInit = false;
+      Config.Settings().LoadOnInit = true;
       Config.Settings().AutoSave = true;
       Config.Settings().NetSync = true;
 
@@ -118,6 +119,7 @@ namespace JovianRadiationRework
       Harmony.UnpatchSelf();
       RemoveCommands();
       UTestCommands.RemoveCommands();
+      Instance = null;
     }
   }
 }

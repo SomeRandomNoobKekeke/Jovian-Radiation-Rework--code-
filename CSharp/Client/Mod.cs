@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     public partial void PatchProjSpecific()
     {
       LevelPatch.PatchClientLevel(Harmony);
+      LuaGamePatch.PatchClientLuaGame(Harmony);
     }
   }
 }

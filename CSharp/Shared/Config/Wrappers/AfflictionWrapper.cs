@@ -14,6 +14,7 @@ namespace JovianRadiationRework
   {
     public AfflictionPrefab AfflictionPrefab { get; set; }
 
+    public AfflictionWrapper() { }
     public AfflictionWrapper(AfflictionPrefab afflictionPrefab) => AfflictionPrefab = afflictionPrefab;
 
     public static AfflictionWrapper Parse(string raw)
@@ -32,7 +33,7 @@ namespace JovianRadiationRework
       return new AfflictionWrapper(prefab);
     }
 
-    public override string ToString() => AfflictionPrefab.Identifier.Value;
+    public override string ToString() => AfflictionPrefab?.Identifier.Value;
   }
 
 

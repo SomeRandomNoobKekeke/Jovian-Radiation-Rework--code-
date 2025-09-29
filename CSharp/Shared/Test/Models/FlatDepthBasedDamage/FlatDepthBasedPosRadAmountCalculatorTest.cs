@@ -162,6 +162,7 @@ namespace JovianRadiationRework
       return new List<UTest>(){
         new UTest(calculator.CalculateAmount(null, new Vector2(0, 100)), 101.0f),
         new UTest(calculator.CalculateAmount(null, new Vector2(0, 1000)), 110.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(1000, 1000)), 110.0f),
       };
     }
 
