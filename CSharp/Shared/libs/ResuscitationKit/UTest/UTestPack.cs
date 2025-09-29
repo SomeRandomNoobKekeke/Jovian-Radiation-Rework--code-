@@ -13,6 +13,9 @@ namespace BaroJunk
 
     public static bool IsTestGenerator(MethodInfo mi)
       => mi.ReturnType.IsAssignableTo(typeof(UTest)) && mi.GetParameters().Length == 0;
+
+    public static bool IsTestListGenerator(MethodInfo mi)
+      => mi.ReturnType.IsAssignableTo(typeof(IEnumerable<UTest>)) && mi.GetParameters().Length == 0;
     public static bool IsTestCreator(MethodInfo mi)
       => mi.Name.StartsWith("Create") && mi.Name != "CreateTests";
 
@@ -58,8 +61,19 @@ namespace BaroJunk
           if (IsTestGenerator(mi))
           {
             UTest test = mi.Invoke(mi.IsStatic ? null : this, null) as UTest;
-            test.Name ??= GetNameFromMethodInfo(mi);
+            test.Name = $"{mi.Name} | {test.Name}";
             Tests.Add(test);
+            continue;
+          }
+
+          if (IsTestListGenerator(mi))
+          {
+            IEnumerable<UTest> list = mi.Invoke(mi.IsStatic ? null : this, null) as IEnumerable<UTest>;
+            foreach (UTest test in list)
+            {
+              test.Name = $"{mi.Name} | {test.Name}";
+            }
+            Tests.AddRange(list);
             continue;
           }
 

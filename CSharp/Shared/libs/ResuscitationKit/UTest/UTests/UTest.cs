@@ -53,7 +53,7 @@ namespace BaroJunk
 
     private void Init(object realValue, object expect, string expression)
     {
-      Name = expression.Length > TooLongForAName ? VeryLongExpressionWarning : expression;
+      Name = expression is null ? null : expression.Length > TooLongForAName ? VeryLongExpressionWarning : expression;
       Adapt(realValue, expect);
     }
 
