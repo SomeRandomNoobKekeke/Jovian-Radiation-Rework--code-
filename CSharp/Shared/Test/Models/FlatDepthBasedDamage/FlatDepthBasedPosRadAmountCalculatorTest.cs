@@ -11,7 +11,7 @@ namespace JovianRadiationRework
 {
   public class FlatDepthBasedPosRadAmountCalculatorTest : ModelAspectTest
   {
-    public override void CreateTests()
+    public List<UTest> LevelDistanceTest()
     {
       FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
       {
@@ -41,9 +41,130 @@ namespace JovianRadiationRework
         }
       };
 
-      Tests.Add(new UTest(calculator.CalculateAmount(null, new Vector2(0, 0)), 100.0f));
-      Tests.Add(new UTest(calculator.CalculateAmount(null, new Vector2(5000, 0)), 50.0f));
-      Tests.Add(new UTest(calculator.CalculateAmount(null, new Vector2(10000, 0)), 0.0f));
+      //Note worldposition is in centimeters
+      return new List<UTest>(){
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, 0)), 100.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(5000, 0)), 50.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(10000, 0)), 0.0f),
+      };
     }
+
+    public List<UTest> LevelDepthTest()
+    {
+      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      {
+        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        {
+          WaterRadiationBlockPerMeter = 1.0f,
+        },
+        Level_Loaded = new FakeCurrentLevelFacade()
+        {
+          Data = new FakeCurrentLevelData()
+          {
+            IsLoaded = true,
+            Type = LevelData.LevelType.LocationConnection,
+            StartPosition = new Vector2(0, 0),
+            EndPosition = new Vector2(10000, 0),
+            StartLocation_MapPosition = new Vector2(200, 0),
+            EndLocation_MapPosition = new Vector2(300, 0),
+          }
+        },
+        RadiationAccessor = new FakeRadiationAccessor()
+        {
+          Data = new FakeRadiationAccessorData()
+          {
+            Enabled = true,
+            Amount = 300,
+          }
+        }
+      };
+
+      //Note worldposition is in centimeters
+      return new List<UTest>(){
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, 100)), 101.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(5000, 100)), 51.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(10000, 100)), 1.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, 1000)), 110.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(5000, 1000)), 60.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(10000, 1000)), 10.0f),
+      };
+    }
+
+    public List<UTest> LevelOutOfBoundsTest()
+    {
+      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      {
+        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        {
+          WaterRadiationBlockPerMeter = 1.0f,
+        },
+        Level_Loaded = new FakeCurrentLevelFacade()
+        {
+          Data = new FakeCurrentLevelData()
+          {
+            IsLoaded = true,
+            Type = LevelData.LevelType.LocationConnection,
+            StartPosition = new Vector2(0, 0),
+            EndPosition = new Vector2(10000, 0),
+            StartLocation_MapPosition = new Vector2(200, 0),
+            EndLocation_MapPosition = new Vector2(300, 0),
+          }
+        },
+        RadiationAccessor = new FakeRadiationAccessor()
+        {
+          Data = new FakeRadiationAccessorData()
+          {
+            Enabled = true,
+            Amount = 300,
+          }
+        }
+      };
+
+      //Note worldposition is in centimeters
+      return new List<UTest>(){
+        new UTest(calculator.CalculateAmount(null, new Vector2(-10000, 0)), 200.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(20000, 0)), 0.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, -10000)), 0.0f),
+      };
+    }
+
+    public List<UTest> OutpostDepthTest()
+    {
+      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      {
+        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        {
+          WaterRadiationBlockPerMeter = 1.0f,
+        },
+        Level_Loaded = new FakeCurrentLevelFacade()
+        {
+          Data = new FakeCurrentLevelData()
+          {
+            IsLoaded = true,
+            Type = LevelData.LevelType.Outpost,
+            StartPosition = new Vector2(0, 0),
+            EndPosition = new Vector2(10000, 0),
+            StartLocation_MapPosition = new Vector2(200, 0),
+            EndLocation_MapPosition = new Vector2(300, 0),
+          }
+        },
+        RadiationAccessor = new FakeRadiationAccessor()
+        {
+          Data = new FakeRadiationAccessorData()
+          {
+            Enabled = true,
+            Amount = 300,
+          }
+        }
+      };
+
+      //Note worldposition is in centimeters
+      return new List<UTest>(){
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, 100)), 101.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(0, 1000)), 110.0f),
+      };
+    }
+
+
   }
 }

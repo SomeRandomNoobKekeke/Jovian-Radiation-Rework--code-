@@ -53,7 +53,7 @@ namespace JovianRadiationRework
 
           return Math.Max(0,
             RadiationAccessor.Amount(_)
-            - GameMain.GameSession.Map.CurrentLocation.MapPosition.X
+            - Level_Loaded.StartLocation_MapPosition.X
             - RelativeDepth * Settings.WaterRadiationBlockPerMeter
           );
         }
