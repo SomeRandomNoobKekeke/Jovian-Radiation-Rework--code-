@@ -25,7 +25,7 @@ namespace JovianRadiationRework
     // public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
     //   new VanillaRadiationModel(),
     //   new AmbientLightModel(),
-    //   new DepthBasedDamageModel(),
+    //   new FlatDepthBasedDamageModel(),
     //   new ProgressiveMonsterSpawningModel(),
     //   new SmoothCharacterDamager(),
     //   new SmoothLocationTransformerModel(),
@@ -68,7 +68,7 @@ namespace JovianRadiationRework
       Config.Settings().NetSync = true;
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
-      Logger.Log(CurrentModel);
+      // Logger.Log(CurrentModel);
     }
 
     public void PatchAll()

@@ -27,6 +27,17 @@ namespace JovianRadiationRework
     public PropertyInfo SettingsProp
       => this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
           .FirstOrDefault(pi => pi.PropertyType.IsAssignableTo(typeof(IConfig)));
+
+    public void InjectFacades(IFacadeProvider provider)
+    {
+      foreach (PropertyInfo pi in this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IFacade)))
+        {
+          pi.SetValue(this, provider.Get(pi.PropertyType));
+        }
+      }
+    }
   }
 
   public interface ILifeCycleHooks : IModelAspect

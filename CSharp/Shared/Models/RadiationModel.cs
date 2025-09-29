@@ -99,6 +99,7 @@ namespace JovianRadiationRework
         }
 
         implementation.AcceptSettings(settings);
+        implementation.InjectFacades(DefaultFacadesProvider.Instance);
       }
     }
 

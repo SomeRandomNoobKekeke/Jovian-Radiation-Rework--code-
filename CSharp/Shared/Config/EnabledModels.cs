@@ -19,7 +19,7 @@ namespace JovianRadiationRework
 
     public bool AdvanceOnSaveAndQuitModel { get; set; } = true;
     public bool DamageToElectronicsModel { get; set; } = true;
-    public bool DepthBasedDamageModel { get; set; } = true;
+    public bool FlatDepthBasedDamageModel { get; set; } = true;
     public bool HullBlocksRadiationModel { get; set; } = true;
     public bool ProgressiveMonsterSpawningModel { get; set; } = true;
     public bool SmoothCharacterDamager { get; set; } = true;

@@ -10,7 +10,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class DepthBasedDamageModel : RadiationModel
+  public partial class FlatDepthBasedDamageModel : RadiationModel
   {
     public partial class ModelSettings : IConfig
     {

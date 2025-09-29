@@ -15,7 +15,7 @@ namespace JovianRadiationRework
   {
     public EnabledModels EnabledModels { get; set; }
     public AmbientLightModel.ModelSettings AmbientLightSettings { get; set; }
-    public DepthBasedDamageModel.ModelSettings DepthBasedDamageSettings { get; set; }
+    public FlatDepthBasedDamageModel.ModelSettings FlatDepthBasedDamageSettings { get; set; }
     public ProgressiveMonsterSpawningModel.ModelSettings ProgressiveMonsterSpawningSettings { get; set; }
 
     public SmoothCharacterDamager.ModelSettings SmoothCharacterDamagerSettings { get; set; }
