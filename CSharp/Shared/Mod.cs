@@ -8,7 +8,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-
+using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {
@@ -62,11 +62,9 @@ namespace JovianRadiationRework
       {
         ModelManager.SetModelState(name, state);
       };
-      config.OnConfigUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
+      config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
-      Config.Settings().LoadOnInit = true;
-      Config.Settings().AutoSave = true;
-      Config.Settings().NetSync = true;
+      Config.UseStrategy(ConfigStrategy.MultiplayerBothSides);
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       // Logger.Log(CurrentModel);

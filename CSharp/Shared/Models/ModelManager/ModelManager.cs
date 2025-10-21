@@ -8,6 +8,7 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using System.IO;
+using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {
@@ -39,10 +40,10 @@ namespace JovianRadiationRework
 
     public void SyncModelStates(EnabledModels enabled)
     {
-      foreach (IConfigEntry entry in enabled.GetEntries())
+      foreach (ConfigEntry entry in enabled.GetEntries())
       {
-        RadiationModel model = Models.ModelByName.GetValueOrDefault(entry.Name);
-        if (model is null) throw new ArgumentException($"Can't sync state of a missing model [{entry.Name}]");
+        RadiationModel model = Models.ModelByName.GetValueOrDefault(entry.Key);
+        if (model is null) throw new ArgumentException($"Can't sync state of a missing model [{entry.Key}]");
         model.Enabled = (bool)entry.Value;
       }
       Recombine();

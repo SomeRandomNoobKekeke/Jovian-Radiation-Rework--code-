@@ -33,7 +33,7 @@ namespace JovianRadiationRework
     {
       if (args.Length == 0)
       {
-        Mod.Logger.Log(Logger.IDictionaryToString(CampaignMetadataAccess.Data));
+        Mod.Logger.Log(Logger.Wrap.IDictionary(CampaignMetadataAccess.Data));
         return;
       }
 

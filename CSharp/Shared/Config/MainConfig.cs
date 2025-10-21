@@ -28,13 +28,17 @@ namespace JovianRadiationRework
     public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
 
 
+    public IEnumerable<IConfig> SubConfigs
+      => this.GetAllEntriesRec()
+      .Where(entry => entry.IsConfig)
+      .Select(entry => entry.Value as IConfig);
 
     public List<IConfig> SubSettings = new();
 
     public IConfig GetSubSettings(Type T)
     {
       if (T is null) return null;
-      IConfig settings = SubSettings.FirstOrDefault(config => config.Type == T);
+      IConfig settings = SubSettings.FirstOrDefault(config => config.GetCore().RawTarget.GetType() == T);
       if (settings is null) throw new Exception($"[{T.DeclaringType.Name}.{T.Name}] not found in MainConfig");
       return settings;
     }
@@ -43,7 +47,7 @@ namespace JovianRadiationRework
     public MainConfig()
     {
       this.Restore();
-      SubSettings = this.GetSubConfigs().ToList();
+      SubSettings = SubConfigs.ToList();
 
       //TODO make IConfig deeply reactive
       #region Cringe
