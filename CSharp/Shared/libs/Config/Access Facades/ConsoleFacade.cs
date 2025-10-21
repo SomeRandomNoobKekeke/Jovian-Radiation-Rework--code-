@@ -10,7 +10,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public interface IConsoleFacade
   {

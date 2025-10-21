@@ -10,17 +10,19 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public interface INetFacade
   {
     public bool IsMultiplayer { get; }
     public bool IsClient { get; }
+    public HashSet<string> AlreadyListeningFor { get; }
+    public string DontHavePermissionsString { get; }
     public void ClientSend(string header);
-    public void ClientEncondeAndSend(string header, IConfig config);
+    public void ClientEncondeAndSend(string header, ConfigCore config);
     public void ServerSend(string header, Client client);
-    public void ServerEncondeAndSend(string header, IConfig config, Client client);
-    public void ServerEncondeAndBroadcast(string header, IConfig config);
+    public void ServerEncondeAndSend(string header, ConfigCore config, Client client);
+    public void ServerEncondeAndBroadcast(string header, ConfigCore config);
     public void ListenForServer(string header, Action<IReadMessage> callback);
     public void ListenForClients(string header, Action<IReadMessage, Client> callback);
     public bool DoesClientHasPermissions(Client client);
@@ -29,9 +31,12 @@ namespace BaroJunk
 
   public class NetFacade : INetFacade
   {
-    //TODO think, where should it be
+    //THINK where should it be
     public ClientPermissions RequiredPermissions = ClientPermissions.ConsoleCommands;
     public bool IsMultiplayer => GameMain.IsMultiplayer;
+
+    public HashSet<string> AlreadyListeningFor { get; } = new HashSet<string>();
+    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to use it";
 
 #if CLIENT
     public bool IsClient =>true;
@@ -44,7 +49,7 @@ namespace BaroJunk
       GameMain.LuaCs.Networking.Send(GameMain.LuaCs.Networking.Start(header));
     }
 
-    public void ClientEncondeAndSend(string header, IConfig config)
+    public void ClientEncondeAndSend(string header, ConfigCore config)
     {
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(header);
       config.NetEncode(outMsg);
@@ -53,6 +58,7 @@ namespace BaroJunk
 
     public void ListenForServer(string header, Action<IReadMessage> callback)
     {
+      AlreadyListeningFor.Add(header);
       GameMain.LuaCs.Networking.Receive(header, (object[] args) =>
       {
         callback?.Invoke(args[0] as IReadMessage);
@@ -61,8 +67,8 @@ namespace BaroJunk
 
     public bool DoesClientHasPermissions(Client client) => false;
     public void ServerSend(string header, Client client) { }
-    public void ServerEncondeAndSend(string header, IConfig config, Client client) { }
-    public void ServerEncondeAndBroadcast(string header, IConfig config) { }
+    public void ServerEncondeAndSend(string header, ConfigCore config, Client client) { }
+    public void ServerEncondeAndBroadcast(string header, ConfigCore config) { }
     public void ListenForClients(string header, Action<IReadMessage, Client> callback) { }
 #endif
 
@@ -94,6 +100,7 @@ namespace BaroJunk
 
     public void ListenForClients(string header, Action<IReadMessage, Client> callback)
     {
+      AlreadyListeningFor.Add(header);
       GameMain.LuaCs.Networking.Receive(header, (object[] args) =>
       {
         callback?.Invoke(args[0] as IReadMessage, args[1] as Client);

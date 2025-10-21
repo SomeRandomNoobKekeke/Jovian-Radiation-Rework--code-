@@ -17,7 +17,7 @@ namespace BaroJunk
     public UTestResultBase Expected;
     public UTestResultBase Result;
     public string Name = "Unnamed";
-    public bool Passed => Result is not null && Result.Equals(Expected);
+    public bool Passed => Object.Equals(Result, Expected);
     public string DetailsOnFail;
 
     public virtual void Adapt(object realValue, object expect)

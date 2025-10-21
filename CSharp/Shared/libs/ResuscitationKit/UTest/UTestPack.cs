@@ -39,7 +39,6 @@ namespace BaroJunk
       }
     }
 
-    // HACK
     /// <summary>
     /// Set in test runner
     /// </summary>
@@ -86,7 +85,6 @@ namespace BaroJunk
       }
     }
 
-    //TODO ???
     public override string ToString()
     {
       if (Error is not null) return Error.ToString();
@@ -102,7 +100,6 @@ namespace BaroJunk
       return sb.ToString();
     }
 
-    //HACK
     public void Log() { if (NotEmpty) UTestLogger.LogPack(this); }
   }
 

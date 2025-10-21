@@ -16,7 +16,6 @@ namespace BaroJunk
       {
         UTestResultBase => realValue as UTestResultBase,
         List<object> => new UTestListResult(realValue as List<object>),
-        //HACK gigabruh
         IEnumerable => new UTestListResult(new List<object>((realValue as IEnumerable).Cast<object>())),
         _ => throw new ArgumentException($"can't use [{realValue}] in UListTest, it's not assignable to List<object>")
       };
@@ -25,7 +24,6 @@ namespace BaroJunk
       {
         UTestResultBase => expect as UTestResultBase,
         List<object> => new UTestListResult(expect as List<object>),
-        //HACK gigabruh
         IEnumerable => new UTestListResult(new List<object>((expect as IEnumerable).Cast<object>())),
         _ => throw new ArgumentException($"can't expect [{expect}] in UListTest, it's not assignable to List<object>")
       };

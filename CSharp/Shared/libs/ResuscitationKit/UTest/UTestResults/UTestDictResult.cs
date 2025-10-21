@@ -13,27 +13,9 @@ namespace BaroJunk
       public override string ToString() => $"{Key} [{Value1}, {Value2}]";
     }
 
-    //TODO
-    // public static List<ValueDiff> Diff(UTestDictResult r1, UTestDictResult r2)
-    // {
-    //   List<ValueDiff> diffs = new();
+    //FEATURE
+    // public static List<ValueDiff> Diff(UTestDictResult r1, UTestDictResult r2) {}
 
-    //   foreach (System.Collections.DictionaryEntry kvp in r1.Values)
-    //   {
-    //     if (!r2.Values.Contains(kvp.Key)) diffs.Add(new ValueDiff());
-    //     if (!Object.Equals(other.Values[kvp.Key], kvp.Value)) return false;
-    //   }
-
-    //   StringBuilder sb = new("[\n");
-
-    //   foreach (System.Collections.DictionaryEntry kvp in Values)
-    //   {
-    //     sb.Append($"    [{kvp.Key}] = [{kvp.Value}],\n");
-    //   }
-    //   sb.Remove(sb.Length - 1, 1);
-    //   sb.Append("\n]");
-    //   return sb.ToString();
-    // }
 
     private System.Collections.IDictionary Values;
     public override object Result { get => Values; set => Values = value as System.Collections.IDictionary; }

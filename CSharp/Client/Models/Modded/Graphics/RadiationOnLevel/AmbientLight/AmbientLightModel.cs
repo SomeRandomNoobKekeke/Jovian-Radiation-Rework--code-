@@ -9,6 +9,7 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {

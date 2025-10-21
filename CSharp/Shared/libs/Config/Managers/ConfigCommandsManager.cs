@@ -9,12 +9,12 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ConfigCommandsManager
   {
-    public IConfig Config;
-    public ConfigCommandsManager(IConfig config) => Config = config;
+    public ConfigCore Config;
+    public ConfigCommandsManager(ConfigCore config) => Config = config;
 
     private string commandName; public string CommandName
     {
@@ -36,7 +36,7 @@ namespace BaroJunk
       Command = new DebugConsole.Command(CommandName, "", EditConfig_VanillaCommand, Config.ToHints());
 
 #if CLIENT
-      Command.RelayToServer = false; // ЪУЪУЪУЪУЪУ
+      Command.RelayToServer = false;
 #endif
 
       Config.Facades.ConsoleFacade.Insert(Command);
@@ -80,7 +80,7 @@ namespace BaroJunk
         return;
       }
 
-      IConfigEntry entry = Config.Get(args[0]);
+      ReactiveEntry entry = Config.ReactiveGetEntry(args[0]);
 
       if (args.Length == 1)
       {
@@ -105,11 +105,11 @@ namespace BaroJunk
 
         try
         {
-          SimpleResult result = Parser.Parse(args[1], entry.Type);
+          SimpleResult result = Config.Parser.Parse(args[1], entry.Type);
           if (result.Ok)
           {
             entry.Value = result.Result;
-            if (GameMain.IsMultiplayer) Config.Sync();
+            if (Config.Facades.NetFacade.IsMultiplayer) Config.Sync();
           }
           else
           {

@@ -10,27 +10,46 @@ using System.IO;
 using System.Text;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ConfigClientNetManager
   {
-    public IConfig Config;
-    public ConfigClientNetManager(IConfig config) => Config = config;
+    public ConfigCore Config;
+    public ConfigClientNetManager(ConfigCore config) => Config = config;
 
     private bool enabled; public bool Enabled
     {
       get => enabled;
       set
       {
+        bool wasEnabled = enabled;
         enabled = value;
-        if (enabled) Initialize();
+        if (!wasEnabled && enabled) Initialize();
       }
+    }
+
+    public void ReactivePropChanged()
+    {
+      if (!Enabled || !Config.Settings.SyncOnPropChanged) return;
+      Config.Sync();
+    }
+
+    public void ConfigUpdated()
+    {
+      if (!Enabled) return;
+      Config.Sync();
+    }
+
+    public void UseStrategy(NetManagerStrategy strategy)
+    {
+      Enabled = strategy.NetSync;
     }
 
     private void Initialize()
     {
       if (!Config.Facades.NetFacade.IsMultiplayer) return;
       Config.Facades.NetFacade.ListenForServer(Config.NetHeader + "_sync", Receive);
+
       Config.Facades.NetFacade.ClientSend(Config.NetHeader + "_ask");
     }
 

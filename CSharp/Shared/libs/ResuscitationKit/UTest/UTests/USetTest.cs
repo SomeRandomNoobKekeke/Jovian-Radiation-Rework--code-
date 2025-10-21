@@ -16,7 +16,6 @@ namespace BaroJunk
       {
         UTestResultBase => realValue as UTestResultBase,
         HashSet<object> => new UTestSetResult(realValue as HashSet<object>),
-        //HACK gigabruh
         IEnumerable => new UTestSetResult(new HashSet<object>((realValue as IEnumerable).Cast<object>())),
         _ => throw new ArgumentException($"can't use [{realValue}] in USetTest, it's not assignable to HashSet<object>")
       };
@@ -25,7 +24,6 @@ namespace BaroJunk
       {
         UTestResultBase => expect as UTestResultBase,
         HashSet<object> => new UTestSetResult(expect as HashSet<object>),
-        //HACK gigabruh
         IEnumerable => new UTestSetResult(new HashSet<object>((expect as IEnumerable).Cast<object>())),
         _ => throw new ArgumentException($"can't expect [{expect}] in USetTest, it's not assignable to HashSet<object>")
       };

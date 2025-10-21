@@ -9,47 +9,38 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
-  public class ConfigManager
+  public partial class ConfigManager
   {
-    public IConfig Config;
+    public ConfigCore Config;
 
-
-
-
-    public ConfigAutoSaver AutoSaver;
-    public ConfigClientNetManager ClientNetController;
-    public ConfigServerNetManager ServerNetController;
-    public ConfigCommandsManager CommandsManager;
-
-    //HACK (cringe)
-    public bool NetSync
+    public void UseStrategy(ConfigStrategy strategy)
     {
-      get
-      {
-        return Config.Facades.NetFacade.IsClient ? ClientNetController.Enabled : ServerNetController.Enabled;
-      }
+      AutoSaver.UseStrategy(strategy.AutoSaverStrategy);
 
-      set
+      if (Config.Facades.NetFacade.IsClient)
       {
-        if (Config.Facades.NetFacade.IsClient)
-        {
-          ClientNetController.Enabled = value;
-        }
-        else
-        {
-          ServerNetController.Enabled = value;
-        }
+        ClientNetManager.UseStrategy(strategy.NetManagerStrategy);
+      }
+      else
+      {
+        ServerNetManager.UseStrategy(strategy.NetManagerStrategy);
       }
     }
 
-    public ConfigManager(IConfig config)
+    public ConfigAutoSaver AutoSaver;
+    public ConfigClientNetManager ClientNetManager;
+    public ConfigServerNetManager ServerNetManager;
+    public ConfigCommandsManager CommandsManager;
+
+
+    public ConfigManager(ConfigCore config)
     {
       Config = config;
       AutoSaver = new ConfigAutoSaver(config);
-      ClientNetController = new ConfigClientNetManager(config);
-      ServerNetController = new ConfigServerNetManager(config);
+      ClientNetManager = new ConfigClientNetManager(config);
+      ServerNetManager = new ConfigServerNetManager(config);
       CommandsManager = new ConfigCommandsManager(config);
     }
   }

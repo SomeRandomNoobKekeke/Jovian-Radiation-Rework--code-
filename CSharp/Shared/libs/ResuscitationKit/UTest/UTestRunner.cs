@@ -57,7 +57,8 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        //HACK
+        //HACK inner exception should be handled more gracefully
+        //mb intercept TargetInvocationException?
         pack.Error = new UTestRunException(T, e.InnerException ?? e);
       }
 

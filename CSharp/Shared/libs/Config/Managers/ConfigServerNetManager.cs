@@ -10,21 +10,39 @@ using System.IO;
 using System.Text;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ConfigServerNetManager
   {
-    public IConfig Config;
-    public ConfigServerNetManager(IConfig config) => Config = config;
+    public ConfigCore Config;
+    public ConfigServerNetManager(ConfigCore config) => Config = config;
 
     private bool enabled; public bool Enabled
     {
       get => enabled;
       set
       {
+        bool wasEnabled = enabled;
         enabled = value;
-        if (enabled) Initialize();
+        if (!wasEnabled && enabled) Initialize();
       }
+    }
+
+    public void ReactivePropChanged()
+    {
+      if (!Enabled || !Config.Settings.SyncOnPropChanged) return;
+      Config.Sync();
+    }
+
+    public void ConfigUpdated()
+    {
+      if (!Enabled) return;
+      Config.Sync();
+    }
+
+    public void UseStrategy(NetManagerStrategy strategy)
+    {
+      Enabled = strategy.NetSync;
     }
 
     private void Initialize()
@@ -32,10 +50,11 @@ namespace BaroJunk
       if (!Config.Facades.NetFacade.IsMultiplayer) return;
       Config.Facades.NetFacade.ListenForClients(Config.NetHeader + "_ask", Give);
       Config.Facades.NetFacade.ListenForClients(Config.NetHeader + "_sync", Receive);
+
       Config.Facades.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
     }
 
-    //TODO how to not fail silently here?
+    //THINK how to not fail silently here?
     public void Give(IReadMessage msg, Client client)
     {
       if (!Enabled) return;

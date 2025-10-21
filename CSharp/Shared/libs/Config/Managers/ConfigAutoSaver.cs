@@ -9,50 +9,82 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ConfigAutoSaver
   {
-    public static string DefaultSavePathFor(IConfig config)
+    public static string DefaultSavePathFor(ConfigCore config)
       => Path.Combine("ModSettings", "Configs", $"{config.ID}.xml");
 
-    public bool ShouldSave =>
-      GameMain.IsSingleplayer ||
-      LuaCsSetup.IsServer ||
-      LuaCsSetup.IsClient && Config.Settings.ShouldSaveInMultiplayer;
+    public ConfigCore Config;
+    public ConfigAutoSaver(ConfigCore config) => Config = config;
 
     private bool enabled; public bool Enabled
     {
       get => enabled;
       set
       {
+        bool wasEnabled = enabled;
         enabled = value;
-        if (enabled) Initialize(); else Deactivate();
+        if (wasEnabled && !enabled) Deactivate();
+        if (!wasEnabled && enabled) Initialize();
       }
     }
 
-    public IConfig Config;
-    public ConfigAutoSaver(IConfig config) => Config = config;
+    public bool ShouldSaveInMultiplayer { get; set; }
+    public bool LoadOnInit { get; set; }
+    public bool SaveOnQuit { get; set; }
+    public bool SaveEveryRound { get; set; }
+    public bool ShouldSave { get; set; }
+    public bool ShouldLoad { get; set; }
+    public void UseStrategy(AutoSaverStrategy strategy)
+    {
+      if (Config.Facades.NetFacade.IsMultiplayer)
+      {
+        if (Config.Facades.NetFacade.IsClient)
+        {
+          ShouldLoad = strategy.OnClient.ShouldLoad;
+          ShouldSave = strategy.OnClient.ShouldSave;
+        }
+        else
+        {
+          ShouldLoad = strategy.OnServer.ShouldLoad;
+          ShouldSave = strategy.OnServer.ShouldSave;
+        }
+      }
+      else
+      {
+        ShouldLoad = strategy.InSingleplayer.ShouldLoad;
+        ShouldSave = strategy.InSingleplayer.ShouldSave;
+      }
+
+      LoadOnInit = strategy.LoadOnInit;
+      SaveOnQuit = strategy.SaveOnQuit;
+      SaveEveryRound = strategy.SaveEveryRound;
+      Enabled = strategy.AutoSave;
+    }
+
+
 
     private void Initialize()
     {
       Config.Settings.SavePath ??= DefaultSavePathFor(Config);
 
-      if (Config.Settings.LoadOnInit)
+      if (ShouldLoad && LoadOnInit)
       {
-        Config.LoadSave(Config.Settings.SavePath);
+        Config.Load(Config.Settings.SavePath);
       }
 
 
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) =>
       {
-        if (Config.Settings.SaveOnQuit && ShouldSave) Config?.Save(Config.Settings.SavePath);
+        if (ShouldSave && SaveOnQuit) Config?.Save(Config.Settings.SavePath);
         return null;
       });
 
-      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) =>
+      Config.Facades.HooksFacade.AddHook("roundend", $"save {Config.ID} config on round end", (object[] args) =>
       {
-        if (Config.Settings.SaveEveryRound && ShouldSave) Config?.Save(Config.Settings.SavePath);
+        if (ShouldSave && SaveEveryRound) Config?.Save(Config.Settings.SavePath);
         return null;
       });
     }
@@ -60,7 +92,7 @@ namespace BaroJunk
     private void Deactivate()
     {
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) => null);
-      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) => null);
+      Config.Facades.HooksFacade.AddHook("roundend", $"save {Config.ID} config on round end", (object[] args) => null);
     }
 
 

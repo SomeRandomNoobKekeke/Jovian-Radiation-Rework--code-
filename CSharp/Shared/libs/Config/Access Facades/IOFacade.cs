@@ -12,7 +12,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public interface IIOFacade
   {

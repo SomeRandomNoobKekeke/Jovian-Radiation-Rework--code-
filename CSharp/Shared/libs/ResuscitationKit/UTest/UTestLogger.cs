@@ -16,7 +16,12 @@ namespace BaroJunk
     public static Color FailureColor = Color.Red;
     public static string InnerTextColor = "128,255,255";
     public static float ColorContrast = 0.75f;
-    public static string Line = "-------------------------------------------------------------";
+    public static string Line = "----------------------------------------------------------------------------------------";
+
+    /// <summary>
+    /// sneaky var that no one will ever find
+    /// </summary>
+    public static bool CollapseTestPackIfSucceed { get; set; } = true;
     public static Color UTestStateColor(bool state) => state ?
       Color.Lerp(Color.White, SuccessColor, ColorContrast) :
       Color.Lerp(Color.White, FailureColor, ColorContrast);
@@ -79,10 +84,16 @@ namespace BaroJunk
         Log($"Error: [{pack.Error.Message}]", cl);
       }
 
-      foreach (UTest test in pack.Tests)
+      if (!CollapseTestPackIfSucceed || pack.PassedCount != pack.Tests.Count)
       {
-        test.Log();
+        foreach (UTest test in pack.Tests)
+        {
+          test.Log();
+        }
       }
+
     }
+
+
   }
 }

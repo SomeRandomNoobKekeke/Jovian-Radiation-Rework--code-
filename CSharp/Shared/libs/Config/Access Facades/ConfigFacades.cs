@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public interface IConfigFacades
   {
