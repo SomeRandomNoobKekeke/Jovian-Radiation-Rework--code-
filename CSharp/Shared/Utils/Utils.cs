@@ -8,7 +8,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-
+using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
@@ -29,7 +29,22 @@ namespace JovianRadiationRework
       );
     }
 
+    public static float CameraIrradiation()
+    {
+      if (
+        GameMain.GameSession?.Map?.CurrentLocation == null ||
+        GameMain.GameSession.Map.Radiation?.Enabled != true ||
+        GameMain.GameSession.Campaign == null
+      ) { return 0; }
 
+      return Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
+        GameMain.GameSession.Map.Radiation,
+        new Vector2(
+          Screen.Selected.Cam.Position.X,
+          Screen.Selected.Cam.Position.Y
+        )
+      );
+    }
 
 
   }

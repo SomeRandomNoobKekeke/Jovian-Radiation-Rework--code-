@@ -52,7 +52,8 @@ namespace BaroJunk_Config
           {
             IConfiglike subConfig = config.ToConfig(entry.Value);
             if (!subConfig.IsValid) continue;
-            sb.Append($"{offset}       |{entry.Key}:\n");
+            sb.Append($"{offset}--- |{entry.Key}:\n");
+
             ToTextRec($"{offset}       |", subConfig);
             sb.Append($"{offset}        \n");
           }

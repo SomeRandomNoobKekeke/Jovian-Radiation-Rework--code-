@@ -27,6 +27,15 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
         () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
       ));
+      // AddedCommands.Add(new DebugConsole.Command("radiation_model_description", "", Campaign_Metadata_Command,
+      //   () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
+      // ));
+    }
+
+    //REMOVE 
+    public static void ModelDescription(string[] args)
+    {
+
     }
 
     public static void Campaign_Metadata_Command(string[] args)
@@ -59,6 +68,7 @@ namespace JovianRadiationRework
       }
     }
 
+    //WTF is this command?
     public static void Rad_Vanilla_Command(string[] args)
     {
       if (args.Length == 0)
@@ -129,7 +139,7 @@ namespace JovianRadiationRework
 
       }
 
-      Mod.Logger.Log($"Rad front: [{GameMain.GameSession.Map.Radiation.Amount}] Current location: [{Level.Loaded.StartLocation.MapPosition.X}{(Level.Loaded.EndLocation is null ? "" : $"-{Level.Loaded.EndLocation.MapPosition.X}")}] Map width: [{GameMain.GameSession.Map?.Width}]");
+      Mod.Logger.Log($"Rad front: [{GameMain.GameSession.Map.Radiation.Amount}] Current location: [{Level.Loaded.StartLocation.MapPosition.X}{(Level.Loaded.EndLocation is null ? "" : $"-{Level.Loaded.EndLocation.MapPosition.X}")}] Camera irradiation: [{Utils.CameraIrradiation()}] Map width: [{GameMain.GameSession.Map?.Width}]");
     }
 
   }

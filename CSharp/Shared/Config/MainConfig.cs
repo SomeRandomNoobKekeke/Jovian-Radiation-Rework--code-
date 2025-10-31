@@ -28,7 +28,7 @@ namespace JovianRadiationRework
     public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
 
 
-    public IEnumerable<IConfig> SubConfigs
+    private IEnumerable<IConfig> SubConfigs
       => this.GetAllEntriesRec()
       .Where(entry => entry.IsConfig)
       .Select(entry => entry.Value as IConfig);
