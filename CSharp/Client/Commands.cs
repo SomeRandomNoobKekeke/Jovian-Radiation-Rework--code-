@@ -20,6 +20,9 @@ namespace JovianRadiationRework
     public partial void AddCommandsProjSpecific()
     {
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
+      AddedCommands.Add(new DebugConsole.Command("rad_debugmodel", "", Rad_DebugModel_Command,
+        () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
+      ));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
         () => new string[][] { RadiationParamsAccess.Instance.Props.Append("reset").ToArray() }
@@ -27,15 +30,38 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
         () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
       ));
-      // AddedCommands.Add(new DebugConsole.Command("radiation_model_description", "", Campaign_Metadata_Command,
-      //   () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
-      // ));
+
     }
-
-    //REMOVE 
-    public static void ModelDescription(string[] args)
+    public static void Rad_DebugModel_Command(string[] args)
     {
+      if (args.Length == 0)
+      {
+        Mod.Logger.Log($"Model Debug:");
+        Mod.Logger.Log(Logger.Wrap.IDictionary(
+          Mod.ModelManager.Models.ModelByName.ToDictionary(
+            kvp => kvp.Key,
+            kvp => kvp.Value.Debug
+          )
+        ));
 
+        return;
+      }
+
+      string name = args[0];
+
+      if (Mod.ModelManager.Models.ModelByName.ContainsKey(name))
+      {
+        Mod.ModelManager.Models.ModelByName[name].Debug = !Mod.ModelManager.Models.ModelByName[name].Debug;
+        Mod.Logger.Log($"[{Logger.WrapInColor(name, "white")}] model debug is [{Logger.WrapInColor(Mod.ModelManager.Models.ModelByName[name].Debug, "white")}]");
+      }
+      else
+      {
+        Mod.Logger.Log($"No such model [{name}]");
+      }
+    }
+    public static void Rad_PrintModel_Command(string[] args)
+    {
+      Mod.Logger.Log(CurrentModel);
     }
 
     public static void Campaign_Metadata_Command(string[] args)
@@ -107,10 +133,7 @@ namespace JovianRadiationRework
       }
     }
 
-    public static void Rad_PrintModel_Command(string[] args)
-    {
-      Mod.Logger.Log(CurrentModel);
-    }
+
 
     public static void Rad_Amount_Command(string[] args)
     {

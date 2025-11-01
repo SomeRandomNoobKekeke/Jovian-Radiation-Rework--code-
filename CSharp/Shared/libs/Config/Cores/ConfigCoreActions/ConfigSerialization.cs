@@ -9,12 +9,14 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 namespace BaroJunk_Config
 {
   public partial class ConfigCore
   {
-    //MOVE it somewhere else
     public static string Beautify(XDocument doc)
     {
       StringBuilder sb = new StringBuilder();
@@ -24,7 +26,7 @@ namespace BaroJunk_Config
         IndentChars = "    ",
         NewLineChars = "\r\n",
         NewLineHandling = NewLineHandling.Replace,
-        OmitXmlDeclaration = true
+        OmitXmlDeclaration = true,
       };
       using (XmlWriter writer = XmlWriter.Create(sb, settings))
       {
@@ -33,6 +35,37 @@ namespace BaroJunk_Config
       return sb.ToString();
     }
 
+    private Dictionary<string, object> ToDictOfHighlightedStrings()
+    {
+      Dictionary<string, object> result = new Dictionary<string, object>();
+
+      void ToDictRec(Dictionary<string, object> dict, IConfiglike config)
+      {
+        foreach (ConfigEntry entry in config.GetAllEntries())
+        {
+          if (entry.IsConfig)
+          {
+            IConfiglike subConfig = config.ToConfig(entry.Value);
+            if (!subConfig.IsValid) continue;
+            dict[entry.Key] = new Dictionary<string, object>();
+            ToDictRec(dict[entry.Key] as Dictionary<string, object>, subConfig);
+          }
+        }
+
+        foreach (ConfigEntry entry in config.GetEntries())
+        {
+          if (!entry.IsConfig)
+          {
+            dict[entry.Key] = ConfigLogger.WrapInColor(entry.Value.ToString(), "white");
+          }
+        }
+      }
+
+      ToDictRec(result, Host);
+      return result;
+    }
+
+    //FIXME this probably wont work because of json
     public string ToText()
     {
       if (Settings.PrintAsXML)
@@ -42,9 +75,18 @@ namespace BaroJunk_Config
         return Beautify(xdoc);
       }
 
-      StringBuilder sb = new StringBuilder();
+      return JsonSerializer.Serialize(ToDictOfHighlightedStrings(), new JsonSerializerOptions
+      {
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+      });
+    }
 
-      void ToTextRec(string offset, IConfiglike config)
+    public Dictionary<string, object> ToDict()
+    {
+      Dictionary<string, object> result = new Dictionary<string, object>();
+
+      void ToDictRec(Dictionary<string, object> dict, IConfiglike config)
       {
         foreach (ConfigEntry entry in config.GetAllEntries())
         {
@@ -52,10 +94,8 @@ namespace BaroJunk_Config
           {
             IConfiglike subConfig = config.ToConfig(entry.Value);
             if (!subConfig.IsValid) continue;
-            sb.Append($"{offset}--- |{entry.Key}:\n");
-
-            ToTextRec($"{offset}       |", subConfig);
-            sb.Append($"{offset}        \n");
+            dict[entry.Key] = new Dictionary<string, object>();
+            ToDictRec(dict[entry.Key] as Dictionary<string, object>, subConfig);
           }
         }
 
@@ -63,15 +103,13 @@ namespace BaroJunk_Config
         {
           if (!entry.IsConfig)
           {
-            sb.Append($"{offset}{entry.Key}: {ConfigLogger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
+            dict[entry.Key] = entry.Value.ToString();
           }
         }
       }
 
-      sb.Append($"|{this.Host.Name}:\n");
-      ToTextRec("|", Host);
-      sb.Remove(sb.Length - 1, 1);
-      return sb.ToString();
+      ToDictRec(result, Host);
+      return result;
     }
 
 

@@ -122,7 +122,6 @@ namespace JovianRadiationRework
         sb.Append($"    {name}: [{Logger.WrapInColor(aspect?.GetType().Name, "white")}],\n");
       }
       sb.Append("} ");
-      sb.Append($"[{(isComplete ? "Complete" : "Incomplete")}]");
 
       return sb.ToString();
     }

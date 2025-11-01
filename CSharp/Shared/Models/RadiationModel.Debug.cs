@@ -7,16 +7,20 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using System.IO;
+using System.Text;
+using BaroJunk_Config;
+
+
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+
+  public partial class RadiationModel
   {
-
-
-    public void Experiment()
+    public bool Debug { get; set; }
+    public void DebugLog(object msg)
     {
-
+      if (Debug) Mod.Logger.Log(msg);
     }
+
   }
 }

@@ -58,6 +58,7 @@ namespace JovianRadiationRework
 
       Config.Settings().CommandName = "rad";
 
+
       Config.EnabledModels.ModelToggled += (name, state) =>
       {
         ModelManager.SetModelState(name, state);
