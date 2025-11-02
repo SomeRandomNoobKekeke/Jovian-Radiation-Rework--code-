@@ -24,6 +24,7 @@ namespace JovianRadiationRework
     public class SmoothHumanDamager : VanillaRadiationModel.VanillaHumanDamager
     {
       public ModelSettings Settings { get; set; }
+      public SmoothCharacterDamager Model { get; set; }
 
       public override bool ShouldDamage(Radiation _, float deltaTime)
       {
@@ -44,21 +45,20 @@ namespace JovianRadiationRework
       public override void DamageHuman(Character character, float radAmount, Radiation _)
       {
         float dps = radAmount * Settings.RadAmountToDPS;
-        float damage = dps * Settings.DamageInterval;
+        float damage = dps * Math.Max(0, Settings.DamageInterval);
 
-        if (damage > 0)
-        {
-          var limb = character.AnimController.MainLimb;
+        Model.DebugLog($"Damaging [{character?.Info?.DisplayName}] with [{damage}] [{Settings.Affliction.AfflictionPrefab}]");
 
-          AttackResult attackResult = limb.AddDamage(
-            limb.SimPosition,
-            Settings.Affliction.AfflictionPrefab.Instantiate(damage).ToEnumerable(),
-            playSound: false
-          );
+        var limb = character.AnimController.MainLimb;
 
-          // CharacterHealth.ApplyAffliction is simpler but it ignores gear
-          character.CharacterHealth.ApplyDamage(limb, attackResult);
-        }
+        AttackResult attackResult = limb.AddDamage(
+          limb.SimPosition,
+          Settings.Affliction.AfflictionPrefab.Instantiate(damage).ToEnumerable(),
+          playSound: false
+        );
+
+        // CharacterHealth.ApplyAffliction is simpler but it ignores gear
+        character.CharacterHealth.ApplyDamage(limb, attackResult);
       }
     }
   }
