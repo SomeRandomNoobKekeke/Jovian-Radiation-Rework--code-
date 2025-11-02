@@ -24,9 +24,17 @@ namespace JovianRadiationRework
     public void AcceptSettings(IConfig settings)
       => SettingsProp?.SetValue(this, settings);
 
+    public void AcceptModel(RadiationModel model)
+      => ModelProp?.SetValue(this, model);
+
     public PropertyInfo SettingsProp
       => this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
           .FirstOrDefault(pi => pi.PropertyType.IsAssignableTo(typeof(IConfig)));
+
+    //CRINGE
+    public PropertyInfo ModelProp
+      => this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+          .FirstOrDefault(pi => pi.PropertyType.IsAssignableTo(typeof(RadiationModel)));
 
     public void InjectFacades(IFacadeProvider provider)
     {

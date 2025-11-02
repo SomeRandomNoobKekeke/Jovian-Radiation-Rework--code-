@@ -33,7 +33,7 @@ namespace JovianRadiationRework
         throw new ArgumentException($"{model.GetType()} already in the catalog");
 
       ModelByType[model.GetType()] = model;
-      ModelByName[model.GetType().Name] = model;
+      ModelByName[model.Name] = model;
       ModelsInOrder.Add(model);
     }
 

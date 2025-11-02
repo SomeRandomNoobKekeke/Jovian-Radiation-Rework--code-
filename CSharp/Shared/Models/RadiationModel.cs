@@ -64,8 +64,7 @@ namespace JovianRadiationRework
     }
 
     public bool Enabled { get; set; } = true;
-
-
+    public string Name => GetType().Name;
 
     /// <summary>
     /// It's sneaky and dishonest to the consumer, but it lets me minimize boilerplate code 
@@ -99,6 +98,7 @@ namespace JovianRadiationRework
         }
 
         implementation.AcceptSettings(settings);
+        implementation.AcceptModel(this);
         implementation.InjectFacades(DefaultFacadesProvider.Instance);
       }
     }

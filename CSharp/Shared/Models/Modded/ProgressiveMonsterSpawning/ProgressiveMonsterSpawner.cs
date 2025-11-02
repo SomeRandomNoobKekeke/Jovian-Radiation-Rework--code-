@@ -24,23 +24,28 @@ namespace JovianRadiationRework
     public class ProgressiveMonsterSpawner : IMonsterSpawner
     {
       public ModelSettings Settings { get; set; }
+      public ProgressiveMonsterSpawningModel Model { get; set; }
+
+      public ILevel Level_Loaded { get; set; }
+      public IRadiationAccessor RadiationAccessor { get; set; }
       public void SpawnMonsters(MonsterEvent _)
       {
-        //TODO use event spawn position
-        float currentLocationRadiationAmount = Utils.CurrentLocationRadiationAmount();
+        float currentLocationRadiationAmount = Utils.AverageLocationRadiationAmount(Level_Loaded, RadiationAccessor);
 
         if (Settings.TooMuchEvenForMonsters > 0 && currentLocationRadiationAmount > Settings.TooMuchEvenForMonsters)
         {
+          Model.DebugLog($"amount: [{currentLocationRadiationAmount}] > TooMuchEvenForMonsters: [{Settings.TooMuchEvenForMonsters}]");
           return;
         }
 
 
-        float mult = 1 + currentLocationRadiationAmount * Settings.RadiationToMonstersMult;
-        mult = Math.Clamp(mult, 0, Settings.MaxRadiationToMonstersMult);
+        float mult = 1 + currentLocationRadiationAmount * Math.Max(0, Settings.RadiationToMonstersMult);
+        mult = Math.Clamp(mult, 0, Math.Max(0, Settings.MaxRadiationToMonstersMult));
 
         int MinAmount = (int)Math.Round(_.MinAmount * mult);
         int MaxAmount = (int)Math.Round(_.MaxAmount * mult);
 
+        Model.DebugLog($"_.MinAmount: [{_.MinAmount}] amount: [{currentLocationRadiationAmount}] mult: [{mult}] MinAmount: [{MinAmount}] MaxAmount: [{MaxAmount}]");
 
         //+1 because Range returns an integer less than the max value
         int amount = Rand.Range(MinAmount, MaxAmount + 1);

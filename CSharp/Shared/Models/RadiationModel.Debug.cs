@@ -16,10 +16,10 @@ namespace JovianRadiationRework
 
   public partial class RadiationModel
   {
-    public bool Debug { get; set; }
+    public bool Debug { get; set; } = true;
     public void DebugLog(object msg)
     {
-      if (Debug) Mod.Logger.Log(msg);
+      if (Debug) Mod.Logger.Log($"{Logger.WrapInColor(Name, "white")}| {msg}");
     }
 
   }
