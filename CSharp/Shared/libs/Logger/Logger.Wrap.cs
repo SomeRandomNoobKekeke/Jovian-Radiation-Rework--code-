@@ -9,6 +9,10 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using System.Text;
 
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
+
 namespace BaroJunk
 {
 
@@ -46,8 +50,13 @@ namespace BaroJunk
       {
         StringBuilder sb = new StringBuilder();
 
+        //BRUH
+        bool isPrimitive(PropertyInfo pi)
+          => pi.PropertyType.IsPrimitive || pi.PropertyType == typeof(string);
+
         void ToStringRec(string offset, object o)
         {
+          Logger.Default.Log($"Wrapping [{o}]");
           if (o is null)
           {
             sb.Append("[null]");
@@ -58,7 +67,7 @@ namespace BaroJunk
 
           foreach (PropertyInfo pi in props)
           {
-            if (!pi.PropertyType.IsPrimitive)
+            if (!isPrimitive(pi))
             {
               object value = pi.GetValue(o);
 
@@ -70,7 +79,7 @@ namespace BaroJunk
 
           foreach (PropertyInfo pi in props)
           {
-            if (pi.PropertyType.IsPrimitive)
+            if (isPrimitive(pi))
             {
               sb.Append($"{offset}{pi.PropertyType.Name}  {pi.Name}: [{WrapInColor(pi.GetValue(o), "white")}]\n");
             }
@@ -80,6 +89,15 @@ namespace BaroJunk
         ToStringRec("", target);
         sb.Remove(sb.Length - 1, 1);
         return sb.ToString();
+      }
+
+      public static string AsJson(object target)
+      {
+        return JsonSerializer.Serialize(target, new JsonSerializerOptions
+        {
+          WriteIndented = true,
+          Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        });
       }
 
       /// <summary>

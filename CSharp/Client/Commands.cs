@@ -25,7 +25,7 @@ namespace JovianRadiationRework
       ));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
-        () => new string[][] { RadiationParamsAccess.Instance.Props.Append("reset").ToArray() }
+        () => new string[][] { RadiationParamsAccess.Instance.GetProps().Append("reset").ToArray() }
       ));
       AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
         () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
@@ -94,7 +94,7 @@ namespace JovianRadiationRework
       }
     }
 
-    //WTF is this command?
+
     public static void Rad_Vanilla_Command(string[] args)
     {
       if (args.Length == 0)
@@ -103,6 +103,11 @@ namespace JovianRadiationRework
         return;
       }
 
+      if (args.Length == 1)
+      {
+        Mod.Logger.Log(RadiationParamsAccess.Instance.Get(args[0]));
+        return;
+      }
 
       if (args.Length > 1)
       {
@@ -125,10 +130,7 @@ namespace JovianRadiationRework
         {
           GameMain.Client.SendConsoleCommand($"rad_vanilla {args[0]} {args[1]}");
         }
-      }
 
-      if (args.Length > 0)
-      {
         Mod.Logger.Log(RadiationParamsAccess.Instance.Get(args[0]));
       }
     }

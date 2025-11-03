@@ -29,7 +29,7 @@ namespace JovianRadiationRework
       {
         if (GameMain.GameSession?.Map?.Radiation != null)
         {
-          return Math.Max(0, GameMain.GameSession.Map.Radiation.Amount - _.MapPosition.X) >
+          return GameMain.GameSession.Map.Radiation.Amount - _.MapPosition.X >
             Settings.CriticalOutpostRadiationAmount;
         }
 

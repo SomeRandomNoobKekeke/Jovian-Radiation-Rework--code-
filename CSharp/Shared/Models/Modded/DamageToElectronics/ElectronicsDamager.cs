@@ -24,6 +24,7 @@ namespace JovianRadiationRework
   {
     public class ModdedElectronicsDamager : IElectronicsDamager
     {
+      public DamageToElectronicsModel Model { get; set; }
       public ModelSettings Settings { get; set; }
 
       public double updateTimer;
@@ -60,6 +61,8 @@ namespace JovianRadiationRework
 
         float dps = Math.Clamp(radAmount * Settings.RadAmountToDPS, 0, Settings.MaxDPS);
         float damage = dps * Settings.DamageInterval;
+
+        Model.DebugLog($"radAmount: [{radAmount}] dps: [{dps}] damage: [{damage}]");
 
         foreach (Item i in Damagable)
         {

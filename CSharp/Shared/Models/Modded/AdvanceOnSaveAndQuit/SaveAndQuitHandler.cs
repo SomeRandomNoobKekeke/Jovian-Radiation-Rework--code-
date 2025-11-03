@@ -25,6 +25,8 @@ namespace JovianRadiationRework
     {
       public ModelSettings Settings { get; set; }
 
+      public AdvanceOnSaveAndQuitModel Model { get; set; }
+
       public void HandleSaveAndQuit(CampaignMode _)
       {
         if (!Settings.ProgressOnSaveLoad) return;
@@ -33,9 +35,11 @@ namespace JovianRadiationRework
         float roundDuration = GameMain.GameSession.RoundDuration;
 
         float radSteps = Mod.CurrentModel.RadiationStepsCalculator.CalculateSteps(
-          CampaignMode.TransitionType.None,
+          CampaignMode.TransitionType.LeaveLocation, // HACK
           roundDuration
         );
+
+        Model.DebugLog($"roundDuration: [{roundDuration}] radSteps: [{radSteps}]");
 
         GameMain.GameSession.Map.Radiation?.OnStep(radSteps);
       }

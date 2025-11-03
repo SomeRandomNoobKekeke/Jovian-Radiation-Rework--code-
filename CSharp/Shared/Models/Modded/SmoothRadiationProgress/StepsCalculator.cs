@@ -31,6 +31,7 @@ namespace JovianRadiationRework
 
         radSteps = Math.Max(0, Math.Min(radSteps, Settings.MaxStepsPerRound));
 
+        //TODO is transitionType == LeaveLocation only when leaving outpost?
         if (transitionType == CampaignMode.TransitionType.LeaveLocation)
         {
           radSteps *= Settings.OutpostTimeMultiplier;

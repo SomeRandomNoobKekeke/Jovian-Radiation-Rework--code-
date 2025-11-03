@@ -14,6 +14,8 @@ namespace BaroJunk
 {
   public partial class Logger
   {
+    public static Logger Default = new Logger();
+
     public static string WrapInColor(object msg, string color) => $"‖color:{color}‖{msg}‖end‖";
 
     public interface ISerializer { public string Serialize(object o); }

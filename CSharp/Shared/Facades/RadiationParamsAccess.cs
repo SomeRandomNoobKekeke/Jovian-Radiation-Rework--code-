@@ -90,6 +90,7 @@ namespace JovianRadiationRework
 
   public class RadiationParamsAccess : ReflectionProxy
   {
+    public static RadiationParamsAccess Instance = new RadiationParamsAccess();
     public static Dictionary<string, string> DefaultValues = new() //HACK
     {
       ["StartingRadiation"] = "-100",
@@ -112,8 +113,13 @@ namespace JovianRadiationRework
       foreach (var (key, value) in DefaultValues) Set(key, value);
     }
 
-    public static RadiationParamsAccess Instance = new RadiationParamsAccess();
     public RadiationParamsAccess() : base(new RadiationParamsFacade()) { }
+
+    public override string ToString()
+    {
+      //CRINGE is spreading
+      return Logger.Wrap.AsJson(Target);
+    }
   }
 
 
