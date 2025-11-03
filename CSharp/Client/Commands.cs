@@ -105,7 +105,14 @@ namespace JovianRadiationRework
 
       if (args.Length == 1)
       {
-        Mod.Logger.Log(RadiationParamsAccess.Instance.Get(args[0]));
+        if (String.Equals(args[0], "reset", StringComparison.OrdinalIgnoreCase))
+        {
+          RadiationParamsAccess.Instance.Reset();
+          Mod.Logger.Log(RadiationParamsAccess.Instance);
+          return;
+        }
+
+        Mod.Logger.Log($"{args[0]} = {RadiationParamsAccess.Instance.Get(args[0])}");
         return;
       }
 
@@ -117,13 +124,6 @@ namespace JovianRadiationRework
           return;
         }
 
-        if (String.Equals(args[0], "reset", StringComparison.OrdinalIgnoreCase))
-        {
-          RadiationParamsAccess.Instance.Reset();
-          Mod.Logger.Log(RadiationParamsAccess.Instance);
-          return;
-        }
-
         RadiationParamsAccess.Instance.Set(args[0], args[1]);
 
         if (GameMain.IsMultiplayer)
@@ -131,7 +131,7 @@ namespace JovianRadiationRework
           GameMain.Client.SendConsoleCommand($"rad_vanilla {args[0]} {args[1]}");
         }
 
-        Mod.Logger.Log(RadiationParamsAccess.Instance.Get(args[0]));
+        Mod.Logger.Log($"{args[0]} = {RadiationParamsAccess.Instance.Get(args[0])}");
       }
     }
 

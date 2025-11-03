@@ -61,16 +61,6 @@ namespace JovianRadiationRework
       get => Params.AnimationSpeed;
       set => Params.AnimationSpeed = value;
     }
-    // public Color RadiationAreaColor
-    // {
-    //   get => Params.RadiationAreaColor;
-    //   set => Params.RadiationAreaColor = value;
-    // }
-    // public Color RadiationBorderTint
-    // {
-    //   get => Params.RadiationBorderTint;
-    //   set => Params.RadiationBorderTint = value;
-    // }
     public string RadiationAreaColor
     {
       get => XMLExtensions.ColorToString(Params.RadiationAreaColor);
@@ -88,7 +78,7 @@ namespace JovianRadiationRework
     }
   }
 
-  public class RadiationParamsAccess : ReflectionProxy
+  public class RadiationParamsAccess : ReflectionStringProxy
   {
     public static RadiationParamsAccess Instance = new RadiationParamsAccess();
     public static Dictionary<string, string> DefaultValues = new() //HACK
@@ -110,6 +100,7 @@ namespace JovianRadiationRework
 
     public void Reset()
     {
+      Mod.Logger.Log("Reset");
       foreach (var (key, value) in DefaultValues) Set(key, value);
     }
 
