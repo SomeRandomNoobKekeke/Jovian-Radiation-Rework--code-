@@ -63,9 +63,22 @@ namespace JovianRadiationRework
       {
         ModelManager.SetModelState(name, state);
       };
+
+      Config.Vanilla.StartingRadiationSet += (amount) =>
+      {
+        if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
+        {
+          if (GameMain.GameSession.Map.Radiation?.Enabled == true)
+          {
+            GameMain.GameSession.Map.Radiation.Amount = amount;
+          }
+        }
+      };
+
       config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
       Config.UseStrategy(ConfigStrategy.Passive);
+      Config.OnPropChanged((key, valua) => Logger.Log(key));
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       // Logger.Log(CurrentModel);

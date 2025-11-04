@@ -13,11 +13,6 @@ using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {
-  public class VanillaSettings : RadiationParamsFacade, IConfig
-  {
-
-  }
-
   public class MainConfig : IConfig
   {
     public EnabledModels EnabledModels { get; set; }
@@ -58,11 +53,18 @@ namespace JovianRadiationRework
 
       //TODO make IConfig deeply reactive
       #region CRINGE
-      this.OnPropChanged((path, state) =>
+      this.OnPropChanged((path, value) =>
       {
-        if (!path.StartsWith("EnabledModels")) return;
-        path = path.Remove(0, "EnabledModels.".Length);
-        EnabledModels.RaiseModelToggled(path, (bool)state);
+        if (path == "Vanilla.StartingRadiation")
+        {
+          Vanilla.RaiseStartingRadiationSet((float)value);
+        }
+
+        if (path.StartsWith("EnabledModels"))
+        {
+          path = path.Remove(0, "EnabledModels.".Length);
+          EnabledModels.RaiseModelToggled(path, (bool)value);
+        }
       });
       #endregion
     }
