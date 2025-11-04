@@ -18,63 +18,63 @@ namespace JovianRadiationRework
 
     public float StartingRadiation
     {
-      get => Params.StartingRadiation;
-      set => Params.StartingRadiation = value;
+      get => Params?.StartingRadiation ?? default;
+      set { if (Params is not null) Params.StartingRadiation = value; }
     }
     public float RadiationStep
     {
-      get => Params.RadiationStep;
-      set => Params.RadiationStep = value;
+      get => Params?.RadiationStep ?? default;
+      set { if (Params is not null) Params.RadiationStep = value; }
     }
     public float RadiationEffectMultipliedPerPixelDistance
     {
-      get => Params.RadiationEffectMultipliedPerPixelDistance;
-      set => Params.RadiationEffectMultipliedPerPixelDistance = value;
+      get => Params?.RadiationEffectMultipliedPerPixelDistance ?? default;
+      set { if (Params is not null) Params.RadiationEffectMultipliedPerPixelDistance = value; }
     }
     public int CriticalRadiationThreshold
     {
-      get => Params.CriticalRadiationThreshold;
-      set => Params.CriticalRadiationThreshold = value;
+      get => Params?.CriticalRadiationThreshold ?? default;
+      set { if (Params is not null) Params.CriticalRadiationThreshold = value; }
     }
     public int MinimumOutpostAmount
     {
-      get => Params.MinimumOutpostAmount;
-      set => Params.MinimumOutpostAmount = value;
+      get => Params?.MinimumOutpostAmount ?? default;
+      set { if (Params is not null) Params.MinimumOutpostAmount = value; }
     }
     public float RadiationDamageDelay
     {
-      get => Params.RadiationDamageDelay;
-      set => Params.RadiationDamageDelay = value;
+      get => Params?.RadiationDamageDelay ?? default;
+      set { if (Params is not null) Params.RadiationDamageDelay = value; }
     }
     public float RadiationDamageAmount
     {
-      get => Params.RadiationDamageAmount;
-      set => Params.RadiationDamageAmount = value;
+      get => Params?.RadiationDamageAmount ?? default;
+      set { if (Params is not null) Params.RadiationDamageAmount = value; }
     }
     public float MaxRadiation
     {
-      get => Params.MaxRadiation;
-      set => Params.MaxRadiation = value;
+      get => Params?.MaxRadiation ?? default;
+      set { if (Params is not null) Params.MaxRadiation = value; }
     }
     public float AnimationSpeed
     {
-      get => Params.AnimationSpeed;
-      set => Params.AnimationSpeed = value;
+      get => Params?.AnimationSpeed ?? default;
+      set { if (Params is not null) Params.AnimationSpeed = value; }
     }
     public string RadiationAreaColor
     {
-      get => XMLExtensions.ColorToString(Params.RadiationAreaColor);
-      set => Params.RadiationAreaColor = XMLExtensions.ParseColor(value);
+      get => Params is null ? "0,0,0,0" : XMLExtensions.ColorToString(Params.RadiationAreaColor);
+      set { if (Params is not null) Params.RadiationAreaColor = XMLExtensions.ParseColor(value); }
     }
     public string RadiationBorderTint
     {
-      get => XMLExtensions.ColorToString(Params.RadiationBorderTint);
-      set => Params.RadiationBorderTint = XMLExtensions.ParseColor(value);
+      get => Params is null ? "0,0,0,0" : XMLExtensions.ColorToString(Params.RadiationBorderTint);
+      set { if (Params is not null) Params.RadiationBorderTint = XMLExtensions.ParseColor(value); }
     }
     public float BorderAnimationSpeed
     {
-      get => Params.BorderAnimationSpeed;
-      set => Params.BorderAnimationSpeed = value;
+      get => Params?.BorderAnimationSpeed ?? default;
+      set { if (Params is not null) Params.BorderAnimationSpeed = value; }
     }
   }
 
@@ -100,7 +100,6 @@ namespace JovianRadiationRework
 
     public void Reset()
     {
-      Mod.Logger.Log("Reset");
       foreach (var (key, value) in DefaultValues) Set(key, value);
     }
 
