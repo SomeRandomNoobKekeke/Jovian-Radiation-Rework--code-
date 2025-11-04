@@ -119,6 +119,7 @@ namespace JovianRadiationRework
       RemoveCommands();
       UTestCommands.RemoveCommands();
       Instance = null;
+      RadiationParamsAccess.Instance.Reset();
     }
   }
 }
