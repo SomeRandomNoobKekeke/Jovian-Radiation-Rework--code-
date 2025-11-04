@@ -13,6 +13,11 @@ using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {
+  public class VanillaSettings : RadiationParamsFacade, IConfig
+  {
+
+  }
+
   public class MainConfig : IConfig
   {
     public EnabledModels EnabledModels { get; set; }
@@ -26,6 +31,8 @@ namespace JovianRadiationRework
     public DamageToElectronicsModel.ModelSettings DamageToElectronicsSettings { get; set; }
     public AdvanceOnSaveAndQuitModel.ModelSettings AdvanceOnSaveAndQuitSettings { get; set; }
     public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
+
+    public VanillaSettings Vanilla { get; set; }
 
 
     private IEnumerable<IConfig> SubConfigs
@@ -50,7 +57,7 @@ namespace JovianRadiationRework
       SubSettings = SubConfigs.ToList();
 
       //TODO make IConfig deeply reactive
-      #region Cringe
+      #region CRINGE
       this.OnPropChanged((path, state) =>
       {
         if (!path.StartsWith("EnabledModels")) return;
