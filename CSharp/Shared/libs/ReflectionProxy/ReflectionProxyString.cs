@@ -19,7 +19,7 @@ namespace BaroJunk
   public class ReflectionStringProxy
   {
     public static BindingFlags pls = BindingFlags.Instance | BindingFlags.Public;
-    private object Target { get; set; }
+    public object Target { get; set; }
 
     public object Get(string prop) => Target.GetType().GetProperty(prop, pls)?.GetValue(Target);
     public SimpleResult Set(string prop, string raw)
