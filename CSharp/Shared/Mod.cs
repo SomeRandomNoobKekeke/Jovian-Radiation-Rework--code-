@@ -65,7 +65,7 @@ namespace JovianRadiationRework
       };
       config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
-      Config.UseStrategy(ConfigStrategy.MultiplayerBothSides);
+      Config.UseStrategy(ConfigStrategy.Passive);
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       // Logger.Log(CurrentModel);

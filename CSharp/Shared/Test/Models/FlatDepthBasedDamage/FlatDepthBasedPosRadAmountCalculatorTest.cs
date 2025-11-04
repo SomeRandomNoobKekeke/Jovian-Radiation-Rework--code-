@@ -123,7 +123,8 @@ namespace JovianRadiationRework
       //Note worldposition is in centimeters
       return new List<UTest>(){
         new UTest(calculator.CalculateAmount(null, new Vector2(-10000, 0)), 200.0f),
-        new UTest(calculator.CalculateAmount(null, new Vector2(20000, 0)), 0.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(20000, 0)), -100.0f),
+        new UTest(calculator.CalculateAmount(null, new Vector2(10000, -10000)), -100.0f),
         new UTest(calculator.CalculateAmount(null, new Vector2(0, -10000)), 0.0f),
       };
     }

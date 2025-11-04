@@ -40,22 +40,18 @@ namespace JovianRadiationRework
 
           float RelativeDepth = (Math.Max(Level_Loaded.StartPosition.Y, Level_Loaded.EndPosition.Y) - pos.Y) * Physics.DisplayToRealWorldRatio;
 
-          return Math.Max(0,
-            RadiationAccessor.Amount(_)
-            - MapX
-            - RelativeDepth * Settings.WaterRadiationBlockPerMeter
-          );
+          return RadiationAccessor.Amount(_)
+                 - MapX
+                 - RelativeDepth * Settings.WaterRadiationBlockPerMeter;
         }
 
         if (Level_Loaded is { Type: LevelData.LevelType.Outpost })
         {
           float RelativeDepth = (Level_Loaded.StartPosition.Y - pos.Y) * Physics.DisplayToRealWorldRatio;
 
-          return Math.Max(0,
-            RadiationAccessor.Amount(_)
-            - Level_Loaded.StartLocation_MapPosition.X
-            - RelativeDepth * Settings.WaterRadiationBlockPerMeter
-          );
+          return RadiationAccessor.Amount(_)
+                 - Level_Loaded.StartLocation_MapPosition.X
+                 - RelativeDepth * Settings.WaterRadiationBlockPerMeter;
         }
 
 

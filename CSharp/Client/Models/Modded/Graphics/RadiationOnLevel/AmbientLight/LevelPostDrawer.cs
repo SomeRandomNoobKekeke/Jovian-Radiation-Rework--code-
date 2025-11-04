@@ -25,14 +25,16 @@ namespace JovianRadiationRework
         Radiation radiation = (GameMain.GameSession?.GameMode as CampaignMode)?.Map?.Radiation;
         if (radiation is null) return;
 
-        float brightness = Math.Clamp(Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
+        float brightness = Math.Clamp(
+          (Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
             radiation,
             new Vector2(
               cam.Position.X,
               cam.Position.Y
             )
-          ) * Settings.RadiationToAmbienceBrightness,
-          0, Settings.MaxAmbienceBrightness
+          ) + Settings.RadiationAmountOffset) * Settings.RadiationToAmbienceBrightness,
+          0,
+          Settings.MaxAmbienceBrightness
         );
 
         float time = (float)(Timing.TotalTime * Settings.PerlinNoiseFrequency);
