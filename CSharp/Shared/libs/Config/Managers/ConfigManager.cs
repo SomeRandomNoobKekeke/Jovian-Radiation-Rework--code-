@@ -17,6 +17,8 @@ namespace BaroJunk_Config
 
     public void UseStrategy(ConfigStrategy strategy)
     {
+      CurrentStrategy = strategy;
+
       AutoSaver.UseStrategy(strategy.AutoSaverStrategy);
 
       if (Config.Facades.NetFacade.IsClient)
@@ -28,6 +30,8 @@ namespace BaroJunk_Config
         ServerNetManager.UseStrategy(strategy.NetManagerStrategy);
       }
     }
+
+    public ConfigStrategy CurrentStrategy;
 
     public ConfigAutoSaver AutoSaver;
     public ConfigClientNetManager ClientNetManager;

@@ -16,7 +16,10 @@ namespace BaroJunk_Config
     /// <summary>
     /// Do nothing
     /// </summary>
-    public static ConfigStrategy Passive = new ConfigStrategy();
+    public static ConfigStrategy Passive = new ConfigStrategy()
+    {
+      Name = "Passive",
+    };
 
     /// <summary>
     /// It auto loads and auto saves settings in singleplayer and on client side in multiplayer
@@ -24,6 +27,7 @@ namespace BaroJunk_Config
     /// </summary>
     public static ConfigStrategy MultiplayerClientside = new ConfigStrategy()
     {
+      Name = "MultiplayerClientside",
       AutoSaverStrategy = new AutoSaverStrategy()
       {
         OnClient = new SaveLoadingStrategy()
@@ -52,11 +56,9 @@ namespace BaroJunk_Config
       }
     };
 
-    /// <summary>
-    /// 
-    /// </summary>
     public static ConfigStrategy MultiplayerBothSides = new ConfigStrategy()
     {
+      Name = "MultiplayerBothSides",
       AutoSaverStrategy = new AutoSaverStrategy()
       {
         OnClient = new SaveLoadingStrategy()
@@ -87,6 +89,7 @@ namespace BaroJunk_Config
 
     public static ConfigStrategy OnlyAutosave = new ConfigStrategy()
     {
+      Name = "OnlyAutosave",
       AutoSaverStrategy = new AutoSaverStrategy()
       {
         OnClient = new SaveLoadingStrategy()
@@ -117,6 +120,7 @@ namespace BaroJunk_Config
 
     public static ConfigStrategy OnlyNetworking = new ConfigStrategy()
     {
+      Name = "OnlyNetworking",
       AutoSaverStrategy = new AutoSaverStrategy()
       {
         OnClient = new SaveLoadingStrategy()
@@ -145,7 +149,9 @@ namespace BaroJunk_Config
       }
     };
 
-
+    #region Own Props
+    #endregion
+    public string Name { get; set; } = "Unknown Config Strategy";
     public AutoSaverStrategy AutoSaverStrategy { get; set; } = new();
     public NetManagerStrategy NetManagerStrategy { get; set; } = new();
   }

@@ -22,6 +22,7 @@ namespace JovianRadiationRework
     {
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_save", "", Rad_Save_Command));
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "", Rad_Load_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_debugmodel", "", Rad_DebugModel_Command,
         () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
       ));
@@ -32,8 +33,9 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
         () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
       ));
-
     }
+
+
     public static void Rad_Save_Command(string[] args)
     {
       if (args.Length == 0)
@@ -42,9 +44,37 @@ namespace JovianRadiationRework
         return;
       }
 
+      SimpleResult result = Mod.Config.SaveToModSettings(args[0]);
 
-      Mod.Config.Save(Path.Combine("ModSettings/Jovian Radiation Rework/", $"{args[0]}.xml"));
-      Mod.Logger.Log($"Saved to {Path.Combine(ModInfo.ModDir<Mod>(), $"{args[0]}.xml")}");
+      if (result.Ok)
+      {
+        Mod.Logger.Log($"Saved to [{Logger.WrapInColor(Mod.Config.GetPathInModSettings(args[0]), "white")}]");
+      }
+      else
+      {
+        Mod.Logger.Log($"Failed: [{Logger.WrapInColor(result.Details, "white")}]");
+      }
+    }
+
+    public static void Rad_Load_Command(string[] args)
+    {
+      if (args.Length == 0)
+      {
+        Mod.Logger.Log($"Which one? {Logger.Wrap.IEnumerable(MainConfig.AvailableConfigs)}");
+        return;
+      }
+
+      SimpleResult result = Mod.Config.LoadFromModSettings(args[0]);
+
+      if (result.Ok)
+      {
+        Mod.Logger.Log($"Loaded from [{Mod.Config.GetPathInModSettings(args[0])}]");
+      }
+      else
+      {
+        Mod.Logger.Log($"Failed: [{result.Details}]");
+      }
+
     }
 
 

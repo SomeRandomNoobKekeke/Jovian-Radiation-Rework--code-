@@ -72,6 +72,8 @@ namespace BaroJunk_Config
       );
     }
 
+    //FIXME this shouldn't let you desync your config if you don't have permissions
+    // do i even have test for that?
     public void EditConfig_VanillaCommand(string[] args)
     {
       if (args.Length == 0)
