@@ -9,7 +9,8 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Barotrauma.Networking;
-
+using System.IO;
+using BaroJunk_Config;
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
@@ -20,6 +21,7 @@ namespace JovianRadiationRework
     public partial void AddCommandsProjSpecific()
     {
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
+      AddedCommands.Add(new DebugConsole.Command("rad_save", "", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_debugmodel", "", Rad_DebugModel_Command,
         () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
       ));
@@ -32,6 +34,19 @@ namespace JovianRadiationRework
       ));
 
     }
+    public static void Rad_Save_Command(string[] args)
+    {
+      if (args.Length == 0)
+      {
+        Mod.Logger.Log($"Where?");
+        return;
+      }
+
+      Mod.Config.Save(Path.Combine(ModInfo.ModDir<Mod>(), $"{args[0]}.xml"));
+      Mod.Logger.Log($"Saved to {Path.Combine(ModInfo.ModDir<Mod>(), $"{args[0]}.xml")}");
+    }
+
+
     public static void Rad_DebugModel_Command(string[] args)
     {
       if (args.Length == 0)
