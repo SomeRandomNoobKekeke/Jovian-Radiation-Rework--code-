@@ -28,7 +28,7 @@ namespace JovianRadiationRework
       ));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
-        () => new string[][] { RadiationParamsAccess.Instance.GetProps().Append("reset").ToArray() }
+        () => new string[][] { RadiationParamsAccess.Instance.GetPropNames().Append("reset").ToArray() }
       ));
       AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
         () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }

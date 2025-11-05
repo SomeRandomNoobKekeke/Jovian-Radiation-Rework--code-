@@ -14,7 +14,10 @@ namespace JovianRadiationRework
   /// </summary>
   public class RadiationParamsFacade
   {
-    private RadiationParams Params => GameMain.GameSession?.Map?.Radiation?.Params;
+    [ReflectionProxy.NotAProp]
+    public RadiationParams Params => GameMain.GameSession?.Map?.Radiation?.Params;
+    [ReflectionProxy.NotAProp]
+    public bool RadiationEnabled => Params != null;
 
     public float StartingRadiation
     {
@@ -78,7 +81,7 @@ namespace JovianRadiationRework
     }
   }
 
-  public class RadiationParamsAccess : ReflectionStringProxy
+  public class RadiationParamsAccess : ReflectionProxy
   {
     public static RadiationParamsAccess Instance = new RadiationParamsAccess();
     public static Dictionary<string, string> DefaultValues = new() //HACK
@@ -90,8 +93,7 @@ namespace JovianRadiationRework
       ["MinimumOutpostAmount"] = "3",
       ["RadiationDamageDelay"] = "10",
       ["RadiationDamageAmount"] = "1",
-      ["BorderAnimationSpeed"] = "-1",
-      ["MaxRadiation"] = "16.66",
+      ["MaxRadiation"] = "-1.0",
       ["AnimationSpeed"] = "3",
       ["RadiationAreaColor"] = "139,0,0,85",
       ["RadiationBorderTint"] = "255,0,0,255",
