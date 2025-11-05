@@ -13,7 +13,7 @@ using BaroJunk_Config;
 
 namespace JovianRadiationRework
 {
-  public class MainConfig : IConfig
+  public partial class MainConfig : IConfig
   {
     public EnabledModels EnabledModels { get; set; }
     public AmbientLightModel.ModelSettings AmbientLightSettings { get; set; }
@@ -28,6 +28,10 @@ namespace JovianRadiationRework
     public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
 
     public VanillaSettings Vanilla { get; set; }
+
+
+
+
 
 
     private IEnumerable<IConfig> SubConfigs

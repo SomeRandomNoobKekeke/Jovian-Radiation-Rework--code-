@@ -56,7 +56,7 @@ namespace BaroJunk_Config
         {
           if (!entry.IsConfig)
           {
-            dict[entry.Key] = ConfigLogger.WrapInColor(entry.Value.ToString(), "white");
+            dict[entry.Key] = Logger.WrapInColor(entry.Value.ToString(), "white");
           }
         }
       }

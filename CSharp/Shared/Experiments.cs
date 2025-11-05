@@ -16,7 +16,6 @@ namespace JovianRadiationRework
 
     public void Experiment()
     {
-
     }
   }
 }

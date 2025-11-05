@@ -42,7 +42,8 @@ namespace JovianRadiationRework
         return;
       }
 
-      Mod.Config.Save(Path.Combine(ModInfo.ModDir<Mod>(), $"{args[0]}.xml"));
+
+      Mod.Config.Save(Path.Combine("ModSettings/Jovian Radiation Rework/", $"{args[0]}.xml"));
       Mod.Logger.Log($"Saved to {Path.Combine(ModInfo.ModDir<Mod>(), $"{args[0]}.xml")}");
     }
 

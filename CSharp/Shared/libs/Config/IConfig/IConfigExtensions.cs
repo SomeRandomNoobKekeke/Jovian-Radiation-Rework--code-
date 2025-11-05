@@ -37,8 +37,8 @@ namespace BaroJunk_Config
     public static XMLParser GetXMLParser(this IConfig config) => config.XMLParser;
     public static void SetXMLParser(this IConfig config, XMLParser value) => config.XMLParser = value;
 
-    public static ConfigLogger GetLogger(this IConfig config) => config.Logger;
-    public static void SetLogger(this IConfig config, ConfigLogger value) => config.Logger = value;
+    public static Logger GetLogger(this IConfig config) => config.Logger;
+    public static void SetLogger(this IConfig config, Logger value) => config.Logger = value;
 
     public static IConfigFacades GetFacades(this IConfig config) => config.Facades;
     public static void SetFacades(this IConfig config, IConfigFacades value) => config.Facades = value;

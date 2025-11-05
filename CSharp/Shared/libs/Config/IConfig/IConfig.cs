@@ -46,7 +46,7 @@ namespace BaroJunk_Config
       get => Core.XMLParser;
       set => Core.XMLParser = value;
     }
-    public ConfigLogger Logger
+    public Logger Logger
     {
       get => Core.Logger;
       set => Core.Logger = value;
