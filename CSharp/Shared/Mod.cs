@@ -126,13 +126,25 @@ namespace JovianRadiationRework
 
     public void OnLoadCompleted() { }
     public void PreInitPatching() { }
+
+    public void DestroyStaticFields()
+    {
+      foreach (FieldInfo fi in typeof(Mod).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+      {
+        if (!fi.FieldType.IsPrimitive)
+        {
+          fi.SetValue(this, null);
+        }
+      }
+    }
+
     public void Dispose()
     {
       Harmony.UnpatchSelf();
       RemoveCommands();
       UTestCommands.RemoveCommands();
-      Instance = null;
       RadiationParamsAccess.Instance.Reset();
+      DestroyStaticFields();
     }
   }
 }
