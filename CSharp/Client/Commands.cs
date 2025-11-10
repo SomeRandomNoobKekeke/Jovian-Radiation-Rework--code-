@@ -10,7 +10,7 @@ using Barotrauma;
 using HarmonyLib;
 using Barotrauma.Networking;
 using System.IO;
-using BaroJunk_Config;
+
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin

@@ -6,6 +6,7 @@ using System.Linq;
 
 using Barotrauma;
 using Microsoft.Xna.Framework;
+using System.Text;
 
 namespace JovianRadiationRework
 {
@@ -109,8 +110,16 @@ namespace JovianRadiationRework
 
     public override string ToString()
     {
-      //CRINGE is spreading
-      return Logger.Wrap.AsJson(Target);
+      StringBuilder sb = new StringBuilder();
+
+      sb.AppendLine("{");
+      foreach (string name in GetPropNames())
+      {
+        sb.AppendLine($"    {name}: {Logger.WrapInColor(Get(name), "white")}");
+      }
+      sb.Append("}");
+
+      return sb.ToString();
     }
   }
 

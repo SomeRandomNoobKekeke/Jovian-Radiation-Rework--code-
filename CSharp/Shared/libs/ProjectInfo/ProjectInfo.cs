@@ -68,7 +68,7 @@ namespace BaroJunk
 
     public static void PrintSummary()
     {
-      Mod.Logger.Log(Summary());
+      Logger.Default.Log(Summary());
     }
 
     public static string Summary()

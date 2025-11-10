@@ -56,53 +56,50 @@ namespace BaroJunk
         return sb.ToString();
       }
 
-      /// <summary>
-      /// beware of loops
-      /// </summary>
-      public static string Object(object target)
-      {
-        StringBuilder sb = new StringBuilder();
+      //BRUH borked
+      // public static string Object(object target)
+      // {
+      //   StringBuilder sb = new StringBuilder();
 
-        //BRUH
-        bool isPrimitive(PropertyInfo pi)
-          => pi.PropertyType.IsPrimitive || pi.PropertyType == typeof(string);
+      //   bool isPrimitive(PropertyInfo pi)
+      //     => pi.PropertyType.IsPrimitive || pi.PropertyType == typeof(string);
 
-        void ToStringRec(string offset, object o)
-        {
-          Logger.Default.Log($"Wrapping [{o}]");
-          if (o is null)
-          {
-            sb.Append("[null]");
-            return;
-          }
+      //   void ToStringRec(string offset, object o)
+      //   {
+      //     Logger.Default.Log($"Wrapping [{o}]");
+      //     if (o is null)
+      //     {
+      //       sb.Append("[null]");
+      //       return;
+      //     }
 
-          PropertyInfo[] props = o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+      //     PropertyInfo[] props = o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
-          foreach (PropertyInfo pi in props)
-          {
-            if (!isPrimitive(pi))
-            {
-              object value = pi.GetValue(o);
+      //     foreach (PropertyInfo pi in props)
+      //     {
+      //       if (!isPrimitive(pi))
+      //       {
+      //         object value = pi.GetValue(o);
 
-              sb.Append($"{offset}{pi.PropertyType.Name}  {pi.Name}:\n");
-              ToStringRec($"{offset}       |", value);
-              sb.Append($"{offset}        \n");
-            }
-          }
+      //         sb.Append($"{offset}{pi.PropertyType.Name}  {pi.Name}:\n");
+      //         ToStringRec($"{offset}       |", value);
+      //         sb.Append($"{offset}        \n");
+      //       }
+      //     }
 
-          foreach (PropertyInfo pi in props)
-          {
-            if (isPrimitive(pi))
-            {
-              sb.Append($"{offset}{pi.PropertyType.Name}  {pi.Name}: [{WrapInColor(pi.GetValue(o), "white")}]\n");
-            }
-          }
-        }
+      //     foreach (PropertyInfo pi in props)
+      //     {
+      //       if (isPrimitive(pi))
+      //       {
+      //         sb.Append($"{offset}{pi.PropertyType.Name}  {pi.Name}: [{WrapInColor(pi.GetValue(o), "white")}]\n");
+      //       }
+      //     }
+      //   }
 
-        ToStringRec("", target);
-        sb.Remove(sb.Length - 1, 1);
-        return sb.ToString();
-      }
+      //   ToStringRec("", target);
+      //   sb.Remove(sb.Length - 1, 1);
+      //   return sb.ToString();
+      // }
 
 #if JSON_AVAILABLE
       public static string AsJson(object target)

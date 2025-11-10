@@ -8,7 +8,7 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using BaroJunk;
-using BaroJunk_Config;
+
 namespace JovianRadiationRework
 {
 
