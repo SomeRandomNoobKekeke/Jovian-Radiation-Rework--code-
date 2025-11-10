@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class ConfigSettings
   {
@@ -20,6 +20,15 @@ namespace BaroJunk_Config
     {
       get => Config.Manager.CommandsManager.CommandName;
       set => Config.Manager.CommandsManager.CommandName = value;
+    }
+
+    /// <summary>
+    /// Deep reactivity wasn't planned and is very unoptimized, so it's optional and defaults to false
+    /// </summary>
+    public bool DeeplyReactive
+    {
+      get => Config.ReactiveCore.DeeplyReactive;
+      set => Config.ReactiveCore.DeeplyReactive = value;
     }
 
     public ConfigStrategy Strategy

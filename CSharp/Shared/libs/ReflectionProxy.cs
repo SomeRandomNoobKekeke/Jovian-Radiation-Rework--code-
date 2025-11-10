@@ -18,6 +18,16 @@ namespace BaroJunk
   /// </summary>
   public class ReflectionProxy
   {
+    static ReflectionProxy() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "ReflectionProxy",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk"
+      }
+    });
+
+
     public class NotAProp : Attribute { }
 
     public static BindingFlags pls = BindingFlags.Instance | BindingFlags.Public;

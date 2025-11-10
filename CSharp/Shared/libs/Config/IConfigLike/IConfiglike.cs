@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   /// <summary>
   /// Something like Dictionary<string, object>
@@ -20,6 +20,10 @@ namespace BaroJunk_Config
 
     public IEnumerable<string> Keys { get; }
     public Dictionary<string, object> AsDict { get; }
+
+
+    // Not every Configlike is actually a full config with a core
+    public ConfigCore Core { get; }
 
     public bool IsSubConfig(object o);
     public bool IsSubConfig(Type T);

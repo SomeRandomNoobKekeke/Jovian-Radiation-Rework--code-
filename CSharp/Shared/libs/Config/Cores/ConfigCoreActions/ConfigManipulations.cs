@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
 
   public partial class ConfigCore

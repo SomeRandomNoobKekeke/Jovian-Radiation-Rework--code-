@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public partial class ConfigCore : IConfigLikeContainer, IDirectlyLocatable, IReactiveLocatable
   {

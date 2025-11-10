@@ -18,6 +18,16 @@ namespace BaroJunk
   /// </summary>
   public static class ModStorage
   {
+    static ModStorage() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "ModStorage",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk"
+      }
+    });
+
+
     private static Dictionary<string, object> GetOrCreateRepo()
     {
       if (GUI.Canvas.GUIComponent is not GUIButton)

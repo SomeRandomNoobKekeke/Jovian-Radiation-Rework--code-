@@ -14,6 +14,15 @@ namespace BaroJunk
 {
   public partial class Logger
   {
+    static Logger() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "Logger",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk",
+      },
+    });
+
     public static Logger Default = new Logger();
 
     public static string WrapInColor(object msg, string color) => $"‖color:{color}‖{msg}‖end‖";

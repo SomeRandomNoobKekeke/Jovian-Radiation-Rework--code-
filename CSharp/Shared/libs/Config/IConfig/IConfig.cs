@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public partial interface IConfig : IDirectlyLocatable, IReactiveLocatable
   {

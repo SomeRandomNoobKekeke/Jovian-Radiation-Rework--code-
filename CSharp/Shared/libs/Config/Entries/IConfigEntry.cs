@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public interface IConfigEntry
   {

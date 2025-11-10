@@ -17,6 +17,15 @@ namespace BaroJunk
   /// </summary>
   public class SimpleParser
   {
+    static SimpleParser() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "SimpleParser",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk"
+      }
+    });
+
     private static SimpleParser _Default;
     public static SimpleParser Default => _Default ??= new SimpleParser();
 

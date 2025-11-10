@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class ConfiglikeObject : IConfiglike
   {
@@ -16,6 +16,15 @@ namespace BaroJunk_Config
     public string ID => IsValid ? $"{Target.GetType().Namespace}_{Target.GetType().Name}" : "[!]";
     public string Name => Target.GetType().Name;
     public DirectEntryLocator Locator { get; }
+
+    public ConfigCore Core
+    {
+      get
+      {
+        if (Target is not IConfig config) return null;
+        return config.Core;
+      }
+    }
 
     public bool HasProp(string key)
       => String.IsNullOrEmpty(key) ? false

@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class ConfigEntry : IConfigEntry, IConfigLikeContainer, IDirectlyLocatable
   {
@@ -24,6 +24,8 @@ namespace BaroJunk_Config
     public bool IsConfig => Host?.IsPropASubConfig(Key) == true;
     public bool IsValid => Host is not null && Host.HasProp(Key);
     public Type Type => Host?.TypeOfProp(Key);
+
+    public IConfiglike ValueAsConfig => Host.ToConfig(Value);
     public object Value
     {
       get => Host?.GetValue(Key);

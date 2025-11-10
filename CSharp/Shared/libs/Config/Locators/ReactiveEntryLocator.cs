@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class ReactiveEntryLocator
   {
@@ -50,6 +50,19 @@ namespace BaroJunk_Config
       foreach (var (key, value) in props)
       {
         yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), RelativePath(key));
+      }
+    }
+
+    public IEnumerable<ReactiveEntry> ReactiveGetSubConfigs()
+    {
+      Dictionary<string, object> props = Host.AsDict;
+
+      foreach (var (key, value) in props)
+      {
+        if (Host.IsPropASubConfig(key))
+        {
+          yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), RelativePath(key));
+        }
       }
     }
 

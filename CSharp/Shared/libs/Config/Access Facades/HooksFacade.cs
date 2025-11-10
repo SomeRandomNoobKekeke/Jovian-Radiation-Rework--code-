@@ -10,7 +10,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Barotrauma.Networking;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public interface IHooksFacade
   {

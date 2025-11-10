@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using Barotrauma.Networking;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
 
   public partial class ConfigCore

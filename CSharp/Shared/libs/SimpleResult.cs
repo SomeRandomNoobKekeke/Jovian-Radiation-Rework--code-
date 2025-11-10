@@ -16,6 +16,15 @@ namespace BaroJunk
   /// </summary>
   public class SimpleResult
   {
+    static SimpleResult() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "SimpleResult",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk",
+      }
+    });
+
     public static SimpleResult Success(object result = null) => new SimpleResult()
     {
       Ok = true,

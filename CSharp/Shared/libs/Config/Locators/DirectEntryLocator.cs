@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class DirectEntryLocator
   {
@@ -63,6 +63,19 @@ namespace BaroJunk_Config
       foreach (var (key, value) in props)
       {
         yield return new ConfigEntry(Host, key);
+      }
+    }
+
+    public IEnumerable<ConfigEntry> GetSubConfigs()
+    {
+      Dictionary<string, object> props = Host.AsDict;
+
+      foreach (var (key, value) in props)
+      {
+        if (Host.IsPropASubConfig(key))
+        {
+          yield return new ConfigEntry(Host, key);
+        }
       }
     }
 

@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   /// <summary>
   /// This object is exposing ReactiveEntryLocator and is mapping location calls to it
@@ -27,6 +27,7 @@ namespace BaroJunk_Config
     public bool ReactiveSetValue(string propPath, object value) => ReactiveLocator.ReactiveSetValue(propPath, value);
     public IEnumerable<ReactiveEntry> ReactiveGetEntries() => ReactiveLocator.ReactiveGetEntries();
     public IEnumerable<ReactiveEntry> ReactiveGetAllEntries() => ReactiveLocator.ReactiveGetAllEntries();
+    public IEnumerable<ReactiveEntry> ReactiveGetSubConfigs() => ReactiveLocator.ReactiveGetSubConfigs();
     public IEnumerable<ReactiveEntry> ReactiveGetEntriesRec() => ReactiveLocator.ReactiveGetEntriesRec();
     public IEnumerable<ReactiveEntry> ReactiveGetAllEntriesRec() => ReactiveLocator.ReactiveGetAllEntriesRec();
     public Dictionary<string, ReactiveEntry> ReactiveGetFlat() => ReactiveLocator.ReactiveGetFlat();
@@ -42,6 +43,7 @@ namespace BaroJunk_Config
     public static bool ReactiveSetValue(this IReactiveLocatable locatable, string propPath, object value) => locatable.ReactiveSetValue(propPath, value);
     public static IEnumerable<ReactiveEntry> ReactiveGetEntries(this IReactiveLocatable locatable) => locatable.ReactiveGetEntries();
     public static IEnumerable<ReactiveEntry> ReactiveGetAllEntries(this IReactiveLocatable locatable) => locatable.ReactiveGetAllEntries();
+    public static IEnumerable<ReactiveEntry> ReactiveGetSubConfigs(this IReactiveLocatable locatable) => locatable.ReactiveGetSubConfigs();
     public static IEnumerable<ReactiveEntry> ReactiveGetEntriesRec(this IReactiveLocatable locatable) => locatable.ReactiveGetEntriesRec();
     public static IEnumerable<ReactiveEntry> ReactiveGetAllEntriesRec(this IReactiveLocatable locatable) => locatable.ReactiveGetAllEntriesRec();
     public static Dictionary<string, ReactiveEntry> ReactiveGetFlat(this IReactiveLocatable locatable) => locatable.ReactiveGetFlat();

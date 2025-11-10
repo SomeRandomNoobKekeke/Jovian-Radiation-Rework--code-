@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   /// <summary>
   /// This object is exposing DirectEntryLocator and is mapping location calls to it
@@ -27,6 +27,7 @@ namespace BaroJunk_Config
     public bool SetValue(string propPath, object value) => Locator.SetValue(propPath, value);
     public IEnumerable<ConfigEntry> GetEntries() => Locator.GetEntries();
     public IEnumerable<ConfigEntry> GetAllEntries() => Locator.GetAllEntries();
+    public IEnumerable<ConfigEntry> GetSubConfigs() => Locator.GetSubConfigs();
     public IEnumerable<ConfigEntry> GetEntriesRec() => Locator.GetEntriesRec();
     public IEnumerable<ConfigEntry> GetAllEntriesRec() => Locator.GetAllEntriesRec();
     public Dictionary<string, ConfigEntry> GetFlat() => Locator.GetFlat();
@@ -43,6 +44,7 @@ namespace BaroJunk_Config
     public static bool SetValue(this IDirectlyLocatable locatable, string propPath, object value) => locatable.SetValue(propPath, value);
     public static IEnumerable<ConfigEntry> GetEntries(this IDirectlyLocatable locatable) => locatable.GetEntries();
     public static IEnumerable<ConfigEntry> GetAllEntries(this IDirectlyLocatable locatable) => locatable.GetAllEntries();
+    public static IEnumerable<ConfigEntry> GetSubConfigs(this IDirectlyLocatable locatable) => locatable.GetSubConfigs();
     public static IEnumerable<ConfigEntry> GetEntriesRec(this IDirectlyLocatable locatable) => locatable.GetEntriesRec();
     public static IEnumerable<ConfigEntry> GetAllEntriesRec(this IDirectlyLocatable locatable) => locatable.GetAllEntriesRec();
     public static Dictionary<string, ConfigEntry> GetFlat(this IDirectlyLocatable locatable) => locatable.GetFlat();
