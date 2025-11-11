@@ -76,11 +76,6 @@ namespace JovianRadiationRework
             Logger.Warning($"Vanilla.StartingRadiation is set on first round, changing Radiation.Amount");
           }
         }
-        else
-        {
-          Logger.Warning($"Vanilla.StartingRadiation is set, but It's not the first round, keeping Radiation.Amount unchanged");
-          Mod.Logger.PrintStackTrace();
-        }
       };
 
 
