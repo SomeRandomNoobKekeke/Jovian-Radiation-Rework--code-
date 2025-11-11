@@ -21,6 +21,8 @@ namespace JovianRadiationRework
   {
     public static string ModSettingsPath = Path.Combine("ModSettings", "Jovian Radiation Rework");
     public static string ModFolderPath = Path.Combine(ModInfo.ModDir<Mod>(), "Presets");
+    public static string DefaultConfigPath = Path.Combine(ModSettingsPath, "Settings.xml");
+
     public static IEnumerable<string> AvailableConfigs => ModSettingsConfigs;
 
     // TODO use IOFacade

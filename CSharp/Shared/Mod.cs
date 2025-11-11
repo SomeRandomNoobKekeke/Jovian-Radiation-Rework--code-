@@ -56,6 +56,7 @@ namespace JovianRadiationRework
 
       ModelManager.ScanModels();
 
+      Config.Settings().SavePath = MainConfig.DefaultConfigPath;
       Config.Settings().CommandName = "rad";
       Config.Settings().DeeplyReactive = true;
 
@@ -81,7 +82,7 @@ namespace JovianRadiationRework
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
       Config.GetReactiveCore().RaiseUpdated();
 
-      Config.UseStrategy(ConfigStrategy.OnlyLoading);
+      Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
       Config.OnPropChanged((key, valua) => Logger.Log(key));
 
       Config.GetReactiveCore().RaiseUpdated();
