@@ -22,7 +22,8 @@ namespace JovianRadiationRework
     {
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_save", "", Rad_Save_Command));
-      AddedCommands.Add(new DebugConsole.Command("rad_load", "", Rad_Load_Command));
+      AddedCommands.Add(new DebugConsole.Command("rad_load", "", Rad_Load_Command,
+      () => new string[][] { MainConfig.AvailableConfigs.ToArray() }));
       AddedCommands.Add(new DebugConsole.Command("rad_debugmodel", "", Rad_DebugModel_Command,
         () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
       ));
@@ -64,7 +65,7 @@ namespace JovianRadiationRework
         return;
       }
 
-      SimpleResult result = Mod.Config.LoadFromModSettings(args[0]);
+      SimpleResult result = Mod.Config.LoadPreset(args[0]);
 
       if (result.Ok)
       {

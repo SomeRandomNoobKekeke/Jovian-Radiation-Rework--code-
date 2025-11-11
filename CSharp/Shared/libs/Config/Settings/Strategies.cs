@@ -149,6 +149,68 @@ namespace BaroJunk
       }
     };
 
+    public static ConfigStrategy OnlySingleplayer = new ConfigStrategy()
+    {
+      Name = "OnlySingleplayer",
+      AutoSaverStrategy = new AutoSaverStrategy()
+      {
+        OnClient = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        OnServer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        InSingleplayer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = true,
+        },
+        AutoSave = true,
+        LoadOnInit = true,
+        SaveOnQuit = true,
+        SaveEveryRound = true,
+      },
+      NetManagerStrategy = new NetManagerStrategy()
+      {
+        NetSync = false,
+      }
+    };
+
+    public static ConfigStrategy OnlyLoading = new ConfigStrategy()
+    {
+      Name = "OnlyLoading",
+      AutoSaverStrategy = new AutoSaverStrategy()
+      {
+        OnClient = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = false,
+        },
+        OnServer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = false,
+        },
+        InSingleplayer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = false,
+        },
+        AutoSave = true,
+        LoadOnInit = true,
+        SaveOnQuit = false,
+        SaveEveryRound = false,
+      },
+      NetManagerStrategy = new NetManagerStrategy()
+      {
+        NetSync = false,
+      }
+    };
+
     #region Own Props
     #endregion
     public string Name { get; set; } = "Unknown Config Strategy";

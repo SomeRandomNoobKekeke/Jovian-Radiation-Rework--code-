@@ -10,7 +10,14 @@ namespace BaroJunk
     static ConfigCore() => ProjectInfo.Add(new PackageInfo()
     {
       Name = "Config",
-      Version = new Version(0, 0, 0) { Branch = "BaroJunk", },
+      Version = new Version(0, 1, 0)
+      {
+        Branch = "JRR",
+        BasedOn = new Version(0, 0, 0)
+        {
+          Branch = "BaroJunk"
+        }
+      },
 
       Dependencies = new List<PackageInfo>(){
         new PackageInfo(){

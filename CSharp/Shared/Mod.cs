@@ -81,11 +81,12 @@ namespace JovianRadiationRework
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
       Config.GetReactiveCore().RaiseUpdated();
 
-      Config.UseStrategy(ConfigStrategy.Passive);
+      Config.UseStrategy(ConfigStrategy.OnlyLoading);
       Config.OnPropChanged((key, valua) => Logger.Log(key));
 
       Config.GetReactiveCore().RaiseUpdated();
 
+      ProjectInfo.CheckIncompatibleLibs();
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       // Logger.Log(CurrentModel);
     }
