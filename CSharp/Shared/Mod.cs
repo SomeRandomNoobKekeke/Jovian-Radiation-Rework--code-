@@ -76,10 +76,15 @@ namespace JovianRadiationRework
         }
       };
 
-      config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
+
+
+      Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
+      Config.GetReactiveCore().RaiseUpdated();
 
       Config.UseStrategy(ConfigStrategy.Passive);
       Config.OnPropChanged((key, valua) => Logger.Log(key));
+
+      Config.GetReactiveCore().RaiseUpdated();
 
       Logger.Log($"{ModInfo.AssemblyName} compiled");
       // Logger.Log(CurrentModel);

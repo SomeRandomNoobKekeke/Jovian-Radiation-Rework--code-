@@ -30,10 +30,6 @@ namespace JovianRadiationRework
     public VanillaSettings Vanilla { get; set; }
 
 
-
-
-
-
     private IEnumerable<IConfig> SubConfigs
       => this.GetAllEntriesRec()
       .Where(entry => entry.IsConfig)

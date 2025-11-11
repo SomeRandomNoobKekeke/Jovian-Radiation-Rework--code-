@@ -85,8 +85,8 @@ namespace JovianRadiationRework
       }
 
       Models = ModelCatalog.FromModels(models);
-      Recombine();
-      DumpModels();
+      // Recombine();
+      // DumpModels();
     }
 
     public void DumpModels(string path = "Ignore/models.txt")

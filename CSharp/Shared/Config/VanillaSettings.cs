@@ -60,6 +60,8 @@ namespace JovianRadiationRework
           StartingRadiationSet?.Invoke((float)value);
         }
       });
+
+      this.OnUpdated(Apply);
     }
   }
 }
