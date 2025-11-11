@@ -73,19 +73,22 @@ namespace JovianRadiationRework
           if (GameMain.GameSession.Map.Radiation?.Enabled == true)
           {
             GameMain.GameSession.Map.Radiation.Amount = amount;
+            Logger.Warning($"Vanilla.StartingRadiation is set on first round, changing Radiation.Amount");
           }
+        }
+        else
+        {
+          Logger.Warning($"Vanilla.StartingRadiation is set, but It's not the first round, keeping Radiation.Amount unchanged");
+          Mod.Logger.PrintStackTrace();
         }
       };
 
 
-
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
-      Config.GetReactiveCore().RaiseUpdated();
 
       Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
       Config.OnPropChanged((key, valua) => Logger.Log(key));
 
-      Config.GetReactiveCore().RaiseUpdated();
 
       ProjectInfo.CheckIncompatibleLibs();
       Logger.Log($"{ModInfo.AssemblyName} compiled");
