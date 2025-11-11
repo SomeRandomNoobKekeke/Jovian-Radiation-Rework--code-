@@ -15,7 +15,6 @@ namespace JovianRadiationRework
   public class EnabledModels : IConfig
   {
     public event Action<string, bool> ModelToggled;
-    public void RaiseModelToggled(string name, bool state) => ModelToggled?.Invoke(name, state);
 
     public bool AdvanceOnSaveAndQuitModel { get; set; } = true;
     public bool DamageToElectronicsModel { get; set; } = true;
@@ -26,5 +25,13 @@ namespace JovianRadiationRework
     public bool SmoothLocationTransformerModel { get; set; } = true;
     public bool SmoothRadiationProgressModel { get; set; } = true;
     public bool AmbientLightModel { get; set; } = true;
+
+    public EnabledModels()
+    {
+      this.OnPropChanged((key, value) =>
+      {
+        ModelToggled?.Invoke(key, (bool)value);
+      });
+    }
   }
 }

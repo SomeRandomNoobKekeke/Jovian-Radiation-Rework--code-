@@ -57,6 +57,7 @@ namespace JovianRadiationRework
       ModelManager.ScanModels();
 
       Config.Settings().CommandName = "rad";
+      Config.Settings().DeeplyReactive = true;
 
 
       Config.EnabledModels.ModelToggled += (name, state) =>

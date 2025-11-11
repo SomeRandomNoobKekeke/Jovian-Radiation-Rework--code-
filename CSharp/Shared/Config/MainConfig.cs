@@ -54,23 +54,6 @@ namespace JovianRadiationRework
     {
       this.Restore();
       SubSettings = SubConfigs.ToList();
-
-      //TODO make IConfig deeply reactive
-      #region CRINGE
-      this.OnPropChanged((path, value) =>
-      {
-        if (path == "Vanilla.StartingRadiation")
-        {
-          Vanilla.RaiseStartingRadiationSet((float)value);
-        }
-
-        if (path.StartsWith("EnabledModels"))
-        {
-          path = path.Remove(0, "EnabledModels.".Length);
-          EnabledModels.RaiseModelToggled(path, (bool)value);
-        }
-      });
-      #endregion
     }
   }
 }

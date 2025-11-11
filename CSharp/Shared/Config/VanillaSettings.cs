@@ -46,13 +46,20 @@ namespace JovianRadiationRework
     }
 
     public event Action<float> StartingRadiationSet;
-    public void RaiseStartingRadiationSet(float amount) => StartingRadiationSet?.Invoke(amount);
 
     public VanillaSettings()
     {
       ParamsFacade = new RadiationParamsFacade();
       Params = new ReflectionProxy(ParamsFacade);
       Own = new ReflectionProxy(this);
+
+      this.OnPropChanged((key, value) =>
+      {
+        if (key == "StartingRadiation")
+        {
+          StartingRadiationSet?.Invoke((float)value);
+        }
+      });
     }
   }
 }
