@@ -7,18 +7,8 @@ using System.Runtime.CompilerServices;
 
 namespace BaroJunk
 {
-  public class UTest
+  public partial class UTest
   {
-    static UTest() => ProjectInfo.Add(new PackageInfo()
-    {
-      Name = "UTest",
-      Version = new Version(0, 0, 0)
-      {
-        Branch = "BaroJunk"
-      }
-    });
-
-
     /// <summary>
     /// Actually just annoying feature, if expression is unreadable you should set it manually
     /// </summary>

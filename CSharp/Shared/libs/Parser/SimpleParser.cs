@@ -23,6 +23,12 @@ namespace BaroJunk
       Version = new Version(0, 0, 0)
       {
         Branch = "BaroJunk"
+      },
+      Dependencies = new List<PackageInfo>(){
+        new PackageInfo(){
+          Name = "SimpleResult",
+          Version = new Version(0, 0, 0){ Branch = "BaroJunk", },
+        }
       }
     });
 

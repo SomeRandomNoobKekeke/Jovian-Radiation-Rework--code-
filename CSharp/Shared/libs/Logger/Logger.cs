@@ -19,11 +19,7 @@ namespace BaroJunk
       Name = "Logger",
       Version = new Version(0, 0, 0)
       {
-        Branch = "JJR",
-        BasedOn = new Version(0, 0, 0)
-        {
-          Branch = "BaroJunk",
-        },
+        Branch = "BaroJunk",
       },
     });
 
