@@ -30,6 +30,7 @@ namespace JovianRadiationRework
         float mins = roundDuration / 60.0f;
 
         mins = Math.Max(0, Math.Min(mins, Settings.MaxTimeOnRound));
+        if (mins < Settings.MinTimeOnRound) mins = 0;
 
         //TODO is transitionType == LeaveLocation only when leaving outpost?
         if (transitionType == CampaignMode.TransitionType.LeaveLocation)
@@ -37,11 +38,12 @@ namespace JovianRadiationRework
           mins *= Settings.OutpostTimeMultiplier;
         }
 
-        if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
-            transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
-        {
-          if (mins < Settings.MinTimeOnRound) mins = 0;
-        }
+        // Why grace period should be applied only on outposts? i don't remember
+        // if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
+        //     transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
+        // {
+        //   if (mins < Settings.MinTimeOnRound) mins = 0;
+        // }
 
 
         return mins;
