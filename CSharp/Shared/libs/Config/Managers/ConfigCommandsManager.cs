@@ -116,6 +116,7 @@ namespace BaroJunk
           {
             entry.Value = result.Result;
             if (Config.Facades.NetFacade.IsMultiplayer) Config.Sync();
+            Config.Logger.Log($"{args[0]} = [{result.Result}]");
           }
           else
           {
