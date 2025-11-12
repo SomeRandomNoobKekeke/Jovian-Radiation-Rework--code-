@@ -40,13 +40,20 @@ namespace BaroJunk
     /// </summary>
     public void Restore()
     {
-      foreach (ConfigEntry entry in this.GetAllEntriesRec())
+      void RestoreRec(IConfiglike config)
       {
-        if (entry.IsConfig)
+        foreach (ConfigEntry entry in config.GetSubConfigs())
         {
-          entry.Value ??= entry.Host.CreateDefaultForType(entry.Type).Target;
+          entry.Value ??= config.CreateDefaultForType(entry.Type).Target;
+        }
+
+        foreach (ConfigEntry entry in config.GetSubConfigs())
+        {
+          RestoreRec(config.GetPropAsConfig(entry.Key));
         }
       }
+
+      RestoreRec(this.Host);
     }
 
 
