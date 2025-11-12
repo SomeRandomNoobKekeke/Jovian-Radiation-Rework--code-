@@ -14,5 +14,7 @@ namespace JovianRadiationRework
   public partial class RadiationModel
   {
     public virtual ILevelPostDrawer LevelPostDrawer { get; set; }
+    public virtual IMapRadiationDrawer MapRadiationDrawer { get; set; }
+    public virtual IMapRadiationTooltip MapRadiationTooltip { get; set; }
   }
 }

@@ -16,4 +16,14 @@ namespace JovianRadiationRework
   {
     public void Draw(Level _, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam);
   }
+
+  public partial interface IMapRadiationDrawer : IModelAspect
+  {
+    public void Draw(Radiation _, SpriteBatch spriteBatch, Rectangle container, float zoom);
+  }
+
+  public partial interface IMapRadiationTooltip : IModelAspect
+  {
+    public string GetText(Radiation _);
+  }
 }

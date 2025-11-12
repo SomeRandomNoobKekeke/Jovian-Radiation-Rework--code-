@@ -1,0 +1,73 @@
+using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Linq;
+
+using Barotrauma;
+using HarmonyLib;
+
+using Barotrauma.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Voronoi2;
+
+
+namespace JovianRadiationRework
+{
+  public partial class VanillaRadiationModel
+  {
+    public class VanillaMapRadiationDrawer : IMapRadiationDrawer
+    {
+      public void Draw(Radiation _, SpriteBatch spriteBatch, Rectangle container, float zoom)
+      {
+        // Irradiated area
+        UISprite? radiationMainSprite = GUIStyle.Radiation;
+        var (offsetX, offsetY) = _.Map.DrawOffset * zoom;
+        var (centerX, centerY) = container.Center.ToVector2();
+        var (halfSizeX, halfSizeY) = new Vector2(container.Width / 2f, container.Height / 2f) * zoom;
+        float viewBottom = centerY + _.Map.Height * zoom;
+        Vector2 topLeft = new Vector2(centerX + offsetX - halfSizeX, centerY + offsetY - halfSizeY);
+        Vector2 size = new Vector2((_.Amount - _.increasedAmount) * zoom + halfSizeX, viewBottom - topLeft.Y);
+        if (size.X < 0) { return; }
+
+        Vector2 spriteScale = new Vector2(zoom);
+
+        radiationMainSprite?.Sprite.DrawTiled(spriteBatch, topLeft, size, color: _.Params.RadiationAreaColor, startOffset: Vector2.Zero, textureScale: spriteScale);
+
+        Vector2 topRight = topLeft + Vector2.UnitX * size.X;
+
+        // Border
+        int index = 0;
+        if (_.radiationEdgeAnimSheet != null)
+        {
+          for (float i = 0; i <= size.Y; i += _.radiationEdgeAnimSheet.FrameSize.Y / 2f * zoom)
+          {
+            bool isEven = ++index % 2 == 0;
+            Vector2 origin = new Vector2(0.5f, 0) * _.radiationEdgeAnimSheet.FrameSize.X;
+            // every other sprite's animation is reversed to make it seem more chaotic
+            int sprite = (int)MathF.Floor(isEven ? Radiation.spriteIndex : _.maxFrames - Radiation.spriteIndex);
+            _.radiationEdgeAnimSheet.Draw(spriteBatch, sprite, topRight + new Vector2(0, i), _.Params.RadiationBorderTint, origin, 0f, spriteScale);
+          }
+        }
+
+        // radiationMultiplier
+        _.radiationMultiplier = null;
+        if (container.Contains(PlayerInput.MousePosition))
+        {
+          float rightEdge = topLeft.X + size.X;
+          float distanceFromRight = rightEdge - PlayerInput.MousePosition.X;
+          if (distanceFromRight >= 0)
+          {
+            _.radiationMultiplier = Math.Min(4, (int)(distanceFromRight / (_.Params.RadiationEffectMultipliedPerPixelDistance * zoom)) + 1);
+          }
+        }
+      }
+    }
+  }
+}
