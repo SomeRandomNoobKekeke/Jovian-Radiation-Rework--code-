@@ -27,24 +27,24 @@ namespace JovianRadiationRework
 
       public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration)
       {
-        float radSteps = roundDuration / (60.0f * Settings.StepDuration);
+        float mins = roundDuration / 60.0f;
 
-        radSteps = Math.Max(0, Math.Min(radSteps, Settings.MaxStepsPerRound));
+        mins = Math.Max(0, Math.Min(mins, Settings.MaxTimeOnRound));
 
         //TODO is transitionType == LeaveLocation only when leaving outpost?
         if (transitionType == CampaignMode.TransitionType.LeaveLocation)
         {
-          radSteps *= Settings.OutpostTimeMultiplier;
+          mins *= Settings.OutpostTimeMultiplier;
         }
 
         if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
             transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
         {
-          if (roundDuration < Settings.GracePeriod) radSteps = 0;
+          if (mins < Settings.MinTimeOnRound) mins = 0;
         }
 
 
-        return radSteps;
+        return mins;
       }
     }
   }

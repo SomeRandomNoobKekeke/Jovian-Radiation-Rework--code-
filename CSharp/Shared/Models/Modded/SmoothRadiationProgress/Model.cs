@@ -18,9 +18,8 @@ namespace JovianRadiationRework
     {
       public float TargetSpeedPercentageAtTheEndOfTheMap { get; set; } = 0.5f;
       public float RadiationSpeed { get; set; } = 100.0f;
-      public float StepDuration { get; set; } = 1.0f;
-      public float MaxStepsPerRound { get; set; } = 10.0f;
-      public float GracePeriod { get; set; } = 10.0f;
+      public float MaxTimeOnRound { get; set; } = 10.0f;
+      public float MinTimeOnRound { get; set; } = 0.5f;
 
       public float OutpostTimeMultiplier { get; set; } = 0.25f;
 
