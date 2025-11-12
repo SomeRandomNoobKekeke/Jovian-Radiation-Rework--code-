@@ -35,10 +35,6 @@ namespace JovianRadiationRework
 
     public IConfig GetSubSettings(Type T)
     {
-      Mod.Logger.Log(T);
-
-
-
       if (T is null) return null;
       IConfig settings = SubSettings.FirstOrDefault(config =>
       {
@@ -52,11 +48,7 @@ namespace JovianRadiationRework
     public MainConfig()
     {
       this.Restore();
-      Mod.Logger.LogVars(RadiationEffects.DamageToCharacters);
-
       SubSettings = SubConfigs.ToList();
-
-
     }
   }
 }
