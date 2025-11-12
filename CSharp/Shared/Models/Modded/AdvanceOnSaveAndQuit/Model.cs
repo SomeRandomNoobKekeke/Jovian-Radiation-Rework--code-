@@ -16,7 +16,7 @@ namespace JovianRadiationRework
   {
     public class ModelSettings : IConfig
     {
-      public bool ProgressOnSaveLoad { get; set; } = true;
+      public bool AdvanceOnSaveAndQuit { get; set; } = true;
     }
 
     public override ISaveAndQuitHandler SaveAndQuitHandler { get; set; }

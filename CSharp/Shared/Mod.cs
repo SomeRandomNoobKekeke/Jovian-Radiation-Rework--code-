@@ -23,16 +23,6 @@ namespace JovianRadiationRework
 
 
     public static ModelManager ModelManager = new ModelManager();
-    // public static ModelManager ModelManager = new ModelManager(new RadiationModel[]{
-    //   new VanillaRadiationModel(),
-    //   new AmbientLightModel(),
-    //   new FlatDepthBasedDamageModel(),
-    //   new ProgressiveMonsterSpawningModel(),
-    //   new SmoothCharacterDamager(),
-    //   new SmoothLocationTransformerModel(),
-    //   new SmoothRadiationProgressModel(),
-    //   new DamageToElectronicsModel(),
-    // });
 
     private static MainConfig config; public static MainConfig Config
     {

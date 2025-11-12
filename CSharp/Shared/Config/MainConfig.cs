@@ -16,16 +16,12 @@ namespace JovianRadiationRework
   public partial class MainConfig : IConfig
   {
     public EnabledModels EnabledModels { get; set; }
-    public AmbientLightModel.ModelSettings AmbientLightSettings { get; set; }
-    public FlatDepthBasedDamageModel.ModelSettings FlatDepthBasedDamageSettings { get; set; }
-    public ProgressiveMonsterSpawningModel.ModelSettings ProgressiveMonsterSpawningSettings { get; set; }
 
-    public SmoothCharacterDamager.ModelSettings SmoothCharacterDamagerSettings { get; set; }
-    public SmoothLocationTransformerModel.ModelSettings SmoothLocationTransformerSettings { get; set; }
-    public SmoothRadiationProgressModel.ModelSettings SmoothRadiationProgressSettings { get; set; }
-    public DamageToElectronicsModel.ModelSettings DamageToElectronicsSettings { get; set; }
-    public AdvanceOnSaveAndQuitModel.ModelSettings AdvanceOnSaveAndQuitSettings { get; set; }
-    public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
+
+    public Visuals Visuals { get; set; }
+    public RadiationEffects RadiationEffects { get; set; }
+    public RadiationProgress RadiationProgress { get; set; }
+    public RadiationProtection RadiationProtection { get; set; }
 
     public VanillaSettings Vanilla { get; set; }
 
@@ -39,8 +35,15 @@ namespace JovianRadiationRework
 
     public IConfig GetSubSettings(Type T)
     {
+      Mod.Logger.Log(T);
+
+
+
       if (T is null) return null;
-      IConfig settings = SubSettings.FirstOrDefault(config => config.GetCore().RawTarget.GetType() == T);
+      IConfig settings = SubSettings.FirstOrDefault(config =>
+      {
+        return config.GetCore().RawTarget.GetType() == T;
+      });
       if (settings is null) throw new Exception($"[{T.DeclaringType.Name}.{T.Name}] not found in MainConfig");
       return settings;
     }
@@ -49,7 +52,11 @@ namespace JovianRadiationRework
     public MainConfig()
     {
       this.Restore();
+      Mod.Logger.LogVars(RadiationEffects.DamageToCharacters);
+
       SubSettings = SubConfigs.ToList();
+
+
     }
   }
 }

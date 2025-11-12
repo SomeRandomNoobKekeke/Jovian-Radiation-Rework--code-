@@ -29,7 +29,7 @@ namespace JovianRadiationRework
 
       public void HandleSaveAndQuit(CampaignMode _)
       {
-        if (!Settings.ProgressOnSaveLoad) return;
+        if (!Settings.AdvanceOnSaveAndQuit) return;
         if (GameMain.GameSession == null) return;
 
         float roundDuration = GameMain.GameSession.RoundDuration;
