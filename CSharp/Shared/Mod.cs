@@ -72,8 +72,6 @@ namespace JovianRadiationRework
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
       Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
-      Config.OnPropChanged((key, valua) => Logger.Log(key));
-
 
       ProjectInfo.CheckIncompatibleLibs();
       Logger.Log($"{ModInfo.AssemblyName} compiled");
