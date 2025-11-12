@@ -43,9 +43,16 @@ namespace JovianRadiationRework
       {
         Params.Set(name, Own.Get(name).ToString());
       }
-    }
 
-    public event Action<float> StartingRadiationSet;
+      if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
+      {
+        if (GameMain.GameSession.Map.Radiation?.Enabled == true)
+        {
+          GameMain.GameSession.Map.Radiation.Amount = StartingRadiation;
+          Mod.Logger.Warning($"Vanilla.StartingRadiation is set on first round, changing Radiation.Amount");
+        }
+      }
+    }
 
     public VanillaSettings()
     {
@@ -55,16 +62,25 @@ namespace JovianRadiationRework
 
       this.OnPropChanged((key, value) =>
       {
+        Params.Set(key, value.ToString());
+
         if (key == "StartingRadiation")
         {
-          StartingRadiationSet?.Invoke((float)value);
+          if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
+          {
+            if (GameMain.GameSession.Map.Radiation?.Enabled == true)
+            {
+              GameMain.GameSession.Map.Radiation.Amount = (float)value;
+              Mod.Logger.Warning($"Vanilla.StartingRadiation is set on first round, changing Radiation.Amount");
+            }
+          }
         }
       });
 
       this.OnUpdated(() =>
       {
         Apply();
-        StartingRadiationSet?.Invoke(StartingRadiation);
+
       });
     }
   }

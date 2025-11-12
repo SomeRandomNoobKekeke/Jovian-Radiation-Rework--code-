@@ -56,17 +56,7 @@ namespace JovianRadiationRework
         ModelManager.SetModelState(name, state);
       };
 
-      Config.Vanilla.StartingRadiationSet += (amount) =>
-      {
-        if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
-        {
-          if (GameMain.GameSession.Map.Radiation?.Enabled == true)
-          {
-            GameMain.GameSession.Map.Radiation.Amount = amount;
-            Logger.Warning($"Vanilla.StartingRadiation is set on first round, changing Radiation.Amount");
-          }
-        }
-      };
+
 
 
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
