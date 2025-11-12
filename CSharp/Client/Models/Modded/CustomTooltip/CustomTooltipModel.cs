@@ -15,12 +15,6 @@ namespace JovianRadiationRework
 {
   public partial class CustomTooltipModel : RadiationModel
   {
-    // public partial class ModelSettings : IConfig
-    // {
-
-    // }
-
-
     public override IMapRadiationTooltip MapRadiationTooltip { get; set; }
   }
 

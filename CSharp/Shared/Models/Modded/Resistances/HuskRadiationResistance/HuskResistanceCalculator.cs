@@ -19,16 +19,14 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class VanillaRadiationModel
+  public partial class HuskRadiationResistanceModel
   {
-    public class VanillaEntityRadAmountCalculator : IEntityRadAmountCalculator
+    public class CustomHuskResistanceCalculator : IHuskResistanceCalculator
     {
-      public float CalculateAmount(Radiation _, Entity entity)
+      public ModelSettings Settings { get; set; }
+      public float GetHuskResistanceMult(Radiation _, Character character)
       {
-        return Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-          _,
-          new Vector2(entity.WorldPosition.X, entity.WorldPosition.Y)
-        );
+        return 1.0f;
       }
     }
   }

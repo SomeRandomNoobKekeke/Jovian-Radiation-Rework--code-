@@ -25,11 +25,11 @@ namespace JovianRadiationRework
     public virtual IMonsterDamager MonsterDamager { get; set; }
     public virtual IElectronicsDamager ElectronicsDamager { get; set; }
     public virtual IRadiationUpdater RadiationUpdater { get; set; }
-    public virtual IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public virtual IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public virtual IMonsterSpawner MonsterSpawner { get; set; }
     public virtual ISaveAndQuitHandler SaveAndQuitHandler { get; set; }
     public virtual IMetadataSetter MetadataSetter { get; set; }
-
+    public virtual IHullProtectionCalculator HullProtectionCalculator { get; set; }
+    public virtual IHuskResistanceCalculator HuskResistanceCalculator { get; set; }
   }
 }

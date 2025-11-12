@@ -15,6 +15,6 @@ namespace JovianRadiationRework
   {
     public ProgressiveMonsterSpawningModel.ModelSettings MoreMonsters { get; set; }
     public DamageToElectronicsModel.ModelSettings DamageToElectronics { get; set; }
-    public SmoothCharacterDamager.ModelSettings DamageToCharacters { get; set; }
+    public CustomCharacterDamager.ModelSettings DamageToCharacters { get; set; }
   }
 }

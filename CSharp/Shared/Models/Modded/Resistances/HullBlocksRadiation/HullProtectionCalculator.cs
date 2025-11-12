@@ -21,10 +21,10 @@ namespace JovianRadiationRework
 {
   public partial class HullBlocksRadiationModel
   {
-    public class HullBlocksRadiation : IEntityRadAmountCalculator
+    public class HullBlocksRadiation : IHullProtectionCalculator
     {
       public ModelSettings Settings { get; set; }
-      public float CalculateAmount(Radiation _, Entity entity)
+      public float GetHullProtectionMult(Radiation _, Entity entity)
       {
         float calculateProtectionForHull(Hull CurrentHull)
         {
@@ -54,14 +54,9 @@ namespace JovianRadiationRework
           {
             mult = calculateProtectionForHull(item.CurrentHull);
           }
-
-
         }
 
-        return Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-          _,
-          new Vector2(entity.WorldPosition.X, entity.WorldPosition.Y)
-        ) * mult;
+        return mult;
       }
     }
   }

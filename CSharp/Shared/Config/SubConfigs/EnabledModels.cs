@@ -14,8 +14,6 @@ namespace JovianRadiationRework
 
   public class EnabledModels : IConfig
   {
-    public event Action<string, bool> ModelToggled;
-
     public bool AdvanceOnSaveAndQuitModel { get; set; } = true;
     public bool DamageToElectronicsModel { get; set; } = true;
     public bool FlatDepthBasedDamageModel { get; set; } = true;
@@ -30,7 +28,7 @@ namespace JovianRadiationRework
     {
       this.OnPropChanged((key, value) =>
       {
-        ModelToggled?.Invoke(key, (bool)value);
+        Mod.ModelManager.SetModelState(key, (bool)value);
       });
     }
   }

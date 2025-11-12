@@ -98,11 +98,6 @@ namespace JovianRadiationRework
     public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
-  public interface IEntityRadAmountCalculator : IModelAspect
-  {
-    public float CalculateAmount(Radiation _, Entity entity);
-  }
-
   public interface IWorldPosRadAmountCalculator : IModelAspect
   {
     public float CalculateAmount(Radiation _, Vector2 pos);
@@ -122,5 +117,13 @@ namespace JovianRadiationRework
     public void SetMetadata();
   }
 
+  public interface IHullProtectionCalculator : IModelAspect
+  {
+    public float GetHullProtectionMult(Radiation _, Entity entity);
+  }
+  public interface IHuskResistanceCalculator : IModelAspect
+  {
+    public float GetHuskResistanceMult(Radiation _, Character character);
+  }
 
 }

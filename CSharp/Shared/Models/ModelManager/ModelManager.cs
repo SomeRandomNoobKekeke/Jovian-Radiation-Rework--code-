@@ -85,7 +85,7 @@ namespace JovianRadiationRework
       }
 
       Models = ModelCatalog.FromModels(models);
-      // Recombine();
+      Recombine();
       // DumpModels();
     }
 

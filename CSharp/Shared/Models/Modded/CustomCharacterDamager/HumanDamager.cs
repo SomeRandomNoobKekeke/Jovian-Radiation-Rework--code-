@@ -19,14 +19,41 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class SmoothCharacterDamager
+  public partial class CustomCharacterDamager
   {
-    public class SmoothHumanDamager : VanillaRadiationModel.VanillaHumanDamager
+    public class CustomHumanDamager : IHumanDamager
     {
       public ModelSettings Settings { get; set; }
-      public SmoothCharacterDamager Model { get; set; }
+      public CustomCharacterDamager Model { get; set; }
 
-      public override bool ShouldDamage(Radiation _, float deltaTime)
+      public void DamageHumans(Radiation _, float deltaTime)
+      {
+        if (!ShouldDamage(_, deltaTime)) return;
+
+        foreach (Character character in Character.CharacterList)
+        {
+          if (character.IsDead || character.Removed || !character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
+
+          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
+            _,
+            character.WorldPosition
+          );
+
+          if (Mod.CurrentModel.HullProtectionCalculator is not null)
+          {
+            radAmount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, character);
+          }
+
+          if (Mod.CurrentModel.HuskResistanceCalculator is not null)
+          {
+            radAmount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
+          }
+
+          DamageHuman(character, radAmount, _);
+        }
+      }
+
+      public bool ShouldDamage(Radiation _, float deltaTime)
       {
         if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
 
@@ -42,7 +69,7 @@ namespace JovianRadiationRework
         return true;
       }
 
-      public override void DamageHuman(Character character, float radAmount, Radiation _)
+      public void DamageHuman(Character character, float radAmount, Radiation _)
       {
         float dps = radAmount * Settings.RadAmountToDPS;
         float damage = dps * Math.Max(0, Settings.DamageInterval);

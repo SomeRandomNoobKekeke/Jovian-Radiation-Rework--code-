@@ -17,6 +17,7 @@ namespace JovianRadiationRework
     public AfflictionWrapper() { }
     public AfflictionWrapper(AfflictionPrefab afflictionPrefab) => AfflictionPrefab = afflictionPrefab;
 
+    //TODO, lol, wtf is this code xd
     public static AfflictionWrapper Parse(string raw)
     {
       AfflictionPrefab prefab = AfflictionPrefab.RadiationSickness;

@@ -12,7 +12,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class SmoothCharacterDamager : RadiationModel
+  public partial class CustomCharacterDamager : RadiationModel
   {
     public partial class ModelSettings : IConfig
     {

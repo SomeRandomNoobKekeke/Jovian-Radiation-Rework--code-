@@ -51,21 +51,14 @@ namespace JovianRadiationRework
       Config.Settings().DeeplyReactive = true;
 
 
-      Config.EnabledModels.ModelToggled += (name, state) =>
-      {
-        ModelManager.SetModelState(name, state);
-      };
-
-
-
 
       Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
 
-      Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
+      Config.UseStrategy(ConfigStrategy.OnlyLoading);
+      // Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
 
       ProjectInfo.CheckIncompatibleLibs();
       Logger.Log($"{ModInfo.AssemblyName} compiled");
-      // Logger.Log(CurrentModel);
     }
 
     public void PatchAll()

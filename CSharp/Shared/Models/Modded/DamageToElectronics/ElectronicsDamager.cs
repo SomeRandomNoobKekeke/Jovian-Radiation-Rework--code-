@@ -55,8 +55,9 @@ namespace JovianRadiationRework
 
         if (Submarine.MainSub == null) return;
 
-        float radAmount = Mod.CurrentModel.EntityRadAmountCalculator.CalculateAmount(
-          _, Submarine.MainSub
+        float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
+          _,
+          Submarine.MainSub.WorldPosition
         );
 
         float dps = Math.Clamp(radAmount * Settings.RadAmountToDPS, 0, Settings.MaxDPS);

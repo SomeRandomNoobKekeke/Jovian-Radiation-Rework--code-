@@ -12,14 +12,13 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class HullBlocksRadiationModel : RadiationModel
+  public partial class HuskRadiationResistanceModel : RadiationModel
   {
     public class ModelSettings : IConfig
     {
-      public float FractionOfRadiationBlockedInSub { get; set; } = 0.0f;
-    }
 
-    public override IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
+    }
+    public override IHuskResistanceCalculator HuskResistanceCalculator { get; set; }
   }
 
 

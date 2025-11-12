@@ -14,6 +14,7 @@ namespace JovianRadiationRework
   public class RadiationProtection : IConfig
   {
     public FlatDepthBasedDamageModel.ModelSettings WaterRadiationBlocking { get; set; }
-    public HullBlocksRadiationModel.ModelSettings HullBlocksRadiationSettings { get; set; }
+    public HullBlocksRadiationModel.ModelSettings HullRadiationProtection { get; set; }
+    public HuskRadiationResistanceModel.ModelSettings HuskRadiationProtection { get; set; }
   }
 }

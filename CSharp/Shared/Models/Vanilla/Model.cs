@@ -21,7 +21,6 @@ namespace JovianRadiationRework
     public override IHumanDamager HumanDamager { get; set; }
     public override IMonsterDamager MonsterDamager { get; set; }
     public override IRadiationUpdater RadiationUpdater { get; set; }
-    public override IEntityRadAmountCalculator EntityRadAmountCalculator { get; set; }
     public override IWorldPosRadAmountCalculator WorldPosRadAmountCalculator { get; set; }
     public override IMonsterSpawner MonsterSpawner { get; set; }
   }
