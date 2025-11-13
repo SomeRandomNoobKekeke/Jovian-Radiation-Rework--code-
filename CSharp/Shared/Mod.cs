@@ -99,55 +99,8 @@ namespace JovianRadiationRework
         return null;
       });
 
-
-
-      GameMain.LuaCs.Hook.Add("GeigerCounterToggled", "JRR", (object[] args) =>
-      {
-        if (GameMain.GameSession?.Map?.Radiation?.Enabled != true) return null;
-
-        if (args.ElementAtOrDefault(2) is Item item)
-        {
-          LightComponent lightComponent = item.GetComponent<LightComponent>();
-          CustomInterface customInterface = item.GetComponent<CustomInterface>();
-
-          lightComponent.Msg = "0";
-
-          if (customInterface.uiElements.ElementAtOrDefault(1) is GUITextBox textBox)
-          {
-            textBox.Text = "";
-          }
-        }
-        return null;
-      });
-
-      GameMain.LuaCs.Hook.Add("CheckRadiation", "JRR", (object[] args) =>
-      {
-        if (GameMain.GameSession?.Map?.Radiation?.Enabled != true) return null;
-
-        if (args.ElementAtOrDefault(2) is Item item)
-        {
-          LightComponent lightComponent = item.GetComponent<LightComponent>();
-          CustomInterface customInterface = item.GetComponent<CustomInterface>();
-
-          float amount = CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForItem(
-            GameMain.GameSession.Map.Radiation, item
-          );
-
-          lightComponent.Msg = amount switch
-          {
-            > 100 => "3",
-            > 50 and < 100 => "2",
-            > 0 and < 50 => "1",
-            _ => "0",
-          };
-
-          if (customInterface.uiElements.ElementAtOrDefault(1) is GUITextBox textBox)
-          {
-            textBox.Text = $"{amount}";
-          }
-        }
-        return null;
-      });
+      GameMain.LuaCs.Hook.Add("GeigerCounterTurnedOff", "JRR", GeigerCounterHooks.OnTurnedOff);
+      GameMain.LuaCs.Hook.Add("MeasureRadiation", "JRR", GeigerCounterHooks.MeasureRadiation);
     }
 
 

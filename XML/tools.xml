@@ -10,7 +10,7 @@
       <!-- Mb it's better to use ManuallySelectedSound -->
       <StatusEffect type="OnActive" targettype="Contained" Condition="-0.1">
         <RequiredItem items="mobilebattery" type="Contained" />
-        <Hook name="CheckRadiation" />
+        <Hook name="MeasureRadiation" />
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 1" targetitemcomponent="LightComponent" />
@@ -29,10 +29,9 @@
       <GuiFrame relativesize="0.15,0.15" anchor="CenterLeft" pivot="BottomLeft" relativeoffset="0.006,-0.05" style="ItemUI" />
       <TickBox text="Power">
         <StatusEffect type="OnUse" targettype="This" IsOn="true">
-          <Hook name="GeigerCounterToggled" />
         </StatusEffect>
         <StatusEffect type="OnSecondaryUse" targettype="This" IsOn="false">
-          <Hook name="GeigerCounterToggled" />
+          <Hook name="GeigerCounterTurnedOff" />
         </StatusEffect>
       </TickBox>
       <TextBox text="Radiation" propertyname="SonarLabel" maxtextlength="32" />
