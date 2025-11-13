@@ -135,7 +135,8 @@ namespace JovianRadiationRework
 
           lightComponent.Msg = amount switch
           {
-            >= 50 => "2",
+            > 100 => "3",
+            > 50 and < 100 => "2",
             > 0 and < 50 => "1",
             _ => "0",
           };
