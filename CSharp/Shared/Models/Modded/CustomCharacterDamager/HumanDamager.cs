@@ -34,20 +34,11 @@ namespace JovianRadiationRework
         {
           if (character.IsDead || character.Removed || !character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
 
-          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-            _,
-            character.WorldPosition
+          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
+            _, character
           );
 
-          if (Mod.CurrentModel.HullProtectionCalculator is not null)
-          {
-            radAmount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, character);
-          }
 
-          if (Mod.CurrentModel.HuskResistanceCalculator is not null)
-          {
-            radAmount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
-          }
 
           DamageHuman(character, radAmount, _);
         }

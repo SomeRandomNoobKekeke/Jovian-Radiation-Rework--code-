@@ -31,9 +31,9 @@ namespace JovianRadiationRework
         {
           if (character.IsDead || character.Removed || character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
 
-          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-            _,
-            character.WorldPosition
+          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
+            _, character
+
           );
 
           DamageMonster(character, radAmount, _);

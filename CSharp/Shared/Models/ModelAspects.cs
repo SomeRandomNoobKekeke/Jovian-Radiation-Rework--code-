@@ -101,6 +101,10 @@ namespace JovianRadiationRework
   public interface IWorldPosRadAmountCalculator : IModelAspect
   {
     public float CalculateAmount(Radiation _, Vector2 pos);
+    public float CalculateAmountForCharacter(Radiation _, Character character)
+      => CalculateAmount(_, character.WorldPosition);
+    public float CalculateAmountForItem(Radiation _, Item item)
+      => CalculateAmount(_, item.WorldPosition);
   }
 
   public interface IMonsterSpawner : IModelAspect

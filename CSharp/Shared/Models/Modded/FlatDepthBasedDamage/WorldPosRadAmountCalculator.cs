@@ -27,6 +27,36 @@ namespace JovianRadiationRework
       public ILevel Level_Loaded { get; set; }
       public IRadiationAccessor RadiationAccessor { get; set; }
 
+      //WHY is it here? where should it be? it's so cursed
+      public float CalculateAmountForCharacter(Radiation _, Character character)
+      {
+        float amount = CalculateAmount(_, character.WorldPosition);
+
+        if (Mod.CurrentModel.HullProtectionCalculator is not null)
+        {
+          amount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, character);
+        }
+
+        if (Mod.CurrentModel.HuskResistanceCalculator is not null)
+        {
+          amount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
+        }
+
+        return amount;
+      }
+
+      public float CalculateAmountForItem(Radiation _, Item item)
+      {
+        float amount = CalculateAmount(_, item.WorldPosition);
+
+        if (Mod.CurrentModel.HullProtectionCalculator is not null)
+        {
+          amount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, item);
+        }
+
+        return amount;
+      }
+
       public float CalculateAmount(Radiation _, Vector2 pos)
       {
         if (!RadiationAccessor.Enabled(_)) return 0;
