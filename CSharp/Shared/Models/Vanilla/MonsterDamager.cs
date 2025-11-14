@@ -23,44 +23,7 @@ namespace JovianRadiationRework
   {
     public class VanillaMonsterDamager : IMonsterDamager
     {
-      public void DamageMonsters(Radiation _, float deltaTime)
-      {
-        if (!ShouldDamage(_, deltaTime)) return;
-
-        foreach (Character character in Character.CharacterList)
-        {
-          if (character.IsDead || character.Removed || character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
-
-          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
-            _, character
-
-          );
-
-          DamageMonster(character, radAmount, _);
-        }
-      }
-
-      /// <summary>
-      /// i don't mutate Radiation.radiationTimer because multiple damagers would conflict with each other
-      /// </summary>
-      public float updateTimer;
-      public virtual bool ShouldDamage(Radiation _, float deltaTime)
-      {
-        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
-
-        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
-
-        if (updateTimer > 0)
-        {
-          updateTimer -= deltaTime;
-          return false;
-        }
-
-        updateTimer = _.Params.RadiationDamageDelay;
-        return true;
-      }
-
-      public virtual void DamageMonster(Character character, float radAmount, Radiation _)
+      public void DamageMonster(Character character, float radAmount, Radiation _)
       {
         if (radAmount > 0)
         {

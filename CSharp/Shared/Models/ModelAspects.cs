@@ -78,13 +78,14 @@ namespace JovianRadiationRework
 
   public interface IHumanDamager : IModelAspect
   {
+    //WHY is it here? Where should it be?
     public float RadAmountToRadDps(float amount);
-    public void DamageHumans(Radiation _, float deltaTime);
+    public void DamageHuman(Character character, float radAmount, Radiation _);
   }
 
   public interface IMonsterDamager : IModelAspect
   {
-    public void DamageMonsters(Radiation _, float deltaTime);
+    public void DamageMonster(Character character, float radAmount, Radiation _);
   }
 
   public interface IElectronicsDamager : IModelAspect

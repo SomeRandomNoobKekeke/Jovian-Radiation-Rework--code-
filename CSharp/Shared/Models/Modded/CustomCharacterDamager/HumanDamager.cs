@@ -29,43 +29,6 @@ namespace JovianRadiationRework
       public float RadAmountToRadDps(float amount)
         => amount * Settings.RadAmountToDPS;
 
-      public void DamageHumans(Radiation _, float deltaTime)
-      {
-        if (!ShouldDamage(_, deltaTime)) return;
-
-        foreach (Character character in Character.CharacterList)
-        {
-          if (character.IsDead || character.Removed || !character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
-
-          float radAmount = Math.Max(0,
-            Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
-              _, character
-            )
-          );
-
-          // THINK mb allow custom afflictions to heal something
-          if (radAmount == 0) continue;
-
-          DamageHuman(character, radAmount, _);
-        }
-      }
-
-      public bool ShouldDamage(Radiation _, float deltaTime)
-      {
-        if (!(GameMain.GameSession?.IsCurrentLocationRadiated() ?? false)) { return false; }
-
-        if (GameMain.NetworkMember is { IsClient: true }) { return false; }
-
-        if (_.radiationTimer > 0)
-        {
-          _.radiationTimer -= deltaTime;
-          return false;
-        }
-
-        _.radiationTimer = Settings.DamageInterval;
-        return true;
-      }
-
       public void DamageHuman(Character character, float radAmount, Radiation _)
       {
         float dps = radAmount * Settings.RadAmountToDPS;

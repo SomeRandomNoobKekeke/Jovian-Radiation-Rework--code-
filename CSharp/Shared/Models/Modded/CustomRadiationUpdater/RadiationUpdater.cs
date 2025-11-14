@@ -20,11 +20,12 @@ using Voronoi2;
 namespace JovianRadiationRework
 {
 
-  public partial class VanillaRadiationModel
+  public partial class CustomRadiationUpdaterModel
   {
-    //TODO i was touched multiple times, probably not 100% vanilla anymore, compare
-    public class VanillaRadiationUpdater : IRadiationUpdater
+    public class CustomRadiationUpdater : IRadiationUpdater
     {
+      public ModelSettings Settings { get; set; }
+
       private float updateTimer;
       private bool ShouldDamage(Radiation _, float deltaTime)
       {
@@ -38,7 +39,7 @@ namespace JovianRadiationRework
           return false;
         }
 
-        updateTimer = _.Params.RadiationDamageDelay;
+        updateTimer = Settings.CharacterDamageInterval;
         return true;
       }
 
@@ -72,6 +73,7 @@ namespace JovianRadiationRework
 
       public void UpdateRadiation(Radiation _, float deltaTime)
       {
+        Mod.CurrentModel.ElectronicsDamager?.DamageElectronics(_, deltaTime);
         DamageCharacters(_, deltaTime);
       }
     }

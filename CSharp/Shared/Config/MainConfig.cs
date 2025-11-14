@@ -22,6 +22,7 @@ namespace JovianRadiationRework
     public RadiationEffects RadiationEffects { get; set; }
     public RadiationProgress RadiationProgress { get; set; }
     public RadiationProtection RadiationProtection { get; set; }
+    public CustomRadiationUpdaterModel.ModelSettings RadiationUpdate { get; set; }
 
     public VanillaSettings Vanilla { get; set; }
 
