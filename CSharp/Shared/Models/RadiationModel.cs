@@ -63,6 +63,7 @@ namespace JovianRadiationRework
       }
     }
 
+    public virtual int Priority { get; set; } = 1;
     public bool Enabled { get; set; } = true;
     public string Name => GetType().Name;
 

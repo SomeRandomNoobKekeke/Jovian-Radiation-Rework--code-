@@ -24,9 +24,12 @@ namespace JovianRadiationRework
       {
         catalog.Add(model);
       }
+
+      catalog.ModelsInOrder.Sort((a, b) => a.Priority - b.Priority);
       return catalog;
     }
 
+    // TODO, this probably shouldn't be exposed like this, you need to sort catalog afterwards or it won't work
     public void Add(RadiationModel model)
     {
       if (ModelByType.ContainsKey(model.GetType()))
