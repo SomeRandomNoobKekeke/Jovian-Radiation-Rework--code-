@@ -23,7 +23,7 @@ namespace JovianRadiationRework
         LightComponent lightComponent = item.GetComponent<LightComponent>();
         CustomInterface customInterface = item.GetComponent<CustomInterface>();
 
-        float amount = CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForItem(
+        float amount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForItem(
           GameMain.GameSession.Map.Radiation, item
         );
 

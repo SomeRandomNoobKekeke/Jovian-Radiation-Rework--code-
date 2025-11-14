@@ -17,10 +17,10 @@ namespace JovianRadiationRework
     public partial class ModelSettings : IConfig
     {
       public float RadiationToAmbienceBrightness { get; set; } = 0.02f;
-      public float MaxAmbienceBrightness { get; set; } = 2.0f;
-      public float AmbienceNoiseAmplitude { get; set; } = 0.5f;
-      public Color ActualColor { get; set; } = new Color(0, 0, 255);
-      public float PerlinNoiseFrequency { get; set; } = 0.04f;
+      public float MaxAmbienceBrightness { get; set; } = 1.0f;
+      public float AmbienceNoiseAmplitude { get; set; } = 0.75f;
+      public Color ActualColor { get; set; } = new Color(32, 0, 255);
+      public float PerlinNoiseFrequency { get; set; } = 0.05f;
       public float RadiationAmountOffset { get; set; } = 100.0f;
     }
   }
