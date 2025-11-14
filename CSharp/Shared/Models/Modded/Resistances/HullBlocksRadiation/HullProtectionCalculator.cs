@@ -19,44 +19,72 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
+  public enum EntityPositionType
+  {
+    OpenWater, PlayerSub, Beacon, Outpost, EnemySub, Wreck, Ruins, Cave,
+  }
+
   public partial class HullBlocksRadiationModel
   {
     public class HullBlocksRadiation : IHullProtectionCalculator
     {
       public ModelSettings Settings { get; set; }
+
+      private float openGapFactor(Hull CurrentHull)
+      {
+        if (CurrentHull is null) return 0; // bruh
+
+        float gapSize = 0;
+        foreach (Gap g in CurrentHull.ConnectedGaps)
+        {
+          if (g.linkedTo.Count == 1) gapSize += g.Open;
+        }
+
+        return Math.Clamp(1 - gapSize, 0, 1);
+      }
+
+      private EntityPositionType GetEntityPositionType(Entity entity)
+      {
+        if (entity.Submarine is null) return EntityPositionType.OpenWater;
+
+        return entity.Submarine.Info.Type switch
+        {
+          SubmarineType.Player => EntityPositionType.PlayerSub,
+          SubmarineType.Outpost => EntityPositionType.Outpost,
+          SubmarineType.OutpostModule => EntityPositionType.Outpost,
+          SubmarineType.Wreck => EntityPositionType.Wreck,
+          SubmarineType.BeaconStation => EntityPositionType.Beacon,
+          SubmarineType.EnemySubmarine => EntityPositionType.EnemySub,
+          SubmarineType.Ruin => EntityPositionType.Ruins,
+          _ => EntityPositionType.OpenWater,
+        };
+      }
+
+
+
       public float GetHullProtectionMult(Radiation _, Entity entity)
       {
-        float calculateProtectionForHull(Hull CurrentHull)
+        EntityPositionType position = GetEntityPositionType(entity);
+
+        Hull CurrentHull = entity switch
         {
-          if (CurrentHull is null) return 1;
+          Character character => character.CurrentHull,
+          Item item => item.CurrentHull,
+        };
 
-          float gapSize = 0;
-          foreach (Gap g in CurrentHull.ConnectedGaps)
-          {
-            if (g.linkedTo.Count == 1) gapSize += g.Open;
-          }
-
-          gapSize = Math.Clamp(gapSize, 0, 1);
-
-          return Math.Clamp(1 - (1 - gapSize) * Settings.FractionOfRadiationBlockedInSub, 0, 1);
-        }
-
-        float mult = 1.0f;
-
-        if (entity.Submarine != null)
+        float protection = position switch
         {
-          if (entity is Character character)
-          {
-            mult = calculateProtectionForHull(character.CurrentHull);
-          }
+          EntityPositionType.OpenWater => 0,
+          EntityPositionType.Cave => Settings.Cave,
+          EntityPositionType.PlayerSub => Settings.MainSub * openGapFactor(CurrentHull),
+          EntityPositionType.Beacon => Settings.Beacon * openGapFactor(CurrentHull),
+          EntityPositionType.Outpost => Settings.Outpost * openGapFactor(CurrentHull),
+          EntityPositionType.EnemySub => Settings.EnemySub * openGapFactor(CurrentHull),
+          EntityPositionType.Wreck => Settings.Wreck * openGapFactor(CurrentHull),
+          EntityPositionType.Ruins => Settings.Ruins * openGapFactor(CurrentHull),
+        };
 
-          if (entity is Item item)
-          {
-            mult = calculateProtectionForHull(item.CurrentHull);
-          }
-        }
-
-        return mult;
+        return Math.Clamp(1 - protection, 0, 1);
       }
     }
   }

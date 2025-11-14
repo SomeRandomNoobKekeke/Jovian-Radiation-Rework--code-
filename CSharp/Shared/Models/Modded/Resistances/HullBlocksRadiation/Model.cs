@@ -12,11 +12,23 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
+  //TODO rename this and everything related
+  /// <summary>
+  /// A bit confusing, it's responsible for all resistances in enclosed spaces
+  /// </summary>
   public partial class HullBlocksRadiationModel : RadiationModel
   {
     public class ModelSettings : IConfig
     {
-      public float FractionOfRadiationBlockedInSub { get; set; } = 0.95f;
+      public float MainSub { get; set; } = 0.5f;
+      public float Beacon { get; set; } = 1.0f;
+      public float Outpost { get; set; } = 1.0f;
+      public float EnemySub { get; set; } = 1.0f;
+      public float Wreck { get; set; } = 0.5f;
+      public float Ruins { get; set; } = 1.0f;
+
+      //No way to check if entiry is in a cave, doesn't work for now 
+      public float Cave { get; set; } = 0.5f;
     }
 
     public override IHullProtectionCalculator HullProtectionCalculator { get; set; }

@@ -33,7 +33,7 @@
           <Hook name="GeigerCounterTurnedOff" />
         </StatusEffect>
       </TickBox>
-      <TextBox text="Radiation" propertyname="SonarLabel" maxtextlength="32" />
+      <TextBox text="Radiation Level" propertyname="SonarLabel" maxtextlength="32" />
     </CustomInterface>
     <ItemContainer capacity="1" maxstacksize="1" hideitems="true" containedstateindicatorstyle="battery">
       <SlotIcon slotindex="0" texture="Content/UI/StatusMonitorUI.png" sourcerect="128,448,64,64" origin="0.5,0.5" />
