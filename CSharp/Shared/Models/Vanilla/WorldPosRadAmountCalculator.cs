@@ -23,6 +23,9 @@ namespace JovianRadiationRework
   {
     public class VanillaWorldPosRadAmountCalculator : IWorldPosRadAmountCalculator
     {
+      public float RadAmountToRadDps(float amount)
+        => Mod.CurrentModel.HumanDamager.RadAmountToRadDps(amount);
+
       public float CalculateAmount(Radiation _, Vector2 pos)
       {
         if (!_.Enabled) { return 0; }

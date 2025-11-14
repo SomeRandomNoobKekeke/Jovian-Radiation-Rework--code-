@@ -23,6 +23,9 @@ namespace JovianRadiationRework
   {
     public class VanillaHumanDamager : IHumanDamager
     {
+      //TODO properly calculate dps, it's just placeholder
+      public float RadAmountToRadDps(float amount) => amount;
+
       public void DamageHumans(Radiation _, float deltaTime)
       {
         if (!ShouldDamage(_, deltaTime)) return;

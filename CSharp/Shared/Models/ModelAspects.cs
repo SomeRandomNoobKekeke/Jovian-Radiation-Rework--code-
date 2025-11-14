@@ -78,6 +78,7 @@ namespace JovianRadiationRework
 
   public interface IHumanDamager : IModelAspect
   {
+    public float RadAmountToRadDps(float amount);
     public void DamageHumans(Radiation _, float deltaTime);
   }
 
@@ -100,6 +101,7 @@ namespace JovianRadiationRework
 
   public interface IWorldPosRadAmountCalculator : IModelAspect
   {
+    public float RadAmountToRadDps(float amount);
     public float CalculateAmount(Radiation _, Vector2 pos);
     public float CalculateAmountForCharacter(Radiation _, Character character)
       => CalculateAmount(_, character.WorldPosition);

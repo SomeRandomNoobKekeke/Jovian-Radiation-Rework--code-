@@ -27,6 +27,9 @@ namespace JovianRadiationRework
       public ILevel Level_Loaded { get; set; }
       public IRadiationAccessor RadiationAccessor { get; set; }
 
+      public float RadAmountToRadDps(float amount)
+        => Mod.CurrentModel.HumanDamager.RadAmountToRadDps(amount);
+
       //WHY is it here? where should it be? it's so cursed
       public float CalculateAmountForCharacter(Radiation _, Character character)
       {
@@ -57,6 +60,9 @@ namespace JovianRadiationRework
         return amount;
       }
 
+      /// <summary>
+      /// Without taking protection into account 
+      /// </summary>
       public float CalculateAmount(Radiation _, Vector2 pos)
       {
         if (!RadiationAccessor.Enabled(_)) return 0;

@@ -26,6 +26,9 @@ namespace JovianRadiationRework
       public ModelSettings Settings { get; set; }
       public CustomCharacterDamager Model { get; set; }
 
+      public float RadAmountToRadDps(float amount)
+        => amount * Settings.RadAmountToDPS;
+
       public void DamageHumans(Radiation _, float deltaTime)
       {
         if (!ShouldDamage(_, deltaTime)) return;
@@ -34,11 +37,13 @@ namespace JovianRadiationRework
         {
           if (character.IsDead || character.Removed || !character.IsHuman || !(character.CharacterHealth is { } health)) { continue; }
 
-          float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
-            _, character
+          float radAmount = Math.Max(0,
+            Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForCharacter(
+              _, character
+            )
           );
 
-
+          if (radAmount == 0) continue;
 
           DamageHuman(character, radAmount, _);
         }

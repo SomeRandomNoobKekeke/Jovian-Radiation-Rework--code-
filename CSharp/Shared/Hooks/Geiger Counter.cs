@@ -14,6 +14,10 @@ namespace JovianRadiationRework
 {
   public static class GeigerCounterHooks
   {
+    public static float NaturalRegen = 0.2f;
+    public static float MaxTolerableInHazmatSuit = 0.33f;
+    public static float MaxTolerableInPUCS = 0.44f;
+
     public static object MeasureRadiation(object[] args)
     {
       if (GameMain.GameSession?.Map?.Radiation?.Enabled != true) return null;
@@ -23,11 +27,13 @@ namespace JovianRadiationRework
         LightComponent lightComponent = item.GetComponent<LightComponent>();
         CustomInterface customInterface = item.GetComponent<CustomInterface>();
 
-        float amount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForItem(
-          GameMain.GameSession.Map.Radiation, item
+        float dps = Mod.CurrentModel.WorldPosRadAmountCalculator.RadAmountToRadDps(
+          Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmountForItem(
+            GameMain.GameSession.Map.Radiation, item
+          )
         );
 
-        lightComponent.Msg = amount switch
+        lightComponent.Msg = dps switch
         {
           > 100 => "3",
           > 50 and < 100 => "2",
@@ -37,7 +43,7 @@ namespace JovianRadiationRework
 
         if (customInterface.uiElements.ElementAtOrDefault(1) is GUITextBox textBox)
         {
-          textBox.Text = $"{amount}";
+          textBox.Text = $"{dps}";
         }
       }
       return null;
