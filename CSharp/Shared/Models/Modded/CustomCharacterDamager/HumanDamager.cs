@@ -43,6 +43,7 @@ namespace JovianRadiationRework
             )
           );
 
+          // THINK mb allow custom afflictions to heal something
           if (radAmount == 0) continue;
 
           DamageHuman(character, radAmount, _);

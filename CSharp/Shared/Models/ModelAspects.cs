@@ -99,6 +99,9 @@ namespace JovianRadiationRework
     public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
+  /// <summary>
+  /// Note: those could be negative, it's consumers responsibility to Max(0,x) if necessary
+  /// </summary>
   public interface IWorldPosRadAmountCalculator : IModelAspect
   {
     public float RadAmountToRadDps(float amount);

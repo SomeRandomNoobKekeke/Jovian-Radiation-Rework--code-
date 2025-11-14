@@ -14,9 +14,25 @@ namespace JovianRadiationRework
 {
   public static class GeigerCounterHooks
   {
-    public static float NaturalRegen = 0.2f;
-    public static float MaxTolerableInHazmatSuit = 0.33f;
-    public static float MaxTolerableInPUCS = 0.44f;
+    // for easy (1.1 vitality)
+    // public const float NaturalRegen = 0.22f;
+    // public const float MaxTolerableInHazmatSuit = 0.54f;
+    // public const float MaxTolerableInPUCS = 0.88f;
+    // public const float MaxTolerableInPUCSAndHazmat = 2.25f;
+
+    // For abyssal (0.9 vitality)
+    // public const float NaturalRegen = 0.17f;
+    // public const float MaxTolerableInHazmatSuit = 0.45f;
+    // public const float MaxTolerableInPUCS = 0.72f;
+    // public const float MaxTolerableInPUCSAndHazmat = 1.8f;
+
+
+    // for normal (1.0 vitality)
+    // Values are not 100% precise, tested on real mission
+    public const float NaturalRegen = 0.20f;
+    public const float MaxTolerableInHazmatSuit = 0.50f;
+    public const float MaxTolerableInPUCS = 0.80f;
+    public const float MaxTolerableInPUCSAndHazmat = 2.0f;
 
     public static object MeasureRadiation(object[] args)
     {
@@ -33,12 +49,14 @@ namespace JovianRadiationRework
           )
         );
 
+        dps = Math.Max(0, dps);
+
         lightComponent.Msg = dps switch
         {
-          > 100 => "3",
-          > 50 and < 100 => "2",
-          > 0 and < 50 => "1",
-          _ => "0",
+          >= MaxTolerableInHazmatSuit => "3",
+          >= NaturalRegen and < MaxTolerableInHazmatSuit => "2",
+          > 0 and < NaturalRegen => "1",
+          0 => "0",
         };
 
         if (customInterface.uiElements.ElementAtOrDefault(1) is GUITextBox textBox)
