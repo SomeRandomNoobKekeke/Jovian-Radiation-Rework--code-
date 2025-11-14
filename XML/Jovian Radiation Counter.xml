@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
-  <Item name="Geiger Counter" identifier="geigercounter" category="Equipment" Tags="smallitem" cargocontaineridentifier="metalcrate" Scale="0.5" impactsoundtag="impact_metal_light">
+  <Item name="Jovian Radiation Counter" identifier="jovianradiationcounter" category="Equipment" Tags="smallitem" cargocontaineridentifier="metalcrate" Scale="0.5" impactsoundtag="impact_metal_light">
     <InventoryIcon texture="%ModDir%/PNG/Geiger small diagonal.png" sourcerect="0,0,64,64" origin="0.5,0.5" />
     <Sprite texture="%ModDir%/PNG/Geiger small.png" sourcerect="0,0,40,64" depth="0.55" origin="0.5,0.5" />
     <Body width="27" height="60" density="12" />
     <Holdable slots="Any,RightHand,LeftHand" holdangle="30" handle1="0,-15" msg="ItemMsgPickUpSelect" />
-
     <LightComponent LightColor="0.0,1.0,0.0,1.0" range="10" powerconsumption="10" IsOn="false" canbeselected="false">
       <!-- Mb it's better to use ManuallySelectedSound -->
       <StatusEffect type="OnActive" targettype="Contained" Condition="-0.1">
@@ -14,15 +13,15 @@
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 1" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 1.ogg" range="500.0" loop="true" volume="0.25" />
+        <sound file="%ModDir%/Sounds/Geiger 1.ogg" range="200.0" loop="true" volume="1.0" />
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 2" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 2.ogg" range="500.0" loop="true" volume="0.25" />
+        <sound file="%ModDir%/Sounds/Geiger 2.ogg" range="200.0" loop="true" volume="1.0" />
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 3" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 3.ogg" range="500.0" loop="true" volume="0.25" />
+        <sound file="%ModDir%/Sounds/Geiger 3.ogg" range="200.0" loop="true" volume="1.0" />
       </StatusEffect>
     </LightComponent>
     <CustomInterface canbeselected="false" drawhudwhenequipped="true" allowuioverlap="true">

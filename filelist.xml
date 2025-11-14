@@ -2,6 +2,6 @@
 <contentpackage name="Jovian Radiation Rework" modversion="4.0.0" corepackage="False" steamworkshopid="3269363928" gameversion="1.7.7.0">
   <UIStyle file="%ModDir%/XML/Radiation.xml" />
   <!-- <RandomEvents file="%ModDir%/XML/Events.xml" /> -->
-  <Item file="%ModDir%/XML/dummyitem.xml" />
-  <Item file="%ModDir%/XML/tools.xml" />
+  <!-- <Item file="%ModDir%/XML/dummyitem.xml" /> -->
+  <Item file="%ModDir%/XML/Jovian Radiation Counter.xml" />
 </contentpackage>
