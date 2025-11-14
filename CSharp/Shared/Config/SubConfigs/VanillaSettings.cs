@@ -80,7 +80,6 @@ namespace JovianRadiationRework
       this.OnUpdated(() =>
       {
         Apply();
-
       });
     }
   }

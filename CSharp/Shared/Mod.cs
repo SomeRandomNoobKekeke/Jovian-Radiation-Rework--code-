@@ -46,16 +46,18 @@ namespace JovianRadiationRework
 
       ModelManager.ScanModels();
 
+      ModelManager.DumpModels();
+
+
       Config.Settings().SavePath = MainConfig.DefaultConfigPath;
       Config.Settings().CommandName = "rad";
       Config.Settings().DeeplyReactive = true;
 
 
-
-      Config.OnUpdated(() => ModelManager.SyncModelStates(Config.EnabledModels));
-
       Config.UseStrategy(ConfigStrategy.Passive);
       // Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
+
+      ModelManager.SyncModelStates(Config.EnabledModels);
 
       ProjectInfo.CheckIncompatibleLibs();
       Logger.Log($"{ModInfo.AssemblyName} compiled");
