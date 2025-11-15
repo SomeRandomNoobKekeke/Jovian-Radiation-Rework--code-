@@ -19,12 +19,12 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class CustomCharacterDamager
+  public partial class CustomCharacterDamagerModel
   {
     public class CustomHumanDamager : IHumanDamager
     {
       public ModelSettings Settings { get; set; }
-      public CustomCharacterDamager Model { get; set; }
+      public CustomCharacterDamagerModel Model { get; set; }
 
       public float RadAmountToRadDps(float amount)
         => amount * Settings.RadAmountToDPS;

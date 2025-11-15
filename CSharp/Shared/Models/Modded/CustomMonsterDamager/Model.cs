@@ -12,17 +12,15 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class CustomCharacterDamagerModel : RadiationModel
+  public partial class CustomMonsterDamagerModel : RadiationModel
   {
     public partial class ModelSettings : IConfig
     {
-      public float RadAmountToDPS { get; set; } = 0.1f;
-
-      public AfflictionWrapper Affliction { get; set; } = new AfflictionWrapper(AfflictionPrefab.RadiationSickness);
+      public bool BuffMonsters { get; set; } = true;
     }
 
     public override bool Debug { get; set; } = false;
-    public override IHumanDamager HumanDamager { get; set; }
+    public override IMonsterDamager MonsterDamager { get; set; }
   }
 
 

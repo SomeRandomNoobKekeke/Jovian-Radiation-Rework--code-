@@ -89,13 +89,19 @@ namespace JovianRadiationRework
       // DumpModels();
     }
 
+    /// <summary>
+    /// This goes into MainConfig.EnabledModels
+    /// </summary>
+    /// <param name="path"></param>
     public void DumpModels(string path = "Ignore/models.txt")
     {
       using (StreamWriter outputFile = new StreamWriter(Path.Combine(ModInfo.ModDir<Mod>(), path)))
       {
         foreach (RadiationModel model in Models)
         {
-          outputFile.WriteLine(model.GetType().Name);
+          outputFile.WriteLine(
+            $"public bool {model.GetType().Name} {{get; set; }} = true;"
+          );
         }
       }
     }

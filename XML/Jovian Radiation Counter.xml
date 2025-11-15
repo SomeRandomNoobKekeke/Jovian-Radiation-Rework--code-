@@ -31,15 +31,15 @@
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 1" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 1.ogg" range="200.0" loop="true" volume="1.0" />
+        <sound file="%ModDir%/Sounds/Geiger 1.ogg" range="400.0" loop="true" volume="1.0" />
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 2" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 2.ogg" range="200.0" loop="true" volume="1.0" />
+        <sound file="%ModDir%/Sounds/Geiger 2.ogg" range="400.0" loop="true" volume="1.0" />
       </StatusEffect>
       <StatusEffect type="OnActive" targettype="This">
         <Conditional Msg="eq 3" targetitemcomponent="LightComponent" />
-        <sound file="%ModDir%/Sounds/Geiger 3.ogg" range="200.0" loop="true" volume="1.0" />
+        <sound file="%ModDir%/Sounds/Geiger 3.ogg" range="400.0" loop="true" volume="1.0" />
       </StatusEffect>
     </LightComponent>
     <CustomInterface canbeselected="false" drawhudwhenequipped="true" allowuioverlap="true">

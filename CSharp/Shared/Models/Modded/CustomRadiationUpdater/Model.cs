@@ -16,7 +16,7 @@ namespace JovianRadiationRework
   {
     public partial class ModelSettings : IConfig
     {
-      public float CharacterDamageInterval { get; set; } = 5.0f;
+      public float CharacterDamageInterval { get; set; } = 1.0f;
     }
 
     public override IRadiationUpdater RadiationUpdater { get; set; }
