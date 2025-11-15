@@ -32,7 +32,7 @@ namespace JovianRadiationRework
       public void DamageHuman(Character character, float radAmount, Radiation _)
       {
         float dps = radAmount * Settings.RadAmountToDPS;
-        float damage = dps * Math.Max(0, Settings.DamageInterval);
+        float damage = dps * Math.Max(0, Mod.CurrentModel.RadiationUpdater.GetUpdateInterval());
 
         Model.DebugLog($"Damaging [{character?.Info?.DisplayName}] with [{damage}] [{Settings.Affliction.AfflictionPrefab}]");
 

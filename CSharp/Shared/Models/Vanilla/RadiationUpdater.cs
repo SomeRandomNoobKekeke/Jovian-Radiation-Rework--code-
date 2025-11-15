@@ -25,6 +25,9 @@ namespace JovianRadiationRework
     //TODO i was touched multiple times, probably not 100% vanilla anymore, compare
     public class VanillaRadiationUpdater : IRadiationUpdater
     {
+      //BRUH potential nre
+      public float GetUpdateInterval() => GameMain.GameSession.Map.Radiation.Params.RadiationDamageDelay;
+
       private float updateTimer;
       private bool ShouldDamage(Radiation _, float deltaTime)
       {

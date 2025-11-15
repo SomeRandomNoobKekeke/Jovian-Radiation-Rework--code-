@@ -26,6 +26,8 @@ namespace JovianRadiationRework
     {
       public ModelSettings Settings { get; set; }
 
+      public float GetUpdateInterval() => Settings.CharacterDamageInterval;
+
       private float updateTimer;
       private bool ShouldDamage(Radiation _, float deltaTime)
       {

@@ -97,6 +97,8 @@ namespace JovianRadiationRework
 
   public interface IRadiationUpdater : IModelAspect
   {
+    //BRUH this feels very stupid that i have to expose every setting like this
+    public float GetUpdateInterval();
     public void UpdateRadiation(Radiation _, float deltaTime);
   }
 
