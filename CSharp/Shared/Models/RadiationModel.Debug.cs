@@ -16,7 +16,7 @@ namespace JovianRadiationRework
 
   public partial class RadiationModel
   {
-    public bool Debug { get; set; } = false;
+    public virtual bool Debug { get; set; } = false;
     public void DebugLog(object msg)
     {
       if (Debug) Mod.Logger.Log($"{Logger.WrapInColor(Name, "white")}| {msg}");

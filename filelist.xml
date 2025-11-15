@@ -4,4 +4,6 @@
   <!-- <RandomEvents file="%ModDir%/XML/Events.xml" /> -->
   <!-- <Item file="%ModDir%/XML/dummyitem.xml" /> -->
   <Item file="%ModDir%/XML/Jovian Radiation Counter.xml" />
+  <UpgradeModules file="%ModDir%/XML/UpgradeModules.xml" />
+  <Text file="%ModDir%/XML/UpgradeModulesText.xml" />
 </contentpackage>

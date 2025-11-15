@@ -30,6 +30,7 @@ namespace JovianRadiationRework
     public virtual ISaveAndQuitHandler SaveAndQuitHandler { get; set; }
     public virtual IMetadataSetter MetadataSetter { get; set; }
     public virtual IHullProtectionCalculator HullProtectionCalculator { get; set; }
+    public virtual IHullUpgrades HullUpgrades { get; set; }
     public virtual IHuskResistanceCalculator HuskResistanceCalculator { get; set; }
   }
 }

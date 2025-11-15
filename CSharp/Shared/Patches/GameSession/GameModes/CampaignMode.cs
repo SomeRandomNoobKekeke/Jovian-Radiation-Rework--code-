@@ -29,10 +29,9 @@ namespace JovianRadiationRework
       );
     }
 
-
     public static void CampaignMode_HandleSaveAndQuit_Prefix(CampaignMode __instance)
     {
-      Mod.CurrentModel.SaveAndQuitHandler?.HandleSaveAndQuit(__instance);
+      Mod.CurrentModel.LifeCycleHooks.OnSaveAndQuit();
     }
 
 

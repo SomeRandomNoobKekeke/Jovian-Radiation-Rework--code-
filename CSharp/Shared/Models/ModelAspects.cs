@@ -129,7 +129,14 @@ namespace JovianRadiationRework
 
   public interface IHullProtectionCalculator : IModelAspect
   {
+    public float GetBasicMainSubProtection();
     public float GetHullProtectionMult(Radiation _, Entity entity);
+  }
+  public interface IHullUpgrades : IModelAspect
+  {
+    public void UpdateMainSubProtection();
+    public float GetProtectionPerUpgrade();
+    public float GetProtectionMultForMainSub();
   }
   public interface IHuskResistanceCalculator : IModelAspect
   {

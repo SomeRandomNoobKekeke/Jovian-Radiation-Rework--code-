@@ -70,6 +70,7 @@ namespace JovianRadiationRework
       MonsterEventPatch.PatchSharedMonsterEvent(Harmony);
       LocationPatch.PatchSharedLocation(Harmony);
       CampaignModePatch.PatchSharedCampaignMode(Harmony);
+      UpgradeManagerPatch.PatchSharedUpgradeManager(Harmony);
       PatchProjSpecific();
     }
     public partial void PatchProjSpecific();

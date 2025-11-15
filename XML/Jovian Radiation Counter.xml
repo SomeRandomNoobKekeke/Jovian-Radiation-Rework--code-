@@ -1,6 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
   <Item name="Jovian Radiation Counter" identifier="jovianradiationcounter" category="Equipment" Tags="smallitem" cargocontaineridentifier="metalcrate" Scale="0.5" impactsoundtag="impact_metal_light">
+    <PreferredContainer primary="engcab" amount="1" />
+    <Price baseprice="150" minavailable="1">
+      <Price storeidentifier="merchantoutpost" sold="false" multiplier="1.25" />
+      <Price storeidentifier="merchantcity" />
+      <Price storeidentifier="merchantresearch" minavailable="2" />
+      <Price storeidentifier="merchantmilitary" />
+      <Price storeidentifier="merchantmine" sold="false" multiplier="1.25" />
+      <Price storeidentifier="merchantengineering" multiplier="0.9" minavailable="2" />
+    </Price>
+    <Deconstruct time="15">
+      <Item identifier="copper" />
+      <Item identifier="plastic" amount="2" />
+    </Deconstruct>
+    <Fabricate suitablefabricators="fabricator" requiredtime="15">
+      <RequiredSkill identifier="electrical" level="30" />
+      <RequiredItem identifier="fpgacircuit" />
+      <RequiredItem identifier="plastic" />
+    </Fabricate>
     <InventoryIcon texture="%ModDir%/PNG/Geiger small diagonal.png" sourcerect="0,0,64,64" origin="0.5,0.5" />
     <Sprite texture="%ModDir%/PNG/Geiger small.png" sourcerect="0,0,40,64" depth="0.55" origin="0.5,0.5" />
     <Body width="27" height="60" density="12" />
