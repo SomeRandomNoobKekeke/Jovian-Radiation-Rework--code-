@@ -34,6 +34,7 @@ namespace JovianRadiationRework
       public float HullUpgradeProtection { get; set; } = 0.1f;
     }
 
+    public override bool Debug { get; set; } = false;
     public override IHullProtectionCalculator HullProtectionCalculator { get; set; }
   }
 

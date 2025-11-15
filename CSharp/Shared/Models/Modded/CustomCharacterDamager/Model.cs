@@ -21,6 +21,7 @@ namespace JovianRadiationRework
       public AfflictionWrapper Affliction { get; set; } = new AfflictionWrapper(AfflictionPrefab.RadiationSickness);
     }
 
+    public override bool Debug { get; set; } = false;
     public override IHumanDamager HumanDamager { get; set; }
   }
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
   <Item name="Jovian Radiation Counter" identifier="jovianradiationcounter" category="Equipment" Tags="smallitem" cargocontaineridentifier="metalcrate" Scale="0.5" impactsoundtag="impact_metal_light">
-    <PreferredContainer primary="engcab" amount="1" />
+    <PreferredContainer primary="reactorcab" amount="1" />
     <Price baseprice="150" minavailable="1">
       <Price storeidentifier="merchantoutpost" sold="false" multiplier="1.25" />
       <Price storeidentifier="merchantcity" />

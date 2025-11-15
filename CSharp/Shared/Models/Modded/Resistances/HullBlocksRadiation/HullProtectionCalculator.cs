@@ -28,6 +28,7 @@ namespace JovianRadiationRework
   {
     public class HullBlocksRadiation : IHullProtectionCalculator
     {
+      public HullBlocksRadiationModel Model { get; set; }
       public ModelSettings Settings { get; set; }
 
       public float GetBasicMainSubProtection() => Settings.MainSub;
@@ -65,6 +66,8 @@ namespace JovianRadiationRework
 
       public float GetHullProtectionMult(Radiation _, Entity entity)
       {
+
+
         EntityPositionType position = GetEntityPositionType(entity);
 
         Hull CurrentHull = entity switch
