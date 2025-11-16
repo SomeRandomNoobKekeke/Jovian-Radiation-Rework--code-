@@ -16,6 +16,7 @@ namespace JovianRadiationRework
     public bool IsLoaded { get; }
     public LevelData.LevelType Type { get; }
 
+    public bool IsEndBiome { get; }
     public Vector2 StartPosition { get; }
     public Vector2 EndPosition { get; }
     public Vector2 StartLocation_MapPosition { get; }
@@ -27,6 +28,8 @@ namespace JovianRadiationRework
     public bool IsLoaded => Level.Loaded is not null;
     public LevelData.LevelType Type => Level.Loaded.Type;
 
+
+    public bool IsEndBiome => Level.Loaded.IsEndBiome;
     public Vector2 StartPosition => Level.Loaded.StartPosition;
     public Vector2 EndPosition => Level.Loaded.EndPosition;
     public Vector2 StartLocation_MapPosition => Level.Loaded.StartLocation.MapPosition;

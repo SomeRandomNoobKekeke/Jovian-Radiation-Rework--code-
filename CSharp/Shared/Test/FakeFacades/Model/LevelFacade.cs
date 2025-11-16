@@ -28,6 +28,7 @@ namespace JovianRadiationRework
     public bool IsLoaded => Data.IsLoaded;
     public LevelData.LevelType Type => Data.Type;
 
+    public bool IsEndBiome { get; set; } = false;
     public Vector2 StartPosition => Data.StartPosition;
     public Vector2 EndPosition => Data.EndPosition;
     public Vector2 StartLocation_MapPosition => Data.StartLocation_MapPosition;

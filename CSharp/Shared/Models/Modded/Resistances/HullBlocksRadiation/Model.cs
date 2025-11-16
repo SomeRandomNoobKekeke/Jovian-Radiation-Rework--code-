@@ -29,9 +29,6 @@ namespace JovianRadiationRework
 
       //No way to check if entiry is in a cave, doesn't work for now 
       public float Cave { get; set; } = 0.75f;
-
-      // Mb this should be in a separate models
-      public float HullUpgradeProtection { get; set; } = 0.1f;
     }
 
     public override bool Debug { get; set; } = false;

@@ -24,6 +24,7 @@ namespace JovianRadiationRework
     public class SmoothRadiationMover : IRadiationMover
     {
       public ModelSettings Settings { get; set; }
+      public SmoothRadiationProgressModel Model { get; set; }
 
       public void InitOnFirstRound()
       {
@@ -42,6 +43,8 @@ namespace JovianRadiationRework
         float speedMult = Math.Clamp(1 - (1 - Settings.TargetSpeedPercentageAtTheEndOfTheMap) * percentageCovered, 0, 1);
 
         float increaseAmount = Math.Max(0, Settings.RadiationSpeed * speedMult * steps);
+
+        Model.DebugLog($"Moving radiation increaseAmount:[{increaseAmount}] steps:[{steps}]");
 
         _.IncreaseRadiation(increaseAmount);
       }

@@ -67,6 +67,7 @@ namespace JovianRadiationRework
       {
         if (!RadiationAccessor.Enabled(_)) return 0;
         if (!Level_Loaded.IsLoaded) return 0;
+        if (Level_Loaded.IsEndBiome) return 0;
 
         if (Level_Loaded is { Type: LevelData.LevelType.LocationConnection })
         {

@@ -22,6 +22,8 @@ namespace JovianRadiationRework
 
       public void Draw(Level _, GraphicsDevice graphics, SpriteBatch spriteBatch, Camera cam)
       {
+        if (Level.Loaded?.IsEndBiome == true) return;
+
         Radiation radiation = (GameMain.GameSession?.GameMode as CampaignMode)?.Map?.Radiation;
         if (radiation is null) return;
 

@@ -24,29 +24,35 @@ namespace JovianRadiationRework
     public class SmoothRadStepsCalculator : IStepsCalculator
     {
       public ModelSettings Settings { get; set; }
+      public SmoothRadiationProgressModel Model { get; set; }
 
+      /// <summary>
+      /// Step = 1 min
+      /// </summary>
       public float CalculateSteps(CampaignMode.TransitionType transitionType, float roundDuration)
       {
-        float mins = roundDuration / 60.0f;
+        float steps = roundDuration / 60.0f;
 
-        mins = Math.Max(0, Math.Min(mins, Settings.MaxTimeOnRound));
-        if (mins < Settings.MinTimeOnRound) mins = 0;
+        steps = Math.Max(0, Math.Min(steps, Settings.MaxTimeOnRound));
+        if (steps < Settings.MinTimeOnRound) steps = 0;
 
         //TODO is transitionType == LeaveLocation only when leaving outpost?
         if (transitionType == CampaignMode.TransitionType.LeaveLocation)
         {
-          mins *= Settings.OutpostTimeMultiplier;
+          steps *= Settings.OutpostTimeMultiplier;
         }
 
         // Why grace period should be applied only on outposts? i don't remember
         // if (transitionType != CampaignMode.TransitionType.ProgressToNextLocation ||
         //     transitionType != CampaignMode.TransitionType.ProgressToNextEmptyLocation)
         // {
-        //   if (mins < Settings.MinTimeOnRound) mins = 0;
+        //   if (steps < Settings.MinTimeOnRound) steps = 0;
         // }
 
+        Model.DebugLog($"roundDuration:[{roundDuration}] steps:[{steps}]");
 
-        return mins;
+
+        return steps;
       }
     }
   }
