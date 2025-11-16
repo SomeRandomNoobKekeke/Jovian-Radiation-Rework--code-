@@ -19,7 +19,7 @@ namespace JovianRadiationRework
     public ReflectionProxy Params;
     public ReflectionProxy Own;
 
-    public bool OverrideVanillaSettings { get; set; } = true;
+    public bool OverrideVanillaSettings { get; set; } = false;
 
     public float StartingRadiation { get; set; } = -100.0f;
     public float RadiationStep { get; set; } = 100.0f;
@@ -62,6 +62,8 @@ namespace JovianRadiationRework
 
       this.OnPropChanged((key, value) =>
       {
+        if (!OverrideVanillaSettings) return;
+
         Params.Set(key, value.ToString());
 
         if (key == "StartingRadiation")
@@ -79,6 +81,7 @@ namespace JovianRadiationRework
 
       this.OnUpdated(() =>
       {
+        if (!OverrideVanillaSettings) return;
         Apply();
       });
     }

@@ -63,6 +63,7 @@ namespace JovianRadiationRework
   }
   public interface IRadiationMover : IModelAspect
   {
+    public void InitOnFirstRound();
     public void MoveRadiation(Radiation _, float steps);
   }
 
@@ -132,13 +133,14 @@ namespace JovianRadiationRework
   public interface IHullProtectionCalculator : IModelAspect
   {
     public float GetBasicMainSubProtection();
+    public float GetMainsubElectronicsProtectionMult();
     public float GetHullProtectionMult(Radiation _, Entity entity);
   }
   public interface IHullUpgrades : IModelAspect
   {
     public void UpdateMainSubProtection();
     public float GetProtectionPerUpgrade();
-    public float GetProtectionMultForMainSub();
+    public float GetProtectionForMainSub();
   }
   public interface IHuskResistanceCalculator : IModelAspect
   {

@@ -23,6 +23,11 @@ namespace JovianRadiationRework
   {
     public class VanillaRadiationMover : IRadiationMover
     {
+      public void InitOnFirstRound()
+      {
+        // Don't
+      }
+
       public void MoveRadiation(Radiation _, float steps)
       {
         if (!_.Enabled) return;

@@ -25,6 +25,14 @@ namespace JovianRadiationRework
     {
       public ModelSettings Settings { get; set; }
 
+      public void InitOnFirstRound()
+      {
+        if (GameMain.GameSession.Map.Radiation?.Enabled == true)
+        {
+          GameMain.GameSession.Map.Radiation.Amount = Settings.StartingRadiation;
+        }
+      }
+
       public void MoveRadiation(Radiation _, float steps)
       {
         if (!_.Enabled) return;

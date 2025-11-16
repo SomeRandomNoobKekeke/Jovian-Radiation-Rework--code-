@@ -48,7 +48,7 @@ namespace JovianRadiationRework
         Model.DebugLog($"UpdateMainSubProtection [{ProtectionFromUpgrades}]");
       }
 
-      public float GetProtectionMultForMainSub() => ProtectionFromUpgrades;
+      public float GetProtectionForMainSub() => ProtectionFromUpgrades;
     }
   }
 }

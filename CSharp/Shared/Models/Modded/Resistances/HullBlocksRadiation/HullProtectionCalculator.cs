@@ -26,12 +26,23 @@ namespace JovianRadiationRework
 
   public partial class HullBlocksRadiationModel
   {
+    /// <summary>
+    /// Very confusing: Protection = [0: no protection, 1: invulnerable]
+    /// ProtectionMult = incoming damage multiplicator = [0 : no damage, 1: full damage]
+    /// Damage = rawDamage * ProtectionMult
+    /// </summary>
     public class HullBlocksRadiation : IHullProtectionCalculator
     {
       public HullBlocksRadiationModel Model { get; set; }
       public ModelSettings Settings { get; set; }
 
       public float GetBasicMainSubProtection() => Settings.MainSub;
+
+      public float GetMainsubElectronicsProtectionMult()
+        => Math.Clamp(
+          1 - Settings.MainSub + (Mod.CurrentModel.HullUpgrades?.GetProtectionForMainSub() ?? 0),
+          0, 1
+        );
       private float openGapFactor(Hull CurrentHull)
       {
         if (CurrentHull is null) return 0; // bruh
@@ -82,8 +93,6 @@ namespace JovianRadiationRework
 
       public float GetHullProtectionMult(Radiation _, Entity entity)
       {
-
-
         EntityPositionType position = GetEntityPositionType(entity);
 
         Hull CurrentHull = entity switch
@@ -96,7 +105,7 @@ namespace JovianRadiationRework
         {
           EntityPositionType.OpenWater => 0,
           EntityPositionType.Cave => Settings.Cave,
-          EntityPositionType.PlayerSub => (Settings.MainSub + (Mod.CurrentModel.HullUpgrades?.GetProtectionMultForMainSub() ?? 0)) * openGapFactor(CurrentHull),
+          EntityPositionType.PlayerSub => (Settings.MainSub + (Mod.CurrentModel.HullUpgrades?.GetProtectionForMainSub() ?? 0)) * openGapFactor(CurrentHull),
           EntityPositionType.Beacon => Settings.Beacon * openGapFactor(CurrentHull),
           EntityPositionType.Outpost => Settings.Outpost * openGapFactor(CurrentHull),
           EntityPositionType.EnemySub => Settings.EnemySub * openGapFactor(CurrentHull),

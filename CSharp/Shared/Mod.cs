@@ -55,6 +55,7 @@ namespace JovianRadiationRework
 
 
       Config.UseStrategy(ConfigStrategy.Passive);
+      Config.GetReactiveCore().RaiseUpdated();
       // Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
 
       ModelManager.SyncModelStates(Config.EnabledModels);

@@ -31,6 +31,11 @@ namespace JovianRadiationRework
         Mod.CurrentModel.ElectronicsDamager?.ScanItems();
         Mod.CurrentModel.MetadataSetter?.SetMetadata();
         Mod.CurrentModel.HullUpgrades?.UpdateMainSubProtection();
+
+        if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
+        {
+          OnFirstRound();
+        }
       }
 
       public void OnRoundStart()
@@ -38,6 +43,21 @@ namespace JovianRadiationRework
         Model.DebugLog("LifeCycleHook OnRoundStart");
         Mod.CurrentModel.ElectronicsDamager?.ScanItems();
         Mod.CurrentModel.HullUpgrades?.UpdateMainSubProtection();
+
+        if (GameMain.GameSession?.Campaign?.IsFirstRound == true)
+        {
+          OnFirstRound();
+        }
+      }
+
+      public void OnFirstRound()
+      {
+        Model.DebugLog("LifeCycleHook OnFirstRound");
+
+        if (GameMain.GameSession.Map.Radiation?.Enabled == true)
+        {
+          Mod.CurrentModel.RadiationMover.InitOnFirstRound();
+        }
       }
       public void OnRoundEnd()
       {
