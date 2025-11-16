@@ -27,6 +27,8 @@ namespace JovianRadiationRework
       public DamageToElectronicsModel Model { get; set; }
       public ModelSettings Settings { get; set; }
 
+      public ILevel Level_Loaded { get; set; }
+
       public double updateTimer;
       public List<Item> Damagable = new List<Item>();
 
@@ -54,11 +56,12 @@ namespace JovianRadiationRework
         updateTimer = Settings.DamageInterval;
 
         if (Submarine.MainSub == null) return;
+        if (Level_Loaded.IsOutpost) return; // it's just annoying
 
         float radAmount = Mod.CurrentModel.WorldPosRadAmountCalculator.CalculateAmount(
-          _,
-          Submarine.MainSub.WorldPosition
-        );
+            _,
+            Submarine.MainSub.WorldPosition
+          );
 
         if (Mod.CurrentModel.HullProtectionCalculator is not null)
         {

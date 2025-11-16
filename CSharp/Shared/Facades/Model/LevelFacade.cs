@@ -17,6 +17,7 @@ namespace JovianRadiationRework
     public LevelData.LevelType Type { get; }
 
     public bool IsEndBiome { get; }
+    public bool IsOutpost => Type == LevelData.LevelType.Outpost;
     public Vector2 StartPosition { get; }
     public Vector2 EndPosition { get; }
     public Vector2 StartLocation_MapPosition { get; }
