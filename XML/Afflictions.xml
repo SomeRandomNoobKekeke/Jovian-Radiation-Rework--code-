@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Afflictions>
+  <Override>
+    <Affliction
+      name="Radiation sickness"
+      identifier="radiationsickness"
+      description="Burns and sores can be seen on patient's skin. They seem to be spreading."
+      causeofdeathdescription="Died of radiation sickness."
+      selfcauseofdeathdescription="You have died of radiation sickness."
+      limbspecific="false"
+      indicatorlimb="Torso"
+      showiconthreshold="25"
+      showinhealthscannerthreshold="5"
+      karmachangeonapplied="-1"
+      treatmentthreshold="25"
+      maxstrength="200"
+      affectmachines="false"
+      grainburst="3"
+      healcostmultiplier="4.0"
+      MedicalSkillGain="1.0">
+      <Description
+        textidentifier="afflictiondescription.radiationsickness.low.self"
+        target="Self"
+        minstrength="0"
+        maxstrength="75" />
+      <Description
+        textidentifier="afflictiondescription.radiationsickness.high.self"
+        target="Self"
+        minstrength="75"
+        maxstrength="200" />
+      <Description
+        textidentifier="afflictiondescription.radiationsickness"
+        target="OtherCharacter"
+        minstrength="0"
+        maxstrength="75" />
+      <Description
+        textidentifier="afflictiondescription.radiationsickness.high"
+        target="OtherCharacter"
+        minstrength="75"
+        maxstrength="200" />
+      <!-- No effects at this level  -->
+      <Effect minstrength="0" maxstrength="25" strengthchange="-0.2" />
+      <!-- Cause burns depending on strength -->
+      <Effect minstrength="25" maxstrength="50" mingrainstrength="0.25" maxgrainstrength="0.1" strengthchange="-0.2">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.06" dividebylimbcount="true" penetration="1.0" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="50" maxstrength="75" mingrainstrength="0.4" maxgrainstrength="0.25" strengthchange="-0.2"
+        minchromaticaberration="0.0"
+        maxchromaticaberration="1.0"
+        minbodytint="255,0,0,0"
+        maxbodytint="255,0,0,30">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.084" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.05" penetration="1.0" />
+          <!-- nausea decreases by 1 per second, so effectively this increases it by 0.05 -->
+          <Affliction identifier="nausea" amount="0.10" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="75" maxstrength="100" mingrainstrength="0.55" maxgrainstrength="0.4" strengthchange="-0.2"
+        minchromaticaberration="1.0"
+        maxchromaticaberration="5.0"
+        minbodytint="255,0,0,30"
+        maxbodytint="255,0,0,60">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.12" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.1" penetration="1.0" />
+          <Affliction identifier="nausea" amount="0.11" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="100" maxstrength="125" mingrainstrength="0.7" maxgrainstrength="0.55" strengthchange="-0.2"
+        minchromaticaberration="1.0"
+        maxchromaticaberration="5.0"
+        minbodytint="255,0,0,60"
+        maxbodytint="255,0,0,90">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.16" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.15" penetration="1.0" />
+          <Affliction identifier="nausea" amount="0.12" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="125" maxstrength="150" mingrainstrength="0.85" maxgrainstrength="0.7" strengthchange="-0.2"
+        minchromaticaberration="1.0"
+        maxchromaticaberration="5.0"
+        minbodytint="255,0,0,90"
+        maxbodytint="255,0,0,120">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.21" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.3" penetration="1.0" />
+          <Affliction identifier="nausea" amount="0.14" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="150" maxstrength="175" mingrainstrength="1.0" maxgrainstrength="0.85" strengthchange="-0.2"
+        minchromaticaberration="1.0"
+        maxchromaticaberration="5.0"
+        minbodytint="255,0,0,120"
+        maxbodytint="255,0,0,150">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.24" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="bleeding" amount="0.5" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.6" penetration="1.0" />
+          <Affliction identifier="nausea" amount="0.16" />
+        </StatusEffect>
+      </Effect>
+
+      <Effect minstrength="175" maxstrength="200" mingrainstrength="1.0" maxgrainstrength="1.0" strengthchange="-0.2"
+        minchromaticaberration="0.1"
+        maxchromaticaberration="0.5"
+        minbodytint="255,0,0,150"
+        maxbodytint="255,0,0,180">
+        <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
+          <Affliction identifier="burn" amount="0.48" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="bleeding" amount="1.0" dividebylimbcount="true" penetration="1.0" />
+          <Affliction identifier="organdamage" amount="0.9" penetration="1.0" />
+          <Affliction identifier="nausea" amount="0.18" />
+        </StatusEffect>
+      </Effect>
+
+      <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="896,768,128,128" color="195,136,60,255" origin="0,0" />
+    </Affliction>
+
+    <!-- Simple monster buff -->
+    <Affliction
+      name="Joves Rage"
+      identifier="jovesrage"
+      limbspecific="false"
+      maxstrength="100"
+      MedicalSkillGain="0"
+      causeofdeathdescription="Died from cringe."
+      selfcauseofdeathdescription="You have died from cringe."
+      indicatorlimb="Torso"
+      showiconthreshold="9999"
+      showinhealthscannerthreshold="9999"
+      treatmentthreshold="9999">
+      <Effect minstrength="0" maxstrength="5" strengthchange="-1">
+        <!-- no rofl x8 health multipliers -->
+        <StatusEffect target="Character" targetlimb="Head" SpeedMultiplier="1.2" setvalue="true">
+          <Conditional speciesname="crawler" />
+          <Conditional speciesname="mudraptor" />
+          <Conditional speciesname="mudraptor_unarmored" />
+          <Conditional speciesname="mudraptor_veteran" />
+          <Conditional speciesname="tigerthresher" />
+          <Conditional speciesname="bonethresher" />
+          <ParticleEmitter particle="gazerage" particlespersecond="20" scalemin="0.3" scalemax="0.4" velocitymin="0" velocitymax="0" anglemin="0" anglemax="360" copyentityangle="false" />
+        </StatusEffect>
+      </Effect>
+      <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="896,768,128,128" color="195,136,60,255" origin="0,0" />
+    </Affliction>
+  </Override>
+
+</Afflictions>

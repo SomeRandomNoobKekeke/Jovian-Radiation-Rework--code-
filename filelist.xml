@@ -6,4 +6,5 @@
   <Item file="%ModDir%/XML/Jovian Radiation Counter.xml" />
   <UpgradeModules file="%ModDir%/XML/UpgradeModules.xml" />
   <Text file="%ModDir%/XML/UpgradeModulesText.xml" />
+  <Afflictions file="%ModDir%/XML/Afflictions.xml" />
 </contentpackage>

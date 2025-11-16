@@ -17,7 +17,7 @@ namespace JovianRadiationRework
     public class ModelSettings : IConfig
     {
       public float TooMuchEvenForMonsters { get; set; } = -1;
-      public float RadiationToMonstersMult { get; set; } = 0.002f;
+      public float RadiationToMonstersMult { get; set; } = 0.000f; // 0.002f;
       public float MaxRadiationToMonstersMult { get; set; } = 2.0f;
     }
 
