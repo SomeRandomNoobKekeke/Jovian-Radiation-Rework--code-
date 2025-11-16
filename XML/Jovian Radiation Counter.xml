@@ -25,7 +25,7 @@
     <Holdable slots="Any,RightHand,LeftHand" holdangle="30" handle1="0,-15" msg="ItemMsgPickUpSelect" />
     <LightComponent LightColor="0.0,1.0,0.0,1.0" range="10" powerconsumption="10" IsOn="false" canbeselected="false">
       <!-- Mb it's better to use ManuallySelectedSound -->
-      <StatusEffect type="OnActive" targettype="Contained" Condition="-0.1">
+      <StatusEffect type="OnActive" targettype="Contained" Condition="-0.1" interval="0.1" disabledeltatime="true">
         <RequiredItem items="mobilebattery" type="Contained" />
         <Hook name="MeasureRadiation" />
       </StatusEffect>

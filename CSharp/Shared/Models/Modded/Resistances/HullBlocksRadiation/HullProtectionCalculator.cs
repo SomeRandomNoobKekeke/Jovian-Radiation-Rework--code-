@@ -45,9 +45,25 @@ namespace JovianRadiationRework
         return Math.Clamp(1 - gapSize, 0, 1);
       }
 
+      public bool IsInACave(Entity entity)
+      {
+        foreach (Level.Cave cave in Level.Loaded.Caves)
+        {
+          if (cave.Area.Contains(entity.WorldPosition))
+          {
+            return true;
+          }
+        }
+
+        return false;
+      }
+
       private EntityPositionType GetEntityPositionType(Entity entity)
       {
-        if (entity.Submarine is null) return EntityPositionType.OpenWater;
+        if (entity.Submarine is null)
+        {
+          return IsInACave(entity) ? EntityPositionType.Cave : EntityPositionType.OpenWater;
+        }
 
         return entity.Submarine.Info.Type switch
         {

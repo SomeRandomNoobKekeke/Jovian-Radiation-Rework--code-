@@ -24,11 +24,11 @@ namespace JovianRadiationRework
       public float Beacon { get; set; } = 1.0f;
       public float Outpost { get; set; } = 1.0f;
       public float EnemySub { get; set; } = 1.0f;
-      public float Wreck { get; set; } = 0.5f;
+      public float Wreck { get; set; } = 0.75f;
       public float Ruins { get; set; } = 1.0f;
 
       //No way to check if entiry is in a cave, doesn't work for now 
-      public float Cave { get; set; } = 0.5f;
+      public float Cave { get; set; } = 0.75f;
 
       // Mb this should be in a separate models
       public float HullUpgradeProtection { get; set; } = 0.1f;

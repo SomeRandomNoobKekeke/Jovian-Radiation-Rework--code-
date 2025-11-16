@@ -40,7 +40,7 @@ namespace JovianRadiationRework
         float time = (float)(Timing.TotalTime * Settings.PerlinNoiseFrequency);
 
         // PerlinNoise.GetPerlin is [0..1]
-        float rad = brightness - PerlinNoise.GetPerlin(time, time * 0.5f) * Settings.AmbienceNoiseAmplitude;
+        float rad = brightness * (1 - PerlinNoise.GetPerlin(time, time * 0.5f) * Settings.AmbienceNoiseAmplitude);
 
         GameMain.LightManager.AmbientLight = GameMain.LightManager.AmbientLight.Add(Settings.ActualColor.Multiply(rad));
       }

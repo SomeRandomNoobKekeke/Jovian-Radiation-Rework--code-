@@ -28,6 +28,7 @@ namespace JovianRadiationRework
       {
         if (_.radiationMultiplier is int multiplier)
         {
+          // This multiplier is visible only in english, kek
           return TextManager.GetWithVariable("RadiationTooltip", "[jovianmultiplier]", multiplier.ToString()).ToString();
         }
 

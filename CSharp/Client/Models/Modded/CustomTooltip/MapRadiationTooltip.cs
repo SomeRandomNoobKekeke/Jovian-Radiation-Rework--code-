@@ -26,9 +26,8 @@ namespace JovianRadiationRework
     {
       public string GetText(Radiation _)
       {
-        // This multiplier is visible only in english, kek
         return TextManager.Get("RadiationTooltip").ToString()
-                          .Replace("(LEVEL [jovianmultiplier])", "");
+                          .Replace("(LEVEL [jovianmultiplier])", $" ({_.radiationMultiplier} JV/S)");
       }
     }
   }

@@ -7,13 +7,15 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using BaroJunk;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 
 namespace JovianRadiationRework
 {
-  public class Visuals : IConfig
+  public partial class CustomMapRadiationDrawerModel : RadiationModel
   {
-    public AmbientLightModel.ModelSettings AmbientLight { get; set; }
-    public CustomMapRadiationDrawerModel.ModelSettings MapRender { get; set; }
+
+    public override IMapRadiationDrawer MapRadiationDrawer { get; set; }
   }
 }

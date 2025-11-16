@@ -13,11 +13,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace JovianRadiationRework
 {
-  public partial class AmbientLightModel
+  public partial class CustomMapRadiationDrawerModel : RadiationModel
   {
-    public override ILevelPostDrawer LevelPostDrawer { get; set; }
+    public partial class ModelSettings : IConfig
+    {
+      public Color AreaColor { get; set; } = new Color(0, 16, 32, 160);
+      public Color BorderColor { get; set; } = new Color(0, 127, 255, 200);
+    }
   }
-
-
-
 }

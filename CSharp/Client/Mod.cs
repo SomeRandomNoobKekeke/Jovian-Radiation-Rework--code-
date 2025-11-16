@@ -19,6 +19,7 @@ namespace JovianRadiationRework
       LuaGamePatch.PatchClientLuaGame(Harmony);
       RadiationPatch.PatchClientRadiation(Harmony);
       UpgradeStorePatch.PatchClientUpgradeStore(Harmony);
+      // LevelRendererPatch.PatchClientLevelRenderer(Harmony);
     }
   }
 }

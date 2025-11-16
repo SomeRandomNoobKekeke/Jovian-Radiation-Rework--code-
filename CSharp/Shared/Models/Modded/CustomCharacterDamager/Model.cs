@@ -16,7 +16,7 @@ namespace JovianRadiationRework
   {
     public partial class ModelSettings : IConfig
     {
-      public float RadAmountToDPS { get; set; } = 0.1f;
+      public float RadAmountToDPS { get; set; } = 0.001f;
 
       public AfflictionWrapper Affliction { get; set; } = new AfflictionWrapper(AfflictionPrefab.RadiationSickness);
     }
