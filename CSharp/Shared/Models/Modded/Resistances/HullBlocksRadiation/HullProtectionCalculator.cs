@@ -40,7 +40,7 @@ namespace JovianRadiationRework
 
       public float GetMainsubElectronicsProtectionMult()
         => Math.Clamp(
-          1 - Settings.MainSub + (Mod.CurrentModel.HullUpgrades?.GetProtectionForMainSub() ?? 0),
+          1 - (Settings.MainSub + (Mod.CurrentModel.HullUpgrades?.GetProtectionForMainSub() ?? 0)),
           0, 1
         );
       private float openGapFactor(Hull CurrentHull)
