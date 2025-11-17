@@ -16,7 +16,7 @@ namespace JovianRadiationRework
   /// <summary>
   /// A bit confusing, it's responsible for all resistances in enclosed spaces
   /// </summary>
-  public partial class HullBlocksRadiationModel : RadiationModel
+  public partial class IndoorProtectionModel : RadiationModel
   {
     public class ModelSettings : IConfig
     {
@@ -32,7 +32,7 @@ namespace JovianRadiationRework
     }
 
     public override bool Debug { get; set; } = false;
-    public override IHullProtectionCalculator HullProtectionCalculator { get; set; }
+    public override IIndoorProtectionCalculator IndoorProtectionCalculator { get; set; }
   }
 
 

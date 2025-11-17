@@ -24,16 +24,16 @@ namespace JovianRadiationRework
     OpenWater, PlayerSub, Beacon, Outpost, EnemySub, Wreck, Ruins, Cave,
   }
 
-  public partial class HullBlocksRadiationModel
+  public partial class IndoorProtectionModel
   {
     /// <summary>
     /// Very confusing: Protection = [0: no protection, 1: invulnerable]
     /// ProtectionMult = incoming damage multiplicator = [0 : no damage, 1: full damage]
     /// Damage = rawDamage * ProtectionMult
     /// </summary>
-    public class HullBlocksRadiation : IHullProtectionCalculator
+    public class IndoorProtection : IIndoorProtectionCalculator
     {
-      public HullBlocksRadiationModel Model { get; set; }
+      public IndoorProtectionModel Model { get; set; }
       public ModelSettings Settings { get; set; }
 
       public float GetBasicMainSubProtection() => Settings.MainSub;

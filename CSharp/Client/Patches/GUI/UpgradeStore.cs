@@ -27,7 +27,7 @@ namespace JovianRadiationRework
 
         int maxLevel = upgradePrefab.GetMaxLevelForCurrentSub();
         float nextIncrease =
-          Mod.CurrentModel.HullProtectionCalculator.GetBasicMainSubProtection() +
+          Mod.CurrentModel.IndoorProtectionCalculator.GetBasicMainSubProtection() +
           (Mod.CurrentModel.HullUpgrades?.GetProtectionPerUpgrade() ?? 0) *
           Math.Min(currentLevel + 1, maxLevel);
 

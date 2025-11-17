@@ -35,9 +35,9 @@ namespace JovianRadiationRework
       {
         float amount = CalculateAmount(_, character.WorldPosition);
 
-        if (Mod.CurrentModel.HullProtectionCalculator is not null)
+        if (Mod.CurrentModel.IndoorProtectionCalculator is not null)
         {
-          amount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, character);
+          amount *= Mod.CurrentModel.IndoorProtectionCalculator.GetHullProtectionMult(_, character);
         }
 
         return amount;
@@ -47,9 +47,9 @@ namespace JovianRadiationRework
       {
         float amount = CalculateAmount(_, item.WorldPosition);
 
-        if (Mod.CurrentModel.HullProtectionCalculator is not null)
+        if (Mod.CurrentModel.IndoorProtectionCalculator is not null)
         {
-          amount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, item);
+          amount *= Mod.CurrentModel.IndoorProtectionCalculator.GetHullProtectionMult(_, item);
         }
 
         return amount;

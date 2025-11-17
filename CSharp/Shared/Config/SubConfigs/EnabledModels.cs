@@ -26,7 +26,7 @@ namespace JovianRadiationRework
     public bool MoreMonstersModel { get; set; } = true;
     public bool SmoothLocationTransformerModel { get; set; } = true;
     public bool SmoothRadiationProgressModel { get; set; } = true;
-    public bool HullBlocksRadiationModel { get; set; } = true;
+    public bool IndoorProtectionModel { get; set; } = true;
     public bool HullRadProtectionUpgradesModel { get; set; } = true;
     public bool HuskRadiationResistanceModel { get; set; } = true;
     public bool CustomTooltipModel { get; set; } = true;

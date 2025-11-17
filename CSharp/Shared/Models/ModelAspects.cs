@@ -130,7 +130,7 @@ namespace JovianRadiationRework
     public void SetMetadata();
   }
 
-  public interface IHullProtectionCalculator : IModelAspect
+  public interface IIndoorProtectionCalculator : IModelAspect
   {
     public float GetBasicMainSubProtection();
     public float GetMainsubElectronicsProtectionMult();

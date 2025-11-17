@@ -63,9 +63,9 @@ namespace JovianRadiationRework
             Submarine.MainSub.WorldPosition
           );
 
-        if (Mod.CurrentModel.HullProtectionCalculator is not null)
+        if (Mod.CurrentModel.IndoorProtectionCalculator is not null)
         {
-          radAmount = radAmount * Mod.CurrentModel.HullProtectionCalculator.GetMainsubElectronicsProtectionMult();
+          radAmount = radAmount * Mod.CurrentModel.IndoorProtectionCalculator.GetMainsubElectronicsProtectionMult();
         }
 
         float dps = Math.Clamp(radAmount * Settings.RadAmountToDPS, 0, Settings.MaxDPS);
