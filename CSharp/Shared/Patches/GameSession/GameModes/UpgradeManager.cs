@@ -32,7 +32,7 @@ namespace JovianRadiationRework
 
     public static void UpgradeManager_TryPurchaseUpgrade_Postfix(UpgradeManager __instance, ref bool __result, UpgradePrefab prefab, UpgradeCategory category, bool force = false, Client? client = null)
     {
-      if (prefab.Identifier == HullRadProtectionUpgradesModel.HullUpgradesHandler.HullRadProtectionUpgradeID)
+      if (prefab.Identifier == RadProtectionUpgradesModel.RadProtectionUpgrades.HullRadProtectionUpgradeID)
       {
         //MB i should notify lifecycle hooks and call HullUpgrades from there
         Mod.CurrentModel.HullUpgrades?.UpdateMainSubProtection();

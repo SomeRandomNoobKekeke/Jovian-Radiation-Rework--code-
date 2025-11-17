@@ -19,14 +19,14 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class HullRadProtectionUpgradesModel
+  public partial class RadProtectionUpgradesModel
   {
-    public class HullUpgradesHandler : IHullUpgrades
+    public class RadProtectionUpgrades : IHullUpgrades
     {
       public static Identifier HullRadProtectionUpgradeID = new Identifier("increaseradprotection");
 
       public ModelSettings Settings { get; set; }
-      public HullRadProtectionUpgradesModel Model { get; set; }
+      public RadProtectionUpgradesModel Model { get; set; }
 
 
       public float ProtectionFromUpgrades { get; set; }

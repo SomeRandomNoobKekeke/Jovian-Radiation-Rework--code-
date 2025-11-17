@@ -12,7 +12,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class HullRadProtectionUpgradesModel : RadiationModel
+  public partial class RadProtectionUpgradesModel : RadiationModel
   {
     public class ModelSettings : IConfig
     {

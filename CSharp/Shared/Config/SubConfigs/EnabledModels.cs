@@ -27,7 +27,7 @@ namespace JovianRadiationRework
     public bool SmoothLocationTransformerModel { get; set; } = true;
     public bool SmoothRadiationProgressModel { get; set; } = true;
     public bool IndoorProtectionModel { get; set; } = true;
-    public bool HullRadProtectionUpgradesModel { get; set; } = true;
+    public bool RadProtectionUpgradesModel { get; set; } = true;
     public bool HuskRadiationResistanceModel { get; set; } = true;
     public bool CustomTooltipModel { get; set; } = true;
     #endregion

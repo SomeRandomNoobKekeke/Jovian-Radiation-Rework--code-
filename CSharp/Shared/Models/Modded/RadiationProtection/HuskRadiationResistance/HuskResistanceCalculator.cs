@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public partial class HuskRadiationResistanceModel
   {
-    public class CustomHuskResistanceCalculator : IHuskResistanceCalculator
+    public class HuskRadiationResistance : IHuskResistanceCalculator
     {
       public HuskRadiationResistanceModel Model { get; set; }
       public ModelSettings Settings { get; set; }
