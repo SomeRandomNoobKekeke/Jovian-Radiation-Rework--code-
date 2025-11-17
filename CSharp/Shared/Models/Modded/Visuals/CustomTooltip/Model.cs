@@ -7,13 +7,12 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
-using BaroJunk;
+using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public partial class Mod : IAssemblyPlugin
+  public partial class CustomTooltipModel : RadiationModel
   {
-    public partial void PatchProjSpecific() { }
-    public partial void SetupHooksProjSpecific() { }
+
   }
 }

@@ -21,5 +21,11 @@ namespace JovianRadiationRework
       UpgradeStorePatch.PatchClientUpgradeStore(Harmony);
       // LevelRendererPatch.PatchClientLevelRenderer(Harmony);
     }
+
+    public partial void SetupHooksProjSpecific()
+    {
+      GameMain.LuaCs.Hook.Add("GeigerCounterTurnedOff", "JRR", GeigerCounterHooks.OnTurnedOff);
+      GameMain.LuaCs.Hook.Add("MeasureRadiation", "JRR", GeigerCounterHooks.MeasureRadiation);
+    }
   }
 }

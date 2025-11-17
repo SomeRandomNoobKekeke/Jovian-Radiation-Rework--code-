@@ -85,13 +85,13 @@ namespace BaroJunk
         client.Connection
       );
     }
-    public void ServerEncondeAndSend(string header, IConfig config, Client client)
+    public void ServerEncondeAndSend(string header, ConfigCore config, Client client)
     {
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(header);
       config.NetEncode(outMsg);
       GameMain.LuaCs.Networking.Send(outMsg, client.Connection);
     }
-    public void ServerEncondeAndBroadcast(string header, IConfig config)
+    public void ServerEncondeAndBroadcast(string header, ConfigCore config)
     {
       IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(header);
       config.NetEncode(outMsg);
@@ -109,7 +109,7 @@ namespace BaroJunk
 
     public bool DoIHavePermissions() => true;
     public void ClientSend(string header) { }
-    public void ClientEncondeAndSend(string header, IConfig config) { }
+    public void ClientEncondeAndSend(string header, ConfigCore config) { }
     public void ListenForServer(string header, Action<IReadMessage> callback) { }
 #endif
   }

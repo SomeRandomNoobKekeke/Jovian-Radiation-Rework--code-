@@ -45,8 +45,7 @@ namespace JovianRadiationRework
       Experiment();
 
       ModelManager.ScanModels();
-
-      ModelManager.DumpModels();
+      // ModelManager.DumpModels();
 
 
       Config.Settings().SavePath = MainConfig.DefaultConfigPath;
@@ -54,9 +53,7 @@ namespace JovianRadiationRework
       Config.Settings().DeeplyReactive = true;
 
 
-      Config.UseStrategy(ConfigStrategy.Passive);
-      Config.GetReactiveCore().RaiseUpdated();
-      // Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
+      Config.UseStrategy(ConfigStrategy.MultiplayerBothSides);
 
       ModelManager.SyncModelStates(Config.EnabledModels);
 
@@ -75,6 +72,7 @@ namespace JovianRadiationRework
       PatchProjSpecific();
     }
     public partial void PatchProjSpecific();
+    public partial void SetupHooksProjSpecific();
 
     public void SetupHooks()
     {
@@ -103,8 +101,7 @@ namespace JovianRadiationRework
         return null;
       });
 
-      GameMain.LuaCs.Hook.Add("GeigerCounterTurnedOff", "JRR", GeigerCounterHooks.OnTurnedOff);
-      GameMain.LuaCs.Hook.Add("MeasureRadiation", "JRR", GeigerCounterHooks.MeasureRadiation);
+      SetupHooksProjSpecific();
     }
 
 

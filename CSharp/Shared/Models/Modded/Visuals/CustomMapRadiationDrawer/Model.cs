@@ -8,8 +8,6 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 
 namespace JovianRadiationRework
 {
