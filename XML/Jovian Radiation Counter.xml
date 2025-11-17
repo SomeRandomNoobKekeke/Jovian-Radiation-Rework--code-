@@ -43,7 +43,7 @@
       </StatusEffect>
     </LightComponent>
     <CustomInterface canbeselected="false" drawhudwhenequipped="true" allowuioverlap="true">
-      <GuiFrame relativesize="0.15,0.15" anchor="CenterLeft" pivot="BottomLeft" relativeoffset="0.006,-0.05" style="ItemUI" />
+      <GuiFrame relativesize="0.15,0.13" anchor="CenterLeft" pivot="BottomLeft" relativeoffset="1.0,0.3" style="ItemUI" />
       <TickBox text="Power">
         <StatusEffect type="OnUse" targettype="This" IsOn="true">
         </StatusEffect>

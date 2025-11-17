@@ -40,11 +40,6 @@ namespace JovianRadiationRework
           amount *= Mod.CurrentModel.HullProtectionCalculator.GetHullProtectionMult(_, character);
         }
 
-        if (Mod.CurrentModel.HuskResistanceCalculator is not null)
-        {
-          amount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
-        }
-
         return amount;
       }
 

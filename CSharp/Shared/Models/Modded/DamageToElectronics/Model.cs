@@ -17,6 +17,11 @@ namespace JovianRadiationRework
     public partial class ModelSettings : IConfig
     {
       public float DamageInterval { get; set; } = 1.0f;
+      /// <summary>
+      /// So ~ 1 full time default engineer can maintain dugong at 400 camera irradiation
+      /// it's ~ 0.2 on jrc inside sub 
+      /// So beyound 0.2 on jrc you need hazmats suit inside sub / extra engineers / electric upgrades
+      /// </summary>
       public float RadAmountToDPS { get; set; } = 0.002f;
       public float MaxDPS { get; set; } = 1.5f;
     }

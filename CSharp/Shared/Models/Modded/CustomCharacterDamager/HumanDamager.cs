@@ -31,6 +31,11 @@ namespace JovianRadiationRework
 
       public void DamageHuman(Character character, float radAmount, Radiation _)
       {
+        if (Mod.CurrentModel.HuskResistanceCalculator is not null)
+        {
+          radAmount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
+        }
+
         float dps = radAmount * Settings.RadAmountToDPS;
         float damage = dps * Math.Max(0, Mod.CurrentModel.RadiationUpdater.GetUpdateInterval());
 

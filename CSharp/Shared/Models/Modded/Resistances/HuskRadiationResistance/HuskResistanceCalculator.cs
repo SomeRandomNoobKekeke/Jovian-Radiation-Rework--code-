@@ -23,10 +23,21 @@ namespace JovianRadiationRework
   {
     public class CustomHuskResistanceCalculator : IHuskResistanceCalculator
     {
+      public HuskRadiationResistanceModel Model { get; set; }
       public ModelSettings Settings { get; set; }
+
+      public float GetHuskInfectionStrength(Character character)
+      {
+        return character.CharacterHealth.GetAfflictionStrengthByIdentifier(
+          AfflictionPrefab.HuskInfection.Identifier
+        );
+      }
       public float GetHuskResistanceMult(Radiation _, Character character)
       {
-        return 1.0f;
+        Model.DebugLog($"{character.Info?.DisplayName} {GetHuskInfectionStrength(character)} isHusk:[{GetHuskInfectionStrength(character) > Settings.HuskInfectionThreshold}]");
+
+        return GetHuskInfectionStrength(character) > Settings.HuskInfectionThreshold ?
+               Settings.HuskRadiationResistanceMult : 1.0f;
       }
     }
   }

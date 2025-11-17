@@ -63,7 +63,7 @@ namespace JovianRadiationRework
 
         if (customInterface.uiElements.ElementAtOrDefault(1) is GUITextBox textBox)
         {
-          textBox.Text = $"{dps}";
+          textBox.Text = dps.ToString("0.0000");
         }
       }
       return null;

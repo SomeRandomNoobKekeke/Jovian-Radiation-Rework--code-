@@ -16,8 +16,22 @@ namespace JovianRadiationRework
   {
     public class ModelSettings : IConfig
     {
+      public float HuskRadiationResistanceMult;
+      private float huskRadiationResistance = 0.5f;
+      public float HuskRadiationResistance
+      {
+        get => huskRadiationResistance;
+        set
+        {
+          huskRadiationResistance = value;
+          HuskRadiationResistanceMult = Math.Clamp(1 - value, 0, 1);
+        }
+      }
 
+      public float HuskInfectionThreshold { get; set; } = 75.0f;
     }
+    public override bool Debug { get; set; } = false;
+
     public override IHuskResistanceCalculator HuskResistanceCalculator { get; set; }
   }
 
