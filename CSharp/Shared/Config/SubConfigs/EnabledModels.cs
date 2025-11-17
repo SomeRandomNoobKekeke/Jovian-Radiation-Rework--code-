@@ -22,7 +22,7 @@ namespace JovianRadiationRework
     public bool CustomMonsterDamagerModel { get; set; } = true;
     public bool CustomRadiationUpdaterModel { get; set; } = true;
     public bool DamageToElectronicsModel { get; set; } = true;
-    public bool FlatDepthBasedDamageModel { get; set; } = true;
+    public bool DepthBasedDamageModel { get; set; } = true;
     public bool MoreMonstersModel { get; set; } = true;
     public bool SmoothLocationTransformerModel { get; set; } = true;
     public bool SmoothRadiationProgressModel { get; set; } = true;

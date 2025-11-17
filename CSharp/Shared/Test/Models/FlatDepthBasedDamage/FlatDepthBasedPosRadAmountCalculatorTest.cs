@@ -9,13 +9,13 @@ using Microsoft.Xna.Framework;
 
 namespace JovianRadiationRework
 {
-  public class FlatDepthBasedPosRadAmountCalculatorTest : ModelAspectTest
+  public class DepthBasedDamageTest : ModelAspectTest
   {
     public List<UTest> LevelDistanceTest()
     {
-      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      DepthBasedDamageModel.DepthBasedDamage calculator = new()
       {
-        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        Settings = new DepthBasedDamageModel.ModelSettings()
         {
           WaterRadiationBlockPerMeter = 1.0f,
         },
@@ -51,9 +51,9 @@ namespace JovianRadiationRework
 
     public List<UTest> LevelDepthTest()
     {
-      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      DepthBasedDamageModel.DepthBasedDamage calculator = new()
       {
-        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        Settings = new DepthBasedDamageModel.ModelSettings()
         {
           WaterRadiationBlockPerMeter = 1.0f,
         },
@@ -92,9 +92,9 @@ namespace JovianRadiationRework
 
     public List<UTest> LevelOutOfBoundsTest()
     {
-      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      DepthBasedDamageModel.DepthBasedDamage calculator = new()
       {
-        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        Settings = new DepthBasedDamageModel.ModelSettings()
         {
           WaterRadiationBlockPerMeter = 1.0f,
         },
@@ -131,9 +131,9 @@ namespace JovianRadiationRework
 
     public List<UTest> OutpostDepthTest()
     {
-      FlatDepthBasedDamageModel.FlatDepthBasedPosRadAmountCalculator calculator = new()
+      DepthBasedDamageModel.DepthBasedDamage calculator = new()
       {
-        Settings = new FlatDepthBasedDamageModel.ModelSettings()
+        Settings = new DepthBasedDamageModel.ModelSettings()
         {
           WaterRadiationBlockPerMeter = 1.0f,
         },

@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public partial class AdvanceOnSaveAndQuitModel
   {
-    public class ModdedSaveAndQuitHandler : ISaveAndQuitHandler
+    public class AdvanceOnSaveAndQuit : ISaveAndQuitHandler
     {
       public ModelSettings Settings { get; set; }
 

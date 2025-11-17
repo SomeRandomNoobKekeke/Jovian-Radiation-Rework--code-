@@ -19,9 +19,9 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class FlatDepthBasedDamageModel
+  public partial class DepthBasedDamageModel
   {
-    public class FlatDepthBasedPosRadAmountCalculator : IWorldPosRadAmountCalculator
+    public class DepthBasedDamage : IWorldPosRadAmountCalculator
     {
       public ModelSettings Settings { get; set; }
       public ILevel Level_Loaded { get; set; }
