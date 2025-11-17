@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public partial class AdditionalMetadataSetterModel
   {
-    public class SetCurrentLocationIrradiation : IMetadataSetter
+    public class CurrentLocationIrradiation : IMetadataSetter
     {
       public void SetMetadata()
       {

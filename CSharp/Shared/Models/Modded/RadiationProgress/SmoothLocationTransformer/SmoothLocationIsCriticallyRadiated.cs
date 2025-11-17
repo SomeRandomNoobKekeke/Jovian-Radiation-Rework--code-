@@ -21,7 +21,7 @@ namespace JovianRadiationRework
 {
   public partial class SmoothLocationTransformerModel
   {
-    public class SmoothLocationIsCriticallyRadiated : ILocationIsCriticallyRadiated
+    public class CustomIsCriticallyRadiated : ILocationIsCriticallyRadiated
     {
       public ModelSettings Settings { get; set; }
 

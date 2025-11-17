@@ -12,7 +12,7 @@ using HarmonyLib;
 
 namespace JovianRadiationRework
 {
-  public partial class ProgressiveMonsterSpawningModel : RadiationModel
+  public partial class MoreMonstersModel : RadiationModel
   {
     public class ModelSettings : IConfig
     {

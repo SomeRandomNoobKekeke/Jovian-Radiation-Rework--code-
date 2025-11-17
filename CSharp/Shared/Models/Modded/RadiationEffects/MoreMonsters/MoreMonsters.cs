@@ -19,12 +19,12 @@ using Voronoi2;
 
 namespace JovianRadiationRework
 {
-  public partial class ProgressiveMonsterSpawningModel
+  public partial class MoreMonstersModel
   {
-    public class ProgressiveMonsterSpawner : IMonsterSpawner
+    public class MoreMonsters : IMonsterSpawner
     {
       public ModelSettings Settings { get; set; }
-      public ProgressiveMonsterSpawningModel Model { get; set; }
+      public MoreMonstersModel Model { get; set; }
 
       public ILevel Level_Loaded { get; set; }
       public IRadiationAccessor RadiationAccessor { get; set; }
