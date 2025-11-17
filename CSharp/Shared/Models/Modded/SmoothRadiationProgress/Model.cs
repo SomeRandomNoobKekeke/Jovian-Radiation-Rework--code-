@@ -20,7 +20,10 @@ namespace JovianRadiationRework
 
       // This takes presidence over Vanilla.StartingRadiation 
       public float StartingRadiation { get; set; } = -100.0f;
-      public float RadiationSpeed { get; set; } = 60.0f;
+      /// <summary>
+      /// 60 is the speed on dugong moving non stop without enemies
+      /// </summary>
+      public float RadiationSpeed { get; set; } = 40.0f;
       public float MaxTimeOnRound { get; set; } = 60.0f;
       public float MinTimeOnRound { get; set; } = 0.5f;
 
@@ -44,7 +47,7 @@ namespace JovianRadiationRework
       }
     }
 
-    public override bool Debug { get; set; } = true;
+    public override bool Debug { get; set; } = false;
 
     public override IRadiationMover RadiationMover { get; set; }
     public override IStepsCalculator RadiationStepsCalculator { get; set; }

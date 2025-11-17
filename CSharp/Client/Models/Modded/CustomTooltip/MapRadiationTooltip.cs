@@ -27,7 +27,8 @@ namespace JovianRadiationRework
       public string GetText(Radiation _)
       {
         return TextManager.Get("RadiationTooltip").ToString()
-                          .Replace("(LEVEL [jovianmultiplier])", $" ({_.radiationMultiplier} JV/S)");
+                          .Replace("(LEVEL [jovianmultiplier])", "")
+                          .Replace("\n", $" ({_.radiationMultiplier} JV/S)\n");
       }
     }
   }
