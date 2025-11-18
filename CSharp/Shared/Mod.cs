@@ -61,7 +61,6 @@ namespace JovianRadiationRework
       ModelManager.SyncModelStates(Config.EnabledModels);
 
       ProjectInfo.CheckIncompatibleLibs();
-      Logger.Log($"{ModInfo.AssemblyName} compiled");
     }
 
     public void PatchAll()
