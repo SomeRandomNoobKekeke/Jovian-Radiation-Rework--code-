@@ -1,10 +1,10 @@
-C# mod that completelly changes jovian radiation
+C# mod that completely changes jovian radiation
 
 [h2] List of changes on Default settings: [/h2]
 [list]
-    [*] Jovian radiation is now damaging you with radiation, again
+    [*] Jovian radiation is now damaging you with "Radiation sickness" affliction, once again
     [*] Radiation is now blue
-    [*] Added ambient glow on levels covered in radiation, brightness is proportional to the radiation background
+    [*] Added ambient glow on levels covered by radiation, brightness is proportional to the radiation background
     [*] Radiation is moving faster and continuously and not in step of 10 min, but still only between levels
     [*] Radiation damage is growing indefinitely with radiation background
     [*] Monsted don't spawn dead and are not harmed by radiation
@@ -26,7 +26,7 @@ C# mod that completelly changes jovian radiation
     [*] Dormant radiation sickness period reduced from 25 to 5 and now have the same healing speed as active period
 [/list]
 
-[h2] Acceptable radiation levels: [/h2]
+[h2] Max tolerable radiation levels: [/h2]
 [list]
     [*] For unprotected human -> 0.2
     [*] In hazmat suit -> 0.25
