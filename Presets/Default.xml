@@ -54,7 +54,7 @@
   <RadiationProgress>
     <LocationsTransform>
       <KeepSurroundingOutpostsAlive>True</KeepSurroundingOutpostsAlive>
-      <CriticalOutpostRadiationAmount>1000</CriticalOutpostRadiationAmount>
+      <CriticalOutpostRadiationAmount>2000</CriticalOutpostRadiationAmount>
       <MinimumOutpostAmount>3</MinimumOutpostAmount>
     </LocationsTransform>
     <RadiationMoving>

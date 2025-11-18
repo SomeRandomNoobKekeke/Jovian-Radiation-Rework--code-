@@ -9,7 +9,7 @@ using System.Linq;
 using Barotrauma;
 using HarmonyLib;
 using Barotrauma.Items.Components;
-
+using BaroJunk;
 namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
@@ -33,12 +33,15 @@ namespace JovianRadiationRework
       }
     }
 
+    public static CommandRelay CommandRelay { get; set; } = new CommandRelay();
+
     public static RadiationModel CurrentModel => ModelManager.Current;
     public void Initialize()
     {
       Instance = this;
       UTestCommands.AddCommands();
       AddCommands();
+
       PatchAll();
       SetupHooks();
 

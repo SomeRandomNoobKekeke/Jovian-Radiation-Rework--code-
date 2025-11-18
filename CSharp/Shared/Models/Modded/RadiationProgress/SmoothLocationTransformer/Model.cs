@@ -17,7 +17,7 @@ namespace JovianRadiationRework
     public partial class ModelSettings : IConfig
     {
       public bool KeepSurroundingOutpostsAlive { get; set; } = true;
-      public float CriticalOutpostRadiationAmount { get; set; } = 1000.0f;
+      public float CriticalOutpostRadiationAmount { get; set; } = 2000.0f;
       public int MinimumOutpostAmount { get; set; } = 3;
     }
 

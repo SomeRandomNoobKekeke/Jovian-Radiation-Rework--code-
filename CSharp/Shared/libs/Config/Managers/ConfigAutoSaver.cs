@@ -17,7 +17,13 @@ namespace BaroJunk
       => Path.Combine("ModSettings", "Configs", $"{config.ID}.xml");
 
     public ConfigCore Config;
-    public ConfigAutoSaver(ConfigCore config) => Config = config;
+    public ConfigAutoSaver(ConfigCore config)
+    {
+      Config = config;
+
+      Config.OnUpdated(() => TrySaveAfterUpdate());
+      Config.OnPropChanged((key, value) => TrySaveAfterUpdate());
+    }
 
     private bool enabled; public bool Enabled
     {
@@ -37,6 +43,15 @@ namespace BaroJunk
     public bool SaveEveryRound { get; set; }
     public bool ShouldSave { get; set; }
     public bool ShouldLoad { get; set; }
+
+    //TODO test
+    public bool ShouldSaveAfterUpdate { get; set; } = true;
+    public void TrySaveAfterUpdate()
+    {
+      if (!Enabled || !ShouldSaveAfterUpdate || !ShouldSave) return;
+      Config?.Save(Config.Settings.SavePath);
+    }
+
     public void UseStrategy(AutoSaverStrategy strategy)
     {
       if (Config.Facades.NetFacade.IsMultiplayer)
@@ -74,7 +89,6 @@ namespace BaroJunk
       {
         Config.Load(Config.Settings.SavePath);
       }
-
 
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) =>
       {

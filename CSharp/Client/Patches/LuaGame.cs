@@ -20,9 +20,6 @@ namespace JovianRadiationRework
     }
     public static void PermitCommands(Identifier command, ref bool __result)
     {
-      //BRUH GIGABRUH
-      if (command.Value == "rad") __result = true;
-
       if (Mod.Instance.AddedCommands.Any(c => c.Names.Contains(command.Value))) __result = true;
     }
   }

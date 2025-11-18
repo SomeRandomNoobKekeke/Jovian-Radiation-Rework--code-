@@ -23,17 +23,31 @@ namespace JovianRadiationRework
       AddedCommands.Add(new DebugConsole.Command("rad_printmodel", "", Rad_PrintModel_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_save", "", Rad_Save_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_load", "", Rad_Load_Command,
-      () => new string[][] { MainConfig.AvailableConfigs.ToArray() }));
+      () => new string[][] { MainConfig.AvailableConfigs.ToArray() })
+      {
+
+      });
       AddedCommands.Add(new DebugConsole.Command("rad_debugmodel", "", Rad_DebugModel_Command,
+        () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
+      ));
+      AddedCommands.Add(new DebugConsole.Command("rad_server_debugmodel", "", Rad_Server_DebugModel_Command,
         () => new string[][] { Mod.ModelManager.Models.ModelByName.Keys.ToArray() }
       ));
       AddedCommands.Add(new DebugConsole.Command("rad_amount", "", Rad_Amount_Command));
       AddedCommands.Add(new DebugConsole.Command("rad_vanilla", "", Rad_Vanilla_Command,
         () => new string[][] { RadiationParamsAccess.Instance.GetPropNames().Append("reset").ToArray() }
       ));
-      AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
-        () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
-      ));
+
+      // I should probably sandbox it first
+      // AddedCommands.Add(new DebugConsole.Command("campaign_metadata", "", Campaign_Metadata_Command,
+      //   () => new string[][] { CampaignMetadataAccess.Data.Keys.Select(id => id.Value).ToArray() }
+      // ));
+
+      //ЪУЪ
+      foreach (var command in AddedCommands)
+      {
+        command.RelayToServer = false;
+      }
     }
 
 
@@ -59,6 +73,12 @@ namespace JovianRadiationRework
 
     public static void Rad_Load_Command(string[] args)
     {
+      if (GameMain.IsMultiplayer)
+      {
+        Mod.CommandRelay.SendCommand("rad_load", args);
+        return;
+      }
+
       if (args.Length == 0)
       {
         Mod.Logger.Log($"Which one? {Logger.Wrap.IEnumerable(MainConfig.AvailableConfigs)}");
@@ -78,6 +98,13 @@ namespace JovianRadiationRework
 
     }
 
+    public static void Rad_Server_DebugModel_Command(string[] args)
+    {
+      if (GameMain.IsMultiplayer)
+      {
+        Mod.CommandRelay.SendCommand("rad_debugmodel", args);
+      }
+    }
 
     public static void Rad_DebugModel_Command(string[] args)
     {
@@ -129,10 +156,10 @@ namespace JovianRadiationRework
 
         CampaignMetadataAccess.Set(args[0], args[1]);
 
-        if (GameMain.IsMultiplayer)
-        {
-          GameMain.Client.SendConsoleCommand($"campaign_metadata {args[0]} {args[1]}");
-        }
+        // if (GameMain.IsMultiplayer)
+        // {
+        //   GameMain.Client.SendConsoleCommand($"campaign_metadata {args[0]} {args[1]}");
+        // }
       }
 
       if (args.Length > 0)
@@ -173,10 +200,10 @@ namespace JovianRadiationRework
 
         RadiationParamsAccess.Instance.Set(args[0], args[1]);
 
-        if (GameMain.IsMultiplayer)
-        {
-          GameMain.Client.SendConsoleCommand($"rad_vanilla {args[0]} {args[1]}");
-        }
+        // if (GameMain.IsMultiplayer)
+        // {
+        //   GameMain.Client.SendConsoleCommand($"rad_vanilla {args[0]} {args[1]}");
+        // }
 
         Mod.Logger.Log($"{args[0]} = {RadiationParamsAccess.Instance.Get(args[0])}");
       }
@@ -204,7 +231,7 @@ namespace JovianRadiationRework
 
           if (GameMain.IsMultiplayer)
           {
-            GameMain.Client.SendConsoleCommand($"rad_amount {args[0]}");
+            Mod.CommandRelay.SendCommand("rad_amount", args);
           }
         }
 
