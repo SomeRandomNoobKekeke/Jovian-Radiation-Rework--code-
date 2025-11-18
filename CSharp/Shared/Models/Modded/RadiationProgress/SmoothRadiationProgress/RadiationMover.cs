@@ -31,6 +31,7 @@ namespace JovianRadiationRework
         if (GameMain.GameSession.Map.Radiation?.Enabled == true)
         {
           GameMain.GameSession.Map.Radiation.Amount = Settings.StartingRadiation;
+          Model.DebugLog($"First round -> set Rad.Amount to [{Settings.StartingRadiation}]");
         }
       }
 
