@@ -10,6 +10,14 @@
       <PreferredContainer secondary="abandonedstoragecab,piratestoragecab,wreckstoragecab" minamount="1" maxamount="2" spawnprobability="0" />
       <PreferredContainer secondary="outposttrashcan" amount="1" spawnprobability="0" />
       <PreferredContainer primary="jovianradiationcounter" spawnprobability="1.0" />
+      <Price baseprice="125" minavailable="0" sold="false">
+        <Price storeidentifier="merchantoutpost" multiplier="0.9" minavailable="5" />
+        <Price storeidentifier="merchantcity" minavailable="4" />
+        <Price storeidentifier="merchantresearch" multiplier="1.2" />
+        <Price storeidentifier="merchantmilitary" multiplier="1.1" />
+        <Price storeidentifier="merchantmine" minavailable="6" />
+        <Price storeidentifier="merchantengineering" multiplier="0.9" minavailable="6" />
+      </Price>
     </Item>
 
     <!-- This will conflict with any other battery override -->
