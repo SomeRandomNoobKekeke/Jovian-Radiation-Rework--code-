@@ -9,10 +9,10 @@
       selfcauseofdeathdescription="You have died of radiation sickness."
       limbspecific="false"
       indicatorlimb="Torso"
-      showiconthreshold="15"
-      showinhealthscannerthreshold="5"
+      showiconthreshold="5"
+      showinhealthscannerthreshold="0"
       karmachangeonapplied="-1"
-      treatmentthreshold="15"
+      treatmentthreshold="5"
       maxstrength="200"
       affectmachines="false"
       grainburst="3"
@@ -39,9 +39,9 @@
         minstrength="75"
         maxstrength="200" />
       <!-- No effects at this level  -->
-      <Effect minstrength="0" maxstrength="15" strengthchange="-0.2" />
+      <Effect minstrength="0" maxstrength="5" strengthchange="-0.2" />
       <!-- Cause burns depending on strength -->
-      <Effect minstrength="15" maxstrength="50" mingrainstrength="0.25" maxgrainstrength="0.1" strengthchange="-0.2">
+      <Effect minstrength="5" maxstrength="50" mingrainstrength="0.25" maxgrainstrength="0.1" strengthchange="-0.2">
         <StatusEffect target="Character" multiplyafflictionsbymaxvitality="true" interval="0.1" disabledeltatime="true">
           <Affliction identifier="burn" amount="0.06" dividebylimbcount="true" penetration="1.0" />
         </StatusEffect>
