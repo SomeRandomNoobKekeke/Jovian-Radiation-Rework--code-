@@ -45,6 +45,7 @@
     </DamageToElectronics>
     <DamageToCharacters>
       <RadAmountToDPS>0.001</RadAmountToDPS>
+      <ExtraHumanHealing>0</ExtraHumanHealing>
       <Affliction>radiationsickness</Affliction>
     </DamageToCharacters>
     <DamageToMonsters>
