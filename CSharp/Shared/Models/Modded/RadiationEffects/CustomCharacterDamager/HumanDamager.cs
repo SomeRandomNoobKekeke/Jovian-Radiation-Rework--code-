@@ -36,10 +36,11 @@ namespace JovianRadiationRework
           radAmount *= Mod.CurrentModel.HuskResistanceCalculator.GetHuskResistanceMult(_, character);
         }
 
-        float dps = radAmount * Settings.RadAmountToDPS;
-        float damage = dps * Math.Max(0, Mod.CurrentModel.RadiationUpdater.GetUpdateInterval());
+        float rawdps = radAmount * Settings.RadAmountToDPS;
+        float dps = rawdps - Settings.ExtraHumanHealing;
+        float damage = Math.Max(0, dps * Mod.CurrentModel.RadiationUpdater.GetUpdateInterval());
 
-        Model.DebugLog($"Damaging [{character?.Info?.DisplayName}] with [{damage}] [{Settings.Affliction.AfflictionPrefab}]");
+        Model.DebugLog($"Damaging [{character?.Info?.DisplayName}] with [{damage}] (dps:[{rawdps}] - healing:[{Settings.ExtraHumanHealing}]) [{Settings.Affliction.AfflictionPrefab}]");
 
         var limb = character.AnimController.MainLimb;
 
