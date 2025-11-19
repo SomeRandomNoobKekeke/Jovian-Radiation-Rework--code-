@@ -12,8 +12,6 @@ namespace JovianRadiationRework
 {
   public partial class Mod : IAssemblyPlugin
   {
-
-
     public void Experiment()
     {
     }

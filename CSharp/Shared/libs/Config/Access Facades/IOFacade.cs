@@ -29,9 +29,9 @@ namespace BaroJunk
     public bool FileExists(string path) => File.Exists(path);
     public void EnsureDirectory(string path)
     {
-      if (!Directory.Exists(Path.GetDirectoryName(path)))
+      if (!Directory.Exists(path))
       {
-        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        Directory.CreateDirectory(path);
       }
     }
   }
