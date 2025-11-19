@@ -16,7 +16,7 @@ These are all available models, they can be turned on and off independently, whe
 
 [h2] Vanilla [/h2]
 This is a proxy to vanilla RadiationParams
-Those values are copied to vanilla params on round start
+These values are copied to vanilla params on round start
 
 if OverrideVanillaSettings is false then they won't
 Modded models don't depend on vanilla params, but if you want to play with vanilla radiaton it could be useful
