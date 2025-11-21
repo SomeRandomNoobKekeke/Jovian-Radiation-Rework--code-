@@ -61,7 +61,7 @@
     <RadiationMoving>
       <TargetSpeedPercentageAtTheEndOfTheMap>0.5</TargetSpeedPercentageAtTheEndOfTheMap>
       <StartingRadiation>-100</StartingRadiation>
-      <RadiationSpeed>30</RadiationSpeed>
+      <RadiationSpeed>35</RadiationSpeed>
       <MaxTimeOnRound>60</MaxTimeOnRound>
       <MinTimeOnRound>0.5</MinTimeOnRound>
       <OutpostTimeMultiplier>0.25</OutpostTimeMultiplier>

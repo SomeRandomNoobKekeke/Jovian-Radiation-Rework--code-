@@ -23,7 +23,7 @@ namespace JovianRadiationRework
       /// <summary>
       /// 60 is the speed on dugong moving non stop without enemies
       /// </summary>
-      public float RadiationSpeed { get; set; } = 35.0f;
+      public float RadiationSpeed { get; set; } = 30.0f;
       public float MaxTimeOnRound { get; set; } = 60.0f;
       public float MinTimeOnRound { get; set; } = 0.5f;
 
